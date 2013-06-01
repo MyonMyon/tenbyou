@@ -1,4 +1,4 @@
-var ENGINEVER = "v0.0.19 (dev)"
+var ENGINEVER = "v0.0.20 (dev)"
 
 function ViewPort() {	
 	this.canvas = document.createElement("canvas");
@@ -40,10 +40,9 @@ ViewPort.prototype.toScreen = function(worldX, worldY) {
 }
 
 ViewPort.prototype.infoShow = function(info, line, tab) {
-	this.context.fillStyle = INFOCOLOR;
-	this.context.font = INFOFONT;
 	var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
 	this.context.fillText(info, boundaryRight.x + 20 + tab * INFOTAB, boundaryRight.y + 30 + line * INFOLINE);
+	this.context.strokeText(info, boundaryRight.x + 20 + tab * INFOTAB, boundaryRight.y + 30 + line * INFOLINE);
 }
 
 ViewPort.prototype.draw = function() {
@@ -53,7 +52,11 @@ ViewPort.prototype.draw = function() {
 	//this.context.fillStyle = STAGEBACKGROUND;
 	var boundaryLeft = this.toScreen(-this.world.width / 2, -this.world.height / 2);
 	//this.context.fillRect(boundaryLeft.x, boundaryLeft.y, this.world.width * this.zoom, this.world.height * this.zoom);
-	this.context.drawImage(imgBG, boundaryLeft.x, boundaryLeft.y, this.world.width * this.zoom, this.world.height * this.zoom);
+	this.context.drawImage(imgBG,
+		0, Math.max(0, imgBG.height - (imgBG.width / this.world.width * this.world.height) - this.world.time / 2),
+		imgBG.width, imgBG.width / this.world.width * this.world.height,
+		boundaryLeft.x, boundaryLeft.y,
+		this.world.width * this.zoom, this.world.height * this.zoom);
 
 	this.context.lineJoin = "round";
 	this.context.lineCap = "round";
@@ -69,10 +72,29 @@ ViewPort.prototype.draw = function() {
 	var boundaryTitle = this.toScreen(this.world.width / 2, this.world.height / 2);
 
 	this.context.fillStyle = BACKGROUND;
-	this.context.fillRect(0, 0, this.canvas.width, boundaryLeft.y); //top plank
-	this.context.fillRect(0, this.canvas.height - boundaryLeft.y, this.canvas.width, boundaryLeft.y); //bottom plank
-	this.context.fillRect(0, 0, boundaryLeft.x, this.canvas.height); //left plank
-	this.context.fillRect(boundaryTitle.x, 0, this.canvas.width - boundaryTitle.x, this.canvas.height); //left plank
+	var x1 = boundaryLeft.x;
+	var x2 = boundaryTitle.x;
+
+	var xN = this.canvas.width;
+	var yN = this.canvas.height;
+
+	var y1 = boundaryLeft.y;
+	var y2 = yN - boundaryLeft.y;
+
+	this.context.fillRect(0, 0, xN, y1); //top plank
+	this.context.fillRect(0, y2, xN, y1); //bottom plank
+	this.context.fillRect(0, 0, x1, yN); //left plank
+	this.context.fillRect(x2, 0, xN - x2, yN); //right plank
+
+	this.context.drawImage(imgBGUI, 0, 0, imgBGUI.width, y1 / yN * imgBGUI.height, 0, 0, xN, y1);
+	this.context.drawImage(imgBGUI, 0, y2 / yN * imgBGUI.height, imgBGUI.width, y1 / yN * imgBGUI.height, 0, y2, xN, y1);
+	this.context.drawImage(imgBGUI, 0, 0, x1 / xN * imgBGUI.width, imgBGUI.height, 0, 0, x1, yN);
+	this.context.drawImage(imgBGUI, x2 / xN * imgBGUI.width, 0, (xN - x2) / xN * imgBGUI.width, imgBGUI.height, x2, 0, xN - x2, yN);
+
+	this.context.fillStyle = INFOCOLOR;
+	this.context.font = INFOFONT;
+	this.context.lineWidth = INFOSTROKE;
+	this.context.strokeStyle = INFOSTROKECOLOR;
 
 	this.infoShow("HiScore:", 0, 0);	this.infoShow(this.fixedInt(this.world.player.hiscore,11), 0, 1);
 	this.infoShow("Score:", 1, 0);		this.infoShow(this.fixedInt(this.world.player.score,11), 1, 1);
@@ -80,8 +102,8 @@ ViewPort.prototype.draw = function() {
 	var livesParts = Math.round(this.world.player.lives * 3) % 3;
 	var bombsParts = Math.round(this.world.player.bombs * 4) % 4;
 
-	this.infoShow("Lives:", 3, 0);		this.infoShow(this.starText(this.world.player.lives,"♥") + this.starText(livesParts,"•"), 3, 1);
-	this.infoShow("Bombs:", 4, 0);		this.infoShow(this.starText(this.world.player.bombs,"¤") + this.starText(bombsParts,"•"), 4, 1);
+	this.infoShow("Lives:", 3, 0);		this.infoShow(this.starText(this.world.player.lives,"@") + this.starText(livesParts,"~"), 3, 1);
+	this.infoShow("Bombs:", 4, 0);		this.infoShow(this.starText(this.world.player.bombs,"∂") + this.starText(bombsParts,"~"), 4, 1);
 
 	this.infoShow("Power:", 6, 0);		this.infoShow(this.world.player.power.toFixed(2), 6, 1);
 	this.infoShow("Points:", 7, 0);		this.infoShow(this.world.player.points, 7, 1);
@@ -90,25 +112,32 @@ ViewPort.prototype.draw = function() {
 	this.infoShow("Gather:", 10, 0);	this.infoShow(this.world.player.gatherValue, 10, 1);
 
 	this.context.textAlign = "center";
-	this.context.font = INFOFONT;
-	if (ENGINEVERSHOW)
-		this.context.fillText("Tenbyou Engine " + ENGINEVER, (boundaryTitle.x + this.canvas.width) / 2, boundaryTitle.y);
+	if (ENGINEVERSHOW) {
+		this.context.fillText("Tenbyou " + ENGINEVER, (boundaryTitle.x + this.canvas.width) / 2, boundaryTitle.y);		
+		this.context.strokeText("Tenbyou " + ENGINEVER, (boundaryTitle.x + this.canvas.width) / 2, boundaryTitle.y);
+	}
 
 	this.context.fillStyle = GAMETITLECOLOR;
 	this.context.font = GAMETITLEFONT;
-	this.context.fillText(GAMETITLE, (boundaryTitle.x + this.canvas.width) / 2, boundaryTitle.y - 40);
+	this.context.lineWidth = GAMETITLESTROKE;
+	this.context.strokeStyle = GAMETITLESTROKECOLOR;
 
-	
+	this.context.fillText(GAMETITLE, (boundaryTitle.x + this.canvas.width) / 2, boundaryTitle.y - 40);
+	this.context.strokeText(GAMETITLE, (boundaryTitle.x + this.canvas.width) / 2, boundaryTitle.y - 40);
 
 	if (this.world.pause) {
-		this.context.fillStyle = "rgba(128, 128, 128, 0.5)";
+		this.context.fillStyle = "rgba(0, 0, 0, 0.5)";
 		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
 		this.context.fillStyle = GAMETITLECOLOR;
 		this.context.textAlign = "center";
 		this.context.fillText("PAUSED!", this.canvas.width / 2, this.canvas.height / 2);
+		this.context.strokeText("PAUSED!", this.canvas.width / 2, this.canvas.height / 2);
 
 	}
 }
+
+////////////////////////////////////////////////////////////////
 
 function World() {
 	this.width = 150;
@@ -121,7 +150,7 @@ function World() {
 	this.player = new Player(this);
 	this.pause = false;
 
-	this.creeps = 100;
+	this.creeps = 50;
 
 	setInterval(function() { vp.world.tick() }, 50);
 }
@@ -149,7 +178,7 @@ World.prototype.tick = function(interval) {
 			}
 		}
 		if(Math.random() < 0.04 && this.creeps > 0) {
-			new Enemy(this, Math.random() * (this.width - 40) - this.width / 2 + 20, -this.height / 2 + 20, 0, 0.1, 0, 0, 5, 20);
+			new Enemy(this, Math.random() * (this.width - 40) - this.width / 2 + 20, -this.height / 2 + 20, 0, 0.2, 0, 0, 5, 20);
 			this.creeps--;
 		} else if(this.creeps == 0) {
 			//var b = new Boss(this, 0, -this.height - 20, 300);
@@ -158,6 +187,12 @@ World.prototype.tick = function(interval) {
 		}
 	}
 }
+
+World.prototype.randomBonus = function() {
+	new Bonus(this, this.player.x, -this.height / 2 + 20, ["power", "point", "bombs", "lives", "gauge"][Math.floor(Math.random()*5)], Math.random() > 0.5, false)
+}
+
+////////////////////////////////////////////////////////////////
 
 function Entity(parentWorld, x, y, x1, y1, x2, y2, width) {
 	this.create(parentWorld, x || 0, y || 0, x1 || 0, y1 || 0, x2 || 0, y2 || 0, width || 2);
@@ -187,7 +222,7 @@ Entity.prototype.create = function(parentWorld, x, y, x1, y1, x2, y2, width) {
 	this.next = parentWorld.firstEntity || this;
 	this.prev = parentWorld.firstEntity != null ? parentWorld.firstEntity.prev : this;
 	this.id = parentWorld.lastID;
-	console.info("Added Entity #" + this.id + " @ " + this.x + ";" + this.y);
+	//console.info("Added Entity #" + this.id + " @ " + this.x + ";" + this.y);
 
 	if (parentWorld.firstEntity != null) {
 		parentWorld.firstEntity.prev.next = this;
@@ -217,10 +252,12 @@ Entity.prototype.draw = function(context) {
 }
 
 Entity.prototype.remove = function() {
-	console.info("Removed Entity #" + this.id + " @ " + this.x + ";" + this.y);
+	//console.info("Removed Entity #" + this.id + " @ " + this.x + ";" + this.y);
 	this.next.prev = this.prev;
 	this.prev.next = this.next;
 }
+
+////////////////////////////////////////////////////////////////
 
 function Player(parentWorld) {
 	this.create(parentWorld, 0, parentWorld.height / 2 - 5, 0, 0, 0, 0, 1, true);
@@ -304,11 +341,15 @@ Player.prototype.step = function() {
 	if(this.gatherValue > 0) {
 		this.gatherValueExtremum = Math.max(this.gatherValue, this.gatherValueExtremum);
 		this.gatherValue--;
-	} else if(this.gatherValueExtremum > 50) {
-		if(this.gatherValueExtremum >= 100)
-			new Bonus(this.parentWorld, this.x, -this.parentWorld.height + 20, "lives", true, false);
+	} else if(this.gatherValueExtremum >= 50) {
+		if(this.gatherValueExtremum >= 150)
+			new Bonus(this.parentWorld, this.x, -this.parentWorld.height / 2 + 20, "lives", false, false);
+		else if(this.gatherValueExtremum >= 100)
+			new Bonus(this.parentWorld, this.x, -this.parentWorld.height / 2 + 20, "lives", true, false);
+		else if(this.gatherValueExtremum >= 75)
+			new Bonus(this.parentWorld, this.x, -this.parentWorld.height / 2 + 20, "bombs", false, false);
 		else
-			new Bonus(this.parentWorld, this.x, -this.parentWorld.height + 20, "bombs", true, false);
+			new Bonus(this.parentWorld, this.x, -this.parentWorld.height / 2 + 20, "bombs", true, false);
 		this.gatherValueExtremum = 0;
 	}
 
@@ -389,6 +430,8 @@ Player.prototype.respawn = function() {
 	this.power = Math.max(this.power - 0.6, 1);
 }
 
+////////////////////////////////////////////////////////////////
+
 function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health) {
 	this.create(parentWorld, x, y, x1, y1, x2, y2, width);
 	this.initialHealth = health || 20;
@@ -410,10 +453,10 @@ Enemy.prototype.step = function() {
 	this.baseStep();
 
 	//remove from world
-	if (this.x > this.parentWorld.width / 2
-		|| this.x < -this.parentWorld.width / 2
-		|| this.y > this.parentWorld.height / 2
-		|| this.y < -this.parentWorld.height / 2)
+	if (this.x > this.parentWorld.width / 2 + this.width * 2
+		|| this.x < -this.parentWorld.width / 2 - this.width * 2
+		|| this.y > this.parentWorld.height / 2 + this.width * 2
+		|| this.y < -this.parentWorld.height / 2 - this.width * 2)
 		this.remove();
 
 	//collision with player
@@ -453,6 +496,8 @@ Enemy.prototype.hurt = function(damage) {
 	}
 }
 
+////////////////////////////////////////////////////////////////
+
 function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerside) {
 	this.create(parentWorld, x, y, x1, y1, x2, y2, width);
 	this.playerside = playerside;
@@ -460,7 +505,12 @@ function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerside) {
 
 Projectile.prototype.draw = function(context) {
 	var ePos = vp.toScreen(this.x, this.y);
-	context.drawImage(imgProjectile, this.playerside ? 16 : 0, 0, 16, 16, ePos.x - 2 * vp.zoom, ePos.y - 2 * vp.zoom, 4 * vp.zoom, 4 * vp.zoom);
+	context.drawImage(imgProjectile, this.playerside ? IMAGEPROJECTILEWIDTH : 0, 0,
+		IMAGEPROJECTILEWIDTH, IMAGEPROJECTILEHEIGHT,
+		ePos.x - 2 * vp.zoom,
+		ePos.y - 2 * vp.zoom,
+		4 * vp.zoom,
+		4 * vp.zoom);
 }
 
 Projectile.prototype.create = Entity.prototype.create;
@@ -472,10 +522,10 @@ Projectile.prototype.step = function() {
 	this.baseStep();
 
 	//remove from world
-	if (this.x > this.parentWorld.width / 2
-		|| this.x < -this.parentWorld.width / 2
-		|| this.y > this.parentWorld.height / 2
-		|| this.y < -this.parentWorld.height / 2)
+	if (this.x > this.parentWorld.width / 2 + this.width * 2
+		|| this.x < -this.parentWorld.width / 2 - this.width * 2
+		|| this.y > this.parentWorld.height / 2 + this.width * 2
+		|| this.y < -this.parentWorld.height / 2 - this.width * 2)
 		this.remove();
 
 	if(!this.playerside) {
@@ -491,6 +541,8 @@ Projectile.prototype.step = function() {
 
 }
 
+////////////////////////////////////////////////////////////////
+
 function Bonus(parentWorld, x, y, cat, small, autoGather) {
 	this.create(parentWorld, x, y, 0, -2, 0, 0.1);
 	this.cat = cat; //point/power/bomb/live
@@ -504,7 +556,18 @@ Bonus.prototype.remove = Entity.prototype.remove;
 
 Bonus.prototype.draw = function(context) {
 	var ePos = vp.toScreen(this.x, this.y);
-	context.drawImage(imgBonus, (this.cat == "point") ? 16 : ((this.cat == "bombs") ? 32 : ((this.cat == "lives") ? 48 : ((this.cat == "gauge") ? 64 : 0))), (this.small ? 16 : 0), 16, 16, ePos.x - 2 * vp.zoom, ePos.y - 2 * vp.zoom, 4 * vp.zoom, 4 * vp.zoom);
+	var lShift = 5;
+	if (this.cat == "power") lShift = 0; else
+	if (this.cat == "point") lShift = 1; else
+	if (this.cat == "bombs") lShift = 2; else
+	if (this.cat == "lives") lShift = 3; else
+	if (this.cat == "gauge") lShift = 4;
+	context.drawImage(imgBonus, lShift * IMAGEBONUSWIDTH, (this.small ? IMAGEBONUSHEIGHT : 0),
+		IMAGEBONUSWIDTH, IMAGEBONUSHEIGHT,
+		ePos.x - 3 * vp.zoom,
+		ePos.y - 3 * vp.zoom,
+		6 * vp.zoom,
+		6 * vp.zoom);
 }
 
 Bonus.prototype.flush = Entity.prototype.flush;
@@ -513,7 +576,7 @@ Bonus.prototype.step = function() {
 	this.baseStep();
 
 	//remove from world
-	if (this.y > this.parentWorld.height / 2)
+	if (this.y > this.parentWorld.height / 2 + 5)
 		this.remove();
 
 	//collision
@@ -573,35 +636,43 @@ Bonus.prototype.step = function() {
 				};
 			break;
 			case "bombs":
-				if(this.parentWorld.player.bombs < 10)
+				if(this.parentWorld.player.bombs <= 9)
 					this.parentWorld.player.bombs += (this.small ? 1/4 : 1); 
-				else
+				else {
 					this.parentWorld.player.score += (this.small ? 300 : 500); 
+					this.parentWorld.player.bombs = 10;
+				}
 			break;
 			case "lives":
-				if(this.parentWorld.player.lives < 10)
+				if(this.parentWorld.player.lives <= 9)
 					this.parentWorld.player.lives += (this.small ? 1/3 : 1); 
-				else
+				else {
 					this.parentWorld.player.score += (this.small ? 500 : 2000); 
+					this.parentWorld.player.lives = 10;
+				}
 			break;
 		}
 	}
 
 }
 
+////////////////////////////////////////////////////////////////
+
 var vp = new ViewPort();
 setInterval(function() { vp.draw() }, 50);	
 
 var imgPlayer = new Image();
-imgPlayer.src = "player.png";
+imgPlayer.src = IMAGEPLAYER;
 var imgEnemy = new Image();
-imgEnemy.src = "enemy.png";
+imgEnemy.src = IMAGEENEMY;
 var imgBonus = new Image();
-imgBonus.src = "bonus.png";
+imgBonus.src = IMAGEBONUS;
 var imgProjectile = new Image();
-imgProjectile.src = "projectile.png";
+imgProjectile.src = IMAGEPROJECTILE;
 var imgBG = new Image();
-imgBG.src = "background.jpg";
+imgBG.src = IMAGESTAGE;
+var imgBGUI = new Image();
+imgBGUI.src = IMAGEUIBG;
 
 document.addEventListener("keydown", keyDown, false);
 document.addEventListener("keyup", keyUp, false);
@@ -625,6 +696,9 @@ function keyDown(event) {
 
 	if(event.keyCode == "X".charCodeAt(0))
 		vp.world.player.bomb();
+
+	if(event.keyCode == "C".charCodeAt(0))
+		vp.world.randomBonus();
 
 	if(event.keyCode == 27)
 		vp.world.pause = !vp.world.pause;
