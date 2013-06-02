@@ -1,8 +1,8 @@
-var WIDTH = 1024;
-var HEIGHT = 768;
-var SHIFTX = -192;
-var SHIFTY = 0;
 var ZOOM = 4;
+var WIDTH = ZOOM * 256;
+var HEIGHT = ZOOM * 192;
+var SHIFTX = ZOOM * -48;
+var SHIFTY = 0;
 
 var IMAGEPLAYER = "resources/player.png";
 var IMAGEPLAYERWIDTH = 32;
@@ -32,16 +32,16 @@ var BORDERCOLOR = "#630";
 
 var BACKGROUND = "#023";
 
-var INFOFONT = "Bold 24px Unispace Rg";
+var INFOFONT = "Bold " + (ZOOM * 6) + "px Unispace Rg";
 var INFOCOLOR = "#fee";
 var INFOSTROKE = 1;
-var INFOSTROKECOLOR = "#630";
-var INFOLINE = 30;
-var INFOTAB = 160;
+var INFOSTROKECOLOR = ZOOM > 3 ? "#630" : "transparent";
+var INFOLINE = ZOOM * 8;
+var INFOTAB = ZOOM * 40;
 
-var GAMETITLE = "Silent Testing Paradise";
-var GAMETITLEFONT = "Bold 26px Unispace Rg";
+var GAMETITLE = "Test Stages";
+var GAMETITLEFONT = "Bold " + (ZOOM * 7) + "px Unispace Rg";
 var GAMETITLECOLOR = "#c00";
 var GAMETITLESTROKE = 1;
-var GAMETITLESTROKECOLOR = "#fcc";
+var GAMETITLESTROKECOLOR = ZOOM > 3 ? "#fcc": "transparent";
 var ENGINEVERSHOW = true;

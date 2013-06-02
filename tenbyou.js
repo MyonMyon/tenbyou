@@ -1,4 +1,4 @@
-var ENGINEVER = "v0.1.00 (alpha)"
+var ENGINEVER = "v0.1.01 (alpha)"
 
 function ViewPort() {	
 	this.canvas = document.createElement("canvas");
@@ -154,8 +154,17 @@ function World() {
 
 	this.player = new Player(this);
 	this.pause = false;
+	this.drawHitboxes = false;
 
 	setInterval(function() { vp.world.tick() }, 50);
+}
+
+World.prototype.vectorLength = function(x, y) {
+	return Math.sqrt(x * x + y * y);
+}
+
+World.prototype.distanceBetweenEntities = function(entity1, entity2) {
+	return Math.sqrt(Math.pow(entity1.x - entity2.x, 2) + Math.pow(entity1.y - entity2.y, 2));
 }
 
 World.prototype.init = function() {}
@@ -194,11 +203,11 @@ World.prototype.randomBonus = function() {
 
 ////////////////////////////////////////////////////////////////
 
-function Entity(parentWorld, x, y, x1, y1, x2, y2, width) {
-	this.create(parentWorld, x || 0, y || 0, x1 || 0, y1 || 0, x2 || 0, y2 || 0, width || 2);
+function Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
+	this.create(parentWorld, x || 0, y || 0, x1 || 0, y1 || 0, x2 || 0, y2 || 0, width || 2, sprite || 0, frameCount || 1, animPeriod || 4, spriteWidth || 1, spriteDir || false);
 }
 
-Entity.prototype.create = function(parentWorld, x, y, x1, y1, x2, y2, width) {
+Entity.prototype.create = function(parentWorld, x, y, x1, y1, x2, y2, width, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
 	this.x = x || 0;
 	this.y = y || 0;
 
@@ -215,11 +224,17 @@ Entity.prototype.create = function(parentWorld, x, y, x1, y1, x2, y2, width) {
 	this.fixedX = this.x;
 	this.fixedY = this.y;
 
+	this.lifetime = 0;
+
+	this.sprite = sprite || 0;
+	this.frameCount = frameCount || 1;
+	this.animPeriod = animPeriod || 4;
+	this.spriteWidth = spriteWidth || 1;
+	this.spriteDir = spriteDir || false;
+
 	this.parentWorld = parentWorld;
 
 	parentWorld.lastID++;
-
-	this.lifetime = 0;
 
 	this.next = parentWorld.firstEntity || this;
 	this.prev = parentWorld.firstEntity != null ? parentWorld.firstEntity.prev : this;
@@ -255,7 +270,33 @@ Entity.prototype.draw = function(context) {
 Entity.prototype.remove = function() {
 	//console.info("Removed Entity #" + this.id + " @ " + this.x + ";" + this.y);
 	this.next.prev = this.prev;
-	this.prev.next = this.next;
+	this.prev.next = this.next;	
+}
+
+Entity.prototype.setSprite = function(sprite, frameCount, animPeriod, spriteWidth, spriteDir) {	
+	this.sprite = sprite || this.sprite;
+	this.frameCount = frameCount || this.frameCount;
+	this.animPeriod = animPeriod || this.animPeriod;
+	this.spriteWidth = spriteWidth || this.spriteWidth;
+	this.spriteDir = spriteDir || this.spriteDir;
+}
+
+Entity.prototype.setVectors = function(posX, posY, speedX, speedY, accX, accY) {	
+	this.x = posX != null ? posX : this.x;
+	this.y = posX != null ? posY : this.y;
+	this.x1 = speedX != null ? speedX : this.x1;
+	this.y1 = speedY != null ? speedY : this.y1;
+	this.x2 = accX != null ? accX : this.x2;
+	this.y2 = accY != null ? accY : this.y2;
+}
+
+Entity.prototype.headToEntity = function(target, speed, acc) {	
+	var d = this.parentWorld.distanceBetweenEntities(this, target);
+	this.setVectors(null, null,
+		(target.x - this.x) / d * speed,
+		(target.y - this.y) / d * speed,
+		(target.x - this.x) / d * acc,
+		(target.y - this.y) / d * acc)
 }
 
 ////////////////////////////////////////////////////////////////
@@ -436,27 +477,50 @@ Player.prototype.respawn = function() {
 	this.power = Math.max(this.power - 0.6, 1);
 }
 
+Player.prototype.setSprite = Entity.prototype.setSprite;
+Player.prototype.setVectors = Entity.prototype.setVectors;
+
 ////////////////////////////////////////////////////////////////
 
-function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, sprite, frameCount, animPeriod) {
-	this.create(parentWorld, x, y, x1, y1, x2, y2, width);
+function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
+	this.create(parentWorld, x, y, x1, y1, x2, y2, width, sprite,
+		frameCount > 0 ? frameCount : (imgEnemy.height / IMAGEENEMYHEIGHT), animPeriod, spriteWidth, spriteDir);
 	this.initialHealth = health || 20;
 	this.health = this.initialHealth;
-	this.sprite = sprite || 0;
-	this.frameCount = frameCount > 0 ? frameCount : (imgEnemy.height / IMAGEENEMYHEIGHT);
-	this.animPeriod = animPeriod || 4;
 }
 
 Enemy.prototype.draw = function(context) {
 	var ePos = vp.toScreen(this.x, this.y);
 	
+	context.translate(ePos.x, ePos.y);
+	if(this.spriteDir && this.x1 < 0)
+		context.scale(-1, 1);
+
 	context.drawImage(imgEnemy,
 		this.sprite * IMAGEENEMYWIDTH, Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * IMAGEENEMYHEIGHT,
 		IMAGEENEMYWIDTH, IMAGEENEMYHEIGHT,
-		ePos.x - 4 * Math.sqrt(this.initialHealth / 20) * vp.zoom,
-		ePos.y - 4 * Math.sqrt(this.initialHealth / 20) * vp.zoom,
-		8 * Math.sqrt(this.initialHealth / 20) * vp.zoom,
-		8 * Math.sqrt(this.initialHealth / 20) * vp.zoom);
+		- 4 * this.spriteWidth * vp.zoom,
+		- 4 * this.spriteWidth * vp.zoom,
+		8 * this.spriteWidth * vp.zoom,
+		8 * this.spriteWidth * vp.zoom);
+
+	if(this.spriteDir && this.x1 < 0)
+		context.scale(-1, 1);
+	context.translate(-ePos.x, -ePos.y);
+
+	if(this.parentWorld.drawHitboxes) {
+		context.fillStyle = "white";
+		context.strokeStyle = "gray";
+		context.lineWidth = 1;
+
+		context.beginPath();
+
+		context.arc(ePos.x, ePos.y, 1 * vp.zoom * this.width, 0, Math.PI*2, false);
+
+		context.fill();
+		context.stroke();
+		context.closePath();
+	}
 }
 
 Enemy.prototype.create = Entity.prototype.create;
@@ -475,8 +539,8 @@ Enemy.prototype.step = function() {
 		this.remove();
 
 	//collision with player
-	var d = Math.sqrt(Math.pow(this.parentWorld.player.x - this.x, 2) + Math.pow(this.parentWorld.player.y - this.y, 2)) 
-	if (d < (this.width + this.parentWorld.player.width) && this.parentWorld.player.invulnTime == 0) {
+	if (this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player) <
+		(this.width + this.parentWorld.player.width) && this.parentWorld.player.invulnTime == 0) {
 		this.parentWorld.player.respawn();
 	};
 
@@ -484,8 +548,7 @@ Enemy.prototype.step = function() {
 	var tEntity = this.parentWorld.firstEntity;
 	while (1 && tEntity != null) {
 		if (tEntity instanceof Projectile && tEntity.playerside) {
-			d = Math.sqrt(Math.pow(tEntity.x - this.x, 2) + Math.pow(tEntity.y - this.y, 2)) 
-			if(d < (this.width + tEntity.width)) {
+			if(this.parentWorld.distanceBetweenEntities(this, tEntity) < (this.width + tEntity.width)) {
 				this.hurt(1);
 				tEntity.remove();
 			}
@@ -495,12 +558,10 @@ Enemy.prototype.step = function() {
 			break;
 	};
 
-	this.behaviour();	
-
+	this.behavior();
 }
 
-Enemy.prototype.behaviour = function() {
-}
+Enemy.prototype.behavior = function() {}
 
 Enemy.prototype.hurt = function(damage) {
 	this.health -= damage;
@@ -517,15 +578,23 @@ Enemy.prototype.hurt = function(damage) {
 			new Particle(this.parentWorld, this.x + (-0.5 + Math.random()) * this.width * 2, this.y + (-0.5 + Math.random()) * this.width * 2, Math.sqrt(this.initialHealth), 8, true, true, 1, 0);
 }
 
+Enemy.prototype.setSprite = Entity.prototype.setSprite;
+Enemy.prototype.setVectors = Entity.prototype.setVectors;
+
+Enemy.prototype.initHealth = function(health) {
+	this.initialHealth = health;
+	this.health = health;
+}
+
+Enemy.prototype.headToEntity = Entity.prototype.headToEntity;
+
 ////////////////////////////////////////////////////////////////
 
-function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerside, sprite, frameCount, animPeriod) {
-	this.create(parentWorld, x, y, x1, y1, x2, y2, width);
+function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerside, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
+	this.create(parentWorld, x, y, x1, y1, x2, y2, width,
+		sprite || (this.playerside ? 1 : 0), frameCount > 0 ? frameCount : (imgProjectile.height / IMAGEPROJECTILEHEIGHT), animPeriod, spriteWidth, spriteDir);
 	this.playerside = playerside || false;
-	this.sprite = sprite || (this.playerside ? 1 : 0);
 	this.grazed = false;
-	this.frameCount = frameCount > 0 ? frameCount : (imgProjectile.height / IMAGEPROJECTILEHEIGHT);
-	this.animPeriod = animPeriod || 4;
 }
 
 Projectile.prototype.draw = function(context) {
@@ -556,7 +625,7 @@ Projectile.prototype.step = function() {
 
 	if(!this.playerside) {
 		//collision
-		var d = Math.sqrt(Math.pow(this.parentWorld.player.x - this.x, 2) + Math.pow(this.parentWorld.player.y - this.y, 2)) 
+		var d = this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player);
 		if(d < (this.width + this.parentWorld.player.width)) {
 			this.remove();
 			if(this.parentWorld.player.invulnTime == 0)
@@ -568,13 +637,28 @@ Projectile.prototype.step = function() {
 		}
 	}
 
+	this.behavior();
 }
+
+Projectile.prototype.behavior = function() {}
+
+Projectile.prototype.setSprite = Entity.prototype.setSprite;
+Projectile.prototype.setVectors = Entity.prototype.setVectors;
+Projectile.prototype.headToEntity = Entity.prototype.headToEntity;
 
 ////////////////////////////////////////////////////////////////
 
 function Bonus(parentWorld, x, y, cat, small, autoGather) {
-	this.create(parentWorld, x, y, 0, -2, 0, 0.1);
-	this.cat = cat; //point/power/bomb/live
+	var lShift = 5;
+	if (cat == "power") lShift = 0; else
+	if (cat == "point") lShift = 1; else
+	if (cat == "bombs") lShift = 2; else
+	if (cat == "lives") lShift = 3; else
+	if (cat == "gauge") lShift = 4;
+
+	this.create(parentWorld, x, y, 0, -2, 0, 0.1, 0, lShift);
+
+	this.cat = cat;
 	this.small = small;
 	this.autoGather = autoGather || false;
 }
@@ -585,13 +669,7 @@ Bonus.prototype.remove = Entity.prototype.remove;
 
 Bonus.prototype.draw = function(context) {
 	var ePos = vp.toScreen(this.x, this.y);
-	var lShift = 5;
-	if (this.cat == "power") lShift = 0; else
-	if (this.cat == "point") lShift = 1; else
-	if (this.cat == "bombs") lShift = 2; else
-	if (this.cat == "lives") lShift = 3; else
-	if (this.cat == "gauge") lShift = 4;
-	context.drawImage(imgBonus, lShift * IMAGEBONUSWIDTH, (this.small ? IMAGEBONUSHEIGHT : 0),
+	context.drawImage(imgBonus, this.sprite * IMAGEBONUSWIDTH, (this.small ? IMAGEBONUSHEIGHT : 0),
 		IMAGEBONUSWIDTH, IMAGEBONUSHEIGHT,
 		ePos.x - 3 * vp.zoom,
 		ePos.y - 3 * vp.zoom,
@@ -609,13 +687,10 @@ Bonus.prototype.step = function() {
 		this.remove();
 
 	//collision
-	var d = Math.sqrt(Math.pow(this.parentWorld.player.x - this.x, 2) + Math.pow(this.parentWorld.player.y - this.y, 2));
+	var d = this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player);
 
-
-	if (this.autoGather) {
-		this.x1 = (this.parentWorld.player.x - this.x) / d * 5;
-		this.y1 = (this.parentWorld.player.y - this.y) / d * 5;
-	}
+	if (this.autoGather)
+		this.headToEntity(this.parentWorld.player, 5, 0)
 
 	if (d < this.parentWorld.player.gatherWidth || this.parentWorld.player.autoGatherTime > 0) {
 		this.autoGather = true;
@@ -688,14 +763,16 @@ Bonus.prototype.step = function() {
 
 }
 
+Bonus.prototype.setSprite = Entity.prototype.setSprite;
+Bonus.prototype.setVectors = Entity.prototype.setVectors;
+Bonus.prototype.headToEntity = Entity.prototype.headToEntity;
+
 ////////////////////////////////////////////////////////////////
 
-function Particle(parentWorld, x, y, removeAt, width, randomFrame, moving, sprite, frameCount, animPeriod) {
-	this.create(parentWorld, x, y, moving ? (-0.5 + Math.random()) * 3 : 0, moving ? (-Math.random()) * 4 : 0, 0, 0, width);
+function Particle(parentWorld, x, y, removeAt, width, randomFrame, moving, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
+	this.create(parentWorld, x, y, moving ? (-0.5 + Math.random()) * 3 : 0, moving ? (-Math.random()) * 4 : 0, 0, 0, width,
+		sprite, frameCount > 0 ? frameCount : (imgParticle.height / IMAGEENEMYHEIGHT), animPeriod, spriteWidth, spriteDir);
 	this.removeAt = removeAt || 20;
-	this.sprite = sprite || 0;
-	this.frameCount = frameCount > 0 ? frameCount : (imgParticle.height / IMAGEENEMYHEIGHT);
-	this.animPeriod = animPeriod || 4;
 	this.frame = randomFrame ? Math.floor(Math.random() * imgParticle.height / IMAGEPARTICLEHEIGHT) : -1;
 }
 
@@ -724,6 +801,10 @@ Particle.prototype.step = function() {
 	if (this.lifetime > this.removeAt)
 		this.remove();
 }
+
+Particle.prototype.setSprite = Entity.prototype.setSprite;
+Particle.prototype.setVectors = Entity.prototype.setVectors;
+Particle.prototype.headToEntity = Entity.prototype.headToEntity;
 
 ////////////////////////////////////////////////////////////////
 
@@ -769,8 +850,8 @@ function keyDown(event) {
 	if(event.keyCode == "X".charCodeAt(0))
 		vp.world.player.bomb();
 
-	//if(event.keyCode == "C".charCodeAt(0)) //CHEAT :3
-	//	vp.world.randomBonus();
+	if(event.keyCode == "C".charCodeAt(0))
+		vp.world.drawHitboxes = !vp.world.drawHitboxes;
 
 	if(event.keyCode == 27)
 		vp.world.pause = !vp.world.pause;
