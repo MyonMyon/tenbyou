@@ -24,6 +24,9 @@ var IMAGEPARTICLE = "resources/splash.png";
 var IMAGEPARTICLEWIDTH = 32;
 var IMAGEPARTICLEHEIGHT = 32;
 
+var SHIELDCOLOR = "rgba(160, 144, 128, 0.3)";
+var HITBOXCOLOR = "rgba(255, 255, 255, 0.7)";
+
 var IMAGESTAGE = "resources/background.jpg";
 var IMAGEUIBG = "resources/uibg.jpg";
 
@@ -32,6 +35,10 @@ var BORDERCOLOR = "#630";
 
 var BACKGROUND = "#023";
 
+var IMAGEGUI = "resources/gui.png";
+var IMAGEGUIWIDTH = 24;
+var IMAGEGUIHEIGHT = 24;
+
 var INFOFONT = "Bold " + (ZOOM * 6) + "px Unispace Rg";
 var INFOCOLOR = "#fee";
 var INFOSTROKE = 1;
@@ -39,7 +46,7 @@ var INFOSTROKECOLOR = ZOOM > 3 ? "#630" : "transparent";
 var INFOLINE = ZOOM * 8;
 var INFOTAB = ZOOM * 40;
 
-var GAMETITLE = "Test Stages";
+var GAMETITLE = "Nuclear Kedamas";
 var GAMETITLEFONT = "Bold " + (ZOOM * 7) + "px Unispace Rg";
 var GAMETITLECOLOR = "#c00";
 var GAMETITLESTROKE = 1;
