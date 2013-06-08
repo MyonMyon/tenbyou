@@ -1,4 +1,4 @@
-var ENGINEVER = "v0.2.00 (alpha)"
+var ENGINEVER = "v0.2.01 (alpha)"
 
 function ViewPort() {	
 	this.canvas = document.createElement("canvas");
@@ -62,13 +62,17 @@ ViewPort.prototype.infoShow = function(info, line, tab) {
 ViewPort.prototype.starShow = function(line, sprite, count, parts) {
 	var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
 	var i;
-	for (var i = 0; i < Math.floor(count); ++i)
+	for (var i = 0; i < count; ++i)
 		this.context.drawImage(imgGUI, sprite * IMAGEGUIWIDTH, 0, IMAGEGUIWIDTH, IMAGEGUIHEIGHT,
 			boundaryRight.x + 16 + INFOTAB + (IMAGEGUIWIDTH - 4) * i * this.zoom / 4, boundaryRight.y + 30 - this.zoom * 4 + (line + 1) * INFOLINE, IMAGEGUIWIDTH * this.zoom / 4, IMAGEGUIHEIGHT * this.zoom / 4);
 	if (parts > 0) {
 		this.context.drawImage(imgGUI, sprite * IMAGEGUIWIDTH, (4 - parts) * IMAGEGUIHEIGHT, IMAGEGUIWIDTH, IMAGEGUIHEIGHT,
 			boundaryRight.x + 16 + INFOTAB + (IMAGEGUIWIDTH - 4) * i * this.zoom / 4, boundaryRight.y + 30 - this.zoom * 4 + (line + 1) * INFOLINE, IMAGEGUIWIDTH * this.zoom / 4, IMAGEGUIHEIGHT * this.zoom / 4);		
 	}
+	for (var i = count + (parts > 0 ? 1 : 0); i < 9; ++i)
+		this.context.drawImage(imgGUI, sprite * IMAGEGUIWIDTH, 4 * IMAGEGUIHEIGHT, IMAGEGUIWIDTH, IMAGEGUIHEIGHT,
+			boundaryRight.x + 16 + INFOTAB + (IMAGEGUIWIDTH - 4) * i * this.zoom / 4, boundaryRight.y + 30 - this.zoom * 4 + (line + 1) * INFOLINE, IMAGEGUIWIDTH * this.zoom / 4, IMAGEGUIHEIGHT * this.zoom / 4);
+	
 }
 
 ViewPort.prototype.draw = function() {
@@ -181,11 +185,8 @@ ViewPort.prototype.draw = function() {
 	this.infoShow("HiScore", 0, 0);	this.infoShow(this.fixedInt(this.world.player.hiscore,11), 0, 1);
 	this.infoShow("Score", 1, 0);		this.infoShow(this.fixedInt(this.world.player.score,11), 1, 1);
 
-	var livesParts = Math.round(this.world.player.lives * 3) % 3;
-	var bombsParts = Math.round(this.world.player.bombs * 4) % 4;
-
-	this.infoShow("Lives", 3, 0);		this.starShow(3, 0, this.world.player.lives, livesParts);
-	this.infoShow("Bombs", 4, 0);		this.starShow(4, 1, this.world.player.bombs, bombsParts);
+	this.infoShow("Lives", 3, 0);		this.starShow(3, 0, this.world.player.lives, this.world.player.lifeParts);
+	this.infoShow("Bombs", 4, 0);		this.starShow(4, 1, this.world.player.bombs, this.world.player.bombParts);
 
 	this.infoShow("Power", 6, 0);		this.infoShow(this.world.player.power.toFixed(2), 6, 1);
 	this.infoShow("Points", 7, 0);		this.infoShow(this.world.player.points, 7, 1);
@@ -461,7 +462,7 @@ Entity.prototype.draw = function(context) {
 Entity.prototype.remove = function() {
 	//console.info("Removed Entity #" + this.id + " @ " + this.x + ";" + this.y);
 	this.next.prev = this.prev;
-	this.prev.next = this.next;	
+	this.prev.next = this.next;
 }
 
 Entity.prototype.setCustomSpriteFile = function(source, frameWidth, frameHeight) {
@@ -521,8 +522,11 @@ function Player(parentWorld) {
 	
 	this.livesDefault = 2;
 	this.lives = this.livesDefault;
+	this.lifeParts = 0;
 	this.bombsDefault = 3;
 	this.bombs = this.bombsDefault;
+	this.bombParts = 0;
+
 	this.spellCompleteTerms = true;
 
 	this.powerMax = 4;
@@ -1113,19 +1117,35 @@ Bonus.prototype.step = function() {
 				}
 			break;
 			case "bombs":
-				if (this.parentWorld.player.bombs <= 9)
-					this.parentWorld.player.bombs += (this.small ? 1/4 : 1);
+				if (this.parentWorld.player.bombs <= 8)
+					if (this.small)
+						++this.parentWorld.player.bombParts;
+					else
+						++this.parentWorld.player.bombs;
 				else {
 					this.parentWorld.player.score += (this.small ? 300 : 500);
-					this.parentWorld.player.bombs = 10;
+					this.parentWorld.player.bombs = 9;
+					this.parentWorld.player.bombParts = 0;
+				}
+				if (this.parentWorld.player.bombParts >= 4) {
+					this.parentWorld.player.bombParts -= 4;
+					++this.parentWorld.player.bombs;
 				}
 			break;
 			case "lives":
-				if (this.parentWorld.player.lives <= 9)
-					this.parentWorld.player.lives += (this.small ? 1/3 : 1);
+				if (this.parentWorld.player.lives <= 8)
+					if (this.small)
+						++this.parentWorld.player.lifeParts;
+					else
+						++this.parentWorld.player.lives;
 				else {
 					this.parentWorld.player.score += (this.small ? 500 : 2000);
-					this.parentWorld.player.lives = 10;
+					this.parentWorld.player.lives = 9;
+					this.parentWorld.player.lifeParts = 0;
+				}
+				if (this.parentWorld.player.lifeParts >= 3) {
+					this.parentWorld.player.lifeParts -= 3;
+					++this.parentWorld.player.lives;
 				}
 			break;
 		}
@@ -1229,7 +1249,7 @@ function keyDown(event) {
 		vp.world.player.bomb();
 
 	if (event.keyCode == "A".charCodeAt(0))
-		vp.world.clearField(100);
+		vp.world.randomBonus();
 
 	if (event.keyCode == "S".charCodeAt(0))
 		vp.world.time = vp.world.time + 100;
