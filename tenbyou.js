@@ -1,4 +1,4 @@
-var ENGINEVER = "v0.2.01 (alpha)"
+var ENGINEVER = "v0.2.03 (alpha)"
 
 function ViewPort() {	
 	this.canvas = document.createElement("canvas");
@@ -22,6 +22,10 @@ function ViewPort() {
 	this.messageAltStyle = false;
 	this.messageStart = 0;
 	this.messageTime = 0;
+
+	this.ticks = 0;
+	this.fps = 0;
+	this.prevMS = 0;
 }
 
 ViewPort.prototype.showMessage = function(text, text2, time, altStyle) {
@@ -76,6 +80,13 @@ ViewPort.prototype.starShow = function(line, sprite, count, parts) {
 }
 
 ViewPort.prototype.draw = function() {
+	this.ticks++;
+	if (new Date().getTime() % 1000 < this.prevMS) {
+		this.fps = this.ticks;
+		this.ticks = 0;
+	}
+
+	this.prevMS = new Date().getTime() % 1000;
 
 	this.context.textAlign = "left";
 
@@ -88,7 +99,7 @@ ViewPort.prototype.draw = function() {
 	var spell = (this.world.boss && this.world.boss.attackCurrent >= 0 && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
 	if (stg != 0) {
 		imgBG.src = spell ? IMAGESTAGESPELL : this.world.stages[stg].background;
-		var t = imgBG.height - (imgBG.width / this.world.width * this.world.height) - this.world.time * (spell ? 2 : this.world.stages[stg].backgroundSpeed) % (imgBG.height);
+		var t = imgBG.height - (imgBG.width / this.world.width * this.world.height) - this.world.time * (spell ? 1 : this.world.stages[stg].backgroundSpeed) % (imgBG.height);
 		this.context.drawImage(imgBG,
 			0, Math.max(0, t),
 			imgBG.width, imgBG.width / this.world.width * this.world.height,
@@ -182,8 +193,8 @@ ViewPort.prototype.draw = function() {
 
 	this.context.textAlign = "left";
 
-	this.infoShow("HiScore", 0, 0);	this.infoShow(this.fixedInt(this.world.player.hiscore,11), 0, 1);
-	this.infoShow("Score", 1, 0);		this.infoShow(this.fixedInt(this.world.player.score,11), 1, 1);
+	this.infoShow("HiScore", 0, 0);		this.infoShow(this.fixedInt(this.world.player.hiscore, 11), 0, 1);
+	this.infoShow("Score", 1, 0);		this.infoShow(this.fixedInt(this.world.player.score, 11), 1, 1);
 
 	this.infoShow("Lives", 3, 0);		this.starShow(3, 0, this.world.player.lives, this.world.player.lifeParts);
 	this.infoShow("Bombs", 4, 0);		this.starShow(4, 1, this.world.player.bombs, this.world.player.bombParts);
@@ -191,6 +202,9 @@ ViewPort.prototype.draw = function() {
 	this.infoShow("Power", 6, 0);		this.infoShow(this.world.player.power.toFixed(2), 6, 1);
 	this.infoShow("Points", 7, 0);		this.infoShow(this.world.player.points, 7, 1);
 	this.infoShow("Graze", 8, 0);		this.infoShow(this.world.player.graze, 8, 1);
+
+	this.infoShow(this.world.substage, 10, 0);		this.infoShow(this.world.relTime().toFixed(2), 10, 1);
+	this.infoShow(this.fps + "fps", 11, 1);
 
 	this.context.textAlign = "center";
 	if (ENGINEVERSHOW) {
@@ -246,10 +260,14 @@ ViewPort.prototype.draw = function() {
 function World() {
 	this.width = 150;
 	this.height = 180;
+
 	this.lastID = 0;
 	this.countEntity = 0;
 	this.firstEntity = null;
+	this.firstEntityPool = null;
+
 	this.time = 0;
+	this.ticksPS = 30;
 	this.stageInterval = 80;
 
 	this.player = new Player(this);
@@ -262,11 +280,34 @@ function World() {
 	this.stages = new Array();
 	this.stages[0] = {title: "", desc: "", titleAppears: 0, background: ""}; //to be used for the spell spractice
 	this.stage = 1;
+	this.substage = 0;
+	this.substageStart = 0;
 	this.stageChangeTime = -1;
 
-	setTimeout(function() { vp.world.init() }, 20);
+	setTimeout(function() { vp.world.init() }, 10);
 
-	setInterval(function() { vp.world.tick() }, 40);
+	setInterval(function() { vp.world.tick() }, 1000 / this.ticksPS);
+}
+
+World.prototype.addEntity = function(type) {
+	var choosen = null;
+	/*
+	if (this.firstEntityPool != null) {
+		var tEntity = this.firstEntityPool;
+		while (1) {
+			if (tEntity instanceof type) {
+				choosen = tEntity;
+				break;
+			}
+			tEntity = tEntity.next;
+			if (tEntity == this.firstEntity)
+				break;
+		}
+	}
+	if (choosen != null) {
+		return choosen
+	} */
+	return new type(this);
 }
 
 World.prototype.addStage = function(title, desc, titleAppears, background, backgroundSpeed) {	
@@ -278,11 +319,20 @@ World.prototype.nextStage = function(timeout) {
 	var timeout = timeout || 0;
 	if (timeout == 0) {
 		this.time = 0;
-		var bonus = this.stage * 100000;
+		var bonus = this.stage * 1000;
+		bonus += this.player.power * 1000;
+		bonus += this.player.graze * 10;
+		bonus *= this.player.points;
+		bonus = Math.floor(bonus / 100) * 100;
 		vp.showMessage("Stage Clear!", "Bonus: " + bonus, this.stageInterval);
-		this.player.score += bonus
+		this.player.score += bonus;
+
+		this.player.graze = 0;
+		this.player.points = 0;
 
 		++this.stage;
+		this.substage = 0;
+		this.substageStart = 0;
 		this.stageChangeTime = -1;
 
 		if (this.stage >= this.stages.length) {
@@ -292,6 +342,10 @@ World.prototype.nextStage = function(timeout) {
 	} else {
 		this.stageChangeTime = this.time + timeout;
 	}
+}
+
+World.prototype.relTime = function() {
+	return (this.time - this.substageStart) / this.ticksPS;
 }
 
 World.prototype.vectorLength = function(x, y) {
@@ -490,13 +544,15 @@ Entity.prototype.setVectors = function(posX, posY, speedX, speedY, accX, accY) {
 }
 
 Entity.prototype.headToEntity = function(target, speed, acc) {
-	var d = this.parentWorld.distanceBetweenEntities(this, target);
-	if (d != 0)
-		this.setVectors(null, null,
-			(target.x - this.x) / d * speed,
-			(target.y - this.y) / d * speed,
-			(target.x - this.x) / d * acc,
-			(target.y - this.y) / d * acc)
+	if (target) {
+		var d = this.parentWorld.distanceBetweenEntities(this, target);
+		if (d != 0)
+			this.setVectors(null, null,
+				(target.x - this.x) / d * speed,
+				(target.y - this.y) / d * speed,
+				(target.x - this.x) / d * acc,
+				(target.y - this.y) / d * acc)
+	}
 }
 
 Entity.prototype.headToPoint = function(targetX, targetY, speed, acc) {	
@@ -507,6 +563,24 @@ Entity.prototype.headToPoint = function(targetX, targetY, speed, acc) {
 			(targetY - this.y) / d * speed,
 			(targetX - this.x) / d * acc,
 			(targetY - this.y) / d * acc)
+}
+
+Entity.prototype.nearestEntity = function(type, range) {	
+	var tEntity = this.parentWorld.firstEntity;
+	var nearest = null;
+	var nearestDistance = range || this.parentWorld.height * 2;
+	while (1) {
+		if ((tEntity instanceof type) || type == null) {
+			if (tEntity != this && this.parentWorld.distanceBetweenEntities(this, tEntity) < nearestDistance) {
+				nearest = tEntity;
+				nearestDistance = this.parentWorld.distanceBetweenEntities(this, tEntity);
+			}
+		}
+		tEntity = tEntity.next;
+		if (tEntity == this.parentWorld.firstEntity)
+			break;
+	}
+	return nearest;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -556,15 +630,17 @@ Player.prototype.flush = Entity.prototype.flush;
 Player.prototype.baseStep = Entity.prototype.step;
 Player.prototype.step = function() {
 	this.baseStep();
-	var d = 5;
+	var d = 100;
 	if ((this.moveLeft || this.moveRight)
 		&&(this.moveDown || this.moveUp)
 		&&! (this.moveLeft && this.moveRight)
 		&&! (this.moveDown && this.moveUp))
-		d = Math.sqrt(10);
+		d = 70;
 
 	if (this.focused)
 		d /= 2;
+
+	d /= this.parentWorld.ticksPS;
 
 	if (this.moveLeft)
 		this.x -= d;
@@ -657,7 +733,13 @@ Player.prototype.shoot = function() {
 		var bullet = new Projectile(this.parentWorld, this.x + i * (this.focused ? 2 : 8) - (this.focused ? 1 : 4) * (count - 1), this.y + Math.abs(i + 0.5 - count / 2) * 6, 0, -8);
 		bullet.width = 2;
 		bullet.playerside = true;
-		bullet.setSprite((count >= 3 && (i == 0 || i == count - 1)) ? 2 : 1, 2, 4);
+		var special = count >= 3 && (i == 0 || i == count - 1);
+		bullet.setSprite(special ? 2 : 1, 2, 4);
+		if (special)
+			bullet.behavior = function() {
+				if(this.lifetime % 6 == 1)
+					this.headToEntity(this.nearestEntity(Enemy, 200), 8, 0);
+			}
 	}
 }
 
@@ -707,6 +789,7 @@ Player.prototype.respawn = function() {
 Player.prototype.setCustomSpriteFile = Entity.prototype.setCustomSpriteFile;
 Player.prototype.setSprite = Entity.prototype.setSprite;
 Player.prototype.setVectors = Entity.prototype.setVectors;
+Player.prototype.nearestEntity = Entity.prototype.nearestEntity;
 
 ////////////////////////////////////////////////////////////////
 
@@ -937,6 +1020,10 @@ Enemy.prototype.nextAttack = function() {
 		this.parentWorld.boss = null;
 		if (this.parentWorld.bossLast)
 			this.parentWorld.nextStage(50);
+		else {
+			++this.parentWorld.substage;
+			this.parentWorld.substageStart = this.parentWorld.time;
+		}
 	} else {
 		this.parentWorld.player.spellCompleteTerms = true;
 		this.initHealth(this.attacks[this.attackCurrent].health);
@@ -1036,6 +1123,7 @@ Projectile.prototype.setSprite = Entity.prototype.setSprite;
 Projectile.prototype.setVectors = Entity.prototype.setVectors;
 Projectile.prototype.headToEntity = Entity.prototype.headToEntity;
 Projectile.prototype.headToPoint = Entity.prototype.headToPoint;
+Projectile.prototype.nearestEntity = Entity.prototype.nearestEntity;
 
 ////////////////////////////////////////////////////////////////
 
@@ -1117,11 +1205,10 @@ Bonus.prototype.step = function() {
 				}
 			break;
 			case "bombs":
-				if (this.parentWorld.player.bombs <= 8)
-					if (this.small)
-						++this.parentWorld.player.bombParts;
-					else
-						++this.parentWorld.player.bombs;
+				if (((this.parentWorld.player.bombs == 8 && this.parentWorld.player.bombParts == 0) || this.parentWorld.player.bombs < 8) && !this.small)
+					++this.parentWorld.player.bombs;
+				else if (this.parentWorld.player.bombs <= 8 && this.small)
+					++this.parentWorld.player.bombParts;
 				else {
 					this.parentWorld.player.score += (this.small ? 300 : 500);
 					this.parentWorld.player.bombs = 9;
@@ -1133,11 +1220,10 @@ Bonus.prototype.step = function() {
 				}
 			break;
 			case "lives":
-				if (this.parentWorld.player.lives <= 8)
-					if (this.small)
-						++this.parentWorld.player.lifeParts;
-					else
-						++this.parentWorld.player.lives;
+				if (((this.parentWorld.player.lives == 8 && this.parentWorld.player.lifeParts == 0) || this.parentWorld.player.lives < 8) && !this.small)
+					++this.parentWorld.player.lives;
+				else if (this.parentWorld.player.lives <= 8 && this.small)
+					++this.parentWorld.player.lifeParts;
 				else {
 					this.parentWorld.player.score += (this.small ? 500 : 2000);
 					this.parentWorld.player.lives = 9;
@@ -1203,7 +1289,7 @@ Particle.prototype.headToEntity = Entity.prototype.headToEntity;
 ////////////////////////////////////////////////////////////////
 
 var vp = new ViewPort();
-setInterval(function() { vp.draw() }, 40);	
+setInterval(function() { vp.draw() }, 33);	
 
 var imgPlayer = new Image();
 imgPlayer.src = IMAGEPLAYER;
