@@ -1,4 +1,4 @@
-var ENGINEVER = "v0.2.03 (alpha)"
+var ENGINEVER = "v0.2.04 (alpha)"
 
 function ViewPort() {	
 	this.canvas = document.createElement("canvas");
@@ -622,12 +622,16 @@ function Player(parentWorld) {
 	this.shooting = false;
 	this.invulnTime = 0;
 	this.autoGatherTime = 0;
+
+	this.respawnTime = -1;
+	this.respawnTimeDefault = 10;
+	this.deathbombTime = 5;
 }
 
 Player.prototype.create = Entity.prototype.create;
 Player.prototype.remove = Entity.prototype.remove;
 Player.prototype.flush = Entity.prototype.flush;
-Player.prototype.baseStep = Entity.prototype.step;
+Player.prototype.baseStep = Entity.prototype.step;	
 Player.prototype.step = function() {
 	this.baseStep();
 	var d = 100;
@@ -666,6 +670,11 @@ Player.prototype.step = function() {
 	if (this.invulnTime > 0)
 		this.invulnTime--;
 
+	if (this.respawnTime > 0)
+		--this.respawnTime;
+
+	if (this.respawnTime == 0)
+		this.respawn();
 
 	if (this.y < -this.parentWorld.width / 3)
 		this.autoGatherTime = 20;
@@ -699,30 +708,32 @@ Player.prototype.step = function() {
 Player.prototype.draw = function(context) {
 	var ePos = vp.toScreen(this.x, this.y);
 
-	if (this.invulnTime > 0) {
-		context.fillStyle = SHIELDCOLOR;
-		context.beginPath();
-		context.arc(ePos.x, ePos.y, (200 / (100 - this.invulnTime) + 2) * vp.zoom * this.width, 0, Math.PI*2, false);
-		context.fill();
-		context.closePath();
-	}
+	if (this.respawnTime < 0) {
+		if (this.invulnTime > 0) {
+			context.fillStyle = SHIELDCOLOR;
+			context.beginPath();
+			context.arc(ePos.x, ePos.y, (200 / (100 - this.invulnTime) + 2) * vp.zoom * this.width, 0, Math.PI*2, false);
+			context.fill();
+			context.closePath();
+		}
 
-	context.drawImage(this.customSprite ? this.customSprite : imgPlayer,
-		this.focused * (this.customSprite ? this.customSpriteWidth : IMAGEPLAYERWIDTH),
-		Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : IMAGEPLAYERHEIGHT),
-		this.customSprite ? this.customSpriteWidth : IMAGEPLAYERWIDTH,
-		this.customSprite ? this.customSpriteHeight : IMAGEPLAYERHEIGHT,
-		ePos.x - 4 * this.spriteWidth * vp.zoom,
-		ePos.y - 4 * this.spriteWidth * vp.zoom,
-		8 * this.spriteWidth * vp.zoom,
-		8 * this.spriteWidth * vp.zoom);
+		context.drawImage(this.customSprite ? this.customSprite : imgPlayer,
+			this.focused * (this.customSprite ? this.customSpriteWidth : IMAGEPLAYERWIDTH),
+			Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : IMAGEPLAYERHEIGHT),
+			this.customSprite ? this.customSpriteWidth : IMAGEPLAYERWIDTH,
+			this.customSprite ? this.customSpriteHeight : IMAGEPLAYERHEIGHT,
+			ePos.x - 4 * this.spriteWidth * vp.zoom,
+			ePos.y - 4 * this.spriteWidth * vp.zoom,
+			8 * this.spriteWidth * vp.zoom,
+			8 * this.spriteWidth * vp.zoom);
 
-	if (this.focused) {
-		context.fillStyle = HITBOXCOLOR;
-		context.beginPath();
-		context.arc(ePos.x, ePos.y, 1 * vp.zoom * this.width, 0, Math.PI*2, false);
-		context.fill();
-		context.closePath();
+		if (this.focused) {
+			context.fillStyle = HITBOXCOLOR;
+			context.beginPath();
+			context.arc(ePos.x, ePos.y, 1 * vp.zoom * this.width, 0, Math.PI*2, false);
+			context.fill();
+			context.closePath();
+		}
 	}
 
 }
@@ -744,9 +755,10 @@ Player.prototype.shoot = function() {
 }
 
 Player.prototype.bomb = function() {
-	if (this.invulnTime <= 10 && this.bombs >= 1) {
+	if (this.invulnTime <= 10 && this.bombs >= 1 && (this.respawnTime < 0 || this.respawnTime > this.respawnTimeDefault - this.deathbombTime)) {
 		this.bombs--;
-		this.invulnTime = 100;		
+		this.invulnTime = 100;
+		this.respawnTime = -1;	
 		var tEntity = this.parentWorld.firstEntity;
 		this.parentWorld.clearField(20);
 		this.autoGatherTime = 5;		
@@ -754,11 +766,17 @@ Player.prototype.bomb = function() {
 	}
 }
 
-Player.prototype.respawn = function() {
-	this.spellCompleteTerms = false;
+Player.prototype.kill = function() {
+	this.respawnTime = this.respawnTimeDefault;
+	this.invulnTime = this.respawnTimeDefault;
 
 	new Particle(this.parentWorld, this.x, this.y, 30, 12, false, false, 0, 4, 4);
 	this.parentWorld.splash(this, 20, 10, 16);
+}
+
+Player.prototype.respawn = function() {
+	this.respawnTime = -1;
+	this.spellCompleteTerms = false;
 
 	if (this.lives < 1) {
 		this.parentWorld.pause = true;
@@ -919,7 +937,7 @@ Enemy.prototype.step = function() {
 	//collision with player
 	if (this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player) <
 		(this.width + this.parentWorld.player.width) && this.parentWorld.player.invulnTime == 0) {
-		this.parentWorld.player.respawn();
+		this.parentWorld.player.kill();
 	};
 
 	//collision with bullets
@@ -1105,7 +1123,7 @@ Projectile.prototype.step = function() {
 		if (d < (this.width + this.parentWorld.player.width)) {
 			this.remove();
 			if (this.parentWorld.player.invulnTime == 0)
-				this.parentWorld.player.respawn();
+				this.parentWorld.player.kill();
 		} else if (d < (this.width + this.parentWorld.player.grazeWidth) && !this.grazed && this.parentWorld.player.invulnTime == 0) {
 			++this.parentWorld.player.graze;
 			new Particle(this.parentWorld, (this.x + this.parentWorld.player.x) / 2, (this.y + this.parentWorld.player.y) / 2, 4, 8, false, false, 1, 0, 1);
