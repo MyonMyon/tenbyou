@@ -1,4 +1,4 @@
-Shmup Engine in Development.
+﻿Shmup Engine in Development.
 
 With a test stage!
 
@@ -8,5 +8,10 @@ Arrows — move;
 Shift — focus;
 Z — shoot;
 X — bomb;
-C — cheat bonus;
 Esc — pause / unpause.
+
+Dev. controls:
+
+A — cheat bonus;
+S — skip 100 ticks;
+D — draw enemies' hitboxes.
