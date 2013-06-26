@@ -5,10 +5,12 @@ vp.world.init = function() {
 
 vp.world.events = function(){
 	if (this.stage == 1) {
-		if (this.relTime() < 20 && this.time % 40 == 1 && this.substage == 0) {
+		if (this.relTime() < 20 && this.time % (64 / (this.difficulty + 1)) == 1 && this.substage == 0) {
 			for (var i = 0; i < 2; i++) { //two sides
 				var fairy = this.addEntity(Enemy); //new fairy!
-					fairy.setVectors((i == 0 ? -this.width - 4 : this.width + 4) / 2, -this.height / 2 - 2, (i == 0 ? 0.75 : -0.75), 1, (i == 0 ? -0.01 : 0.01), 0); //setting position, speed and acceleration for a fairy
+					fairy.setVectors((i == 0 ? -this.width - 4 : this.width + 4) / 2, -this.height / 2 - 2,
+						(i == 0 ? 20 : -20), 25,
+						(i == 0 ? -0.25 : 0.25), 0); //setting position, speed and acceleration for a fairy
 					fairy.width = 2; //setting hitbox
 					fairy.initHealth(10); //setting initial health (and current health too)
 					fairy.setSprite(i + 2, 2, 4, 1, true); //sprite index, frame count, frame length, sprite width, direction-dependence
@@ -16,17 +18,16 @@ vp.world.events = function(){
 					if (Math.random() < 0.1) fairy.addDrops("power", false, 1); //10% chance of big power item;				
 					fairy.bulletSprite = i + 3; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
 				fairy.behavior = function() { //and now let's code the fairy's behavior!
-					if (this.lifetime % 14 == 0 && this.lifetime > 20) { //doing things every 7 ticks, starting from fairy's tick #20+
+					if (this.lifetime % (32 / (this.parentWorld.difficulty + 1)) == 0 && this.lifetime > 20) { //doing things every 7 ticks, starting from fairy's tick #20+
 						var bullet = new Projectile(this.parentWorld, this.x, this.y); //new bullet here
 						bullet.width = 2; //bullet hitbox
 						bullet.setSprite(this.bulletSprite, 7, 6, 1, false); //spite set, as described above
-						bullet.headToEntity(this.parentWorld.player, 0, 0.1); //starting moving to the player (comment to easy graze), parameters: target entity, initial speed, acceleration
-						//bullet.whoShotThis = fairy;
+						bullet.headToEntity(this.parentWorld.player, 0, 2.5); //starting moving to the player (comment to easy graze), parameters: target entity, initial speed, acceleration
 						bullet.behavior = function() { //and bullet's behavior!
 							if (this.parentWorld.vectorLength(this.x1, this.y1) > 2) //if speed > 2
 								this.setVectors(null, null, null, null, 0, 0); //stop accelerating
 							if (this.parentWorld.time % 50 == 0) { //doing things every 50 ticks. this.parentWorld.time is for a sync move, you can replace it with this.lifetime and see what will happen
-								this.headToEntity(this.parentWorld.player, 0, 0.1); //stop and refresh directions
+								this.headToEntity(this.parentWorld.player, 0, 2.5); //stop and refresh directions
 								//this.headToEntity(this.whoShotThis, 0, -0.1); //stop and refresh directions
 								this.sprite = (this.sprite == 3) ? 4 : 3; //swap sprites for bullets
 							}
@@ -56,14 +57,16 @@ vp.world.events = function(){
 }
 
 vp.world.eventKedamaMidboss = function(power) {
-	var nonSpell = function(entity) {
-		var c = power ? 16 : 12;
+	var nonSpell = function(entity, difficulty) {
+		var c = power ? 8 : 6;
+		c *= difficulty + 1;
 		if (entity.lifetime > 10 && entity.lifetime % 3 == 0 && entity.lifetime % 50 < 30)
 			for (var i = 0; i < c; ++i) {
 				var v = entity.lifetime % 100 < 50;
 				var a = i / c * Math.PI * 2;
 				var d = (v ? entity.lifetime : - entity.lifetime) / 20;
-				var p = new Projectile(entity.parentWorld, entity.x + entity.width * Math.sin(a + d), entity.y + entity.width * Math.cos(a + d), Math.sin(a + d) * 2, Math.cos(a + d) * 2);
+				var p = new Projectile(entity.parentWorld);
+				p.setVectors(entity.x + entity.width * Math.sin(a + d), entity.y + entity.width * Math.cos(a + d), Math.sin(a + d) * 50, Math.cos(a + d) * 50);
 				p.width = 2.5;
 				p.setSprite(d > 0 ? 6 : 7, 1, 6, 1, true);				
 			}
@@ -75,7 +78,8 @@ vp.world.eventKedamaMidboss = function(power) {
 			for (var i = 0; i < c; ++i) {
 				var a = i / c * Math.PI * 2;
 				var d = entity.lifetime / 20;
-				var p = new Projectile(entity.parentWorld, entity.x + entity.width * Math.sin(a), entity.y + entity.width * Math.cos(a), Math.sin(a + d), Math.cos(a + d));
+				var p = new Projectile(entity.parentWorld)
+				p.setVectors(entity.x + entity.width * Math.sin(a), entity.y + entity.width * Math.cos(a), Math.sin(a + d) * 25, Math.cos(a + d) * 25);
 				p.width = 2.5;
 				p.setSprite(entity.lifetime % 2 + 6, 1, 6, 1, true);				
 			}
@@ -86,69 +90,70 @@ vp.world.eventKedamaMidboss = function(power) {
 		if (entity.lifetime > 10 && entity.lifetime % 6 == 0)
 			for (var i = 0; i < c; ++i) {
 				var a = i / c * Math.PI * 2;
-				var p = new Projectile(entity.parentWorld, entity.x + entity.width * Math.sin(a), entity.y + entity.width * Math.cos(a), Math.sin(a), Math.cos(a));
+				var p = new Projectile(entity.parentWorld)
+				p.setVectors(entity.x + entity.width * Math.sin(a), entity.y + entity.width * Math.cos(a), Math.sin(a) * 25, Math.cos(a) * 25);
 				p.width = 2.5;
 				p.behavior = function() {
 				if (this.lifetime % 60 == 10)			
-					this.headToEntity(entity.parentWorld.player, 0, 0.08);
+					this.headToEntity(entity.parentWorld.player, 0, 2);
 				}
 				p.setSprite(entity.lifetime / 6 % 2 + 6, 1, 6, 1, true);				
 			}
 	}
 
 	var kedama = new Enemy(this)
-		kedama.setVectors(0, -this.width / 2 - 40, 0, 2, 0, -0.03);
+		kedama.setVectors(0, -this.width / 2 - 40);
 
 		kedama.width = 12;
 
 		kedama.setCustomSpriteFile("resources/g_kedama.png", 128, 128);
 		kedama.setSprite(0, 4, 8, 4, false);
 
-		kedama.addAttack(false, null, nonSpell, 400, 500);
-		if (power)
-			kedama.addAttack(true, "Soft Sign \"Fluffy Thorns\"", spellBeta, 200, 600, 30000);
-		else
-			kedama.addAttack(true, "Soft Sign \"Fluffy Revenge\"", spellAlpha, 400, 500, 30000);
+		kedama.addAttack(false, null, nonSpell, this.difficulty, 400, 500);
+		if (this.difficulty > 0)
+			if (power)
+				kedama.addAttack(true, "Soft Sign \"Fluffy Thorns\"", spellBeta, this.difficulty, 200, 600, 30000);
+			else
+				kedama.addAttack(true, "Soft Sign \"Fluffy Revenge\"", spellAlpha, this.difficulty, 400, 500, 30000);
 
 	this.setBoss(kedama, "The Kedama", false);	
 
 	kedama.behavior = function() {
-		if (this.y1 < 0) {
-			this.y2 = 0;
-			this.y1 = 0;
+		if (this.lifetime == 1)
+			this.headToPointSmoothly(0, -this.parentWorld.height / 4, 3);
+		if (this.lifetime == 100)
 			this.nextAttack();
-		}
 	}
 }
 
 vp.world.eventOrb = function() {
 
-	var nonSpell = function(entity) {
+	var nonSpell = function(entity, difficulty) {
 		entity.x1 = Math.cos(entity.lifetime / 20);
 		if (entity.lifetime % 4 == 0) {
-			var c = 4 * (entity.attackGroupCurrent + 1);
+			var c = 4 * (entity.attackGroupCurrent + 1) * (difficulty + 1);
 			for (var i = 0; i < c; ++i) {
 				var a = i / c * Math.PI * 2;
-				var d = entity.lifetime / 20;
+				var d = entity.lifetime / 20 * 2;
 				var p = new Projectile(entity.parentWorld, entity.x + Math.sin(a), entity.y + Math.cos(a), Math.sin(a + d), Math.cos(a + d));
 				p.setSprite(i % 2 + 6, 1, 1);
 			}
 		}	
 	}
 	
-	var spellAlpha = function(entity) {
-		if (entity.lifetime < 20)
-			entity.headToPoint(0, entity.y, Math.abs(entity.x / 5), 0);
+	var spellAlpha = function(entity, difficulty) {
+		if (entity.lifetime == 1)
+			entity.headToPointSmoothly(0, -entity.parentWorld.height / 4, 0.5);
 		if (entity.lifetime % 4 == 0 && entity.lifetime > 20) {
 			entity.x = 0;
 			entity.x1 = 0;
-			var c = 3;
+			var c = 2 + difficulty;
 			var r = 24;
 			var s = 2;
 			for (var i = 0; i < c; ++i) {
 				var a = i / c * Math.PI * 2 + Math.cos(entity.lifetime / 40);
 				var p = new Projectile(entity.parentWorld, entity.x + Math.sin(a) * r, entity.y + Math.cos(a) * r, Math.sin(a) * s, Math.cos(a) * s);
-				p.setSprite(0,1);
+				p.setSprite(0, 1);
 				p.reflects = 1;
 				p.behavior = function() {
 					if ((this.x > this.parentWorld.width / 2 || this.x < -this.parentWorld.width / 2) && this.reflects > 0) {
@@ -164,9 +169,9 @@ vp.world.eventOrb = function() {
 		}
 	}
 
-	var spellBeta = function(entity) {
+	var spellBeta = function(entity, difficulty) {
 		if (entity.lifetime < 20) {
-			entity.headToPoint(0, entity.y, Math.abs(entity.x / 5), 0);
+			entity.headToPointSmoothly(0, -entity.parentWorld.height / 4, 0.5);
 		} else {
 			entity.x = 0;
 			entity.x1 = 0;
@@ -180,7 +185,7 @@ vp.world.eventOrb = function() {
 				if (entity.lifetime % 200 > 100) {
 					if (entity.lifetime % 4 == 0) {
 						s = 3;
-						var c = 3;
+						var c = 2 + difficulty;
 						for (var i = -c; i <= c; ++i) {
 							a = - Math.atan2(entity.y - entity.parentWorld.player.y, entity.x - entity.parentWorld.player.x) - Math.PI / 2 + Math.PI / 20 * i;
 							p = new Projectile(entity.parentWorld, entity.x + Math.sin(a) * r, entity.y + Math.cos(a) * r, Math.sin(a) * s, Math.cos(a) * s);
@@ -191,11 +196,11 @@ vp.world.eventOrb = function() {
 				} else {
 					if (entity.lifetime % 4 == 0) {
 						p = new Projectile(entity.parentWorld, entity.x, entity.y);
-						p.headToEntity(entity.parentWorld.player, 5, -0.05);
+						p.headToEntity(entity.parentWorld.player, 100, -1.2);
 						p.width = 6;
 						p.behavior = function() {
-							if(this.lifetime % 30 == 0)
-								this.headToEntity(this.parentWorld.player, 4, -0.05);
+							if(this.lifetime % (32 / (difficulty + 1)) == 0)
+								this.headToEntity(this.parentWorld.player, 80, -1.2);
 						}
 						p.setSprite(0,1);
 					}					
@@ -205,40 +210,39 @@ vp.world.eventOrb = function() {
 	}
 
 	var orb = new Enemy(this)
-		orb.setVectors(0, -this.width / 2 - 40, 0, 2, 0, -0.03);
+		orb.setVectors(0, -this.width / 2 - 40);
 
 		orb.width = 2;
 
 		orb.setCustomSpriteFile("resources/orb.png", 128, 128);
 		orb.setSprite(0, 1, 0, 4, false);
 
-		orb.addAttack(false, null, nonSpell, 100, 500);
+		orb.addAttack(false, null, nonSpell, this.difficulty, 100, 500);
 		//this.parentWorld.extractSpell(46);
-		orb.addAttack(true, "Half-headed Sign \"Best Regards\"", spellAlpha, 200, 1000, 30000);
-		orb.addAttack(false, null, nonSpell, 100, 800);
-		orb.addAttack(true, "Reference Sign \"Highly Responsive Legacy\"", spellBeta, 160, 1500, 40000);
+		orb.addAttack(true,  ["Half-headed Sign \"Regards\"", "Half-headed Sign \"Best Regards\""][this.difficulty], spellAlpha, this.difficulty, 200, 1000, 30000);
+		orb.addAttack(false, null, nonSpell, this.difficulty, 100, 800);
+		orb.addAttack(true, ["Reference Sign \"Midly Responsive Legacy\"", "Reference Sign \"Highly Responsive Legacy\""][this.difficulty], spellBeta, this.difficulty, 160, 1500, 40000);
 		
 	this.setBoss(orb, "O.R.B.", true);	
 
 	orb.behavior = function() {
-		if (this.y1 < 0) {
-			this.y2 = 0;
-			this.y1 = 0;
+		if (this.lifetime == 1)
+			this.headToPointSmoothly(0, -this.parentWorld.height / 4, 3);
+		if (this.lifetime == 100)
 			this.nextAttack();
-		}
 	}
 }
 
 vp.world.eventOkuu = function() {
 
 	var okuu = new Enemy(this)
-		okuu.setVectors(0, -this.width / 2 - 40, 0, 2, 0, -0.03);
+		okuu.setVectors(0, -this.width / 2 - 40);
 		okuu.width = 2; 
 		okuu.setCustomSpriteFile("resources/okuu.png", 64, 64);
 		okuu.setSprite(0, 1, 0, 2, false);
 
-	var spellAlpha = function(entity) {
-		if (entity.lifetime % 6 == 0) {
+	var spellAlpha = function(entity, difficulty) {
+		if (entity.lifetime % (12 / (difficulty)) == 0) {
 			var nuclearBall = new Projectile(entity.parentWorld, (Math.random() * (entity.lifetime / 6 % 2 == 0 ? 0.5 : -0.5)) * entity.parentWorld.width, - entity.parentWorld.height / 2 - 5, 0, 6, 0, -0.09);
 				nuclearBall.setCustomSpriteFile("resources/nuclear.png", 128, 128);
 				nuclearBall.setSprite(0, 1, 1, 1, false)
@@ -252,15 +256,14 @@ vp.world.eventOkuu = function() {
 		}
 	}
 
-	okuu.addAttack(true, "Explosion Sign \"Not a Flare at all\"", spellAlpha, 300, 1500, 600000);
+	okuu.addAttack(true, ["Explosion Sign \"Not a Flare at all\"", "Explosion Sign \"Not a Flare at all yet\""][this.difficulty], this.difficulty, spellAlpha, 300, 1500, 600000);
 	
 	this.setBoss(okuu, "Utsuho Reiuji", true);
 
 	okuu.behavior = function() {
-		if (this.y1 < 0) {
-			this.y2 = 0;
-			this.y1 = 0;
+		if (this.lifetime == 1)
+			this.headToPointSmoothly(0, -this.parentWorld.height / 4, 3);
+		if (this.lifetime == 100)
 			this.nextAttack();
-		}
 	}
 }
