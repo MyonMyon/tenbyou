@@ -67,4 +67,4 @@ var GAMETITLESTROKE = 4;
 var GAMETITLESTROKECOLOR = ZOOM > 3 ? "#fcc": "transparent";
 var ENGINEVERSHOW = true;
 
-var DIFF = ["AUTISM", "PROTO"];
+var DIFF = ["AUTISM", "PROTO", "EASY"];

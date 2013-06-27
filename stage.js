@@ -5,7 +5,7 @@ vp.world.init = function() {
 
 vp.world.events = function(){
 	if (this.stage == 1) {
-		if (this.relTime() < 20 && this.time % (64 / (this.difficulty + 1)) == 1 && this.substage == 0) {
+		if (this.relTime() < 20 && this.time % Math.floor(64 / (this.difficulty + 1)) == 1 && this.substage == 0) {
 			for (var i = 0; i < 2; i++) { //two sides
 				var fairy = this.addEntity(Enemy); //new fairy!
 					fairy.setVectors((i == 0 ? -this.width - 4 : this.width + 4) / 2, -this.height / 2 - 2,
@@ -18,7 +18,7 @@ vp.world.events = function(){
 					if (Math.random() < 0.1) fairy.addDrops("power", false, 1); //10% chance of big power item;				
 					fairy.bulletSprite = i + 3; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
 				fairy.behavior = function() { //and now let's code the fairy's behavior!
-					if (this.lifetime % (32 / (this.parentWorld.difficulty + 1)) == 0 && this.lifetime > 20) { //doing things every 7 ticks, starting from fairy's tick #20+
+					if (this.lifetime % Math.floor(32 / (this.parentWorld.difficulty + 1)) == 0 && this.lifetime > 20) { //doing things every 7 ticks, starting from fairy's tick #20+
 						var bullet = new Projectile(this.parentWorld, this.x, this.y); //new bullet here
 						bullet.width = 2; //bullet hitbox
 						bullet.setSprite(this.bulletSprite, 7, 6, 1, false); //spite set, as described above
@@ -112,9 +112,9 @@ vp.world.eventKedamaMidboss = function(power) {
 		kedama.addAttack(false, null, nonSpell, this.difficulty, 400, 500);
 		if (this.difficulty > 0)
 			if (power)
-				kedama.addAttack(true, "Soft Sign \"Fluffy Thorns\"", spellBeta, this.difficulty, 200, 600, 30000);
+				kedama.addAttack(true, [null, "Soft Sign \"Fluffy Thorns\"", "Soft Sign \"Not so Fluffy Thorns\""][this.difficulty], spellBeta, this.difficulty, 200, 600, 30000);
 			else
-				kedama.addAttack(true, "Soft Sign \"Fluffy Revenge\"", spellAlpha, this.difficulty, 400, 500, 30000);
+				kedama.addAttack(true, [null, "Soft Sign \"Fluffy Revenge\"", "Soft Sign \"Not so Fluffy Revenge\""][this.difficulty], spellAlpha, this.difficulty, 400, 500, 30000);
 
 	this.setBoss(kedama, "The Kedama", false);	
 
@@ -219,9 +219,9 @@ vp.world.eventOrb = function() {
 
 		orb.addAttack(false, null, nonSpell, this.difficulty, 100, 500);
 		//this.parentWorld.extractSpell(46);
-		orb.addAttack(true,  ["Half-headed Sign \"Regards\"", "Half-headed Sign \"Best Regards\""][this.difficulty], spellAlpha, this.difficulty, 200, 1000, 30000);
+		orb.addAttack(true, ["Half-headed Sign \"Regards\"", "Half-headed Sign \"Best Regards\"", "Hard-headed Sign \"Awww\""][this.difficulty], spellAlpha, this.difficulty, 200, 1000, 30000);
 		orb.addAttack(false, null, nonSpell, this.difficulty, 100, 800);
-		orb.addAttack(true, ["Reference Sign \"Midly Responsive Legacy\"", "Reference Sign \"Highly Responsive Legacy\""][this.difficulty], spellBeta, this.difficulty, 160, 1500, 40000);
+		orb.addAttack(true, ["Reference Sign \"Midly Responsive Legacy\"", "Reference Sign \"Highly Responsive Legacy\"", "Reference Sign \"Nope\""][this.difficulty], spellBeta, this.difficulty, 160, 1500, 40000);
 		
 	this.setBoss(orb, "O.R.B.", true);	
 
@@ -242,7 +242,7 @@ vp.world.eventOkuu = function() {
 		okuu.setSprite(0, 1, 0, 2, false);
 
 	var spellAlpha = function(entity, difficulty) {
-		if (entity.lifetime % (12 / (difficulty)) == 0) {
+		if (entity.lifetime % Math.floor(12 / (difficulty + 1)) == 0) {
 			var nuclearBall = new Projectile(entity.parentWorld, (Math.random() * (entity.lifetime / 6 % 2 == 0 ? 0.5 : -0.5)) * entity.parentWorld.width, - entity.parentWorld.height / 2 - 5, 0, 6, 0, -0.09);
 				nuclearBall.setCustomSpriteFile("resources/nuclear.png", 128, 128);
 				nuclearBall.setSprite(0, 1, 1, 1, false)
@@ -256,7 +256,7 @@ vp.world.eventOkuu = function() {
 		}
 	}
 
-	okuu.addAttack(true, ["Explosion Sign \"Not a Flare at all\"", "Explosion Sign \"Not a Flare at all yet\""][this.difficulty], this.difficulty, spellAlpha, 300, 1500, 600000);
+	okuu.addAttack(true, ["Explosion Sign \"Not a Flare at all\"", "Explosion Sign \"Not a Flare at all yet\"", "Explosion Sign \"Lol Easy Modo\""][this.difficulty], spellAlpha, this.difficulty, 300, 1500, 600000);
 	
 	this.setBoss(okuu, "Utsuho Reiuji", true);
 
