@@ -1,4 +1,4 @@
-var ENGINEVER = "v0.2.05 (alpha)"
+var ENGINEVER = "v0.2.06 (alpha)"
 
 function ViewPort() {	
 	this.canvas = document.createElement("canvas");
@@ -565,10 +565,10 @@ Entity.prototype.headToEntity = function(target, speed, acc) {
 		var d = this.parentWorld.distanceBetweenEntities(this, target);
 		if (d != 0)
 			this.setVectors(null, null,
-				(target.x - this.x) / d * speed,
-				(target.y - this.y) / d * speed,
-				(target.x - this.x) / d * acc,
-				(target.y - this.y) / d * acc);
+				((target.x - this.x) / d) * speed,
+				((target.y - this.y) / d) * speed,
+				((target.x - this.x) / d) * acc,
+				((target.y - this.y) / d) * acc);
 	}
 }
 
@@ -593,7 +593,7 @@ Entity.prototype.nearestEntity = function(type, range) {
 	var nearest = null;
 	var nearestDistance = range || this.parentWorld.height * 2;
 	while (1) {
-		if ((tEntity instanceof type) || type == null) {
+		if ((tEntity instanceof type && ((type == Projectile && !tEntity.playerside) || type != Projectile)) || type == null) {
 			if (tEntity != this && this.parentWorld.distanceBetweenEntities(this, tEntity) < nearestDistance) {
 				nearest = tEntity;
 				nearestDistance = this.parentWorld.distanceBetweenEntities(this, tEntity);
@@ -650,14 +650,37 @@ function Player(parentWorld) {
 	this.respawnTime = -1;
 	this.respawnTimeDefault = 10;
 	this.deathbombTime = 5;
+
+	this.guided = false;
 }
 
 Player.prototype.create = Entity.prototype.create;
 Player.prototype.remove = Entity.prototype.remove;
 Player.prototype.flush = Entity.prototype.flush;
-Player.prototype.baseStep = Entity.prototype.step;	
+Player.prototype.baseStep = Entity.prototype.step;
+
+Player.prototype.stepBot = function() {
+	if (this.nearestEntity(Projectile, 20) != null && this.invulnTime > 0)
+		this.headToEntity(this.nearestEntity(Projectile, 20), 0, -80);
+	else {
+		if (Math.abs(this.x - this.fixedX * this.y - this.fixedY) < 20);
+			this.headToPoint(this.nearestEntity(Enemy, 400) ? this.nearestEntity(Enemy, 400).x : 0, 0, 0, 100);
+		if (Math.abs(this.x - this.fixedX * this.y - this.fixedY) < 20);
+			this.headToEntity(this.nearestEntity(Bonus, 200), 0, 80);
+	}
+	if (this.respawnTime > 0)
+		this.bomb();
+	this.shoot();
+}
+
 Player.prototype.step = function() {
+
 	this.baseStep();
+	if (this.guided)
+		this.stepBot();
+	else
+		this.setVectors(null, null, 0, 0, 0, 0);
+
 	var d = 100;
 	if ((this.moveLeft || this.moveRight)
 		&& (this.moveDown || this.moveUp)
@@ -833,6 +856,8 @@ Player.prototype.setCustomSpriteFile = Entity.prototype.setCustomSpriteFile;
 Player.prototype.setSprite = Entity.prototype.setSprite;
 Player.prototype.setVectors = Entity.prototype.setVectors;
 Player.prototype.nearestEntity = Entity.prototype.nearestEntity;
+Player.prototype.headToEntity = Entity.prototype.headToEntity;
+Player.prototype.headToPoint = Entity.prototype.headToPoint;
 
 ////////////////////////////////////////////////////////////////
 
@@ -1388,8 +1413,11 @@ function keyDown(event) {
 	if (event.keyCode == "D".charCodeAt(0))
 		vp.world.drawHitboxes = !vp.world.drawHitboxes;
 
+	if (event.keyCode == "W".charCodeAt(0))
+		vp.world.player.guided = !vp.world.player.guided;
+
 	if (event.keyCode == "Q".charCodeAt(0))
-		vp.world.difficulty = 1 - vp.world.difficulty;
+		vp.world.difficulty = (vp.world.difficulty + 1) % DIFF.length;
 
 	if (event.keyCode == 27)
 		vp.world.pause = !vp.world.pause;
