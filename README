@@ -1,6 +1,6 @@
 ﻿Shmup Engine in Development.
 
-With a test stage!
+With a test game!
 
 Controls:
 
@@ -12,6 +12,8 @@ Esc — pause / unpause.
 
 Dev. controls:
 
+Q — difficulty change;
+W — bot mode;
 A — cheat bonus;
 S — skip 100 ticks;
 D — draw enemies' hitboxes.
