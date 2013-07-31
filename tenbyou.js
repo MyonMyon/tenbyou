@@ -1,4 +1,4 @@
-var ENGINEVER = "v0.2.06 (alpha)"
+var ENGINEVER = "v0.2.07 (alpha)"
 
 function ViewPort() {	
 	this.canvas = document.createElement("canvas");
@@ -660,8 +660,9 @@ Player.prototype.flush = Entity.prototype.flush;
 Player.prototype.baseStep = Entity.prototype.step;
 
 Player.prototype.stepBot = function() {
-	if (this.nearestEntity(Projectile, 20) != null && this.invulnTime > 0)
-		this.headToEntity(this.nearestEntity(Projectile, 20), 0, -80);
+	var nearest = this.nearestEntity(Projectile, 20);
+	if (nearest != null && this.invulnTime <= 0)
+		this.headToEntity(nearest, 0, -nearest.width * 20);
 	else {
 		if (Math.abs(this.x - this.fixedX * this.y - this.fixedY) < 20);
 			this.headToPoint(this.nearestEntity(Enemy, 400) ? this.nearestEntity(Enemy, 400).x : 0, 0, 0, 100);
