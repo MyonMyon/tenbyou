@@ -1,4 +1,4 @@
-var ENGINEVER = "v0.2.08 (alpha)"
+var ENGINEVER = "v0.2.09 (alpha)"
 
 function ViewPort() {	
 	this.canvas = document.createElement("canvas");
@@ -925,7 +925,6 @@ Enemy.prototype.draw = function(context) {
 
 		var fullWheel = (sectionsS == 0 || sectionsN == 0);
 
-		//this.drawBossWheel(context, 23, 0, this.initialHealth * this.health, BOSSHEALTHCOLOR, 7);
 		for (var i = thisSection; i < sectionsN; ++i)
 			this.drawBossWheel(context, 23,
 				(i + ((i == thisSection) ? 1 - this.health / this.initialHealth : 0)) / sectionsN * (fullWheel ? 1 : 0.75),
@@ -937,7 +936,16 @@ Enemy.prototype.draw = function(context) {
 				(i + 1) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
 				(i % 2 == 0) ? BOSSHEALTHSPELLCOLOR : BOSSHEALTHSPELLALTCOLOR, 7);
 
-		this.drawBossWheel(context, 24.5, this.lifetime / this.attacks[this.attackCurrent].time, 1, BOSSTIMERCOLOR, 3);
+		if (this.attacks[this.attackCurrent].spell && this.parentWorld.player.spellCompleteTerms) { //for spells 
+			if (this.lifetime < this.attacks[this.attackCurrent].decrTime)
+				this.drawBossWheel(context, 24.5, this.lifetime / this.attacks[this.attackCurrent].time,
+					this.attacks[this.attackCurrent].decrTime / this.attacks[this.attackCurrent].time, BOSSTIMERALTCOLOR, 3);
+			this.drawBossWheel(context, 24.5, Math.max(this.lifetime / this.attacks[this.attackCurrent].time,
+				this.attacks[this.attackCurrent].decrTime / this.attacks[this.attackCurrent].time),
+				1, BOSSTIMERCOLOR, 3);
+		}
+		else //for non-spells
+			this.drawBossWheel(context, 24.5, this.lifetime / this.attacks[this.attackCurrent].time, 1, BOSSTIMERALTCOLOR, 3);
 	}
 }
 
@@ -1011,7 +1019,7 @@ Enemy.prototype.step = function() {
 	if (this.attackCurrent == -1)
 		this.behavior();
 	else if (this.attackCurrent < this.attacks.length) {
-		this.bonus = parseInt((1 - (this.lifetime / this.attacks[this.attackCurrent].time)) * this.attacks[this.attackCurrent].bonus / 100, 10) * 100;
+		this.bonus = parseInt((1 - (Math.max(this.lifetime, this.attacks[this.attackCurrent].decrTime) / (this.attacks[this.attackCurrent].time - this.attacks[this.attackCurrent].decrTime))) * this.attacks[this.attackCurrent].bonus / 100, 10) * 100;
 		this.attacks[this.attackCurrent].func(this, this.attacks[this.attackCurrent].param);
 		if (this.lifetime >= this.attacks[this.attackCurrent].time) {
 			this.nextAttack();
@@ -1060,7 +1068,7 @@ Enemy.prototype.addDrops = function(cat, small, amount, reqDamage, afterAttack) 
 		this.drops[this.drops.length] = {cat: cat, small: small, reqDamage: reqDamage || 0, attackID: afterAttack ? (this.attacks.length - 1) : -1};
 }
 
-Enemy.prototype.addAttack = function(spell, title, func, param, health, time, descTime, bonus, bonusBound, newGroup) {
+Enemy.prototype.addAttack = function(spell, title, func, param, health, time, decrTime, bonus, bonusBound, newGroup) {
 	//decrTime - time when bonus counter start to decrease
 	//bonusBound - bonus gotten in the last moment
 	//newGroup - forced start of a new group of attacks
@@ -1074,7 +1082,7 @@ Enemy.prototype.addAttack = function(spell, title, func, param, health, time, de
 	else
 		++this.attackGroups[m].nonspells;
 
-	this.attacks[n] = {spell: spell, title: title || "", func: func, param: param, health: health, time: time, bonus: bonus, descTime: descTime, bonusBound: bonusBound};
+	this.attacks[n] = {spell: spell, title: title || "", func: func, param: param, health: health, time: time, bonus: bonus, decrTime: decrTime, bonusBound: bonusBound};
 }
 
 Enemy.prototype.nextAttack = function() {

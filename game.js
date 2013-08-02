@@ -29,6 +29,7 @@ var HITBOXCOLOR = "rgba(255, 255, 255, 0.7)";
 
 var BOSSWHEELCOLOR = "rgba(0, 0, 0, 0.8)";
 var BOSSTIMERCOLOR = "rgba(192, 255, 255, 0.8)";
+var BOSSTIMERALTCOLOR = "rgba(0, 192, 192, 0.8)";
 var BOSSHEALTHCOLOR = "rgba(255, 192, 192, 0.8)";
 var BOSSHEALTHALTCOLOR = "rgba(192, 144, 144, 0.8)";
 var BOSSHEALTHSPELLCOLOR = "rgba(255, 0, 0, 0.8)";
