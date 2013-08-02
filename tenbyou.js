@@ -1,4 +1,4 @@
-var ENGINEVER = "v0.2.07 (alpha)"
+var ENGINEVER = "v0.2.08 (alpha)"
 
 function ViewPort() {	
 	this.canvas = document.createElement("canvas");
@@ -155,6 +155,8 @@ ViewPort.prototype.draw = function() {
 			this.context.textAlign = "right";
 			this.context.strokeText(this.world.boss.attacks[this.world.boss.attackCurrent].title, boundaryEnd.x - 10, boundaryStart.y + 20);
 			this.context.fillText(this.world.boss.attacks[this.world.boss.attackCurrent].title, boundaryEnd.x - 10, boundaryStart.y + 20);
+			this.context.strokeText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"), boundaryEnd.x - 10, boundaryStart.y + 40);
+			this.context.fillText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"), boundaryEnd.x - 10, boundaryStart.y + 40);
 		}
 	}
 
@@ -874,6 +876,7 @@ function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, sprite, frameCo
 	this.attackCurrent = -1;
 	this.attackGroups = new Array();
 	this.attackGroupCurrent = 0;
+	this.bonus = 0;
 }
 
 Enemy.prototype.draw = function(context) {
@@ -1008,6 +1011,7 @@ Enemy.prototype.step = function() {
 	if (this.attackCurrent == -1)
 		this.behavior();
 	else if (this.attackCurrent < this.attacks.length) {
+		this.bonus = parseInt((1 - (this.lifetime / this.attacks[this.attackCurrent].time)) * this.attacks[this.attackCurrent].bonus / 100, 10) * 100;
 		this.attacks[this.attackCurrent].func(this, this.attacks[this.attackCurrent].param);
 		if (this.lifetime >= this.attacks[this.attackCurrent].time) {
 			this.nextAttack();
@@ -1056,7 +1060,10 @@ Enemy.prototype.addDrops = function(cat, small, amount, reqDamage, afterAttack) 
 		this.drops[this.drops.length] = {cat: cat, small: small, reqDamage: reqDamage || 0, attackID: afterAttack ? (this.attacks.length - 1) : -1};
 }
 
-Enemy.prototype.addAttack = function(spell, title, func, param, health, time, bonus, newGroup) {
+Enemy.prototype.addAttack = function(spell, title, func, param, health, time, descTime, bonus, bonusBound, newGroup) {
+	//decrTime - time when bonus counter start to decrease
+	//bonusBound - bonus gotten in the last moment
+	//newGroup - forced start of a new group of attacks
 	var n = this.attacks.length;
 	var m = this.attackGroups.length - 1;
 
@@ -1067,15 +1074,14 @@ Enemy.prototype.addAttack = function(spell, title, func, param, health, time, bo
 	else
 		++this.attackGroups[m].nonspells;
 
-	this.attacks[n] = {spell: spell, title: title || "", func: func, param: param, health: health, time: time, bonus: bonus};
+	this.attacks[n] = {spell: spell, title: title || "", func: func, param: param, health: health, time: time, bonus: bonus, descTime: descTime, bonusBound: bonusBound};
 }
 
 Enemy.prototype.nextAttack = function() {
 	if (this.parentWorld.boss == this && this.attackCurrent >= 0 && this.attacks[this.attackCurrent].spell) {
-		var bonus = parseInt((1 - (this.lifetime / this.attacks[this.attackCurrent].time)) * this.attacks[this.attackCurrent].bonus / 100, 10) * 100;
-		if (this.health <= 0 && this.parentWorld.player.spellCompleteTerms && bonus > 0) {
-			this.parentWorld.player.score += bonus;
-			vp.showMessage("Spell Card Bonus!", bonus, 100)
+		if (this.health <= 0 && this.parentWorld.player.spellCompleteTerms && this.bonus > 0) {
+			this.parentWorld.player.score += this.bonus;
+			vp.showMessage("Spell Card Bonus!", this.bonus, 100)
 		}
 		else
 			vp.showMessage("Bonus failed", null, 50);

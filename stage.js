@@ -112,9 +112,9 @@ vp.world.eventKedamaMidboss = function(power) {
 		kedama.addAttack(false, null, nonSpell, this.difficulty, 400, 500);
 		if (this.difficulty > 0)
 			if (power)
-				kedama.addAttack(true, [null, "Soft Sign \"Fluffy Thorns\"", "Soft Sign \"Not so Fluffy Thorns\""][this.difficulty], spellBeta, this.difficulty, 200, 600, 30000);
+				kedama.addAttack(true, [null, "Soft Sign \"Fluffy Thorns\"", "Soft Sign \"Not so Fluffy Thorns\""][this.difficulty], spellBeta, this.difficulty, 200, 600, 50, 30000, 5000);
 			else
-				kedama.addAttack(true, [null, "Soft Sign \"Fluffy Revenge\"", "Soft Sign \"Not so Fluffy Revenge\""][this.difficulty], spellAlpha, this.difficulty, 400, 500, 30000);
+				kedama.addAttack(true, [null, "Soft Sign \"Fluffy Revenge\"", "Soft Sign \"Not so Fluffy Revenge\""][this.difficulty], spellAlpha, this.difficulty, 400, 500, 50, 30000, 5000);
 
 	this.setBoss(kedama, "The Kedama", false);	
 
@@ -219,9 +219,9 @@ vp.world.eventOrb = function() {
 
 		orb.addAttack(false, null, nonSpell, this.difficulty, 100, 500);
 		//this.parentWorld.extractSpell(46);
-		orb.addAttack(true, ["Half-headed Sign \"Regards\"", "Half-headed Sign \"Best Regards\"", "Hard-headed Sign \"Awww\""][this.difficulty], spellAlpha, this.difficulty, 200, 1000, 30000);
+		orb.addAttack(true, ["Half-headed Sign \"Regards\"", "Half-headed Sign \"Best Regards\"", "Hard-headed Sign \"Awww\""][this.difficulty], spellAlpha, this.difficulty, 200, 1000, 200, 30000, 5000);
 		orb.addAttack(false, null, nonSpell, this.difficulty, 100, 800);
-		orb.addAttack(true, ["Reference Sign \"Midly Responsive Legacy\"", "Reference Sign \"Highly Responsive Legacy\"", "Reference Sign \"Nope\""][this.difficulty], spellBeta, this.difficulty, 160, 1500, 40000);
+		orb.addAttack(true, ["Reference Sign \"Midly Responsive Legacy\"", "Reference Sign \"Highly Responsive Legacy\"", "Reference Sign \"Nope\""][this.difficulty], spellBeta, this.difficulty, 160, 1500, 200, 40000, 5000);
 		
 	this.setBoss(orb, "O.R.B.", true);	
 
@@ -256,7 +256,7 @@ vp.world.eventOkuu = function() {
 		}
 	}
 
-	okuu.addAttack(true, ["Explosion Sign \"Not a Flare at all\"", "Explosion Sign \"Not a Flare at all yet\"", "Explosion Sign \"Lol Easy Modo\""][this.difficulty], spellAlpha, this.difficulty, 300, 1500, 600000);
+	okuu.addAttack(true, ["Explosion Sign \"Not a Flare at all\"", "Explosion Sign \"Not a Flare at all yet\"", "Explosion Sign \"Lol Easy Modo\""][this.difficulty], spellAlpha, this.difficulty, 300, 1500, 200, 600000, 5000);
 	
 	this.setBoss(okuu, "Utsuho Reiuji", true);
 
