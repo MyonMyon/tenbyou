@@ -1,71 +1,71 @@
 var ZOOM = 4;
 var WIDTH = ZOOM * 256;
 var HEIGHT = ZOOM * 192;
-var SHIFTX = ZOOM * -48;
-var SHIFTY = 0;
+var SHIFT_X = ZOOM * -48;
+var SHIFT_Y = 0;
 
-var IMAGEPLAYER = "resources/player.png";
-var IMAGEPLAYERWIDTH = 32;
-var IMAGEPLAYERHEIGHT = 32;
+var IMAGE_PLAYER = "resources/player.png";
+var IMAGE_PLAYER_WIDTH = 32;
+var IMAGE_PLAYER_HEIGHT = 32;
 
-var IMAGEPROJECTILE = "resources/projectile.png";
-var IMAGEPROJECTILEWIDTH = 16;
-var IMAGEPROJECTILEHEIGHT = 16;
+var IMAGE_PROJECTILE = "resources/projectile.png";
+var IMAGE_PROJECTILE_WIDTH = 16;
+var IMAGE_PROJECTILE_HEIGHT = 16;
 
-var IMAGEBONUS = "resources/bonus.png";
-var IMAGEBONUSWIDTH = 24;
-var IMAGEBONUSHEIGHT = 24;
+var IMAGE_BONUS = "resources/bonus.png";
+var IMAGE_BONUS_WIDTH = 24;
+var IMAGE_BONUS_HEIGHT = 24;
 
-var IMAGEENEMY = "resources/enemy.png";
-var IMAGEENEMYWIDTH = 32;
-var IMAGEENEMYHEIGHT = 32;
+var IMAGE_ENEMY = "resources/enemy.png";
+var IMAGE_ENEMY_WIDTH = 32;
+var IMAGE_ENEMY_HEIGHT = 32;
 
-var IMAGEPARTICLE = "resources/splash.png";
-var IMAGEPARTICLEWIDTH = 32;
-var IMAGEPARTICLEHEIGHT = 32;
+var IMAGE_PARTICLE = "resources/splash.png";
+var IMAGE_PARTICLE_WIDTH = 32;
+var IMAGE_PARTICLE_HEIGHT = 32;
 
-var SHIELDCOLOR = "rgba(160, 0, 0, 0.3)";
-var HITBOXCOLOR = "rgba(255, 255, 255, 0.7)";
+var SHIELD_COLOR = "rgba(160, 0, 0, 0.3)";
+var HITBOX_COLOR = "rgba(255, 255, 255, 0.7)";
 
-var BOSSWHEELCOLOR = "rgba(0, 0, 0, 0.8)";
-var BOSSTIMERCOLOR = "rgba(192, 255, 255, 0.8)";
-var BOSSTIMERALTCOLOR = "rgba(0, 192, 192, 0.8)";
-var BOSSHEALTHCOLOR = "rgba(255, 192, 192, 0.8)";
-var BOSSHEALTHALTCOLOR = "rgba(192, 144, 144, 0.8)";
-var BOSSHEALTHSPELLCOLOR = "rgba(255, 0, 0, 0.8)";
-var BOSSHEALTHSPELLALTCOLOR = "rgba(192, 0, 0, 0.8)";
+var BOSS_WHEEL_COLOR = "rgba(0, 0, 0, 0.8)";
+var BOSS_TIMER_COLOR = "rgba(192, 255, 255, 0.8)";
+var BOSS_TIMER_ALT_COLOR = "rgba(0, 192, 192, 0.8)";
+var BOSS_HEALTH_COLOR = "rgba(255, 192, 192, 0.8)";
+var BOSS_HEALTH_ALT_COLOR = "rgba(192, 144, 144, 0.8)";
+var BOSS_HEALTH_SPELL_COLOR = "rgba(255, 0, 0, 0.8)";
+var BOSS_HEALTH_SPELL_ALT_COLOR = "rgba(192, 0, 0, 0.8)";
 
-var DESCFONT = (ZOOM * 3) + "px Unispace Rg";
-var DESCCOLOR = "#c00";
-var DESCSTROKE = 3;
-var DESCSTROKECOLOR = ZOOM > 3 ? "#fcc" : "transparent";
+var DESC_FONT = (ZOOM * 3) + "px Unispace Rg";
+var DESC_COLOR = "#c00";
+var DESC_STROKE = 3;
+var DESC_STROKE_COLOR = ZOOM > 3 ? "#fcc" : "transparent";
 
-var IMAGESTAGESPELL = "resources/bgspell.jpg";
-var IMAGESTAGESPELLSTRIP = "resources/scline.png";
+var IMAGE_STAGE_SPELL = "resources/bgspell.jpg";
+var IMAGE_STAGE_SPELL_STRIP = "resources/scline.png";
 
-var IMAGEUIBG = "resources/uibg.png";
+var IMAGE_UI_BG = "resources/uibg.png";
 
-var BORDERWIDTH = 2;
-var BORDERCOLOR = "#c00";
+var BORDER_WIDTH = 2;
+var BORDER_COLOR = "#c00";
 
 var BACKGROUND = "#023";
 
-var IMAGEGUI = "resources/gui.png";
-var IMAGEGUIWIDTH = 24;
-var IMAGEGUIHEIGHT = 24;
+var IMAGE_GUI = "resources/gui.png";
+var IMAGE_GUI_WIDTH = 24;
+var IMAGE_GUI_HEIGHT = 24;
 
-var INFOFONT = "Bold " + (ZOOM * 6) + "px Unispace Rg";
-var INFOCOLOR = "#fee";
-var INFOSTROKE = 3;
-var INFOSTROKECOLOR = ZOOM > 3 ? "#630" : "transparent";
-var INFOLINE = ZOOM * 8;
-var INFOTAB = ZOOM * 40;
+var INFO_FONT = "Bold " + (ZOOM * 6) + "px Unispace Rg";
+var INFO_COLOR = "#fee";
+var INFO_STROKE = 3;
+var INFO_STROKE_COLOR = ZOOM > 3 ? "#630" : "transparent";
+var INFO_LINE = ZOOM * 8;
+var INFO_TAB = ZOOM * 40;
 
-var GAMETITLE = "Occasional Flaw";
-var GAMETITLEFONT = "Bold " + (ZOOM * 7) + "px Unispace Rg";
-var GAMETITLECOLOR = "#c00";
-var GAMETITLESTROKE = 4;
-var GAMETITLESTROKECOLOR = ZOOM > 3 ? "#fcc" : "transparent";
-var ENGINEVERSHOW = true;
+var GAME_TITLE = "Occasional Flaw";
+var GAME_TITLE_FONT = "Bold " + (ZOOM * 7) + "px Unispace Rg";
+var GAME_TITLE_COLOR = "#c00";
+var GAME_TITLE_STROKE = 4;
+var GAME_TITLE_STROKE_COLOR = ZOOM > 3 ? "#fcc" : "transparent";
+var ENGINE_VER_SHOW = true;
 
 var DIFF = ["AUTISM", "PROTO", "EASY"];
