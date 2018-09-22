@@ -155,8 +155,8 @@ ViewPort.prototype.draw = function () {
             this.context.textAlign = "right";
             this.context.strokeText(this.world.boss.attacks[this.world.boss.attackCurrent].title, boundaryEnd.x - 10, boundaryStart.y + 20);
             this.context.fillText(this.world.boss.attacks[this.world.boss.attackCurrent].title, boundaryEnd.x - 10, boundaryStart.y + 20);
-            this.context.strokeText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : this.world.boss.bonus), boundaryEnd.x - 10, boundaryStart.y + 40);
-            this.context.fillText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : this.world.boss.bonus), boundaryEnd.x - 10, boundaryStart.y + 40);
+            this.context.strokeText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"), boundaryEnd.x - 10, boundaryStart.y + 40);
+            this.context.fillText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"), boundaryEnd.x - 10, boundaryStart.y + 40);
         }
     }
 
