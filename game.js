@@ -38,7 +38,7 @@ var BOSSHEALTHSPELLALTCOLOR = "rgba(192, 0, 0, 0.8)";
 var DESCFONT = (ZOOM * 3) + "px Unispace Rg";
 var DESCCOLOR = "#c00";
 var DESCSTROKE = 3;
-var DESCSTROKECOLOR = ZOOM > 3 ? "#fcc": "transparent";
+var DESCSTROKECOLOR = ZOOM > 3 ? "#fcc" : "transparent";
 
 var IMAGESTAGESPELL = "resources/bgspell.jpg";
 var IMAGESTAGESPELLSTRIP = "resources/scline.png";
@@ -65,7 +65,7 @@ var GAMETITLE = "Occasional Flaw";
 var GAMETITLEFONT = "Bold " + (ZOOM * 7) + "px Unispace Rg";
 var GAMETITLECOLOR = "#c00";
 var GAMETITLESTROKE = 4;
-var GAMETITLESTROKECOLOR = ZOOM > 3 ? "#fcc": "transparent";
+var GAMETITLESTROKECOLOR = ZOOM > 3 ? "#fcc" : "transparent";
 var ENGINEVERSHOW = true;
 
 var DIFF = ["AUTISM", "PROTO", "EASY"];
