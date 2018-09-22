@@ -97,7 +97,7 @@ ViewPort.prototype.draw = function () {
 
     var stg = (this.world.time < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
     var spell = (this.world.boss && this.world.boss.attackCurrent >= 0 && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
-    if (stg != 0) {
+    if (stg !== 0) {
         imgBG.src = spell ? IMAGE_STAGE_SPELL : this.world.stages[stg].background;
         var t = imgBG.height - (imgBG.width / this.world.width * this.world.height) - this.world.time * (spell ? 1 : this.world.stages[stg].backgroundSpeed) % (imgBG.height);
         this.context.drawImage(imgBG,
@@ -120,7 +120,7 @@ ViewPort.prototype.draw = function () {
                 this.context.drawImage(imgSpell,
                         0, 0,
                         imgSpell.width, imgSpell.height,
-                        boundaryStart.x + this.world.time * (i == 0 ? 6 : -6) % (imgSpell.width * this.zoom / 4) + (j - 1) * (imgSpell.width * this.zoom / 4),
+                        boundaryStart.x + this.world.time * (i === 0 ? 6 : -6) % (imgSpell.width * this.zoom / 4) + (j - 1) * (imgSpell.width * this.zoom / 4),
                         (boundaryStart.y * (0.25 + (1 - i) * 0.5) + boundaryEnd.y * (0.25 + i * 0.5)) - imgSpell.height / 2,
                         imgSpell.width * this.zoom / 4, imgSpell.height * this.zoom / 4);
 
@@ -129,10 +129,10 @@ ViewPort.prototype.draw = function () {
     this.context.globalAlpha = 1;
 
     var tEntity = this.world.firstEntity;
-    while (tEntity != null) {
+    while (tEntity !== null) {
         tEntity.draw(this.context);
         tEntity = tEntity.next;
-        if (tEntity == this.world.firstEntity)
+        if (tEntity === this.world.firstEntity)
             break;
     }
 
@@ -306,7 +306,7 @@ function World() {
 World.prototype.addEntity = function (type) {
     var choosen = null;
     /*
-     if (this.firstEntityPool != null) {
+     if (this.firstEntityPool !== null) {
      var tEntity = this.firstEntityPool;
      while (1) {
      if (tEntity instanceof type) {
@@ -314,11 +314,11 @@ World.prototype.addEntity = function (type) {
      break;
      }
      tEntity = tEntity.next;
-     if (tEntity == this.firstEntity)
+     if (tEntity === this.firstEntity)
      break;
      }
      }
-     if (choosen != null) {
+     if (choosen !== null) {
      return choosen
      } */
     return new type(this);
@@ -331,7 +331,7 @@ World.prototype.addStage = function (title, desc, titleAppears, background, back
 
 World.prototype.nextStage = function (timeout) {
     var timeout = timeout || 0;
-    if (timeout == 0) {
+    if (timeout === 0) {
         this.time = 0;
         var bonus = this.stage * 1000;
         bonus += this.player.power * 1000;
@@ -389,12 +389,12 @@ World.prototype.setBoss = function (enemy, title, isLast) {
 World.prototype.tick = function (interval) {
     if (!this.pause) {
         ++this.time;
-        if (this.firstEntity != null) {
+        if (this.firstEntity !== null) {
             var tEntity = this.firstEntity;
             while (1) {
                 tEntity.step();
                 tEntity = tEntity.next;
-                if (tEntity == this.firstEntity)
+                if (tEntity === this.firstEntity)
                     break;
             }
             var c = 0;
@@ -402,16 +402,16 @@ World.prototype.tick = function (interval) {
                 ++c;
                 tEntity.flush(); //refreshing fixed coords
                 tEntity = tEntity.next;
-                if (tEntity == this.firstEntity) {
+                if (tEntity === this.firstEntity) {
                     this.countEntity = c;
                     break;
                 }
             }
         }
-        if (this.time == this.stages[this.stage].titleAppears) {
+        if (this.time === this.stages[this.stage].titleAppears) {
             vp.showMessage("Stage " + this.stage + ": " + this.stages[this.stage].title, this.stages[this.stage].desc, 120, true);
         }
-        if (this.time == this.stageChangeTime) {
+        if (this.time === this.stageChangeTime) {
             this.nextStage();
         }
         this.events();
@@ -424,7 +424,7 @@ World.prototype.randomBonus = function () {
 
 World.prototype.clearField = function (damageForEnemies) {
     var tEntity = this.firstEntity;
-    while (tEntity != null) {
+    while (tEntity !== null) {
         if (tEntity instanceof Projectile && !tEntity.playerside) {
             tEntity.remove();
             new Bonus(this, tEntity.x, tEntity.y, "point", true, true);
@@ -433,21 +433,21 @@ World.prototype.clearField = function (damageForEnemies) {
             tEntity.hurt(damageForEnemies);
         }
         tEntity = tEntity.next;
-        if (tEntity == this.firstEntity)
+        if (tEntity === this.firstEntity)
             break;
     }
 };
 
 World.prototype.replaceBonus = function (catWhat, smallWhat, catWith, smallWith) {
     var tEntity = this.firstEntity;
-    while (tEntity != null) {
-        if (tEntity instanceof Bonus && tEntity.cat == catWhat && tEntity.small == smallWhat) {
+    while (tEntity !== null) {
+        if (tEntity instanceof Bonus && tEntity.cat === catWhat && tEntity.small === smallWhat) {
             tEntity.cat = catWith;
             tEntity.small = smallWith;
             new Particle(this, tEntity.x, tEntity.y, 8, 8, true, false, 1, 0, 2);
         }
         tEntity = tEntity.next;
-        if (tEntity == this.firstEntity)
+        if (tEntity === this.firstEntity)
             break;
     }
 };
@@ -502,11 +502,11 @@ Entity.prototype.create = function (parentWorld, x, y, x1, y1, x2, y2, width, sp
     ++parentWorld.lastID;
 
     this.next = parentWorld.firstEntity || this;
-    this.prev = parentWorld.firstEntity != null ? parentWorld.firstEntity.prev : this;
+    this.prev = parentWorld.firstEntity !== null ? parentWorld.firstEntity.prev : this;
     this.id = parentWorld.lastID;
     //console.info("Added Entity #" + this.id + " @ " + this.x + ";" + this.y);
 
-    if (parentWorld.firstEntity != null) {
+    if (parentWorld.firstEntity !== null) {
         parentWorld.firstEntity.prev.next = this;
         parentWorld.firstEntity.prev = this;
     }
@@ -568,18 +568,18 @@ Entity.prototype.setSprite = function (sprite, frameCount, animPeriod, spriteWid
 };
 
 Entity.prototype.setVectors = function (posX, posY, speedX, speedY, accX, accY) {
-    this.x = posX != null ? posX : this.x;
-    this.y = posX != null ? posY : this.y;
-    this.x1 = speedX != null ? speedX / this.parentWorld.ticksPS : this.x1;
-    this.y1 = speedY != null ? speedY / this.parentWorld.ticksPS : this.y1;
-    this.x2 = accX != null ? accX / this.parentWorld.ticksPS : this.x2;
-    this.y2 = accY != null ? accY / this.parentWorld.ticksPS : this.y2;
+    this.x = posX || posX === 0 ? posX : this.x;
+    this.y = posY || posY === 0 ? posY : this.y;
+    this.x1 = speedX || speedX === 0 ? speedX / this.parentWorld.ticksPS : this.x1;
+    this.y1 = speedY || speedY === 0 ? speedY / this.parentWorld.ticksPS : this.y1;
+    this.x2 = accX || accX === 0 ? accX / this.parentWorld.ticksPS : this.x2;
+    this.y2 = accY || accY === 0 ? accY / this.parentWorld.ticksPS : this.y2;
 };
 
 Entity.prototype.headToEntity = function (target, speed, acc) {
     if (target) {
         var d = this.parentWorld.distanceBetweenEntities(this, target);
-        if (d != 0)
+        if (d !== 0)
             this.setVectors(null, null,
                     ((target.x - this.x) / d) * speed,
                     ((target.y - this.y) / d) * speed,
@@ -590,7 +590,7 @@ Entity.prototype.headToEntity = function (target, speed, acc) {
 
 Entity.prototype.headToPoint = function (targetX, targetY, speed, acc) {
     var d = this.parentWorld.distanceBetweenPoints(this.x, this.y, targetX, targetY);
-    if (d != 0)
+    if (d !== 0)
         this.setVectors(null, null,
                 (targetX - this.x) / d * speed,
                 (targetY - this.y) / d * speed,
@@ -609,14 +609,14 @@ Entity.prototype.nearestEntity = function (type, range) {
     var nearest = null;
     var nearestDistance = range || this.parentWorld.height * 2;
     while (1) {
-        if ((tEntity instanceof type && ((type == Projectile && !tEntity.playerside) || type != Projectile)) || type == null) {
-            if (tEntity != this && this.parentWorld.distanceBetweenEntities(this, tEntity) < nearestDistance) {
+        if ((tEntity instanceof type && ((type === Projectile && !tEntity.playerside) || type !== Projectile)) || type === null) {
+            if (tEntity !== this && this.parentWorld.distanceBetweenEntities(this, tEntity) < nearestDistance) {
                 nearest = tEntity;
                 nearestDistance = this.parentWorld.distanceBetweenEntities(this, tEntity);
             }
         }
         tEntity = tEntity.next;
-        if (tEntity == this.parentWorld.firstEntity)
+        if (tEntity === this.parentWorld.firstEntity)
             break;
     }
     return nearest;
@@ -677,7 +677,7 @@ Player.prototype.baseStep = Entity.prototype.step;
 
 Player.prototype.stepBot = function () {
     var nearest = this.nearestEntity(Projectile, 20);
-    if (nearest != null && this.invulnTime <= 0)
+    if (nearest !== null && this.invulnTime <= 0)
         this.headToEntity(nearest, 0, -nearest.width * 20);
     else {
         if (Math.abs(this.x - this.fixedX * this.y - this.fixedY) < 20)
@@ -739,7 +739,7 @@ Player.prototype.step = function () {
     if (this.respawnTime > 0)
         --this.respawnTime;
 
-    if (this.respawnTime == 0)
+    if (this.respawnTime === 0)
         this.respawn();
 
     if (this.y < -this.parentWorld.width / 3)
@@ -810,11 +810,11 @@ Player.prototype.shoot = function () {
         bullet.width = 2;
         bullet.damage = (1 + this.damageInc) / (count + this.damageInc);
         bullet.playerside = true;
-        var special = count >= 3 && (i == 0 || i == count - 1);
+        var special = count >= 3 && (i === 0 || i === count - 1);
         bullet.setSprite(special ? 2 : 1, 2, 4);
         if (special)
             bullet.behavior = function () {
-                if (this.lifetime % 6 == 1)
+                if (this.lifetime % 6 === 1)
                     this.headToEntity(this.nearestEntity(Enemy, 200), 200, 0);
             };
     }
@@ -859,7 +859,7 @@ Player.prototype.respawn = function () {
     this.autoGatherTime = 0;
     this.invulnTime = 50;
     for (var i = 0; i < 5; ++i) {
-        if (i == 2 && this.lives < 1)
+        if (i === 2 && this.lives < 1)
             new Bonus(this.parentWorld, this.x + (i - 2) * 20, this.y, "gauge", false, false);
         else
             new Bonus(this.parentWorld, this.x + (i - 2) * 20, this.y, "power", false, false);
@@ -926,7 +926,7 @@ Enemy.prototype.draw = function (context) {
         context.closePath();
     }
 
-    if (this == this.parentWorld.boss && this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length) {
+    if (this === this.parentWorld.boss && this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length) {
         context.lineJoin = "square";
         context.lineCap = "butt";
 
@@ -938,18 +938,18 @@ Enemy.prototype.draw = function (context) {
         var sectionsN = this.attackGroups[this.attackGroupCurrent].nonspells;
         var thisSection = this.attackCurrent - this.attackGroups[this.attackGroupCurrent].start;
 
-        var fullWheel = (sectionsS == 0 || sectionsN == 0);
+        var fullWheel = (sectionsS === 0 || sectionsN === 0);
 
         for (var i = thisSection; i < sectionsN; ++i)
             this.drawBossWheel(context, 23,
-                    (i + ((i == thisSection) ? 1 - this.health / this.initialHealth : 0)) / sectionsN * (fullWheel ? 1 : 0.75),
+                    (i + ((i === thisSection) ? 1 - this.health / this.initialHealth : 0)) / sectionsN * (fullWheel ? 1 : 0.75),
                     (i + 1) / sectionsN * (fullWheel ? 1 : 0.75),
-                    (i % 2 == 0) ? BOSS_HEALTH_COLOR : BOSS_HEALTH_ALT_COLOR, 7);
+                    (i % 2 === 0) ? BOSS_HEALTH_COLOR : BOSS_HEALTH_ALT_COLOR, 7);
         for (var i = Math.max(thisSection - sectionsN, 0); i < sectionsS; ++i)
             this.drawBossWheel(context, 23,
-                    (i + ((i == (thisSection - sectionsN)) ? 1 - this.health / this.initialHealth : 0)) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
+                    (i + ((i === (thisSection - sectionsN)) ? 1 - this.health / this.initialHealth : 0)) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
                     (i + 1) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
-                    (i % 2 == 0) ? BOSS_HEALTH_SPELL_COLOR : BOSS_HEALTH_SPELL_ALT_COLOR, 7);
+                    (i % 2 === 0) ? BOSS_HEALTH_SPELL_COLOR : BOSS_HEALTH_SPELL_ALT_COLOR, 7);
 
         if (this.attacks[this.attackCurrent].spell && this.parentWorld.player.spellCompleteTerms) { //for spells 
             if (this.lifetime < this.attacks[this.attackCurrent].decrTime)
@@ -965,7 +965,7 @@ Enemy.prototype.draw = function (context) {
 };
 
 Enemy.prototype.drawBossWheel = function (context, r, from, to, color, lineWidth) {
-    if (from != to) {
+    if (from !== to) {
         var ePos = vp.toScreen(this.x, this.y);
         context.lineWidth = lineWidth;
         context.strokeStyle = color;
@@ -987,16 +987,16 @@ Enemy.prototype.step = function () {
 
     if (this.health <= 0) {
         for (var i = 0; i < this.drops.length; ++i)
-            if (this.drops[i].reqDamage == 0 && this.attackCurrent == this.drops[i].attackID) {
+            if (this.drops[i].reqDamage === 0 && this.attackCurrent === this.drops[i].attackID) {
                 var a = Math.random() * Math.PI * 2;
                 var r = Math.random() * this.initialHealth / 5;
-                var p = this.drops[i].cat == "power" && this.parentWorld.player.power >= this.parentWorld.player.powerMax;
+                var p = this.drops[i].cat === "power" && this.parentWorld.player.power >= this.parentWorld.player.powerMax;
 
                 new Bonus(this.parentWorld, this.x + Math.sin(a) * r, this.y + Math.cos(a) * r,
                         p ? "point" : this.drops[i].cat, p ? false : this.drops[i].small, false);
             }
 
-        if (this.attackCurrent == -1) {
+        if (this.attackCurrent === -1) {
             this.behaviorFinal();
             this.parentWorld.player.score += this.cost;
         } else {
@@ -1008,18 +1008,18 @@ Enemy.prototype.step = function () {
     if ((this.x > this.parentWorld.width / 2 + this.width * 2
             || this.x < -this.parentWorld.width / 2 - this.width * 2
             || this.y > this.parentWorld.height / 2 + this.width * 2
-            || this.y < -this.parentWorld.height / 2 - this.width * 2) && this != this.parentWorld.boss) //DO NOT DELETE BOSSES
+            || this.y < -this.parentWorld.height / 2 - this.width * 2) && this !== this.parentWorld.boss) //DO NOT DELETE BOSSES
         this.remove();
 
     //collision with player
     if (this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player) <
-            (this.width + this.parentWorld.player.width) && this.parentWorld.player.invulnTime == 0) {
+            (this.width + this.parentWorld.player.width) && this.parentWorld.player.invulnTime === 0) {
         this.parentWorld.player.kill();
     }
 
     //collision with bullets
     var tEntity = this.parentWorld.firstEntity;
-    while (tEntity != null) {
+    while (tEntity !== null) {
         if (tEntity instanceof Projectile && tEntity.playerside) {
             if (this.parentWorld.distanceBetweenEntities(this, tEntity) < (this.width + tEntity.width)) {
                 this.hurt(tEntity.damage);
@@ -1027,11 +1027,11 @@ Enemy.prototype.step = function () {
             }
         }
         tEntity = tEntity.next;
-        if (tEntity == this.parentWorld.firstEntity)
+        if (tEntity === this.parentWorld.firstEntity)
             break;
     }
 
-    if (this.attackCurrent == -1)
+    if (this.attackCurrent === -1)
         this.behavior();
     else if (this.attackCurrent < this.attacks.length) {
         this.bonus = parseInt((this.attacks[this.attackCurrent].bonusBound +
@@ -1062,14 +1062,14 @@ Enemy.prototype.onDestroy = function () {
 
 Enemy.prototype.hurt = function (damage) {
 
-    if (this.parentWorld.boss != this || (this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length))
+    if (this.parentWorld.boss !== this || (this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length))
         this.health -= damage;
 
     if (this.health > 0) {
         for (var i = 0; i < this.drops.length; ++i)
-            if (this.drops[i].reqDamage != 0 && this.attackCurrent == this.drops[i].attackID && ((((this.initialHealth - this.health) % this.drops[i].reqDamage) < ((this.initialHealth - this.health - damage) % this.drops[i].reqDamage) && damage > 0) || damage > this.drops[i].reqDamage))
+            if (this.drops[i].reqDamage !== 0 && this.attackCurrent === this.drops[i].attackID && ((((this.initialHealth - this.health) % this.drops[i].reqDamage) < ((this.initialHealth - this.health - damage) % this.drops[i].reqDamage) && damage > 0) || damage > this.drops[i].reqDamage))
                 new Bonus(this.parentWorld, this.x + Math.random() * 12 - 6, this.y + Math.random() * 12 - 6,
-                        (this.drops[i].cat == "power" && this.parentWorld.player.power >= this.parentWorld.player.powerMax) ? "point" : this.drops[i].cat, this.drops[i].small, false);
+                        (this.drops[i].cat === "power" && this.parentWorld.player.power >= this.parentWorld.player.powerMax) ? "point" : this.drops[i].cat, this.drops[i].small, false);
     }
     this.parentWorld.splash(this, damage, this.spriteWidth * 5, this.spriteWidth * 5);
 
@@ -1097,7 +1097,7 @@ Enemy.prototype.addAttack = function (spell, title, func, param, health, time, d
     var n = this.attacks.length;
     var m = this.attackGroups.length - 1;
 
-    if (n == 0 || (this.attacks[n - 1].spell && !spell) || newGroup)
+    if (n === 0 || (this.attacks[n - 1].spell && !spell) || newGroup)
         this.attackGroups[++m] = {start: n, nonspells: 0, spells: 0};
     if (spell)
         ++this.attackGroups[m].spells;
@@ -1108,7 +1108,7 @@ Enemy.prototype.addAttack = function (spell, title, func, param, health, time, d
 };
 
 Enemy.prototype.nextAttack = function () {
-    if (this.parentWorld.boss == this && this.attackCurrent >= 0 && this.attacks[this.attackCurrent].spell) {
+    if (this.parentWorld.boss === this && this.attackCurrent >= 0 && this.attacks[this.attackCurrent].spell) {
         if (this.health <= 0 && this.parentWorld.player.spellCompleteTerms && this.bonus > 0) {
             this.parentWorld.player.score += this.bonus;
             vp.showMessage("Spell Card Bonus!", this.bonus, 100)
@@ -1211,9 +1211,9 @@ Projectile.prototype.step = function () {
         var d = this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player);
         if (d < (this.width + this.parentWorld.player.width)) {
             this.remove();
-            if (this.parentWorld.player.invulnTime == 0)
+            if (this.parentWorld.player.invulnTime === 0)
                 this.parentWorld.player.kill();
-        } else if (d < (this.width + this.parentWorld.player.grazeWidth) && this.grazed < this.damage && this.parentWorld.player.invulnTime == 0) {
+        } else if (d < (this.width + this.parentWorld.player.grazeWidth) && this.grazed < this.damage && this.parentWorld.player.invulnTime === 0) {
             ++this.parentWorld.player.graze;
             new Particle(this.parentWorld, (this.x + this.parentWorld.player.x) / 2, (this.y + this.parentWorld.player.y) / 2, 4, 8, false, false, 1, 0, 1);
             ++this.grazed;
@@ -1299,7 +1299,7 @@ Bonus.prototype.step = function () {
                     this.parentWorld.player.score += (this.small ? 100 : 200);
                 if (this.parentWorld.player.power > this.parentWorld.player.powerMax)
                     this.parentWorld.player.power = this.parentWorld.player.powerMax;
-                if (fixedPower < this.parentWorld.player.powerMax && this.parentWorld.player.power == this.parentWorld.player.powerMax) {
+                if (fixedPower < this.parentWorld.player.powerMax && this.parentWorld.player.power === this.parentWorld.player.powerMax) {
                     this.parentWorld.clearField(0);
                     this.parentWorld.replaceBonus("power", true, "point", false);
                 }
@@ -1313,7 +1313,7 @@ Bonus.prototype.step = function () {
                 }
                 break;
             case "bombs":
-                if (((this.parentWorld.player.bombs == 8 && this.parentWorld.player.bombParts == 0) || this.parentWorld.player.bombs < 8) && !this.small)
+                if (((this.parentWorld.player.bombs === 8 && this.parentWorld.player.bombParts === 0) || this.parentWorld.player.bombs < 8) && !this.small)
                     ++this.parentWorld.player.bombs;
                 else if (this.parentWorld.player.bombs <= 8 && this.small)
                     ++this.parentWorld.player.bombParts;
@@ -1328,7 +1328,7 @@ Bonus.prototype.step = function () {
                 }
                 break;
             case "lives":
-                if (((this.parentWorld.player.lives == 8 && this.parentWorld.player.lifeParts == 0) || this.parentWorld.player.lives < 8) && !this.small)
+                if (((this.parentWorld.player.lives === 8 && this.parentWorld.player.lifeParts === 0) || this.parentWorld.player.lives < 8) && !this.small)
                     ++this.parentWorld.player.lives;
                 else if (this.parentWorld.player.lives <= 8 && this.small)
                     ++this.parentWorld.player.lifeParts;
@@ -1370,7 +1370,7 @@ Particle.prototype.draw = function (context) {
     var ePos = vp.toScreen(this.x, this.y);
     context.drawImage(imgParticle,
             this.sprite * IMAGE_PARTICLE_WIDTH,
-            (this.frame == -1 ? (Math.floor(this.lifetime / this.animPeriod) % (imgParticle.height / IMAGE_PARTICLE_HEIGHT)) : this.frame) * IMAGE_PARTICLE_HEIGHT,
+            (this.frame === -1 ? (Math.floor(this.lifetime / this.animPeriod) % (imgParticle.height / IMAGE_PARTICLE_HEIGHT)) : this.frame) * IMAGE_PARTICLE_HEIGHT,
             IMAGE_PARTICLE_WIDTH, IMAGE_PARTICLE_HEIGHT,
             ePos.x - vp.zoom * this.width / 2,
             ePos.y - vp.zoom * this.width / 2,
@@ -1424,67 +1424,67 @@ document.addEventListener("keydown", keyDown, false);
 document.addEventListener("keyup", keyUp, false);
 
 function keyDown(event) {
-    if (event.keyCode == 37)
+    if (event.keyCode === 37)
         vp.world.player.moveLeft = true;
-    if (event.keyCode == 39)
+    if (event.keyCode === 39)
         vp.world.player.moveRight = true;
 
-    if (event.keyCode == 38)
+    if (event.keyCode === 38)
         vp.world.player.moveUp = true;
-    if (event.keyCode == 40)
+    if (event.keyCode === 40)
         vp.world.player.moveDown = true;
 
-    if (event.keyCode == 16)
+    if (event.keyCode === 16)
         vp.world.player.focused = true;
 
-    if (event.keyCode == "Z".charCodeAt(0))
+    if (event.keyCode === "Z".charCodeAt(0))
         vp.world.player.shooting = true;
 
-    if (event.keyCode == "X".charCodeAt(0))
+    if (event.keyCode === "X".charCodeAt(0))
         vp.world.player.bomb();
 
-    if (event.keyCode == "A".charCodeAt(0))
+    if (event.keyCode === "A".charCodeAt(0))
         vp.world.randomBonus();
 
-    if (event.keyCode == "S".charCodeAt(0))
+    if (event.keyCode === "S".charCodeAt(0))
         vp.world.time += 100;
 
-    if (event.keyCode == "D".charCodeAt(0))
+    if (event.keyCode === "D".charCodeAt(0))
         vp.world.drawHitboxes = !vp.world.drawHitboxes;
 
-    if (event.keyCode == "W".charCodeAt(0))
+    if (event.keyCode === "W".charCodeAt(0))
         vp.world.player.guided = !vp.world.player.guided;
 
-    if (event.keyCode == "Q".charCodeAt(0))
+    if (event.keyCode === "Q".charCodeAt(0))
         vp.world.difficulty = (vp.world.difficulty + 1) % DIFF.length;
 
-    if (event.keyCode == "E".charCodeAt(0)) {
+    if (event.keyCode === "E".charCodeAt(0)) {
         ++vp.world.substage;
         vp.world.substageStart = vp.world.time;
     }
 
-    if (event.keyCode == "R".charCodeAt(0))
+    if (event.keyCode === "R".charCodeAt(0))
         ++vp.world.nextStage();
 
-    if (event.keyCode == 27)
+    if (event.keyCode === 27)
         vp.world.pause = !vp.world.pause;
 
 }
 
 function keyUp(event) {
-    if (event.keyCode == 37)
+    if (event.keyCode === 37)
         vp.world.player.moveLeft = false;
-    if (event.keyCode == 39)
+    if (event.keyCode === 39)
         vp.world.player.moveRight = false;
 
-    if (event.keyCode == 38)
+    if (event.keyCode === 38)
         vp.world.player.moveUp = false;
-    if (event.keyCode == 40)
+    if (event.keyCode === 40)
         vp.world.player.moveDown = false;
 
-    if (event.keyCode == 16)
+    if (event.keyCode === 16)
         vp.world.player.focused = false;
 
-    if (event.keyCode == "Z".charCodeAt(0))
+    if (event.keyCode === "Z".charCodeAt(0))
         vp.world.player.shooting = false;
 }
