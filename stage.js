@@ -79,7 +79,7 @@ vp.world.eventKedamaMidboss = function (power) {
             for (var i = 0; i < c; ++i) {
                 var a = i / c * Math.PI * 2;
                 var d = entity.lifetime / 20;
-                var p = new Projectile(entity.parentWorld)
+                var p = new Projectile(entity.parentWorld);
                 p.setVectors(entity.x + entity.width * Math.sin(a), entity.y + entity.width * Math.cos(a), Math.sin(a + d) * 25, Math.cos(a + d) * 25);
                 p.width = 2.5;
                 p.setSprite(entity.lifetime % 2 + 6, 1, 6, 1, true);
@@ -91,7 +91,7 @@ vp.world.eventKedamaMidboss = function (power) {
         if (entity.lifetime > 10 && entity.lifetime % 6 === 0)
             for (var i = 0; i < c; ++i) {
                 var a = i / c * Math.PI * 2;
-                var p = new Projectile(entity.parentWorld)
+                var p = new Projectile(entity.parentWorld);
                 p.setVectors(entity.x + entity.width * Math.sin(a), entity.y + entity.width * Math.cos(a), Math.sin(a) * 25, Math.cos(a) * 25);
                 p.width = 2.5;
                 p.behavior = function () {
@@ -124,7 +124,7 @@ vp.world.eventKedamaMidboss = function (power) {
             this.headToPointSmoothly(0, -this.parentWorld.height / 4, 3);
         if (this.lifetime === 100)
             this.nextAttack();
-    }
+    };
 };
 
 vp.world.eventOrb = function () {
@@ -165,7 +165,7 @@ vp.world.eventOrb = function () {
                         this.y1 = -this.y1;
                         --this.reflects;
                     }
-                }
+                };
             }
         }
     };
@@ -202,7 +202,7 @@ vp.world.eventOrb = function () {
                         p.behavior = function () {
                             if (this.lifetime % (32 / (difficulty + 1)) === 0)
                                 this.headToEntity(this.parentWorld.player, 80, -1.2);
-                        }
+                        };
                         p.setSprite(0, 1);
                     }
                 }

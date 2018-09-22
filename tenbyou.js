@@ -1,4 +1,4 @@
-var ENGINE_VER = "v0.2.10 (alpha)"
+var ENGINE_VER = "v0.2.10 (alpha)";
 
 function ViewPort() {
     this.canvas = document.createElement("canvas");
@@ -299,7 +299,7 @@ function World() {
     }, 10);
 
     setInterval(function () {
-        vp.world.tick()
+        vp.world.tick();
     }, 1000 / this.ticksPS);
 }
 
@@ -419,7 +419,7 @@ World.prototype.tick = function (interval) {
 };
 
 World.prototype.randomBonus = function () {
-    new Bonus(this, this.player.x, -this.height / 2 + 20, ["power", "point", "bombs", "lives", "gauge"][Math.floor(Math.random() * 5)], Math.random() > 0.5, false)
+    new Bonus(this, this.player.x, -this.height / 2 + 20, ["power", "point", "bombs", "lives", "gauge"][Math.floor(Math.random() * 5)], Math.random() > 0.5, false);
 };
 
 World.prototype.clearField = function (damageForEnemies) {
@@ -1074,7 +1074,7 @@ Enemy.prototype.hurt = function (damage) {
     this.parentWorld.splash(this, damage, this.spriteWidth * 5, this.spriteWidth * 5);
 
     this.onDamage(damage);
-}
+};
 
 Enemy.prototype.setCustomSpriteFile = Entity.prototype.setCustomSpriteFile;
 Enemy.prototype.setSprite = Entity.prototype.setSprite;
@@ -1111,7 +1111,7 @@ Enemy.prototype.nextAttack = function () {
     if (this.parentWorld.boss === this && this.attackCurrent >= 0 && this.attacks[this.attackCurrent].spell) {
         if (this.health <= 0 && this.parentWorld.player.spellCompleteTerms && this.bonus > 0) {
             this.parentWorld.player.score += this.bonus;
-            vp.showMessage("Spell Card Bonus!", this.bonus, 100)
+            vp.showMessage("Spell Card Bonus!", this.bonus, 100);
         }
         else
             vp.showMessage("Bonus failed", null, 50);
@@ -1276,7 +1276,7 @@ Bonus.prototype.step = function () {
     var d = this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player);
 
     if (this.autoGather)
-        this.headToEntity(this.parentWorld.player, 120, 0)
+        this.headToEntity(this.parentWorld.player, 120, 0);
 
     if (d < this.parentWorld.player.gatherWidth || this.parentWorld.player.autoGatherTime > 0) {
         this.autoGather = true;
