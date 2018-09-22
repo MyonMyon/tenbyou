@@ -1019,7 +1019,11 @@ Enemy.prototype.step = function() {
 	if (this.attackCurrent == -1)
 		this.behavior();
 	else if (this.attackCurrent < this.attacks.length) {
-		this.bonus = parseInt((1 - (Math.max(this.lifetime, this.attacks[this.attackCurrent].decrTime) / (this.attacks[this.attackCurrent].time - this.attacks[this.attackCurrent].decrTime))) * this.attacks[this.attackCurrent].bonus / 100, 10) * 100;
+		this.bonus = parseInt((this.attacks[this.attackCurrent].bonusBound +
+			(1 - (Math.max(this.lifetime, this.attacks[this.attackCurrent].decrTime) /
+			(this.attacks[this.attackCurrent].time - this.attacks[this.attackCurrent].decrTime))) * 
+			(this.attacks[this.attackCurrent].bonus - this.attacks[this.attackCurrent].bonusBound)) / 100, 10) * 100;
+
 		this.attacks[this.attackCurrent].func(this, this.attacks[this.attackCurrent].param);
 		if (this.lifetime >= this.attacks[this.attackCurrent].time) {
 			this.nextAttack();
