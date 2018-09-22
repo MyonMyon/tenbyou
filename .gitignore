@@ -30,6 +30,11 @@ local.properties
 
 
 #################
+## Netbeans
+#################
+/nbproject/
+
+#################
 ## Visual Studio
 #################
 
