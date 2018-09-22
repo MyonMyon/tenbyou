@@ -1434,6 +1434,14 @@ function keyDown(event) {
 	if (event.keyCode == "Q".charCodeAt(0))
 		vp.world.difficulty = (vp.world.difficulty + 1) % DIFF.length;
 
+	if (event.keyCode == "E".charCodeAt(0)) {
+			++vp.world.substage;
+			vp.world.substageStart = vp.world.time;
+		}
+
+	if (event.keyCode == "R".charCodeAt(0))
+		++vp.world.nextStage();
+
 	if (event.keyCode == 27)
 		vp.world.pause = !vp.world.pause;
 
