@@ -1,9 +1,11 @@
-vp.world.init = function () {
+var STAGE = {};
+
+STAGE.init = function () {
     this.addStage("Nest of Precursors", "The place you will never return to.", 40, "resources/bg1.jpg", 10);
     this.addStage("The Assembly", "Remains of the abandoned paradise.", 120, "resources/bg2.jpg", 2);
 };
 
-vp.world.events = function () {
+STAGE.events = function () {
     if (this.stage === 1) {
         if (this.relTime() < 20 && this.time % Math.floor(64 / (this.difficulty + 1)) === 1 && this.substage === 0) {
             for (var i = 0; i < 2; i++) { //two sides
@@ -57,7 +59,7 @@ vp.world.events = function () {
     }
 };
 
-vp.world.eventKedamaMidboss = function (power) {
+STAGE.eventKedamaMidboss = function (power) {
     var nonSpell = function (entity, difficulty) {
         var c = power ? 8 : 6;
         c *= difficulty + 1;
@@ -127,7 +129,7 @@ vp.world.eventKedamaMidboss = function (power) {
     };
 };
 
-vp.world.eventOrb = function () {
+STAGE.eventOrb = function () {
 
     var nonSpell = function (entity, difficulty) {
         entity.x1 = Math.cos(entity.lifetime / 20);
@@ -234,7 +236,7 @@ vp.world.eventOrb = function () {
     };
 };
 
-vp.world.eventOkuu = function () {
+STAGE.eventOkuu = function () {
 
     var okuu = new Enemy(this);
     okuu.setVectors(0, -this.width / 2 - 40);
