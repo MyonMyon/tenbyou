@@ -9,7 +9,7 @@ STAGE.events = function () {
     if (this.stage === 1) {
         if (this.relTime() < 20 && this.time % Math.floor(64 / (this.difficulty + 1)) === 1 && this.substage === 0) {
             for (var i = 0; i < 2; i++) { //two sides
-                var fairy = this.addEntity(Enemy); //new fairy!
+                var fairy = new Enemy(this); //new fairy!
                 fairy.setVectors((i === 0 ? -this.width - 4 : this.width + 4) / 2, -this.height / 2 - 2,
                         (i === 0 ? 20 : -20), 25,
                         (i === 0 ? -0.25 : 0.25), 0); //setting position, speed and acceleration for a fairy

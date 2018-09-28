@@ -1,6 +1,14 @@
 var CODE = [
     "Values",
-    "Core",
+    "Ext",
+    "ViewPort",
+    "World",
+    "entities/Entity",
+    "entities/Player",
+    "entities/Enemy",
+    "entities/Projectile",
+    "entities/Bonus",
+    "entities/Particle",
     "Stage"
 ];
 
@@ -37,6 +45,7 @@ function loadScripts(nameArray, prefix, tag, onFinish) {
  * Creates the viewport after all the scripts are loaded.
  */
 function onLoad() {
+    document.getElementsByTagName("title")[0].innerHTML = "弾幕点描";
     new ViewPort();
 }
 
