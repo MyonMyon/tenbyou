@@ -47,78 +47,13 @@ function ViewPort() {
     this.imgGUI = new Image();
     this.imgGUI.src = IMAGE_GUI;
 
-    document.addEventListener("keydown", keyDown, false);
-    document.addEventListener("keyup", keyUp, false);
+    this.input = new Input();
+    this.input.world = this.world;
 
     var self = this;
     setInterval(function () {
         self.draw();
     }, 33);
-    function keyDown(event) {
-        if (event.keyCode === 37)
-            self.world.player.moveLeft = true;
-        if (event.keyCode === 39)
-            self.world.player.moveRight = true;
-
-        if (event.keyCode === 38)
-            self.world.player.moveUp = true;
-        if (event.keyCode === 40)
-            self.world.player.moveDown = true;
-
-        if (event.keyCode === 16)
-            self.world.player.focused = true;
-
-        if (event.keyCode === "Z".charCodeAt(0))
-            self.world.player.shooting = true;
-
-        if (event.keyCode === "X".charCodeAt(0))
-            self.world.player.bomb();
-
-        if (event.keyCode === "A".charCodeAt(0))
-            self.world.randomBonus();
-
-        if (event.keyCode === "S".charCodeAt(0))
-            self.world.time += 100;
-
-        if (event.keyCode === "D".charCodeAt(0))
-            self.world.drawHitboxes = !self.world.drawHitboxes;
-
-        if (event.keyCode === "W".charCodeAt(0))
-            self.world.player.guided = !self.world.player.guided;
-
-        if (event.keyCode === "Q".charCodeAt(0))
-            self.world.difficulty = (self.world.difficulty + 1) % DIFF.length;
-
-        if (event.keyCode === "E".charCodeAt(0)) {
-            ++self.world.substage;
-            self.world.substageStart = self.world.time;
-        }
-
-        if (event.keyCode === "R".charCodeAt(0))
-            ++self.world.nextStage();
-
-        if (event.keyCode === 27)
-            self.world.pause = !self.world.pause;
-
-    }
-
-    function keyUp(event) {
-        if (event.keyCode === 37)
-            self.world.player.moveLeft = false;
-        if (event.keyCode === 39)
-            self.world.player.moveRight = false;
-
-        if (event.keyCode === 38)
-            self.world.player.moveUp = false;
-        if (event.keyCode === 40)
-            self.world.player.moveDown = false;
-
-        if (event.keyCode === 16)
-            self.world.player.focused = false;
-
-        if (event.keyCode === "Z".charCodeAt(0))
-            self.world.player.shooting = false;
-    }
 }
 
 ViewPort.prototype.showMessage = function (text, text2, time, altStyle) {

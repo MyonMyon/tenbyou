@@ -24,7 +24,7 @@ function World(vp) {
     this.stageChangeTime = -1;
 
     this.vp = vp;
-    
+
     for (var i in STAGE) {
         this[i] = STAGE[i];
     }
@@ -42,6 +42,19 @@ World.prototype.addStage = function (title, desc, titleAppears, background, back
     //push
     var n = this.stages.length;
     this.stages[n] = {title: title, desc: desc || "", titleAppears: titleAppears, background: background, backgroundSpeed: backgroundSpeed};
+};
+
+World.prototype.addTime = function () {
+    this.time += 100;
+};
+
+World.prototype.difficultyUp = function () {
+    this.difficulty = (this.difficulty + 1) % DIFF.length;
+};
+
+World.prototype.nextSubstage = function () {
+    ++this.substage;
+    this.substageStart = this.time;
 };
 
 World.prototype.nextStage = function (timeout) {

@@ -3,6 +3,7 @@ var CODE = [
     "Ext",
     "ViewPort",
     "World",
+    "Input",
     "entities/Entity",
     "entities/Player",
     "entities/Enemy",
