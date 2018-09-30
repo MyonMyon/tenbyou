@@ -198,7 +198,12 @@ Enemy.prototype.initHealth = function (health) {
 
 Enemy.prototype.addDrops = function (cat, small, amount, reqDamage, afterAttack) {
     for (var i = 0; i < amount; ++i)
-        this.drops[this.drops.length] = {cat: cat, small: small, reqDamage: reqDamage || 0, attackID: afterAttack ? (this.attacks.length - 1) : -1};
+        this.drops.push({
+            cat: cat,
+            small: small,
+            reqDamage: reqDamage || 0,
+            attackID: afterAttack ? (this.attacks.length - 1) : -1
+        });
 };
 
 Enemy.prototype.addAttack = function (spell, title, func, param, health, time, decrTime, bonus, bonusBound, newGroup) {
