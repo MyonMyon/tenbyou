@@ -156,8 +156,19 @@ ViewPort.prototype.draw = function () {
     this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
     this.context.globalAlpha = 1;
 
-    for (var i in this.world.entities) {
-        this.world.entities[i].draw(this.context);
+    var drawOrder = [
+        Bonus,
+        Enemy,
+        Player,
+        Particle,
+        Projectile
+    ];
+    for (var d in drawOrder) {
+        for (var i in this.world.entities) {
+            if (this.world.entities[i] instanceof drawOrder[d]) {
+                this.world.entities[i].draw(this.context);
+            }
+        }
     }
 
     if (this.world.boss) {
