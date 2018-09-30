@@ -284,8 +284,8 @@ ViewPort.prototype.draw = function () {
         this.context.strokeStyle = GAME_TITLE_STROKE_COLOR;
 
         this.context.textAlign = "center";
-        this.context.strokeText("Press Esc to continue", this.canvas.width / 2, this.canvas.height / 2);
-        this.context.fillText("Press Esc to continue", this.canvas.width / 2, this.canvas.height / 2);
+        this.context.strokeText("Press " + this.input.getKeyByAction("pause") + " to continue", this.canvas.width / 2, this.canvas.height / 2);
+        this.context.fillText("Press " + this.input.getKeyByAction("pause") + " to continue", this.canvas.width / 2, this.canvas.height / 2);
 
     }
 };
