@@ -29,12 +29,15 @@ function World(vp) {
         this[i] = STAGE[i];
     }
 
+    var self = this;
+
+    //some strange workaround, todo: fix
     setTimeout(function () {
-        vp.world.init();
+        self.init();
     }, 10);
 
     setInterval(function () {
-        vp.world.tick();
+        self.tick();
     }, 1000 / this.ticksPS);
 }
 
