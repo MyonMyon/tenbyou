@@ -39,9 +39,13 @@ function World(vp) {
 }
 
 World.prototype.addStage = function (title, desc, titleAppears, background, backgroundSpeed) {
-    //push
-    var n = this.stages.length;
-    this.stages[n] = {title: title, desc: desc || "", titleAppears: titleAppears, background: background, backgroundSpeed: backgroundSpeed};
+    this.stages.push({
+        title: title,
+        desc: desc || "",
+        titleAppears: titleAppears,
+        background: background,
+        backgroundSpeed: backgroundSpeed
+    });
 };
 
 World.prototype.addTime = function () {
