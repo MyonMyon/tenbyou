@@ -183,6 +183,8 @@ Enemy.prototype.hurt = function (damage) {
             if (this.drops[i].reqDamage !== 0 && this.attackCurrent === this.drops[i].attackID && ((((this.initialHealth - this.health) % this.drops[i].reqDamage) < ((this.initialHealth - this.health - damage) % this.drops[i].reqDamage) && damage > 0) || damage > this.drops[i].reqDamage))
                 new Bonus(this.parentWorld, this.x + Math.random() * 12 - 6, this.y + Math.random() * 12 - 6,
                         (this.drops[i].cat === "power" && this.parentWorld.player.power >= this.parentWorld.player.powerMax) ? "point" : this.drops[i].cat, this.drops[i].small, false);
+    } else {
+        this.health = 0;
     }
     this.parentWorld.splash(this, damage, this.spriteWidth * 5, this.spriteWidth * 5);
 
