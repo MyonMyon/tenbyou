@@ -52,7 +52,7 @@ function ViewPort() {
 
     var self = this;
     setInterval(function () {
-        self.draw();
+        self.draw(false);
     }, 33);
 }
 
@@ -107,7 +107,10 @@ ViewPort.prototype.starShow = function (line, sprite, count, parts) {
 
 };
 
-ViewPort.prototype.draw = function () {
+ViewPort.prototype.draw = function (initFromWorld) {
+    if (this.world.pause === initFromWorld) {
+        return;
+    }
     this.ticks++;
     if (new Date().getTime() % 1000 < this.prevMS) {
         this.fps = this.ticks;

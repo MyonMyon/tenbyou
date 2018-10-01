@@ -137,6 +137,7 @@ World.prototype.tick = function (interval) {
             this.nextStage();
         }
         this.events();
+        this.vp.draw(true);
     }
 };
 
