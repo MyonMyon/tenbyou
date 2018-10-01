@@ -10,7 +10,8 @@ var CODE = [
     "entities/Projectile",
     "entities/Bonus",
     "entities/Particle",
-    "Stage"
+    "stage/Spell",
+    "stage/Stage"
 ];
 
 /**

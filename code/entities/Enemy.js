@@ -223,6 +223,10 @@ Enemy.prototype.addAttack = function (spell, title, func, param, health, time, d
     this.attacks[n] = {spell: spell, title: title || "", func: func, param: param, health: health, time: time, bonus: bonus, decrTime: decrTime, bonusBound: bonusBound};
 };
 
+Enemy.prototype.addSpell = function (spell, difficulty, newGroup) {
+    this.addAttack(true, spell.names[difficulty], spell.func, difficulty, spell.health, spell.time, spell.decrTime, spell.bonus, spell.bonusBound, newGroup);
+};
+
 Enemy.prototype.nextAttack = function () {
     if (this.parentWorld.boss === this && this.attackCurrent >= 0 && this.attacks[this.attackCurrent].spell) {
         if (this.health <= 0 && this.parentWorld.player.spellCompleteTerms && this.bonus > 0) {
