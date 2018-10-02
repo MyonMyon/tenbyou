@@ -43,6 +43,7 @@ function World(vp) {
 
 World.prototype.stop = function () {
     clearInterval(this.tickerId);
+    this.vp.clearMessage();
 };
 
 World.prototype.addStage = function (title, desc, titleAppears, background, backgroundSpeed) {
@@ -68,16 +69,23 @@ World.prototype.nextStage = function (timeout) {
     var timeout = timeout || 0;
     if (timeout === 0) {
         this.time = 0;
-        var bonus = this.stage * 1000;
-        bonus += this.player.power * 1000;
-        bonus += this.player.graze * 10;
-        bonus *= this.player.points;
-        bonus = Math.floor(bonus / 100) * 100;
-        this.vp.showMessage("Stage Clear!", "Bonus: " + bonus, this.stageInterval);
-        this.player.score += bonus;
 
         this.player.graze = 0;
         this.player.points = 0;
+
+        if (this.stage === 0) {
+            //Spell Practice Stop
+            this.stop();
+            this.vp.world = null;
+        } else {
+            var bonus = this.stage * 1000;
+            bonus += this.player.power * 1000;
+            bonus += this.player.graze * 10;
+            bonus *= this.player.points;
+            bonus = Math.floor(bonus / 100) * 100;
+            this.vp.showMessage("Stage Clear!", "Bonus: " + bonus, this.stageInterval);
+            this.player.score += bonus;
+        }
 
         ++this.stage;
         this.substage = 0;

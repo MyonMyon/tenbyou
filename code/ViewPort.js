@@ -15,11 +15,7 @@ function ViewPort() {
     this.centerX = this.canvas.width / 2;
     this.centerY = this.canvas.height / 2;
 
-    this.messageText = "";
-    this.messageText2 = "";
-    this.messageAltStyle = false;
-    this.messageStart = 0;
-    this.messageTime = 0;
+    this.clearMessage();
 
     this.ticks = 0;
     this.fps = 0;
@@ -60,6 +56,14 @@ ViewPort.prototype.showMessage = function (text, text2, time, altStyle) {
     this.messageStart = this.world.time;
     this.messageTime = time;
     this.messageAltStyle = altStyle || false;
+};
+
+ViewPort.prototype.clearMessage = function () {
+    this.messageText = "";
+    this.messageText2 = "";
+    this.messageStart = 0;
+    this.messageTime = 0;
+    this.messageAltStyle = false;
 };
 
 ViewPort.prototype.fixedInt = function (value, width) {
@@ -132,7 +136,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     var stg = (this.world.time < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
     var spell = (this.world.boss && this.world.boss.attackCurrent >= 0 && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
-    if (stg !== 0) {
+    if (stg > 0) {
         this.imgBG.src = spell ? IMAGE_STAGE_SPELL : this.world.stages[stg].background;
         var t = this.imgBG.height - (this.imgBG.width / this.world.width * this.world.height) - this.world.time * (spell ? 1 : this.world.stages[stg].backgroundSpeed) % (this.imgBG.height);
         this.context.drawImage(this.imgBG,

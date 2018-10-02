@@ -24,11 +24,41 @@ function Menu(viewPort) {
         });
     }
 
+    var spellMenu = [];
+    var spellNumber = 0;
+    for (var i in SPELL) {
+        for (var j in SPELL[i].names) {
+            if (SPELL[i].names[j]) {
+                spellMenu.push({
+                    id: "spell_" + ++spellNumber,
+                    diff: +j,
+                    spell: SPELL[i],
+                    title: "#" + spellNumber + "." + SPELL[i].names[j] + " (" + DIFF[j][0] + ")",
+                    action: function (viewPort) {
+                        viewPort.world = new World(viewPort);
+                        viewPort.world.stage = 0;
+                        viewPort.world.player.power = 4;
+                        viewPort.world.difficulty = +j;
+                        var boss = new Enemy(viewPort.world);
+                        boss.addSpell(this.spell, this.diff);
+                        boss.setBossData(BOSS[this.spell.boss], true);
+                        viewPort.menu.resetLocation();
+                    }
+                });
+            }
+        }
+    }
+
     this.tree = [
         {
             id: "start",
             title: "Start Game",
             submenu: diffMenu
+        },
+        {
+            id: "spell",
+            title: "Spell Practice",
+            submenu: spellMenu
         },
         {
             id: "quit",
