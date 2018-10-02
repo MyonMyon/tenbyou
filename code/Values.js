@@ -77,4 +77,4 @@ var MENU_Y = ZOOM * 96;
 var MENU_H = ZOOM * 8;
 var MENU_VER_Y = ZOOM * 180;
 
-var DIFF = ["AUTISM", "PROTO", "EASY"];
+var DIFF = ["Easy", "Normal", "Hard"];

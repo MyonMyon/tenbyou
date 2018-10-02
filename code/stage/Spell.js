@@ -147,9 +147,9 @@ var SPELL = {
     okuuAlpha: {
         boss: "okuu",
         names: [
+            "Explosion Sign \"This is broken\"",
             "Explosion Sign \"Not a Flare at all\"",
-            "Explosion Sign \"Not a Flare at all yet\"",
-            "Explosion Sign \"Lol Easy Modo\""
+            "Explosion Sign \"Not a Flare at all yet\""
         ],
         health: 300,
         time: 1500,
