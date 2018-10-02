@@ -43,7 +43,7 @@ var DESC_STROKE_COLOR = ZOOM > 3 ? "#fcc" : "transparent";
 var IMAGE_STAGE_SPELL = "resources/bgspell.jpg";
 var IMAGE_STAGE_SPELL_STRIP = "resources/scline.png";
 
-var IMAGE_MENU_BG = "resources/uibg.png";
+var IMAGE_MENU_BG = "resources/menubg.png";
 var IMAGE_UI_BG = "resources/uibg.png";
 
 var BORDER_WIDTH = 2;
