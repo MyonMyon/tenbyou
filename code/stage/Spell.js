@@ -1,5 +1,6 @@
 var SPELL = {
     kedamaAlpha: {
+        boss: "kedama",
         names: [
             null,
             "Soft Sign \"Fluffy Revenge\"",
@@ -24,6 +25,7 @@ var SPELL = {
         }
     },
     kedamaBeta: {
+        boss: "kedama",
         names: [
             null,
             "Soft Sign \"Fluffy Thorns\"",
@@ -51,6 +53,7 @@ var SPELL = {
         }
     },
     orbAlpha: {
+        boss: "orb",
         names: [
             "Half-headed Sign \"Regards\"",
             "Half-headed Sign \"Best Regards\"",
@@ -90,6 +93,7 @@ var SPELL = {
         }
     },
     orbBeta: {
+        boss: "orb",
         names: [
             "Reference Sign \"Midly Responsive Legacy\"",
             "Reference Sign \"Highly Responsive Legacy\"",
@@ -141,6 +145,7 @@ var SPELL = {
         }
     },
     okuuAlpha: {
+        boss: "okuu",
         names: [
             "Explosion Sign \"Not a Flare at all\"",
             "Explosion Sign \"Not a Flare at all yet\"",

@@ -262,3 +262,20 @@ Enemy.prototype.nextAttack = function () {
 
     this.lifetime = 0;
 };
+
+Enemy.prototype.setBossData = function (data, isLast) {
+    this.setVectors(0, -this.parentWorld.width / 2 - 40);
+
+    this.width = data.width;
+    this.setCustomSpriteFile("resources/" + data.sprite.file, data.sprite.width, data.sprite.height);
+    this.setSprite(data.sprite.frame, data.sprite.frameCount, data.sprite.animPeriod, data.sprite.size, data.sprite.dir);
+
+    this.behavior = function () {
+        if (this.lifetime === 1)
+            this.headToPointSmoothly(0, -this.parentWorld.height / 4, 3);
+        if (this.lifetime === 100)
+            this.nextAttack();
+    };
+
+    this.parentWorld.setBoss(this, data.name, isLast);
+};

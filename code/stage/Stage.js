@@ -76,12 +76,6 @@ STAGE.eventKedamaMidboss = function (power) {
     };
 
     var kedama = new Enemy(this);
-    kedama.setVectors(0, -this.width / 2 - 40);
-
-    kedama.width = 12;
-
-    kedama.setCustomSpriteFile("resources/g_kedama.png", 128, 128);
-    kedama.setSprite(0, 4, 8, 4, false);
 
     kedama.addAttack(false, null, nonSpell, this.difficulty, 400, 500);
     if (this.difficulty > 0)
@@ -90,18 +84,10 @@ STAGE.eventKedamaMidboss = function (power) {
         else
             kedama.addSpell(SPELL.kedamaAlpha, this.difficulty);
 
-    this.setBoss(kedama, "The Kedama", false);
-
-    kedama.behavior = function () {
-        if (this.lifetime === 1)
-            this.headToPointSmoothly(0, -this.parentWorld.height / 4, 3);
-        if (this.lifetime === 100)
-            this.nextAttack();
-    };
+    kedama.setBossData(BOSS.kedama, false);
 };
 
 STAGE.eventOrb = function () {
-
     var nonSpell = function (entity, difficulty) {
         entity.x1 = Math.cos(entity.lifetime / 20);
         if (entity.lifetime % 4 === 0) {
@@ -116,44 +102,19 @@ STAGE.eventOrb = function () {
     };
 
     var orb = new Enemy(this);
-    orb.setVectors(0, -this.width / 2 - 40);
-
-    orb.width = 2;
-
-    orb.setCustomSpriteFile("resources/orb.png", 128, 128);
-    orb.setSprite(0, 1, 0, 4, false);
 
     orb.addAttack(false, null, nonSpell, this.difficulty, 100, 500);
     orb.addSpell(SPELL.orbAlpha, this.difficulty);
     orb.addAttack(false, null, nonSpell, this.difficulty, 100, 800);
     orb.addSpell(SPELL.orbBeta, this.difficulty);
 
-    this.setBoss(orb, "O.R.B.", true);
-
-    orb.behavior = function () {
-        if (this.lifetime === 1)
-            this.headToPointSmoothly(0, -this.parentWorld.height / 4, 3);
-        if (this.lifetime === 100)
-            this.nextAttack();
-    };
+    orb.setBossData(BOSS.orb, true);
 };
 
 STAGE.eventOkuu = function () {
-
     var okuu = new Enemy(this);
-    okuu.setVectors(0, -this.width / 2 - 40);
-    okuu.width = 2;
-    okuu.setCustomSpriteFile("resources/okuu.png", 64, 64);
-    okuu.setSprite(0, 1, 0, 2, false);
 
     okuu.addSpell(SPELL.okuuAlpha, this.difficulty);
 
-    this.setBoss(okuu, "Utsuho Reiuji", true);
-
-    okuu.behavior = function () {
-        if (this.lifetime === 1)
-            this.headToPointSmoothly(0, -this.parentWorld.height / 4, 3);
-        if (this.lifetime === 100)
-            this.nextAttack();
-    };
+    okuu.setBossData(BOSS.okuu, true);
 };
