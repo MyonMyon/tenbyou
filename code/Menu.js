@@ -163,8 +163,17 @@ Menu.prototype.action = function (code) {
             break;
         case "nav_back":
             if (this.location.length) {
-                this.location.splice(this.location.length - 1, 1);
+                var last = this.location.length - 1;
+                var id = this.location[last];
+                this.location.splice(last, 1);
                 this.rowOffset = this.currentIndex = 0;
+                var m = this.getCurrentMenu();
+                for (var i in m.submenu) {
+                    if (m.submenu[i].id === id) {
+                        this.currentIndex = +i;
+                        break;
+                    }
+                }
             }
             break;
         case "nav_enter":
