@@ -36,10 +36,14 @@ function World(vp) {
         self.init();
     }, 10);
 
-    setInterval(function () {
+    this.tickerId = setInterval(function () {
         self.tick();
     }, 1000 / this.ticksPS);
 }
+
+World.prototype.stop = function () {
+    clearInterval(this.tickerId);
+};
 
 World.prototype.addStage = function (title, desc, titleAppears, background, backgroundSpeed) {
     this.stages.push({
@@ -53,10 +57,6 @@ World.prototype.addStage = function (title, desc, titleAppears, background, back
 
 World.prototype.addTime = function () {
     this.time += 100;
-};
-
-World.prototype.difficultyUp = function () {
-    this.difficulty = (this.difficulty + 1) % DIFF.length;
 };
 
 World.prototype.nextSubstage = function () {

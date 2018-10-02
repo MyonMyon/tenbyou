@@ -43,6 +43,7 @@ var DESC_STROKE_COLOR = ZOOM > 3 ? "#fcc" : "transparent";
 var IMAGE_STAGE_SPELL = "resources/bgspell.jpg";
 var IMAGE_STAGE_SPELL_STRIP = "resources/scline.png";
 
+var IMAGE_MENU_BG = "resources/uibg.png";
 var IMAGE_UI_BG = "resources/uibg.png";
 
 var BORDER_WIDTH = 2;
@@ -64,8 +65,16 @@ var INFO_TAB = ZOOM * 40;
 var GAME_TITLE = "Occasional Flaw";
 var GAME_TITLE_FONT = "Bold " + (ZOOM * 7) + "px Unispace Rg";
 var GAME_TITLE_COLOR = "#c00";
+var GAME_TITLE_COLOR_SELECTED = "#fff";
 var GAME_TITLE_STROKE = 4;
 var GAME_TITLE_STROKE_COLOR = ZOOM > 3 ? "#fcc" : "transparent";
+var GAME_TITLE_STROKE_COLOR_SELECTED = "#c00";
 var ENGINE_VER_SHOW = true;
+
+var MENU_TITLE_Y = ZOOM * 64;
+var MENU_X = ZOOM * 12;
+var MENU_Y = ZOOM * 96;
+var MENU_H = ZOOM * 8;
+var MENU_VER_Y = ZOOM * 180;
 
 var DIFF = ["AUTISM", "PROTO", "EASY"];

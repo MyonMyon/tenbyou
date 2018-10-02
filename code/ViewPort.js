@@ -15,8 +15,6 @@ function ViewPort() {
     this.centerX = this.canvas.width / 2;
     this.centerY = this.canvas.height / 2;
 
-    this.world = new World(this);
-
     this.messageText = "";
     this.messageText2 = "";
     this.messageAltStyle = false;
@@ -47,8 +45,8 @@ function ViewPort() {
     this.imgGUI = new Image();
     this.imgGUI.src = IMAGE_GUI;
 
-    this.input = new Input();
-    this.input.world = this.world;
+    this.input = new Input(this);
+    this.menu = new Menu(this);
 
     var self = this;
     setInterval(function () {
@@ -108,7 +106,7 @@ ViewPort.prototype.starShow = function (line, sprite, count, parts) {
 };
 
 ViewPort.prototype.draw = function (initFromWorld) {
-    if (this.world.pause === initFromWorld) {
+    if ((!this.world || this.world.pause) === initFromWorld) {
         return;
     }
     this.ticks++;
@@ -118,6 +116,11 @@ ViewPort.prototype.draw = function (initFromWorld) {
     }
 
     this.prevMS = new Date().getTime() % 1000;
+
+    if (!this.world) {
+        this.menu.draw();
+        return;
+    }
 
     this.context.textAlign = "left";
 
@@ -291,15 +294,6 @@ ViewPort.prototype.draw = function (initFromWorld) {
     if (this.world.pause) {
         this.context.fillStyle = "rgba(0, 0, 0, 0.5)";
         this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-        this.context.fillStyle = GAME_TITLE_COLOR;
-        this.context.font = GAME_TITLE_FONT;
-        this.context.lineWidth = GAME_TITLE_STROKE;
-        this.context.strokeStyle = GAME_TITLE_STROKE_COLOR;
-
-        this.context.textAlign = "center";
-        this.context.strokeText("Press " + this.input.getKeyByAction("pause") + " to continue", this.canvas.width / 2, this.canvas.height / 2);
-        this.context.fillText("Press " + this.input.getKeyByAction("pause") + " to continue", this.canvas.width / 2, this.canvas.height / 2);
-
+        this.menu.draw();
     }
 };

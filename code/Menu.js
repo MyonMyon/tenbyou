@@ -1,0 +1,193 @@
+/**
+ * Creates new instance of menu.
+ *
+ * @constructor
+ * @param {ViewPort} viewPort Viewport to display the menu.
+ */
+function Menu(viewPort) {
+    this.viewPort = viewPort;
+
+    this.actionDelay = 200;
+
+    var diffMenu = [];
+    for (var i in DIFF) {
+        diffMenu.push({
+            id: "diff_" + i,
+            diff: +i,
+            title: DIFF[i],
+            action: function (viewPort) {
+                viewPort.world = new World(viewPort);
+                viewPort.world.difficulty = this.diff;
+                viewPort.menu.resetLocation();
+            }
+        });
+    }
+
+    this.tree = [
+        {
+            id: "start",
+            title: "Start Game",
+            submenu: diffMenu
+        },
+        {
+            id: "quit",
+            title: "Quit",
+            action: function () {
+                window.location = "about:blank";
+            }
+        }
+    ];
+
+    this.imgBG = new Image();
+    this.imgBG.src = IMAGE_MENU_BG;
+
+    this.pauseTree = [
+        {
+            title: "Resume",
+            action: function (viewPort) {
+                viewPort.world.pause = false;
+                viewPort.menu.resetLocation();
+            }
+        },
+        {
+            title: "Restart",
+            action: function (viewPort) {
+                var diff = viewPort.world.difficulty;
+                viewPort.world = new World(viewPort);
+                viewPort.world.difficulty = diff;
+                viewPort.menu.resetLocation();
+            }
+        },
+        {
+            title: "To Main Menu",
+            action: function (viewPort) {
+                viewPort.world.stop();
+                viewPort.world = null;
+                viewPort.menu.resetLocation();
+            }
+        }
+    ];
+    this.resetLocation();
+}
+
+/**
+ * @return {Object} Current menu item object.
+ */
+Menu.prototype.getCurrentMenu = function () {
+    var menu = {submenu: this.viewPort.world ? this.pauseTree : this.tree}; //AKA Pause Menu and Main Menu
+    var items;
+    
+    for (var level = 0; level < this.location.length; level++) {
+        items = menu.submenu;
+        for (var i in items) {
+            if (items[i].id === this.location[level]) {
+                menu = items[i];
+                break;
+            }
+            menu = null;
+        }
+    }
+    return menu;
+};
+
+/**
+ * @return {String} Current menu title.
+ */
+Menu.prototype.getCurrentTitle = function () {
+    var menu = this.getCurrentMenu();
+    if (!menu.title)
+        return GAME_TITLE;
+    return menu.titleInner || menu.title;
+};
+
+/**
+ * Navigates to main menu.
+ */
+Menu.prototype.resetLocation = function () {
+    this.location = [];
+    this.currentIndex = 0;
+};
+
+/**
+ * Menu interface draw function.
+ *
+ * @param {String} code Action code.
+ */
+Menu.prototype.action = function (code) {
+    if (new Date().getTime() < this.lastAction + this.actionDelay) {
+        return;
+    }
+    switch (code) {
+        case "nav_down":
+            this.changeIndex(1);
+            break;
+        case "nav_up":
+            this.changeIndex(-1);
+            break;
+        case "nav_back":
+            if (this.location.length) {
+                this.location.splice(this.location.length - 1, 1);
+                this.currentIndex = 0;
+            }
+            break;
+        case "nav_enter":
+            var menu = this.getCurrentMenu();
+            var item = menu.submenu[this.currentIndex];
+            if (item.submenu) {
+                this.location.push(item.id);
+            }
+            if (item.action) {
+                item.action(this.viewPort);
+            }
+            this.currentIndex = 0;
+            break;
+    }
+    this.lastAction = new Date().getTime();
+};
+
+/**
+ * Function to navigate through menu.
+ *
+ * @param {Number} delta Row selection difference.
+ */
+Menu.prototype.changeIndex = function (delta) {
+    var m = this.getCurrentMenu();
+    this.currentIndex += m.submenu.length;
+    this.currentIndex = (this.currentIndex + delta) % m.submenu.length;
+};
+
+/**
+ * Menu interface draw function.
+ */
+Menu.prototype.draw = function () {
+    var context = this.viewPort.context;
+    if (!this.viewPort.world) {
+        context.drawImage(this.imgBG, 0, 0, this.imgBG.width, this.imgBG.height);
+    }
+
+    var m = this.getCurrentMenu();
+    var items = m.submenu;
+    var title = this.getCurrentTitle();
+
+    context.font = GAME_TITLE_FONT;
+    context.lineWidth = GAME_TITLE_STROKE;
+    context.fillStyle = GAME_TITLE_COLOR;
+    context.strokeStyle = GAME_TITLE_STROKE_COLOR;
+
+    if (!this.viewPort.world) {
+        context.strokeText(title, MENU_X, MENU_TITLE_Y);
+        context.fillText(title, MENU_X, MENU_TITLE_Y);
+        context.strokeText(ENGINE_VER, MENU_X, MENU_VER_Y);
+        context.fillText(ENGINE_VER, MENU_X, MENU_VER_Y);
+    }
+
+    context.textAlign = "left";
+    for (var i in items) {
+        context.fillStyle = (this.currentIndex === +i) ? GAME_TITLE_COLOR_SELECTED : GAME_TITLE_COLOR;
+        context.strokeStyle = (this.currentIndex === +i) ? GAME_TITLE_STROKE_COLOR_SELECTED : GAME_TITLE_STROKE_COLOR;
+
+        context.strokeText(items[i].title, MENU_X, MENU_Y + MENU_H * i);
+        context.fillText(items[i].title, MENU_X, MENU_Y + MENU_H * i);
+    }
+
+};

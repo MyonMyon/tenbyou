@@ -2,8 +2,9 @@
  * Creates new instance of controls handler.
  *
  * @constructor
+ * @param {ViewPort} viewPort Viewport to handle the input.
  */
-function Input() {
+function Input(viewPort) {
     this.keyAliases = {};
     this.keyCodes = {
         8: "Backspace",
@@ -65,10 +66,18 @@ function Input() {
         "KeyS": "time",
         "KeyD": "hitbox",
         "KeyW": "bot",
-        "KeyQ": "difficulty",
         "KeyE": "substage",
         "KeyR": "stage",
         "Escape": "pause"
+    };
+    this.defaultMappingMenu = {
+        "ArrowLeft": "nav_left",
+        "ArrowRight": "nav_right",
+        "ArrowUp": "nav_up",
+        "ArrowDown": "nav_down",
+        "KeyZ": "nav_enter",
+        "Enter": "nav_enter",
+        "Escape": "nav_back"
     };
     this.pressedBuffer = [];
     this.directions = ["Left", "Right", "Up", "Down"];
@@ -88,7 +97,6 @@ function Input() {
         "time": {category: "dev", mode: "executeOnce", func: "addTime()"},
         "hitbox": {category: "dev", mode: "invert", func: "drawHitboxes"},
         "bot": {category: "dev", mode: "invert", func: "player.guided"},
-        "difficulty": {category: "dev", mode: "executeOnce", func: "difficultyUp()"},
         "substage": {category: "dev", mode: "executeOnce", func: "nextSubstage()"},
         "stage": {category: "dev", mode: "execute", func: "nextStage()"},
         "pause": {category: "menu", mode: "invert", func: "pause", ignoreModality: true}
@@ -97,6 +105,7 @@ function Input() {
     for (var i in eventTypes) {
         this.addEventListener(eventTypes[i]);
     }
+    this.vp = viewPort;
     var self = this;
     document.addEventListener("DOMMouseScroll", function (event) {
         self.mouseWheel(event);
@@ -105,7 +114,7 @@ function Input() {
         event.preventDefault();
     }, false);
     window.onblur = function () {
-        if (!self.world.pause) {
+        if (self.world) {
             self.world.pause = true;
         }
     };
@@ -177,9 +186,17 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
     if (!keyAbbr) {
         return false;
     }
+    if (!this.vp.world || this.vp.world.pause) {
+        var action = this.defaultMappingMenu[keyAbbr];
+        if (!action) {
+            return false;
+        }
+        this.vp.menu.action(action);
+        return true;
+    }
     var action = this.actionsAliases[this.defaultMapping[keyAbbr]];
     var ignoreModality = action && action.ignoreModality;
-    if (!this.world.pause || ignoreModality) {
+    if (!this.vp.world.pause || ignoreModality) {
         if (action) {
             //if (action.category === "dev" && !Settings.get("dev.controls")) {
             //    return false;
@@ -189,17 +206,17 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
             }
             switch (action.mode) {
                 case "keyState":
-                    eval("this.world." + action.func + "=" + !!keyValue);
+                    eval("this.vp.world." + action.func + "=" + !!keyValue);
                     break;
                 case "keyValue":
-                    eval("this.world." + action.func + "=" + +keyValue);
+                    eval("this.vp.world." + action.func + "=" + +keyValue);
                     break;
                 case "executeOnce":
                     if (keyValue && !action.lock) {
-                        eval("this.world." + action.func);
+                        eval("this.vp.world." + action.func);
                         action.lock = true;
                     } else if (action.funcEnd) {
-                        eval("this.world." + action.funcEnd);
+                        eval("this.vp.world." + action.funcEnd);
                     }
                     if (!keyValue) {
                         action.lock = false;
@@ -207,14 +224,14 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
                     break;
                 case "execute":
                     if (keyValue)
-                        eval("this.world." + action.func);
+                        eval("this.vp.world." + action.func);
                     else if (action.funcEnd) {
-                        eval("this.world." + action.funcEnd);
+                        eval("this.vp.world." + action.funcEnd);
                     }
                     break;
                 case "invert":
                     if (this.gamepadMode ? !!keyValue : !keyValue)
-                        eval("this.world." + action.func + "=!this.world." + action.func);
+                        eval("this.vp.world." + action.func + "=!this.vp.world." + action.func);
                     break;
                 default:
                     console.log("Undefined Action Mode");
@@ -230,10 +247,12 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
  * Resets every key state to false.
  */
 Input.prototype.stopAll = function () {
-    for (var i in this.actionsAliases) {
-        var alias = this.actionsAliases[i];
-        if (alias.mode === "keyState" && eval(this.world[alias.func.split(".")[0]])) {
-            eval("this.world." + alias.func + "=" + false);
+    if (this.vp.world) {
+        for (var i in this.actionsAliases) {
+            var alias = this.actionsAliases[i];
+            if (alias.mode === "keyState" && eval(this.vp.world[alias.func.split(".")[0]])) {
+                eval("this.vp.world." + alias.func + "=" + false);
+            }
         }
     }
 };

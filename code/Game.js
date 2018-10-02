@@ -2,6 +2,7 @@ var CODE = [
     "Values",
     "Ext",
     "ViewPort",
+    "Menu",
     "World",
     "Input",
     "entities/Entity",
