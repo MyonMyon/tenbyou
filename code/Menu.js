@@ -164,7 +164,7 @@ Menu.prototype.changeIndex = function (delta) {
 Menu.prototype.draw = function () {
     var context = this.viewPort.context;
     if (!this.viewPort.world) {
-        context.drawImage(this.imgBG, 0, 0, this.imgBG.width, this.imgBG.height);
+        context.drawImage(this.imgBG, 0, 0, this.imgBG.width, this.imgBG.height, 0, 0, WIDTH, HEIGHT);
     }
 
     var m = this.getCurrentMenu();
