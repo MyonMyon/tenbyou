@@ -240,8 +240,8 @@ Menu.prototype.draw = function () {
     if (!this.viewPort.world) {
         context.strokeText(title, MENU_X, MENU_TITLE_Y);
         context.fillText(title, MENU_X, MENU_TITLE_Y);
-        context.strokeText(ENGINE_VER, MENU_X, MENU_VER_Y);
-        context.fillText(ENGINE_VER, MENU_X, MENU_VER_Y);
+        context.strokeText(ENGINE_VER + " / " + this.viewPort.fps + " FPS", MENU_X, MENU_VER_Y);
+        context.fillText(ENGINE_VER + " / " + this.viewPort.fps + " FPS", MENU_X, MENU_VER_Y);
     }
 
     for (var i in items) {
