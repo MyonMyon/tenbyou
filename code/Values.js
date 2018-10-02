@@ -76,5 +76,6 @@ var MENU_X = ZOOM * 12;
 var MENU_Y = ZOOM * 96;
 var MENU_H = ZOOM * 8;
 var MENU_VER_Y = ZOOM * 180;
+var MENU_TEXT_ALIGN = "left";
 
 var DIFF = ["Easy", "Normal", "Hard"];

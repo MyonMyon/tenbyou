@@ -174,6 +174,8 @@ Menu.prototype.draw = function () {
     context.fillStyle = GAME_TITLE_COLOR;
     context.strokeStyle = GAME_TITLE_STROKE_COLOR;
 
+    context.textAlign = MENU_TEXT_ALIGN;
+
     if (!this.viewPort.world) {
         context.strokeText(title, MENU_X, MENU_TITLE_Y);
         context.fillText(title, MENU_X, MENU_TITLE_Y);
@@ -181,7 +183,6 @@ Menu.prototype.draw = function () {
         context.fillText(ENGINE_VER, MENU_X, MENU_VER_Y);
     }
 
-    context.textAlign = "left";
     for (var i in items) {
         context.fillStyle = (this.currentIndex === +i) ? GAME_TITLE_COLOR_SELECTED : GAME_TITLE_COLOR;
         context.strokeStyle = (this.currentIndex === +i) ? GAME_TITLE_STROKE_COLOR_SELECTED : GAME_TITLE_STROKE_COLOR;
