@@ -73,9 +73,12 @@ var ENGINE_VER_SHOW = true;
 
 var MENU_TITLE_Y = ZOOM * 64;
 var MENU_X = ZOOM * 12;
-var MENU_Y = ZOOM * 96;
+var MENU_Y = ZOOM * 88;
 var MENU_H = ZOOM * 8;
-var MENU_VER_Y = ZOOM * 180;
+var MENU_VER_Y = ZOOM * 174;
 var MENU_TEXT_ALIGN = "left";
+var MENU_CAPACITY = 10;
+var MENU_SCROLL_X = ZOOM * 10;
+var MENU_SCROLL_W = ZOOM * 1;
 
 var DIFF = ["Easy", "Normal", "Hard"];

@@ -122,6 +122,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
         return;
     }
 
+    this.context.textBaseline = "alphabetic";
     this.context.textAlign = "left";
 
     this.context.fillStyle = "black";

@@ -8,6 +8,7 @@ function Menu(viewPort) {
     this.viewPort = viewPort;
 
     this.actionDelay = 200;
+    this.rowOffset = 0;
 
     var diffMenu = [];
     for (var i in DIFF) {
@@ -127,7 +128,7 @@ Menu.prototype.action = function (code) {
         case "nav_back":
             if (this.location.length) {
                 this.location.splice(this.location.length - 1, 1);
-                this.currentIndex = 0;
+                this.rowOffset = this.currentIndex = 0;
             }
             break;
         case "nav_enter":
@@ -139,7 +140,7 @@ Menu.prototype.action = function (code) {
             if (item.action) {
                 item.action(this.viewPort);
             }
-            this.currentIndex = 0;
+            this.rowOffset = this.currentIndex = 0;
             break;
     }
     this.lastAction = new Date().getTime();
@@ -154,6 +155,7 @@ Menu.prototype.changeIndex = function (delta) {
     var m = this.getCurrentMenu();
     this.currentIndex += m.submenu.length;
     this.currentIndex = (this.currentIndex + delta) % m.submenu.length;
+    this.rowOffset = Math.min(Math.max(this.rowOffset, this.currentIndex - MENU_CAPACITY + 1), this.currentIndex);
 };
 
 /**
@@ -175,6 +177,7 @@ Menu.prototype.draw = function () {
     context.strokeStyle = GAME_TITLE_STROKE_COLOR;
 
     context.textAlign = MENU_TEXT_ALIGN;
+    context.textBaseline = "top";
 
     if (!this.viewPort.world) {
         context.strokeText(title, MENU_X, MENU_TITLE_Y);
@@ -184,11 +187,20 @@ Menu.prototype.draw = function () {
     }
 
     for (var i in items) {
-        context.fillStyle = (this.currentIndex === +i) ? GAME_TITLE_COLOR_SELECTED : GAME_TITLE_COLOR;
-        context.strokeStyle = (this.currentIndex === +i) ? GAME_TITLE_STROKE_COLOR_SELECTED : GAME_TITLE_STROKE_COLOR;
+        var row = +i - this.rowOffset;
+        if (row >= 0 && row < MENU_CAPACITY) {
+            context.fillStyle = (this.currentIndex === +i) ? GAME_TITLE_COLOR_SELECTED : GAME_TITLE_COLOR;
+            context.strokeStyle = (this.currentIndex === +i) ? GAME_TITLE_STROKE_COLOR_SELECTED : GAME_TITLE_STROKE_COLOR;
 
-        context.strokeText(items[i].title, MENU_X, MENU_Y + MENU_H * i);
-        context.fillText(items[i].title, MENU_X, MENU_Y + MENU_H * i);
+            context.strokeText(items[i].title, MENU_X, MENU_Y + MENU_H * row);
+            context.fillText(items[i].title, MENU_X, MENU_Y + MENU_H * row);
+        }
+    }
+    if (items.length > MENU_CAPACITY) {
+        context.fillStyle = GAME_TITLE_COLOR_SELECTED;
+        context.strokeStyle = GAME_TITLE_STROKE_COLOR_SELECTED;
+        context.strokeRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 1), MENU_SCROLL_W, MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 2));
+        context.fillRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 1), MENU_SCROLL_W, MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 2));
     }
 
 };
