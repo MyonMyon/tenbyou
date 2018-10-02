@@ -263,8 +263,8 @@ ViewPort.prototype.draw = function (initFromWorld) {
         this.context.strokeText("Tenbyou " + ENGINE_VER, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y);
         this.context.fillText("Tenbyou " + ENGINE_VER, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y);
     }
-    this.context.strokeText(DIFF[this.world.difficulty], (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
-    this.context.fillText(DIFF[this.world.difficulty], (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
+    this.context.strokeText(DIFF[this.world.difficulty].toUpperCase(), (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
+    this.context.fillText(DIFF[this.world.difficulty].toUpperCase(), (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
 
     this.context.fillStyle = GAME_TITLE_COLOR;
     this.context.font = GAME_TITLE_FONT;
