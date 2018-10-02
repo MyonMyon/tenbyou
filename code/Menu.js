@@ -155,6 +155,12 @@ Menu.prototype.action = function (code) {
         case "nav_up":
             this.changeIndex(-1);
             break;
+        case "nav_right":
+            this.changeIndex(MENU_CAPACITY);
+            break;
+        case "nav_left":
+            this.changeIndex(-MENU_CAPACITY);
+            break;
         case "nav_back":
             if (this.location.length) {
                 this.location.splice(this.location.length - 1, 1);
@@ -183,8 +189,21 @@ Menu.prototype.action = function (code) {
  */
 Menu.prototype.changeIndex = function (delta) {
     var m = this.getCurrentMenu();
-    this.currentIndex += m.submenu.length;
-    this.currentIndex = (this.currentIndex + delta) % m.submenu.length;
+    var l = m.submenu.length;
+    if (Math.abs(delta) > 1) {
+        var n = this.currentIndex + delta;
+        this.rowOffset = Math.max(0, Math.min(this.rowOffset + delta, l - MENU_CAPACITY));
+        if (n < 0) {
+            this.currentIndex = 0;
+            return;
+        }
+        if (n >= l) {
+            this.currentIndex = l - 1;
+            return;
+        }
+    }
+    this.currentIndex += l;
+    this.currentIndex = (this.currentIndex + delta) % l;
     this.rowOffset = Math.min(Math.max(this.rowOffset, this.currentIndex - MENU_CAPACITY + 1), this.currentIndex);
 };
 
