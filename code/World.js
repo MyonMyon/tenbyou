@@ -41,9 +41,10 @@ function World(vp) {
     }, 1000 / this.ticksPS);
 }
 
-World.prototype.stop = function () {
+World.prototype.destroy = function () {
     clearInterval(this.tickerId);
     this.vp.clearMessage();
+    this.vp.world = null;
 };
 
 World.prototype.addStage = function (title, desc, titleAppears, background, backgroundSpeed) {
@@ -75,8 +76,7 @@ World.prototype.nextStage = function (timeout) {
 
         if (this.stage === 0) {
             //Spell Practice Stop
-            this.stop();
-            this.vp.world = null;
+            this.destroy();
         } else {
             var bonus = this.stage * 1000;
             bonus += this.player.power * 1000;

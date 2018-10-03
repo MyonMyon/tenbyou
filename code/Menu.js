@@ -92,8 +92,7 @@ function Menu(viewPort) {
         {
             title: "To Main Menu",
             action: function (viewPort) {
-                viewPort.world.stop();
-                viewPort.world = null;
+                viewPort.world.destroy();
                 viewPort.menu.resetLocation();
             }
         }
