@@ -31,14 +31,11 @@ function World(vp) {
 
     var self = this;
 
-    //some strange workaround, todo: fix
-    setTimeout(function () {
-        self.init();
-    }, 10);
-
     this.tickerId = setInterval(function () {
         self.tick();
     }, 1000 / this.ticksPS);
+
+    this.init();
 }
 
 World.prototype.destroy = function () {
