@@ -1,10 +1,11 @@
 function Bonus(parentWorld, x, y, cat, small, autoGather) {
-    this.shifts = new Object(); //to redo
-    this.shifts.power = 0;
-    this.shifts.point = 1;
-    this.shifts.bombs = 2;
-    this.shifts.lives = 3;
-    this.shifts.gauge = 4;
+    this.types = [
+        "power",
+        "point",
+        "bombs",
+        "lives",
+        "gauge"
+    ];
 
     extend(this, new Entity(parentWorld, x, y, 0, -2, 0, 0.1, 0));
 
@@ -15,7 +16,7 @@ function Bonus(parentWorld, x, y, cat, small, autoGather) {
 
 Bonus.prototype.draw = function (context) {
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
-    context.drawImage(this.parentWorld.vp.imgBonus, (this.shifts[this.cat] | 0) * IMAGE_BONUS_WIDTH, (this.small ? IMAGE_BONUS_HEIGHT : 0),
+    context.drawImage(this.parentWorld.vp.imgBonus, (this.types.indexOf(this.cat) | 0) * IMAGE_BONUS_WIDTH, (this.small ? IMAGE_BONUS_HEIGHT : 0),
             IMAGE_BONUS_WIDTH, IMAGE_BONUS_HEIGHT,
             ePos.x - 3 * this.parentWorld.vp.zoom,
             ePos.y - 3 * this.parentWorld.vp.zoom,
