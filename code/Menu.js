@@ -48,6 +48,16 @@ function Menu(viewPort) {
             }
         }
     }
+    var inputMenu = [];
+    var aliases = this.viewPort.input.actionsAliases;
+    console.log(aliases)
+    for (var i in aliases) {
+        if (aliases[i].category === "interaction") {
+            inputMenu.push({
+                title: i.toTitleCase() + ": " + this.viewPort.input.getKeyByAction(i, true)
+            });
+        }
+    }
 
     this.tree = [
         {
@@ -59,6 +69,11 @@ function Menu(viewPort) {
             id: "spell",
             title: "Spell Practice",
             submenu: spellMenu
+        },
+        {
+            id: "controls",
+            title: "Controls",
+            submenu: inputMenu
         },
         {
             id: "quit",
