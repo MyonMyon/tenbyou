@@ -1,3 +1,5 @@
+var ENGINE_VER = "v0.3.00 (alpha)";
+
 var CODE = [
     "Values",
     "Ext",

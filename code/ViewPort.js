@@ -1,5 +1,3 @@
-var ENGINE_VER = "v0.3.00 (alpha)";
-
 function ViewPort() {
     this.canvas = document.createElement("canvas");
     document.body.appendChild(this.canvas);
