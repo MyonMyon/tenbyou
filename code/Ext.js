@@ -40,24 +40,3 @@ Object.defineProperty(String.prototype, "toTitleCase", {
         return this[0].toUpperCase() + this.slice(1);
     }
 });
-
-/**
- * Empty constructor for utility class.
- *
- * @constructor
- */
-function Util() {
-}
-
-/**
- * @param {Number} data Value to fill up.
- * @param {Number} length Number of digits to output.
- * @return {String} String representation of value with requiered number of digits.
- */
-Util.fillWithLeadingZeros = function (data, length) {
-    var d = data.toString();
-    while (d.length < length) {
-        d = "0" + d;
-    }
-    return d;
-};

@@ -33,7 +33,7 @@ function Menu(viewPort) {
                     id: "spell_" + ++spellNumber,
                     diff: +j,
                     spell: SPELL[i],
-                    title: "#" + Util.fillWithLeadingZeros(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j][0] + ")",
+                    title: "#" + viewPort.fixedInt(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j][0] + ")",
                     action: function (viewPort) {
                         viewPort.world = new World(viewPort);
                         viewPort.world.stage = 0;
