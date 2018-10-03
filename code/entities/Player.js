@@ -1,9 +1,6 @@
 function Player(parentWorld) {
     extend(this, new Entity(parentWorld, 0, parentWorld.height / 2 - 5));
 
-    this.setSprite(0, 4, 2, 1, false);
-    this.width = 1;
-
     this.hiscore = 1000000;
     this.score = 0;
 
@@ -17,8 +14,9 @@ function Player(parentWorld) {
     this.spellCompleteTerms = true;
 
     this.powerMax = 4;
-    this.power = 1;
     this.damageInc = 0.6;
+
+    this.power = 1;
     this.points = 0;
     this.graze = 0;
 
@@ -43,6 +41,16 @@ function Player(parentWorld) {
 
     this.guided = false;
 }
+
+Player.prototype.setCharacterData = function (data) {
+    this.width = data.width;
+    if (data.sprite.file) {
+        this.setCustomSpriteFile("resources/" + data.sprite.file, data.sprite.width, data.sprite.height);
+    }
+    this.setSprite(data.sprite.frame, data.sprite.frameCount, data.sprite.animPeriod, data.sprite.size, data.sprite.dir);
+    this.onShoot = data.onShoot;
+    this.onBomb = data.onBomb;
+};
 
 Player.prototype.stepBot = function () {
     var nearest = this.nearestEntity(Projectile, 20);
@@ -170,30 +178,14 @@ Player.prototype.draw = function (context) {
 };
 
 Player.prototype.shoot = function () {
-    var count = Math.floor(this.power);
-    for (var i = 0; i < count; ++i) {
-        var bullet = new Projectile(this.parentWorld, this.x + i * (this.focused ? 2 : 8) - (this.focused ? 1 : 4) * (count - 1), this.y + Math.abs(i + 0.5 - count / 2) * 6, 0, -8);
-        bullet.width = 2;
-        bullet.damage = (1 + this.damageInc) / (count + this.damageInc);
-        bullet.playerside = true;
-        var special = count >= 3 && (i === 0 || i === count - 1);
-        bullet.setSprite(special ? 2 : 1, 2, 4);
-        if (special)
-            bullet.behavior = function () {
-                if (this.lifetime % 6 === 1) {
-                    this.headToEntity(this.nearestEntity(Enemy, 200), 200, 0);
-                }
-            };
-    }
+    this.onShoot();
 };
 
 Player.prototype.bomb = function () {
     if (this.invulnTime <= 10 && this.bombs >= 1 && (this.respawnTime < 0 || this.respawnTime > this.respawnTimeDefault - this.deathbombTime)) {
         this.bombs--;
-        this.invulnTime = 100;
+        this.onBomb();
         this.respawnTime = -1;
-        this.parentWorld.clearField(20);
-        this.autoGatherTime = 5;
         this.spellCompleteTerms = false;
     }
 };

@@ -10,6 +10,7 @@ function World(vp) {
     this.stageInterval = 80;
 
     this.player = new Player(this);
+    this.player.setCharacterData(CHAR.barashou);
     this.pause = false;
     this.drawHitboxes = false;
     this.boss = null;

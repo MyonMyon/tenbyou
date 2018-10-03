@@ -11,6 +11,7 @@ var CODE = [
     "entities/Projectile",
     "entities/Bonus",
     "entities/Particle",
+    "stage/Char",
     "stage/Boss",
     "stage/Spell",
     "stage/Stage"
