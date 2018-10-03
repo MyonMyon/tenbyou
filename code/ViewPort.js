@@ -136,7 +136,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     var stg = (this.world.time < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
     var spell = (this.world.boss && this.world.boss.attackCurrent >= 0 && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
-    if (stg > 0) {
+    if (stg >= 0) {
         this.imgBG.src = spell ? IMAGE_STAGE_SPELL : this.world.stages[stg].background;
         var t = this.imgBG.height - (this.imgBG.width / this.world.width * this.world.height) - this.world.time * (spell ? 1 : this.world.stages[stg].backgroundSpeed) % (this.imgBG.height);
         this.context.drawImage(this.imgBG,

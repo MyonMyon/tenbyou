@@ -18,7 +18,7 @@ function World(vp) {
 
     this.difficulty = 0;
     this.stages = new Array();
-    this.stages[0] = {title: "", desc: "", titleAppears: 0, background: ""}; //to be used for the spell spractice
+    this.stages[0] = {title: "", desc: "", titleAppears: 0, background: null}; //used for the spell spractice
     this.stage = 1;
     this.substage = 0;
     this.substageStart = 0;
