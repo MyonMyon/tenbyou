@@ -52,7 +52,7 @@ function loadScripts(nameArray, prefix, tag, onFinish) {
  * Creates the viewport after all the scripts are loaded.
  */
 function onLoad() {
-    document.getElementsByTagName("title")[0].innerHTML = "弾幕点描";
+    document.getElementsByTagName("title")[0].innerHTML = GAME_TITLE;
     new ViewPort();
 }
 
