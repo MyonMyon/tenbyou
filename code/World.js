@@ -24,6 +24,8 @@ function World(vp) {
     this.substageStart = 0;
     this.stageChangeTime = -1;
 
+    this.eventChain = [];
+
     this.vp = vp;
 
     for (var i in STAGE) {
@@ -44,6 +46,11 @@ function World(vp) {
             background: STAGE.list[i].background,
             backgroundSpeed: STAGE.list[i].backgroundSpeed
         });
+        for (var j in STAGE.list[i].events) {
+            var e = STAGE.list[i].events[j];
+            this.addEvent(e.func, i, e.substage, e.second, e.repeatInterval, e.repeatCount);
+            console.log(e);
+        }
     }
 }
 
@@ -113,13 +120,28 @@ World.prototype.distanceBetweenPoints = function (point1x, point1y, point2x, poi
     return Math.sqrt(Math.pow(point1x - point2x, 2) + Math.pow(point1y - point2y, 2));
 };
 
-World.prototype.events = function () {
-};
-
 World.prototype.setBoss = function (enemy, title, isLast) {
     this.boss = enemy;
     this.bossLast = isLast;
     enemy.title = title;
+};
+
+World.prototype.addEvent = function (func, stage, substage, second, repeatInterval, repeatCount) {
+    substage = substage || 0;
+    var ec = this.eventChain;
+    if (!ec[stage]) {
+        ec[stage] = [];
+    }
+    if (!ec[stage][substage]) {
+        ec[stage][substage] = [];
+    }
+    for (var i = 0; i < (repeatCount || 1); ++i) {
+        ec[stage][substage].push({
+            second: second + i * repeatInterval,
+            done: false,
+            fire: func
+        });
+    }
 };
 
 World.prototype.tick = function (interval) {
@@ -137,7 +159,16 @@ World.prototype.tick = function (interval) {
         if (this.time === this.stageChangeTime) {
             this.nextStage();
         }
-        this.events();
+        var t = this.relTime();
+        var ec = this.eventChain[this.stage] ? this.eventChain[this.stage][this.substage] : null;
+        if (ec) {
+            for (var i in ec) {
+                if (!ec[i].done && t >= ec[i].second) {
+                    ec[i].fire();
+                    ec[i].done = true;
+                }
+            }
+        }
         this.vp.draw(true);
     }
 };
