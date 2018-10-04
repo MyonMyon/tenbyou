@@ -113,6 +113,7 @@ var SPELL = {
                 var r = 2;
                 var s = 2;
                 var a = Math.PI - entity.lifetime / 15;
+                entity.angle = entity.lifetime / 15 - Math.PI / 2;
                 var p = new Projectile(entity.parentWorld, entity.x + Math.sin(a) * r, entity.y + Math.cos(a) * r, Math.sin(a) * s, Math.cos(a) * s);
                 p.width = 4;
                 p.setSprite(6 + entity.lifetime % 2, 1);

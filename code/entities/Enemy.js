@@ -19,6 +19,8 @@ Enemy.prototype.draw = function (context) {
     context.translate(ePos.x, ePos.y);
     if (this.spriteDir && this.x1 < 0)
         context.scale(-1, 1);
+    if (this.angle)
+        context.rotate(this.angle);
 
     context.drawImage(this.customSprite ? this.customSprite : this.parentWorld.vp.imgEnemy,
             this.sprite * (this.customSprite ? this.customSpriteWidth : IMAGE_ENEMY_WIDTH),
@@ -30,6 +32,8 @@ Enemy.prototype.draw = function (context) {
             8 * this.spriteWidth * this.parentWorld.vp.zoom,
             8 * this.spriteWidth * this.parentWorld.vp.zoom);
 
+    if (this.angle)
+        context.rotate(-this.angle);
     if (this.spriteDir && this.x1 < 0)
         context.scale(-1, 1);
     context.translate(-ePos.x, -ePos.y);

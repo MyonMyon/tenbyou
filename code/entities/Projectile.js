@@ -11,8 +11,8 @@ Projectile.prototype.draw = function (context) {
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
 
     context.translate(ePos.x, ePos.y);
-    if (this.spriteDir)
-        context.rotate(Math.atan2(this.y1, this.x1) - Math.PI / 2);
+    if (this.spriteDir || this.angle)
+        context.rotate(Math.atan2(this.y1, this.x1) - Math.PI / 2 + this.angle);
 
     context.drawImage(this.customSprite ? this.customSprite : this.parentWorld.vp.imgProjectile,
             this.sprite * (this.customSprite ? this.customSpriteWidth : IMAGE_PROJECTILE_WIDTH),
@@ -24,8 +24,8 @@ Projectile.prototype.draw = function (context) {
             this.width * 2 * this.parentWorld.vp.zoom,
             this.width * 2 * this.parentWorld.vp.zoom);
 
-    if (this.spriteDir)
-        context.rotate(-Math.atan2(this.y1, this.x1) + Math.PI / 2);
+    if (this.spriteDir || this.angle)
+        context.rotate(-Math.atan2(this.y1, this.x1) + Math.PI / 2 - this.angle);
     context.translate(-ePos.x, -ePos.y);
 
     if (this.parentWorld.drawHitboxes) {

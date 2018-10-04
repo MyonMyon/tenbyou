@@ -26,6 +26,7 @@ function Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite, frameCount, an
     this.animPeriod = animPeriod || 4;
     this.spriteWidth = spriteWidth || 1;
     this.spriteDir = spriteDir || false;
+    this.angle = 0;
 
     this.customSprite = null;
     this.customSpriteWidth = 0;
