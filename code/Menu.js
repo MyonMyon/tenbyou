@@ -50,7 +50,6 @@ function Menu(viewPort) {
     }
     var inputMenu = [];
     var aliases = this.viewPort.input.actionsAliases;
-    console.log(aliases)
     for (var i in aliases) {
         if (aliases[i].category === "interaction") {
             inputMenu.push({
