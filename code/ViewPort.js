@@ -48,6 +48,13 @@ function ViewPort() {
     }, 33);
 }
 
+ViewPort.prototype.setFont = function (data) {
+    this.context.font = data.font;
+    this.context.fillStyle = data.color;
+    this.context.strokeStyle = data.strokeColor || "transparent";
+    this.context.lineWidth = data.strokeWidth;
+};
+
 ViewPort.prototype.showMessage = function (text, text2, time, altStyle) {
     this.messageText = text;
     this.messageText2 = text2 || "";
@@ -181,10 +188,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     }
 
     if (this.world.boss) {
-        this.context.fillStyle = DESC_COLOR;
-        this.context.font = DESC_FONT;
-        this.context.lineWidth = DESC_STROKE;
-        this.context.strokeStyle = DESC_STROKE_COLOR;
+        this.setFont(FONT.description);
         this.context.textAlign = "left";
 
         this.context.strokeText(this.world.boss.title, boundaryStart.x + 10, boundaryStart.y + 20);
@@ -232,10 +236,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     this.context.strokeRect(x1, y1, x2 - x1, y2 - y1); //border
 
-    this.context.fillStyle = INFO_COLOR;
-    this.context.font = INFO_FONT;
-    this.context.lineWidth = INFO_STROKE;
-    this.context.strokeStyle = INFO_STROKE_COLOR;
+    this.setFont(FONT.info);
 
     this.context.textAlign = "left";
 
@@ -269,10 +270,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.context.strokeText(DIFF[this.world.difficulty].toUpperCase(), (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
     this.context.fillText(DIFF[this.world.difficulty].toUpperCase(), (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
 
-    this.context.fillStyle = GAME_TITLE_COLOR;
-    this.context.font = GAME_TITLE_FONT;
-    this.context.lineWidth = GAME_TITLE_STROKE;
-    this.context.strokeStyle = GAME_TITLE_STROKE_COLOR;
+    this.setFont(FONT.title);
 
     this.context.strokeText(GAME_TITLE, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y - 40);
     this.context.fillText(GAME_TITLE, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y - 40);
@@ -283,10 +281,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
         this.context.fillText(this.messageText, (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2);
 
         if (this.messageAltStyle) {
-            this.context.fillStyle = INFO_COLOR;
-            this.context.font = INFO_FONT;
-            this.context.lineWidth = INFO_STROKE;
-            this.context.strokeStyle = INFO_STROKE_COLOR;
+            this.setFont(FONT.info);
         }
 
         this.context.strokeText(this.messageText2, (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2 + this.zoom * 10);

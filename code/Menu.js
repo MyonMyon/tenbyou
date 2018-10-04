@@ -243,13 +243,9 @@ Menu.prototype.draw = function () {
     var items = m.submenu;
     var title = this.getCurrentTitle();
 
-    context.font = GAME_TITLE_FONT;
-    context.lineWidth = GAME_TITLE_STROKE;
-    context.fillStyle = GAME_TITLE_COLOR;
-    context.strokeStyle = GAME_TITLE_STROKE_COLOR;
-
     context.textAlign = MENU_TEXT_ALIGN;
     context.textBaseline = "top";
+    this.viewPort.setFont(FONT.title);
 
     if (!this.viewPort.world) {
         context.strokeText(title, MENU_X, MENU_TITLE_Y);
@@ -261,16 +257,14 @@ Menu.prototype.draw = function () {
     for (var i in items) {
         var row = +i - this.rowOffset;
         if (row >= 0 && row < MENU_CAPACITY) {
-            context.fillStyle = (this.currentIndex === +i) ? GAME_TITLE_COLOR_SELECTED : GAME_TITLE_COLOR;
-            context.strokeStyle = (this.currentIndex === +i) ? GAME_TITLE_STROKE_COLOR_SELECTED : GAME_TITLE_STROKE_COLOR;
+            this.viewPort.setFont((this.currentIndex === +i) ? FONT.titleSelected : FONT.title);
 
             context.strokeText(items[i].title, MENU_X, MENU_Y + MENU_H * row);
             context.fillText(items[i].title, MENU_X, MENU_Y + MENU_H * row);
         }
     }
     if (items.length > MENU_CAPACITY) {
-        context.fillStyle = GAME_TITLE_COLOR_SELECTED;
-        context.strokeStyle = GAME_TITLE_STROKE_COLOR_SELECTED;
+        this.viewPort.setFont(FONT.titleSelected);
         context.strokeRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 1), MENU_SCROLL_W, MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 2));
         context.fillRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 1), MENU_SCROLL_W, MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 2));
     }

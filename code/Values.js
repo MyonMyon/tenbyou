@@ -37,11 +37,6 @@ var BOSS_HEALTH_ALT_COLOR = "rgba(192, 144, 144, 0.8)";
 var BOSS_HEALTH_SPELL_COLOR = "rgba(255, 0, 0, 0.8)";
 var BOSS_HEALTH_SPELL_ALT_COLOR = "rgba(192, 0, 0, 0.8)";
 
-var DESC_FONT = (ZOOM * 3) + "px Unispace Rg";
-var DESC_COLOR = "#c00";
-var DESC_STROKE = 3;
-var DESC_STROKE_COLOR = ZOOM > 3 ? "#fcc" : "transparent";
-
 var IMAGE_STAGE_SPELL = "bgspell.jpg";
 var IMAGE_STAGE_SPELL_STRIP = "scline.png";
 
@@ -57,20 +52,37 @@ var IMAGE_GUI = "gui.png";
 var IMAGE_GUI_WIDTH = 24;
 var IMAGE_GUI_HEIGHT = 24;
 
-var INFO_FONT = "Bold " + (ZOOM * 6) + "px Unispace Rg";
-var INFO_COLOR = "#fee";
-var INFO_STROKE = 3;
-var INFO_STROKE_COLOR = ZOOM > 3 ? "#630" : "transparent";
+var FONT = {
+    description: {
+        font: (ZOOM * 3) + "px Unispace Rg",
+        color: "#c00",
+        strokeWidth: 3,
+        strokeColor: ZOOM > 3 ? "#fcc" : "transparent"
+    },
+    info: {
+        font: "Bold " + (ZOOM * 6) + "px Unispace Rg",
+        color: "#fee",
+        strokeWidth: 3,
+        strokeColor: ZOOM > 3 ? "#630" : "transparent"
+    },
+    title: {
+        font: "Bold " + (ZOOM * 7) + "px Unispace Rg",
+        color: "#c00",
+        strokeWidth: 4,
+        strokeColor: ZOOM > 3 ? "#fcc" : "transparent"
+    },
+    titleSelected: {
+        font: "Bold " + (ZOOM * 7) + "px Unispace Rg",
+        color: "#fff",
+        strokeWidth: 4,
+        strokeColor: "#c00"
+    }
+};
+
 var INFO_LINE = ZOOM * 8;
 var INFO_TAB = ZOOM * 40;
 
 var GAME_TITLE = "Occasional Flaw";
-var GAME_TITLE_FONT = "Bold " + (ZOOM * 7) + "px Unispace Rg";
-var GAME_TITLE_COLOR = "#c00";
-var GAME_TITLE_COLOR_SELECTED = "#fff";
-var GAME_TITLE_STROKE = 4;
-var GAME_TITLE_STROKE_COLOR = ZOOM > 3 ? "#fcc" : "transparent";
-var GAME_TITLE_STROKE_COLOR_SELECTED = "#c00";
 var ENGINE_VER_SHOW = true;
 
 var MENU_TITLE_Y = ZOOM * 64;
