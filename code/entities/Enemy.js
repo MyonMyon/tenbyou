@@ -267,7 +267,7 @@ Enemy.prototype.setBossData = function (data, isLast) {
     this.setVectors(0, -this.parentWorld.width / 2 - 40);
 
     this.width = data.width;
-    this.setCustomSpriteFile("resources/" + data.sprite.file, data.sprite.width, data.sprite.height);
+    this.setCustomSpriteFile(data.sprite.file, data.sprite.width, data.sprite.height);
     this.setSprite(data.sprite.frame, data.sprite.frameCount, data.sprite.animPeriod, data.sprite.size, data.sprite.dir);
 
     this.behavior = function () {

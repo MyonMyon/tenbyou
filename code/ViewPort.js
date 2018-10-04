@@ -20,24 +20,24 @@ function ViewPort() {
     this.prevMS = 0;
 
     this.imgPlayer = new Image();
-    this.imgPlayer.src = IMAGE_PLAYER;
+    this.imgPlayer.src = RES_FOLDER + IMAGE_PLAYER;
     this.imgEnemy = new Image();
-    this.imgEnemy.src = IMAGE_ENEMY;
+    this.imgEnemy.src = RES_FOLDER + IMAGE_ENEMY;
     this.imgBonus = new Image();
-    this.imgBonus.src = IMAGE_BONUS;
+    this.imgBonus.src = RES_FOLDER + IMAGE_BONUS;
     this.imgProjectile = new Image();
-    this.imgProjectile.src = IMAGE_PROJECTILE;
+    this.imgProjectile.src = RES_FOLDER + IMAGE_PROJECTILE;
     this.imgParticle = new Image();
-    this.imgParticle.src = IMAGE_PARTICLE;
+    this.imgParticle.src = RES_FOLDER + IMAGE_PARTICLE;
 
     this.imgBG = new Image();
     this.imgSpell = new Image();
-    this.imgSpell.src = IMAGE_STAGE_SPELL_STRIP;
+    this.imgSpell.src = RES_FOLDER + IMAGE_STAGE_SPELL_STRIP;
 
     this.imgBGUI = new Image();
-    this.imgBGUI.src = IMAGE_UI_BG;
+    this.imgBGUI.src = RES_FOLDER + IMAGE_UI_BG;
     this.imgGUI = new Image();
-    this.imgGUI.src = IMAGE_GUI;
+    this.imgGUI.src = RES_FOLDER + IMAGE_GUI;
 
     this.input = new Input(this);
     this.menu = new Menu(this);
@@ -135,7 +135,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     var stg = (this.world.time < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
     var spell = (this.world.boss && this.world.boss.attackCurrent >= 0 && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
     if (stg >= 0) {
-        this.imgBG.src = spell ? IMAGE_STAGE_SPELL : this.world.stages[stg].background;
+        this.imgBG.src = RES_FOLDER + (spell ? IMAGE_STAGE_SPELL : this.world.stages[stg].background);
         var t = this.imgBG.height - (this.imgBG.width / this.world.width * this.world.height) - this.world.time * (spell ? 1 : this.world.stages[stg].backgroundSpeed) % (this.imgBG.height);
         this.context.drawImage(this.imgBG,
                 0, Math.max(0, t),

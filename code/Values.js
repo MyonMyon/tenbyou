@@ -4,23 +4,25 @@ var HEIGHT = ZOOM * 192;
 var SHIFT_X = ZOOM * -48;
 var SHIFT_Y = 0;
 
-var IMAGE_PLAYER = "resources/player.png";
+var RES_FOLDER = "resources/";
+
+var IMAGE_PLAYER = "player.png";
 var IMAGE_PLAYER_WIDTH = 32;
 var IMAGE_PLAYER_HEIGHT = 32;
 
-var IMAGE_PROJECTILE = "resources/projectile.png";
+var IMAGE_PROJECTILE = "projectile.png";
 var IMAGE_PROJECTILE_WIDTH = 16;
 var IMAGE_PROJECTILE_HEIGHT = 16;
 
-var IMAGE_BONUS = "resources/bonus.png";
+var IMAGE_BONUS = "bonus.png";
 var IMAGE_BONUS_WIDTH = 24;
 var IMAGE_BONUS_HEIGHT = 24;
 
-var IMAGE_ENEMY = "resources/enemy.png";
+var IMAGE_ENEMY = "enemy.png";
 var IMAGE_ENEMY_WIDTH = 32;
 var IMAGE_ENEMY_HEIGHT = 32;
 
-var IMAGE_PARTICLE = "resources/splash.png";
+var IMAGE_PARTICLE = "splash.png";
 var IMAGE_PARTICLE_WIDTH = 32;
 var IMAGE_PARTICLE_HEIGHT = 32;
 
@@ -40,18 +42,18 @@ var DESC_COLOR = "#c00";
 var DESC_STROKE = 3;
 var DESC_STROKE_COLOR = ZOOM > 3 ? "#fcc" : "transparent";
 
-var IMAGE_STAGE_SPELL = "resources/bgspell.jpg";
-var IMAGE_STAGE_SPELL_STRIP = "resources/scline.png";
+var IMAGE_STAGE_SPELL = "bgspell.jpg";
+var IMAGE_STAGE_SPELL_STRIP = "scline.png";
 
-var IMAGE_MENU_BG = "resources/menubg.png";
-var IMAGE_UI_BG = "resources/uibg.png";
+var IMAGE_MENU_BG = "menubg.png";
+var IMAGE_UI_BG = "uibg.png";
 
 var BORDER_WIDTH = 2;
 var BORDER_COLOR = "#c00";
 
 var BACKGROUND = "#023";
 
-var IMAGE_GUI = "resources/gui.png";
+var IMAGE_GUI = "gui.png";
 var IMAGE_GUI_WIDTH = 24;
 var IMAGE_GUI_HEIGHT = 24;
 

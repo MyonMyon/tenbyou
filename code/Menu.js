@@ -85,7 +85,7 @@ function Menu(viewPort) {
     ];
 
     this.imgBG = new Image();
-    this.imgBG.src = IMAGE_MENU_BG;
+    this.imgBG.src = RES_FOLDER + IMAGE_MENU_BG;
 
     this.pauseTree = [
         {

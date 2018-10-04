@@ -1,8 +1,8 @@
 var STAGE = {};
 
 STAGE.init = function () {
-    this.addStage("Nest of Precursors", "The place you will never return to.", 40, "resources/bg1.jpg", 10);
-    this.addStage("The Assembly", "Remains of the abandoned paradise.", 120, "resources/bg2.jpg", 2);
+    this.addStage("Nest of Precursors", "The place you will never return to.", 40, "bg1.jpg", 10);
+    this.addStage("The Assembly", "Remains of the abandoned paradise.", 120, "bg2.jpg", 2);
 };
 
 STAGE.events = function () {
