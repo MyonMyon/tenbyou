@@ -38,6 +38,8 @@ function Menu(viewPort) {
                         viewPort.world = new World(viewPort);
                         viewPort.world.stage = 0;
                         viewPort.world.player.power = 4;
+                        viewPort.world.player.lives = 0;
+                        viewPort.world.player.bombs = 0;
                         viewPort.world.difficulty = +this.diff;
                         var boss = new Enemy(viewPort.world);
                         boss.addSpell(this.spell, this.diff);
