@@ -36,23 +36,21 @@ function World(vp) {
         self.tick();
     }, 1000 / this.ticksPS);
 
-    this.init();
+    for (var i in STAGE.list) {
+        this.stages.push({
+            title: STAGE.list[i].title,
+            desc: STAGE.list[i].description || "",
+            titleAppears: Math.floor(STAGE.list[i].appearanceSecond * this.ticksPS),
+            background: STAGE.list[i].background,
+            backgroundSpeed: STAGE.list[i].backgroundSpeed
+        });
+    }
 }
 
 World.prototype.destroy = function () {
     clearInterval(this.tickerId);
     this.vp.clearMessage();
     this.vp.world = null;
-};
-
-World.prototype.addStage = function (title, desc, titleAppears, background, backgroundSpeed) {
-    this.stages.push({
-        title: title,
-        desc: desc || "",
-        titleAppears: titleAppears,
-        background: background,
-        backgroundSpeed: backgroundSpeed
-    });
 };
 
 World.prototype.addTime = function () {
@@ -113,9 +111,6 @@ World.prototype.distanceBetweenEntities = function (entity1, entity2) {
 
 World.prototype.distanceBetweenPoints = function (point1x, point1y, point2x, point2y) {
     return Math.sqrt(Math.pow(point1x - point2x, 2) + Math.pow(point1y - point2y, 2));
-};
-
-World.prototype.init = function () {
 };
 
 World.prototype.events = function () {
