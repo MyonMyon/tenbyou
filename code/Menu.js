@@ -256,12 +256,12 @@ Menu.prototype.draw = function () {
     for (var i in items) {
         var row = +i - this.rowOffset;
         if (row >= 0 && row < MENU_CAPACITY) {
-            this.viewPort.setFont((this.currentIndex === +i) ? FONT.titleSelected : FONT.title);
+            this.viewPort.setFont(FONT.title, {selected: this.currentIndex === +i});
             this.viewPort.drawText(items[i].title, MENU_X, MENU_Y + MENU_H * row);
         }
     }
     if (items.length > MENU_CAPACITY) {
-        this.viewPort.setFont(FONT.titleSelected);
+        this.viewPort.setFont(FONT.title, {selected: true});
         context.strokeRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 1), MENU_SCROLL_W, MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 2));
         context.fillRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 1), MENU_SCROLL_W, MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 2));
     }

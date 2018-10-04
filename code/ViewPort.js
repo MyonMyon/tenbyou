@@ -48,11 +48,35 @@ function ViewPort() {
     }, 33);
 }
 
-ViewPort.prototype.setFont = function (data) {
-    this.context.font = data.font;
-    this.context.fillStyle = data.color;
-    this.context.strokeStyle = data.strokeColor || "transparent";
-    this.context.lineWidth = data.strokeWidth;
+ViewPort.prototype.setFont = function (data, options) {
+    var attr = ["font", "size", "weight", "style", "color", "strokeWidth", "strokeColor"];
+    var font = {
+        font: "sans-serif",
+        size: this.zoom * 5,
+        color: "blue",
+        strokeColor: "transparent",
+        strokeWidth: 0
+    };
+    for (var i in attr) {
+        if (data[attr[i]]) {
+            font[attr[i]] = data[attr[i]];
+        }
+    }
+    if (options) {
+        for (var i in options) {
+            if (options[i] && data[i]) {
+                for (var j in attr) {
+                    if (data[i][attr[j]]) {
+                        font[attr[j]] = data[i][attr[j]];
+                    }
+                }
+            }
+        }
+    }
+    this.context.font = (font.weight ? font.weight + " " : "") + (font.style ? font.style + " " : "") + font.size + "px " + font.font;
+    this.context.fillStyle = font.color;
+    this.context.strokeStyle = font.strokeColor;
+    this.context.lineWidth = font.strokeWidth;
 };
 
 ViewPort.prototype.drawText = function (text, x, y, maxWidth) {

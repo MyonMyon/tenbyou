@@ -54,28 +54,31 @@ var IMAGE_GUI_HEIGHT = 24;
 
 var FONT = {
     description: {
-        font: (ZOOM * 3) + "px Unispace Rg",
+        font: "Unispace Rg",
+        size: ZOOM * 3,
         color: "#c00",
         strokeWidth: 3,
         strokeColor: ZOOM > 3 ? "#fcc" : "transparent"
     },
     info: {
-        font: "Bold " + (ZOOM * 6) + "px Unispace Rg",
+        font: "Unispace Rg",
+        size: ZOOM * 6,
+        weight: "Bold",
         color: "#fee",
         strokeWidth: 3,
         strokeColor: ZOOM > 3 ? "#630" : "transparent"
     },
     title: {
-        font: "Bold " + (ZOOM * 7) + "px Unispace Rg",
+        font: "Unispace Rg",
+        size: ZOOM * 7,
+        weight: "Bold",
         color: "#c00",
         strokeWidth: 4,
-        strokeColor: ZOOM > 3 ? "#fcc" : "transparent"
-    },
-    titleSelected: {
-        font: "Bold " + (ZOOM * 7) + "px Unispace Rg",
-        color: "#fff",
-        strokeWidth: 4,
-        strokeColor: "#c00"
+        strokeColor: ZOOM > 3 ? "#fcc" : "transparent",
+        selected: {
+            color: "#fff",
+            strokeColor: "#c00"
+        }
     }
 };
 
