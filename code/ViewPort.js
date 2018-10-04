@@ -55,6 +55,11 @@ ViewPort.prototype.setFont = function (data) {
     this.context.lineWidth = data.strokeWidth;
 };
 
+ViewPort.prototype.drawText = function (text, x, y, maxWidth) {
+    this.context.strokeText(text, x, y, maxWidth);
+    this.context.fillText(text, x, y, maxWidth);
+};
+
 ViewPort.prototype.showMessage = function (text, text2, time, altStyle) {
     this.messageText = text;
     this.messageText2 = text2 || "";
@@ -94,8 +99,7 @@ ViewPort.prototype.toScreen = function (worldX, worldY) {
 
 ViewPort.prototype.infoShow = function (info, line, tab) {
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
-    this.context.strokeText(info, boundaryRight.x + 20 + tab * INFO_TAB, boundaryRight.y + 30 + (line + 1) * INFO_LINE);
-    this.context.fillText(info, boundaryRight.x + 20 + tab * INFO_TAB, boundaryRight.y + 30 + (line + 1) * INFO_LINE);
+    this.drawText(info, boundaryRight.x + 20 + tab * INFO_TAB, boundaryRight.y + 30 + (line + 1) * INFO_LINE);
 };
 
 ViewPort.prototype.starShow = function (line, sprite, count, parts) {
@@ -190,9 +194,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     if (this.world.boss) {
         this.setFont(FONT.description);
         this.context.textAlign = "left";
-
-        this.context.strokeText(this.world.boss.title, boundaryStart.x + 10, boundaryStart.y + 20);
-        this.context.fillText(this.world.boss.title, boundaryStart.x + 10, boundaryStart.y + 20);
+        this.drawText(this.world.boss.title, boundaryStart.x + 10, boundaryStart.y + 20);
 
         if (this.world.boss.attackCurrent >= 0)
             for (var i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
@@ -201,10 +203,8 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
         if (this.world.boss.attackCurrent >= 0 && this.world.boss.attackCurrent < this.world.boss.attacks.length && this.world.boss.attacks[this.world.boss.attackCurrent].spell) {
             this.context.textAlign = "right";
-            this.context.strokeText(this.world.boss.attacks[this.world.boss.attackCurrent].title, boundaryEnd.x - 10, boundaryStart.y + 20);
-            this.context.fillText(this.world.boss.attacks[this.world.boss.attackCurrent].title, boundaryEnd.x - 10, boundaryStart.y + 20);
-            this.context.strokeText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"), boundaryEnd.x - 10, boundaryStart.y + 40);
-            this.context.fillText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"), boundaryEnd.x - 10, boundaryStart.y + 40);
+            this.drawText(this.world.boss.attacks[this.world.boss.attackCurrent].title, boundaryEnd.x - 10, boundaryStart.y + 20);
+            this.drawText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"), boundaryEnd.x - 10, boundaryStart.y + 40);
         }
     }
 
@@ -264,28 +264,22 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     this.context.textAlign = "center";
     if (ENGINE_VER_SHOW) {
-        this.context.strokeText("Tenbyou " + ENGINE_VER, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y);
-        this.context.fillText("Tenbyou " + ENGINE_VER, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y);
+        this.drawText("Tenbyou " + ENGINE_VER, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y);
     }
-    this.context.strokeText(DIFF[this.world.difficulty].toUpperCase(), (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
-    this.context.fillText(DIFF[this.world.difficulty].toUpperCase(), (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
+    this.drawText(DIFF[this.world.difficulty].toUpperCase(), (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
 
     this.setFont(FONT.title);
-
-    this.context.strokeText(GAME_TITLE, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y - 40);
-    this.context.fillText(GAME_TITLE, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y - 40);
+    this.drawText(GAME_TITLE, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y - 40);
 
     if (this.world.time < (this.messageStart + this.messageTime)) {
         this.context.globalAlpha = Math.min(Math.min((this.world.time - this.messageStart) / 10, (this.messageStart + this.messageTime - this.world.time) / 20), 1);
-        this.context.strokeText(this.messageText, (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2);
-        this.context.fillText(this.messageText, (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2);
+        this.drawText(this.messageText, (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2);
 
         if (this.messageAltStyle) {
             this.setFont(FONT.info);
         }
 
-        this.context.strokeText(this.messageText2, (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2 + this.zoom * 10);
-        this.context.fillText(this.messageText2, (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2 + this.zoom * 10);
+        this.drawText(this.messageText2, (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2 + this.zoom * 10);
         this.context.globalAlpha = 1;
     }
 

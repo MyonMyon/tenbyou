@@ -248,19 +248,15 @@ Menu.prototype.draw = function () {
     this.viewPort.setFont(FONT.title);
 
     if (!this.viewPort.world) {
-        context.strokeText(title, MENU_X, MENU_TITLE_Y);
-        context.fillText(title, MENU_X, MENU_TITLE_Y);
-        context.strokeText(ENGINE_VER + " / " + this.viewPort.fps + " FPS", MENU_X, MENU_VER_Y);
-        context.fillText(ENGINE_VER + " / " + this.viewPort.fps + " FPS", MENU_X, MENU_VER_Y);
+        this.viewPort.drawText(title, MENU_X, MENU_TITLE_Y);
+        this.viewPort.drawText(ENGINE_VER + " / " + this.viewPort.fps + " FPS", MENU_X, MENU_VER_Y);
     }
 
     for (var i in items) {
         var row = +i - this.rowOffset;
         if (row >= 0 && row < MENU_CAPACITY) {
             this.viewPort.setFont((this.currentIndex === +i) ? FONT.titleSelected : FONT.title);
-
-            context.strokeText(items[i].title, MENU_X, MENU_Y + MENU_H * row);
-            context.fillText(items[i].title, MENU_X, MENU_Y + MENU_H * row);
+            this.viewPort.drawText(items[i].title, MENU_X, MENU_Y + MENU_H * row);
         }
     }
     if (items.length > MENU_CAPACITY) {
