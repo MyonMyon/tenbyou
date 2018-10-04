@@ -75,13 +75,39 @@ var FONT = {
         color: "#c00",
         strokeWidth: 4,
         strokeColor: ZOOM > 3 ? "#fcc" : "transparent",
+        menu: {
+            size: ZOOM * 15
+        }
+    },
+    menu: {
+        font: "Unispace Rg",
+        size: ZOOM * 10,
+        style: "Italic",
+        color: "#c00",
+        strokeWidth: 4,
+        strokeColor: "#fcc",
         selected: {
+            weight: "Bold",
             color: "#fff",
             strokeColor: "#c00"
+        },
+        compact: {
+            size: ZOOM * 7,
+            strokeWidth: 3
         }
     }
 };
 
+/*
+    menuTitle: {
+        font: "Bold " + (ZOOM * 16) + "px Unispace Rg",
+        color: "#c00",
+        strokeWidth: 4,
+        strokeColor: ZOOM > 3 ? "#fcc" : "transparent"
+    },
+    menuSelected: {
+        font: "Bold Italic " + (ZOOM * 10) + "px Unispace Rg",
+*/
 var INFO_LINE = ZOOM * 8;
 var INFO_TAB = ZOOM * 40;
 
@@ -91,10 +117,12 @@ var ENGINE_VER_SHOW = true;
 var MENU_TITLE_Y = ZOOM * 64;
 var MENU_X = ZOOM * 12;
 var MENU_Y = ZOOM * 88;
-var MENU_H = ZOOM * 8;
+var MENU_H = ZOOM * 10;
+var MENU_H_COMPACT = ZOOM * 7;
 var MENU_VER_Y = ZOOM * 174;
 var MENU_TEXT_ALIGN = "left";
-var MENU_CAPACITY = 10;
+var MENU_CAPACITY = 7;
+var MENU_CAPACITY_COMPACT = 10;
 var MENU_SCROLL_X = ZOOM * 10;
 var MENU_SCROLL_W = ZOOM * 1;
 

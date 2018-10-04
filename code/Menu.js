@@ -69,6 +69,7 @@ function Menu(viewPort) {
         {
             id: "spell",
             title: "Spell Practice",
+            compact: true,
             submenu: spellMenu
         },
         {
@@ -163,6 +164,7 @@ Menu.prototype.action = function (code) {
     if (new Date().getTime() < this.lastAction + this.actionDelay) {
         return;
     }
+    var m = this.getCurrentMenu();
     switch (code) {
         case "nav_down":
             this.changeIndex(1);
@@ -171,10 +173,10 @@ Menu.prototype.action = function (code) {
             this.changeIndex(-1);
             break;
         case "nav_right":
-            this.changeIndex(MENU_CAPACITY);
+            this.changeIndex(m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY);
             break;
         case "nav_left":
-            this.changeIndex(-MENU_CAPACITY);
+            this.changeIndex(m.compact ? -MENU_CAPACITY_COMPACT : -MENU_CAPACITY);
             break;
         case "nav_back":
             if (this.location.length) {
@@ -182,7 +184,6 @@ Menu.prototype.action = function (code) {
                 var id = this.location[last];
                 this.location.splice(last, 1);
                 this.rowOffset = this.currentIndex = 0;
-                var m = this.getCurrentMenu();
                 for (var i in m.submenu) {
                     if (m.submenu[i].id === id) {
                         this.currentIndex = +i;
@@ -192,8 +193,7 @@ Menu.prototype.action = function (code) {
             }
             break;
         case "nav_enter":
-            var menu = this.getCurrentMenu();
-            var item = menu.submenu[this.currentIndex];
+            var item = m.submenu[this.currentIndex];
             if (item.submenu) {
                 this.location.push(item.id);
             }
@@ -213,10 +213,11 @@ Menu.prototype.action = function (code) {
  */
 Menu.prototype.changeIndex = function (delta) {
     var m = this.getCurrentMenu();
+    var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
     var l = m.submenu.length;
     if (Math.abs(delta) > 1) {
         var n = this.currentIndex + delta;
-        this.rowOffset = Math.max(0, Math.min(this.rowOffset + delta, l - MENU_CAPACITY));
+        this.rowOffset = Math.max(0, Math.min(this.rowOffset + delta, l - cap));
         if (n < 0) {
             this.currentIndex = 0;
             return;
@@ -228,7 +229,7 @@ Menu.prototype.changeIndex = function (delta) {
     }
     this.currentIndex += l;
     this.currentIndex = (this.currentIndex + delta) % l;
-    this.rowOffset = Math.min(Math.max(this.rowOffset, this.currentIndex - MENU_CAPACITY + 1), this.currentIndex);
+    this.rowOffset = Math.min(Math.max(this.rowOffset, this.currentIndex - cap + 1), this.currentIndex);
 };
 
 /**
@@ -246,24 +247,30 @@ Menu.prototype.draw = function () {
 
     context.textAlign = MENU_TEXT_ALIGN;
     context.textBaseline = "top";
-    this.viewPort.setFont(FONT.title);
 
     if (!this.viewPort.world) {
+        this.viewPort.setFont(FONT.title, {menu: true});
         this.viewPort.drawText(title, MENU_X, MENU_TITLE_Y);
+        this.viewPort.setFont(FONT.info);
         this.viewPort.drawText(ENGINE_VER + " / " + this.viewPort.fps + " FPS", MENU_X, MENU_VER_Y);
     }
+    
+    var height = m.compact ? MENU_H_COMPACT : MENU_H;
+    var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
 
     for (var i in items) {
         var row = +i - this.rowOffset;
-        if (row >= 0 && row < MENU_CAPACITY) {
-            this.viewPort.setFont(FONT.title, {selected: this.currentIndex === +i});
-            this.viewPort.drawText(items[i].title, MENU_X, MENU_Y + MENU_H * row);
+        if (row >= 0 && row < cap) {
+            this.viewPort.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact});
+            this.viewPort.drawText(items[i].title, MENU_X, MENU_Y + height * row);
         }
     }
-    if (items.length > MENU_CAPACITY) {
-        this.viewPort.setFont(FONT.title, {selected: true});
-        context.strokeRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 1), MENU_SCROLL_W, MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 2));
-        context.fillRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 1), MENU_SCROLL_W, MENU_H * MENU_CAPACITY / (items.length - MENU_CAPACITY + 2));
+
+    var l = items.length;
+    if (l > cap) {
+        this.viewPort.setFont(FONT.menu, {selected: true});
+        context.strokeRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * height * cap / (l - cap + 1), MENU_SCROLL_W, height * cap / (l - cap + 2));
+        context.fillRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * height * cap / (l - cap + 1), MENU_SCROLL_W, height * cap / (l - cap + 2));
     }
 
 };
