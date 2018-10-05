@@ -49,6 +49,18 @@ function World(vp) {
     }
 }
 
+World.prototype.startSpellPractice = function (difficulty, spell) {
+    this.stage = 0;
+    this.player.power = 4;
+    this.player.lives = 0;
+    this.player.bombs = 0;
+    this.difficulty = difficulty;
+    this.spell = spell;
+    var boss = new Enemy(this);
+    boss.addSpell(spell, difficulty);
+    boss.setBossData(BOSS[spell.boss], true);
+};
+
 World.prototype.destroy = function () {
     clearInterval(this.tickerId);
     this.vp.clearMessage();

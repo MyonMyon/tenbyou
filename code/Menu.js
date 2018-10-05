@@ -36,14 +36,7 @@ function Menu(viewPort) {
                     title: "#" + viewPort.fixedInt(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j][0] + ")",
                     action: function (viewPort) {
                         viewPort.world = new World(viewPort);
-                        viewPort.world.stage = 0;
-                        viewPort.world.player.power = 4;
-                        viewPort.world.player.lives = 0;
-                        viewPort.world.player.bombs = 0;
-                        viewPort.world.difficulty = +this.diff;
-                        var boss = new Enemy(viewPort.world);
-                        boss.addSpell(this.spell, this.diff);
-                        boss.setBossData(BOSS[this.spell.boss], true);
+                        viewPort.world.startSpellPractice(+this.diff, this.spell);
                         viewPort.menu.resetLocation();
                     }
                 });
@@ -104,8 +97,13 @@ function Menu(viewPort) {
             title: "Restart",
             action: function (viewPort) {
                 var diff = viewPort.world.difficulty;
+                var spell = viewPort.world.spell;
                 viewPort.world = new World(viewPort);
-                viewPort.world.difficulty = diff;
+                if (spell) {
+                    viewPort.world.startSpellPractice(diff, spell);
+                } else {
+                    viewPort.world.difficulty = diff;
+                }
                 viewPort.menu.resetLocation();
             }
         },
