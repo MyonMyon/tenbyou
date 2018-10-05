@@ -76,7 +76,8 @@ var FONT = {
         strokeWidth: 4,
         strokeColor: ZOOM > 3 ? "#fcc" : "transparent",
         menu: {
-            size: ZOOM * 15
+            size: ZOOM * 15,
+            strokeWidth: 10,
         }
     },
     menu: {
@@ -98,16 +99,6 @@ var FONT = {
     }
 };
 
-/*
-    menuTitle: {
-        font: "Bold " + (ZOOM * 16) + "px Unispace Rg",
-        color: "#c00",
-        strokeWidth: 4,
-        strokeColor: ZOOM > 3 ? "#fcc" : "transparent"
-    },
-    menuSelected: {
-        font: "Bold Italic " + (ZOOM * 10) + "px Unispace Rg",
-*/
 var INFO_LINE = ZOOM * 8;
 var INFO_TAB = ZOOM * 40;
 

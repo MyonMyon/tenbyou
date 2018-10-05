@@ -77,6 +77,7 @@ ViewPort.prototype.setFont = function (data, options) {
     this.context.fillStyle = font.color;
     this.context.strokeStyle = font.strokeColor;
     this.context.lineWidth = font.strokeWidth;
+    this.context.lineJoin = "bevel";
 };
 
 ViewPort.prototype.drawText = function (text, x, y, maxWidth) {
