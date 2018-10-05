@@ -204,10 +204,10 @@ Player.prototype.respawn = function () {
 
     if (this.lives < 1) {
         this.parentWorld.pause = true;
-        this.parentWorld.continuable = this.parentWorld.stage > 0;
+        this.parentWorld.continuable = this.parentWorld.stage > 0 && this.score % 10 < 9;
         this.lives = this.livesDefault;
         this.bombs = this.bombsDefault;
-        this.score = this.score % 100 + 1;
+        this.score = this.score % 10 + 1;
         this.power = 1;
         this.graze = 0;
         this.points = 0;
