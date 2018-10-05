@@ -68,6 +68,7 @@ function Input(viewPort) {
         "KeyW": "bot",
         "KeyE": "substage",
         "KeyR": "stage",
+        "KeyP": "screenshot",
         "Escape": "pause"
     };
     this.defaultMappingMenu = {
@@ -94,6 +95,7 @@ function Input(viewPort) {
         "focus": {category: "interaction", mode: "keyState", func: "player.focused"},
         "attack": {category: "interaction", mode: "keyState", func: "player.shooting"},
         "bomb": {category: "interaction", mode: "executeOnce", func: "player.bomb()"},
+        "screenshot": {category: "interaction", mode: "executeOnce", func: "vp.takeScreenShot()"},
         "time": {category: "dev", mode: "executeOnce", func: "addTime()"},
         "hitbox": {category: "dev", mode: "invert", func: "drawHitboxes"},
         "bot": {category: "dev", mode: "invert", func: "player.guided"},

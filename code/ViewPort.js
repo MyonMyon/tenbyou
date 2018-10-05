@@ -48,6 +48,19 @@ function ViewPort() {
     }, 33);
 }
 
+/**
+ * Takes a screenshot. After that displays a message and refreshes menu or displays the file depending on the settings.
+ */
+ViewPort.prototype.takeScreenShot = function () {
+    try {
+        var dataUrl = this.canvas.toDataURL("image/png");
+        window.open(dataUrl, "_blank");
+        this.world.pause = true;
+    } catch (ex) {
+        console.log("SCREENSHOT ERROR");
+    }
+};
+
 ViewPort.prototype.setFont = function (data, options) {
     var attr = ["font", "size", "weight", "style", "color", "strokeWidth", "strokeColor"];
     var font = {
