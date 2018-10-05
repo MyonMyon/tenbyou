@@ -43,11 +43,12 @@ Projectile.prototype.draw = function (context) {
 Projectile.prototype.step = function () {
     this.$step();
 
+    var div = this.playerside ? 1.8 : 2;
     //remove from world
-    if (this.x > this.parentWorld.width / 1.8 + this.width * 2
-            || this.x < -this.parentWorld.width / 1.8 - this.width * 2
-            || this.y > this.parentWorld.height / 1.8 + this.width * 2
-            || this.y < -this.parentWorld.height / 1.8 - this.width * 2)
+    if (this.x > this.parentWorld.width / div + this.width * 2
+            || this.x < -this.parentWorld.width / div - this.width * 2
+            || this.y > this.parentWorld.height / div + this.width * 2
+            || this.y < -this.parentWorld.height / div - this.width * 2)
         this.remove();
 
     if (!this.playerside) {
