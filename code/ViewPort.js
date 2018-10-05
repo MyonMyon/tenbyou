@@ -216,7 +216,8 @@ ViewPort.prototype.draw = function (initFromWorld) {
         Enemy,
         Player,
         Particle,
-        Projectile
+        Projectile,
+        Text
     ];
     for (var d in drawOrder) {
         for (var i in this.world.entities) {

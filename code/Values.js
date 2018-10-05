@@ -60,6 +60,13 @@ var FONT = {
         strokeWidth: 3,
         strokeColor: ZOOM > 3 ? "#fcc" : "transparent"
     },
+    points: {
+        font: "Unispace Rg",
+        size: ZOOM * 3,
+        color: "#fee",
+        strokeWidth: 2,
+        strokeColor: "#999"
+    },
     info: {
         font: "Unispace Rg",
         size: ZOOM * 6,

@@ -43,6 +43,7 @@ Bonus.prototype.step = function () {
 
     if (d < this.parentWorld.player.gatherWidthFinal) {
         this.remove();
+        var oldScore = this.parentWorld.player.score;
         switch (this.cat) {
             case "point":
                 this.parentWorld.player.points += (this.small ? 0 : 1);
@@ -101,6 +102,18 @@ Bonus.prototype.step = function () {
                     ++this.parentWorld.player.lives;
                 }
                 break;
+        }
+        var score = this.parentWorld.player.score - oldScore;
+        if (score) {
+            var t = this.parentWorld.lastText;
+            if (t && t.lifetime <= 5) {
+                t.content += score;
+                t.lifetime = 0;
+                t.x = this.parentWorld.player.x;
+                t.y = this.parentWorld.player.y - 10;
+            } else {
+                this.parentWorld.lastText = new Text(this.parentWorld, this.parentWorld.player.x, this.parentWorld.player.y - 10, score);
+            }
         }
     }
 };
