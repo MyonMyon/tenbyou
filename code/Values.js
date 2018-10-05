@@ -65,7 +65,10 @@ var FONT = {
         size: ZOOM * 3,
         color: "#fee",
         strokeWidth: 2,
-        strokeColor: "#999"
+        strokeColor: "#999",
+        max: {
+            color: "#ff0"
+        }
     },
     info: {
         font: "Unispace Rg",
