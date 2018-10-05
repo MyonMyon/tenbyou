@@ -204,6 +204,7 @@ Player.prototype.respawn = function () {
 
     if (this.lives < 1) {
         this.parentWorld.pause = true;
+        this.parentWorld.continuable = this.parentWorld.stage > 0;
         this.lives = this.livesDefault;
         this.bombs = this.bombsDefault;
         this.score = this.score % 100 + 1;

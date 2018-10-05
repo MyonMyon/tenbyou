@@ -24,6 +24,8 @@ function World(vp) {
     this.substageStart = 0;
     this.stageChangeTime = -1;
 
+    this.continuable = true;
+
     this.vp = vp;
 
     for (var i in STAGE) {
@@ -90,7 +92,7 @@ World.prototype.nextStage = function (timeout) {
 
         if (this.stage >= this.stages.length) {
             this.pause = true;
-            this.stage = 1;
+            this.continuable = false;
         }
     } else {
         this.stageChangeTime = this.time + timeout;

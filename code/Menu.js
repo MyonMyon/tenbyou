@@ -91,6 +91,9 @@ function Menu(viewPort) {
 
     this.pauseTree = [
         {
+            isVisible: function (viewPort) {
+                return viewPort.world && viewPort.world.continuable;
+            },
             title: "Resume",
             action: function (viewPort) {
                 viewPort.world.pause = false;
@@ -134,6 +137,7 @@ Menu.prototype.getCurrentMenu = function () {
             menu = null;
         }
     }
+    menu.submenu = menu.submenu.filter(item => !item.isVisible || item.isVisible(this.viewPort));
     return menu;
 };
 
