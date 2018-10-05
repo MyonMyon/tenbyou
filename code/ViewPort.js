@@ -306,11 +306,11 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.infoShow("Graze", 8, 0, true);
     this.infoShow(this.world.player.graze, 8, 1);
 
+    this.setFont(FONT.info, {minor: true});
     if (DEBUG_SHOW) {
-        this.infoShow("S" + this.world.substage, 10, 0);
-        this.infoShow("T" + this.world.relTime().toFixed(2), 10, 1);
-        this.infoShow("E" + this.world.entities.length, 11, 0);
-        this.infoShow(this.fps + "fps", 11, 1);
+        this.infoShow("S" + this.world.substage + "+" + this.world.relTime().toFixed(2), 10, 0);
+        this.infoShow("E" + this.world.entities.length, 10, 0.5);
+        this.infoShow(this.fps + "fps", 10, 1);
     }
 
     this.context.textAlign = "center";

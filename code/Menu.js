@@ -255,8 +255,8 @@ Menu.prototype.draw = function () {
     if (!this.viewPort.world) {
         this.viewPort.setFont(FONT.title, {menu: true});
         this.viewPort.drawText(title, MENU_X, MENU_TITLE_Y);
-        this.viewPort.setFont(FONT.info);
-        this.viewPort.drawText(ENGINE_VER + " / " + this.viewPort.fps + " FPS", MENU_X, MENU_VER_Y);
+        this.viewPort.setFont(FONT.info, {minor: true});
+        this.viewPort.drawText("Tenbyou " + ENGINE_VER + " / " + this.viewPort.fps + " FPS", MENU_X, MENU_VER_Y);
     }
     
     var height = m.compact ? MENU_H_COMPACT : MENU_H;

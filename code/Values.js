@@ -73,7 +73,10 @@ var FONT = {
         weight: "Bold",
         color: "#fee",
         strokeWidth: 3,
-        strokeColor: ZOOM > 3 ? "#630" : "transparent"
+        strokeColor: ZOOM > 3 ? "#630" : "transparent",
+        minor: {
+            size: ZOOM * 3
+        }
     },
     difficulty: {
         font: "Revue Normal",
@@ -136,7 +139,7 @@ var MENU_X = ZOOM * 12;
 var MENU_Y = ZOOM * 88;
 var MENU_H = ZOOM * 10;
 var MENU_H_COMPACT = ZOOM * 7;
-var MENU_VER_Y = ZOOM * 174;
+var MENU_VER_Y = ZOOM * 178;
 var MENU_TEXT_ALIGN = "left";
 var MENU_CAPACITY = 7;
 var MENU_CAPACITY_COMPACT = 10;
