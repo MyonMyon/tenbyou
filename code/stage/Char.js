@@ -18,7 +18,7 @@ var CHAR = {
                 var bullet = new Projectile(
                         this.parentWorld,
                         this.x + i * (this.focused ? 2 : 8) - (this.focused ? 1 : 4) * (count - 1),
-                        this.y + Math.abs(i + 0.5 - count / 2) * 6, 0, -8);
+                        this.y + Math.abs(i + 0.5 - count / 2) * 6 - 8, 0, -8);
                 bullet.width = 2;
                 bullet.damage = (1 + this.damageInc) / (count + this.damageInc);
                 bullet.playerside = true;
