@@ -122,7 +122,11 @@ ViewPort.prototype.toScreen = function (worldX, worldY) {
     return value;
 };
 
-ViewPort.prototype.infoShow = function (info, line, tab) {
+ViewPort.prototype.infoShow = function (info, line, tab, reverse) {
+    this.context.textAlign = reverse ? "right" : "left";
+    if (reverse) {
+        tab += 0.9;
+    }
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
     this.drawText(info, boundaryRight.x + 20 + tab * INFO_TAB, boundaryRight.y + 30 + (line + 1) * INFO_LINE);
 };
@@ -263,23 +267,21 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     this.setFont(FONT.info);
 
-    this.context.textAlign = "left";
-
-    this.infoShow("HiScore", 0, 0);
+    this.infoShow("HiScore", 0, 0, true);
     this.infoShow(this.fixedInt(this.world.player.hiscore, 11), 0, 1);
-    this.infoShow("Score", 1, 0);
+    this.infoShow("Score", 1, 0, true);
     this.infoShow(this.fixedInt(this.world.player.score, 11), 1, 1);
 
-    this.infoShow("Lives", 3, 0);
+    this.infoShow("Lives", 3, 0, true);
     this.starShow(3, 0, this.world.player.lives, this.world.player.lifeParts);
-    this.infoShow("Bombs", 4, 0);
+    this.infoShow("Bombs", 4, 0, true);
     this.starShow(4, 1, this.world.player.bombs, this.world.player.bombParts);
 
-    this.infoShow("Power", 6, 0);
+    this.infoShow("Power", 6, 0, true);
     this.infoShow(this.world.player.power.toFixed(2), 6, 1);
-    this.infoShow("Points", 7, 0);
+    this.infoShow("Points", 7, 0, true);
     this.infoShow(this.world.player.points, 7, 1);
-    this.infoShow("Graze", 8, 0);
+    this.infoShow("Graze", 8, 0, true);
     this.infoShow(this.world.player.graze, 8, 1);
 
     if (DEBUG_SHOW) {
