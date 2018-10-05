@@ -178,6 +178,7 @@ Enemy.prototype.onDestroy = function () {
 };
 
 Enemy.prototype.hurt = function (damage) {
+    var healthOld = this.health;
 
     if (this.parentWorld.boss !== this || (this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length))
         this.health -= damage;
@@ -191,6 +192,7 @@ Enemy.prototype.hurt = function (damage) {
         this.health = 0;
     }
     this.parentWorld.splash(this, damage, this.spriteWidth * 5, this.spriteWidth * 5);
+    this.parentWorld.player.score += Math.round(healthOld - this.health) * 10;
 
     this.onDamage(damage);
 };
