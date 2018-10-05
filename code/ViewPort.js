@@ -131,19 +131,19 @@ ViewPort.prototype.infoShow = function (info, line, tab, reverse) {
     this.drawText(info, boundaryRight.x + 20 + tab * INFO_TAB, boundaryRight.y + 30 + (line + 1) * INFO_LINE);
 };
 
-ViewPort.prototype.starShow = function (line, sprite, count, parts) {
+ViewPort.prototype.starShow = function (sprite, line, tab, count, parts) {
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
     var i;
     for (var i = 0; i < count; ++i)
         this.context.drawImage(this.imgGUI, sprite * IMAGE_GUI_WIDTH, 0, IMAGE_GUI_WIDTH, IMAGE_GUI_HEIGHT,
-                boundaryRight.x + 16 + INFO_TAB + (IMAGE_GUI_WIDTH - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE_GUI_WIDTH * this.zoom / 4, IMAGE_GUI_HEIGHT * this.zoom / 4);
+                boundaryRight.x + 16 + tab * INFO_TAB + (IMAGE_GUI_WIDTH - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE_GUI_WIDTH * this.zoom / 4, IMAGE_GUI_HEIGHT * this.zoom / 4);
     if (parts > 0) {
         this.context.drawImage(this.imgGUI, sprite * IMAGE_GUI_WIDTH, (4 - parts) * IMAGE_GUI_HEIGHT, IMAGE_GUI_WIDTH, IMAGE_GUI_HEIGHT,
-                boundaryRight.x + 16 + INFO_TAB + (IMAGE_GUI_WIDTH - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE_GUI_WIDTH * this.zoom / 4, IMAGE_GUI_HEIGHT * this.zoom / 4);
+                boundaryRight.x + 16 + tab * INFO_TAB + (IMAGE_GUI_WIDTH - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE_GUI_WIDTH * this.zoom / 4, IMAGE_GUI_HEIGHT * this.zoom / 4);
     }
     for (var i = count + (parts > 0 ? 1 : 0); i < 9; ++i)
         this.context.drawImage(this.imgGUI, sprite * IMAGE_GUI_WIDTH, 4 * IMAGE_GUI_HEIGHT, IMAGE_GUI_WIDTH, IMAGE_GUI_HEIGHT,
-                boundaryRight.x + 16 + INFO_TAB + (IMAGE_GUI_WIDTH - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE_GUI_WIDTH * this.zoom / 4, IMAGE_GUI_HEIGHT * this.zoom / 4);
+                boundaryRight.x + 16 + tab * INFO_TAB + (IMAGE_GUI_WIDTH - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE_GUI_WIDTH * this.zoom / 4, IMAGE_GUI_HEIGHT * this.zoom / 4);
 
 };
 
@@ -273,9 +273,9 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.infoShow(this.fixedInt(this.world.player.score, 11), 1, 1);
 
     this.infoShow("Lives", 3, 0, true);
-    this.starShow(3, 0, this.world.player.lives, this.world.player.lifeParts);
+    this.starShow(0, 3, 1, this.world.player.lives, this.world.player.lifeParts);
     this.infoShow("Bombs", 4, 0, true);
-    this.starShow(4, 1, this.world.player.bombs, this.world.player.bombParts);
+    this.starShow(1, 4, 1, this.world.player.bombs, this.world.player.bombParts);
 
     this.infoShow("Power", 6, 0, true);
     this.infoShow(this.world.player.power.toFixed(2), 6, 1);
