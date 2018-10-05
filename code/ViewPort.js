@@ -303,6 +303,10 @@ ViewPort.prototype.draw = function (initFromWorld) {
     if (ENGINE_VER_SHOW) {
         this.drawText("Tenbyou " + ENGINE_VER, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y);
     }
+
+    var diffO = {};
+    diffO["d" + this.world.difficulty] = true;
+    this.setFont(FONT.difficulty, diffO);
     this.drawText(DIFF[this.world.difficulty].toUpperCase(), (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
 
     this.setFont(FONT.title);

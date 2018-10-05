@@ -68,6 +68,25 @@ var FONT = {
         strokeWidth: 3,
         strokeColor: ZOOM > 3 ? "#630" : "transparent"
     },
+    difficulty: {
+        font: "Unispace Rg",
+        size: ZOOM * 7,
+        weight: "Bold",
+        color: "#fee",
+        strokeWidth: 12,
+        d0: {
+            strokeColor: "#080"
+        },
+        d1: {
+            strokeColor: "#088"
+        },
+        d2: {
+            strokeColor: "#008"
+        },
+        d3: {
+            strokeColor: "#808"
+        }
+    },
     title: {
         font: "Unispace Rg",
         size: ZOOM * 7,
