@@ -147,6 +147,12 @@ ViewPort.prototype.starShow = function (sprite, line, tab, count, parts) {
 
 };
 
+ViewPort.prototype.iconShow = function (spriteX, spriteY, line, tab) {
+    var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
+    this.context.drawImage(this.imgBonus, spriteX * IMAGE_GUI_WIDTH, spriteY * IMAGE_GUI_HEIGHT, IMAGE_GUI_WIDTH, IMAGE_GUI_HEIGHT,
+            boundaryRight.x + 16 + tab * INFO_TAB + (IMAGE_GUI_WIDTH - 4) * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE_GUI_WIDTH * this.zoom / 4, IMAGE_GUI_HEIGHT * this.zoom / 4);
+};
+
 ViewPort.prototype.draw = function (initFromWorld) {
     if ((!this.world || this.world.pause) === initFromWorld) {
         return;
@@ -277,8 +283,10 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.infoShow("Bombs", 4, 0, true);
     this.starShow(1, 4, 1, this.world.player.bombs, this.world.player.bombParts);
 
+    this.iconShow(0, 1, 6, 0);
     this.infoShow("Power", 6, 0, true);
     this.infoShow(this.world.player.power.toFixed(2), 6, 1);
+    this.iconShow(1, 0, 7, 0);
     this.infoShow("Points", 7, 0, true);
     this.infoShow(this.world.player.points, 7, 1);
     this.infoShow("Graze", 8, 0, true);
