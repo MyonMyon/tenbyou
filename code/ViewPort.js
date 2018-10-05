@@ -282,10 +282,12 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.infoShow("Graze", 8, 0);
     this.infoShow(this.world.player.graze, 8, 1);
 
-    this.infoShow(this.world.substage, 10, 0);
-    this.infoShow(this.world.relTime().toFixed(2), 10, 1);
-    this.infoShow(this.world.entities.length, 11, 0);
-    this.infoShow(this.fps + "fps", 11, 1);
+    if (DEBUG_SHOW) {
+        this.infoShow("S" + this.world.substage, 10, 0);
+        this.infoShow("T" + this.world.relTime().toFixed(2), 10, 1);
+        this.infoShow("E" + this.world.entities.length, 11, 0);
+        this.infoShow(this.fps + "fps", 11, 1);
+    }
 
     this.context.textAlign = "center";
     if (ENGINE_VER_SHOW) {

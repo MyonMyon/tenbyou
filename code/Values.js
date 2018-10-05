@@ -104,6 +104,7 @@ var INFO_TAB = ZOOM * 40;
 
 var GAME_TITLE = "Occasional Flaw";
 var ENGINE_VER_SHOW = true;
+var DEBUG_SHOW = true;
 
 var MENU_TITLE_Y = ZOOM * 64;
 var MENU_X = ZOOM * 12;
