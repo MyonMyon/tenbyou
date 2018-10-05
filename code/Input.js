@@ -188,7 +188,7 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
     }
     if (!this.vp.world || this.vp.world.pause) {
         var action = this.defaultMappingMenu[keyAbbr];
-        if (!action) {
+        if (!action || !keyValue) {
             return false;
         }
         this.vp.menu.action(action);
