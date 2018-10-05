@@ -123,7 +123,7 @@ function Menu(viewPort) {
 Menu.prototype.getCurrentMenu = function () {
     var menu = {submenu: this.viewPort.world ? this.pauseTree : this.tree}; //AKA Pause Menu and Main Menu
     var items;
-    
+
     for (var level = 0; level < this.location.length; level++) {
         items = menu.submenu;
         for (var i in items) {

@@ -77,7 +77,7 @@ var FONT = {
         strokeColor: ZOOM > 3 ? "#fcc" : "transparent",
         menu: {
             size: ZOOM * 15,
-            strokeWidth: 10,
+            strokeWidth: 10
         }
     },
     menu: {
