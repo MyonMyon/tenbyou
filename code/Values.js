@@ -76,11 +76,10 @@ var FONT = {
         strokeColor: ZOOM > 3 ? "#630" : "transparent"
     },
     difficulty: {
-        font: "Unispace Rg",
+        font: "Revue Normal",
         size: ZOOM * 7,
-        weight: "Bold",
         color: "#fee",
-        strokeWidth: 12,
+        strokeWidth: 6,
         d0: {
             strokeColor: "#080"
         },
