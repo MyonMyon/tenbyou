@@ -27,7 +27,7 @@ var IMAGE_PARTICLE_WIDTH = 32;
 var IMAGE_PARTICLE_HEIGHT = 32;
 
 var SHIELD_COLOR = "rgba(160, 0, 0, 0.3)";
-var HITBOX_COLOR = "rgba(255, 255, 255, 0.7)";
+var HITBOX_COLOR = "rgba(192, 0, 0, 0.7)";
 
 var BOSS_WHEEL_COLOR = "rgba(0, 0, 0, 0.8)";
 var BOSS_TIMER_COLOR = "rgba(192, 255, 255, 0.8)";
