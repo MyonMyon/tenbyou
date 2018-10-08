@@ -289,9 +289,9 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.setFont(FONT.info);
 
     this.infoShow("HiScore", 0, 0, true);
-    this.infoShow(this.fixedInt(this.world.player.hiscore, 11), 0, 1);
+    this.infoShow(this.fixedInt(this.world.player.hiscoreDisplayed, 11), 0, 1);
     this.infoShow("Score", 1, 0, true);
-    this.infoShow(this.fixedInt(this.world.player.score, 11), 1, 1);
+    this.infoShow(this.fixedInt(this.world.player.scoreDisplayed, 11), 1, 1);
 
     this.infoShow("Lives", 3, 0, true);
     this.starShow(0, 3, 1, this.world.player.lives, this.world.player.lifeParts);

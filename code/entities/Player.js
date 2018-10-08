@@ -2,7 +2,9 @@ function Player(parentWorld) {
     extend(this, new Entity(parentWorld, 0, parentWorld.height / 2 - 5));
 
     this.hiscore = 1000000;
+    this.hiscoreDisplayed = 1000000;
     this.score = 0;
+    this.scoreDisplayed = 0;
 
     this.livesDefault = 2;
     this.lives = this.livesDefault;
@@ -141,8 +143,16 @@ Player.prototype.step = function () {
         this.gatherValue = 0;
     }
 
-    if (this.score > this.hiscore)
+    if (this.score !== this.scoreDisplayed) {
+        this.scoreDisplayed = Math.min(this.score, this.scoreDisplayed + (Math.floor(Math.random() * 4000) + 4000) * 10);
+        if (this.score > this.hiscore) {
+            this.hiscoreDisplayed = this.scoreDisplayed;
+        }
+    }
+
+    if (this.score > this.hiscore) {
         this.hiscore = this.score;
+    }
 };
 
 Player.prototype.draw = function (context) {
