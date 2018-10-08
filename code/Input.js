@@ -191,8 +191,12 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
     }
     if (!this.vp.world || this.vp.world.pause) {
         var action = this.defaultMappingMenu[keyAbbr];
-        if (!action || !keyValue) {
+        if (!action) {
             return false;
+        }
+        if (!keyValue) {
+            this.vp.menu.action("nav_null");
+            return true;
         }
         this.vp.menu.action(action);
         return true;
