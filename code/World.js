@@ -82,9 +82,6 @@ World.prototype.nextStage = function (timeout) {
     if (timeout === 0) {
         this.time = 0;
 
-        this.player.graze = 0;
-        this.player.points = 0;
-
         if (this.stage === 0) {
             //Spell Practice Stop
             this.destroy();
@@ -97,6 +94,9 @@ World.prototype.nextStage = function (timeout) {
             this.vp.showMessage(["Stage Clear!", "Bonus: " + bonus], this.stageInterval);
             this.player.score += bonus;
         }
+
+        this.player.graze = 0;
+        this.player.points = 0;
 
         ++this.stage;
         this.substage = 0;
