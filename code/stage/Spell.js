@@ -148,7 +148,7 @@ var SPELL = {
     okuuAlpha: {
         boss: "okuu",
         names: [
-            "Explosion Sign \"This is broken\"",
+            "Explosion Sign \"Lol Easy Modo\"",
             "Explosion Sign \"Not a Flare at all\"",
             "Explosion Sign \"Not a Flare at all yet\""
         ],
@@ -162,7 +162,7 @@ var SPELL = {
         ],
         func: function (entity, difficulty) {
             if (entity.lifetime % Math.floor(12 / (difficulty + 1)) === 0) {
-                var nuclearBall = new Projectile(entity.parentWorld, (Math.random() * (entity.lifetime / 6 % 2 === 0 ? 0.5 : -0.5)) * entity.parentWorld.width, -entity.parentWorld.height / 2 - 5, 0, 6, 0, -0.09);
+                var nuclearBall = new Projectile(entity.parentWorld, (Math.random() - 0.5) * entity.parentWorld.width, -entity.parentWorld.height / 2 - 5, 0, 6, 0, -0.09);
                 nuclearBall.setCustomSpriteFile("nuclear.png", 128, 128);
                 nuclearBall.setSprite(0, 1, 1, 1, false);
                 nuclearBall.width = 20;
