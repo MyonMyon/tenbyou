@@ -96,6 +96,7 @@ function Input(viewPort) {
         "attack": {category: "interaction", mode: "keyState", func: "player.shooting"},
         "bomb": {category: "interaction", mode: "executeOnce", func: "player.bomb()"},
         "screenshot": {category: "interaction", mode: "executeOnce", func: "vp.takeScreenShot()"},
+        "bonus": {category: "dev", mode: "executeOnce", func: "randomBonus()"},
         "time": {category: "dev", mode: "executeOnce", func: "addTime()"},
         "hitbox": {category: "dev", mode: "invert", func: "drawHitboxes"},
         "bot": {category: "dev", mode: "invert", func: "player.guided"},
