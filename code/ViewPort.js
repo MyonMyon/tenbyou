@@ -226,9 +226,9 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.context.globalAlpha = 1;
 
     var drawOrder = [
-        Bonus,
         Enemy,
         Player,
+        Bonus,
         Particle,
         Projectile,
         Text
