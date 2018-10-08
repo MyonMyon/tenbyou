@@ -98,20 +98,18 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth) {
     this.context.fillText(text, x, y, maxWidth);
 };
 
-ViewPort.prototype.showMessage = function (text, text2, time, altStyle) {
-    this.messageText = text;
-    this.messageText2 = text2 || "";
+ViewPort.prototype.showMessage = function (textArray, time, styleArray) {
+    this.messageTextArray = textArray;
     this.messageStart = this.world.time;
     this.messageTime = time;
-    this.messageAltStyle = altStyle || false;
+    this.messageStyleArray = styleArray || [FONT.title];
 };
 
 ViewPort.prototype.clearMessage = function () {
-    this.messageText = "";
-    this.messageText2 = "";
+    this.messageTextArray = [];
     this.messageStart = 0;
     this.messageTime = 0;
-    this.messageAltStyle = false;
+    this.messageStyleArray = [FONT.title];
 };
 
 ViewPort.prototype.fixedInt = function (value, width) {
@@ -326,15 +324,13 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.setFont(FONT.title);
     this.drawText(GAME_TITLE, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y - 40);
 
+    //Show message:
     if (this.world.time < (this.messageStart + this.messageTime)) {
         this.context.globalAlpha = Math.min(Math.min((this.world.time - this.messageStart) / 10, (this.messageStart + this.messageTime - this.world.time) / 20), 1);
-        this.drawText(this.messageText, (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2);
-
-        if (this.messageAltStyle) {
-            this.setFont(FONT.info);
+        for (var i in this.messageTextArray) {
+            this.setFont(this.messageStyleArray[i % this.messageTextArray.length]);
+            this.drawText(this.messageTextArray[i], (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2 + this.zoom * 10 * (i - this.messageTextArray.length / 2));
         }
-
-        this.drawText(this.messageText2, (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2 + this.zoom * 10);
         this.context.globalAlpha = 1;
     }
 

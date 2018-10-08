@@ -93,7 +93,7 @@ World.prototype.nextStage = function (timeout) {
             bonus += this.player.graze * 10;
             bonus *= this.player.points;
             bonus = Math.floor(bonus / 100) * 100;
-            this.vp.showMessage("Stage Clear!", "Bonus: " + bonus, this.stageInterval);
+            this.vp.showMessage(["Stage Clear!", "Bonus: " + bonus], this.stageInterval);
             this.player.score += bonus;
         }
 
@@ -146,7 +146,7 @@ World.prototype.tick = function (interval) {
             this.entities[i].flush(); //refreshing fixed coords
         }
         if (this.time === this.stages[this.stage].titleAppears) {
-            this.vp.showMessage("Stage " + this.stage + ": " + this.stages[this.stage].title, this.stages[this.stage].desc, 120, true);
+            this.vp.showMessage(["Stage " + this.stage + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 120, [FONT.title, FONT.info]);
         }
         if (this.time === this.stageChangeTime) {
             this.nextStage();

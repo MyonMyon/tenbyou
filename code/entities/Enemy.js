@@ -237,10 +237,10 @@ Enemy.prototype.nextAttack = function () {
     if (this.parentWorld.boss === this && this.attackCurrent >= 0 && this.attacks[this.attackCurrent].spell) {
         if (this.health <= 0 && this.parentWorld.player.spellCompleteTerms && this.bonus > 0) {
             this.parentWorld.player.score += this.bonus;
-            this.parentWorld.vp.showMessage("Spell Card Bonus!", this.bonus, 100);
+            this.parentWorld.vp.showMessage(["Spell Card Bonus!", this.bonus], 100);
         }
         else
-            this.parentWorld.vp.showMessage("Bonus failed", null, 50);
+            this.parentWorld.vp.showMessage(["Bonus failed"], 50);
     }
 
     var g = this.attackGroups[this.attackGroupCurrent];
