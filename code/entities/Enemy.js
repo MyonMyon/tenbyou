@@ -1,6 +1,6 @@
 function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
     extend(this, new Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite,
-            frameCount > 0 ? frameCount : (parentWorld.vp.imgEnemy.height / IMAGE_ENEMY_HEIGHT), animPeriod, spriteWidth, spriteDir));
+            frameCount > 0 ? frameCount : (parentWorld.vp.imgEnemy.height / IMAGE.enemy.height), animPeriod, spriteWidth, spriteDir));
     this.initialHealth = health || 20;
     this.health = this.initialHealth;
     this.cost = this.initialHealth * 100;
@@ -19,17 +19,21 @@ Enemy.prototype.draw = function (context) {
     context.translate(ePos.x, ePos.y);
     if (this.spriteDir && this.x1 < 0)
         context.scale(-1, 1);
+    if (this.angle)
+        context.rotate(this.angle);
 
     context.drawImage(this.customSprite ? this.customSprite : this.parentWorld.vp.imgEnemy,
-            this.sprite * (this.customSprite ? this.customSpriteWidth : IMAGE_ENEMY_WIDTH),
-            Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : IMAGE_ENEMY_HEIGHT),
-            this.customSprite ? this.customSpriteWidth : IMAGE_ENEMY_WIDTH,
-            this.customSprite ? this.customSpriteHeight : IMAGE_ENEMY_HEIGHT,
+            this.sprite * (this.customSprite ? this.customSpriteWidth : IMAGE.enemy.width),
+            Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : IMAGE.enemy.height),
+            this.customSprite ? this.customSpriteWidth : IMAGE.enemy.width,
+            this.customSprite ? this.customSpriteHeight : IMAGE.enemy.height,
             -4 * this.spriteWidth * this.parentWorld.vp.zoom,
             -4 * this.spriteWidth * this.parentWorld.vp.zoom,
             8 * this.spriteWidth * this.parentWorld.vp.zoom,
             8 * this.spriteWidth * this.parentWorld.vp.zoom);
 
+    if (this.angle)
+        context.rotate(-this.angle);
     if (this.spriteDir && this.x1 < 0)
         context.scale(-1, 1);
     context.translate(-ePos.x, -ePos.y);
@@ -174,6 +178,7 @@ Enemy.prototype.onDestroy = function () {
 };
 
 Enemy.prototype.hurt = function (damage) {
+    var healthOld = this.health;
 
     if (this.parentWorld.boss !== this || (this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length))
         this.health -= damage;
@@ -187,6 +192,7 @@ Enemy.prototype.hurt = function (damage) {
         this.health = 0;
     }
     this.parentWorld.splash(this, damage, this.spriteWidth * 5, this.spriteWidth * 5);
+    this.parentWorld.player.score += Math.round(healthOld - this.health) * 10;
 
     this.onDamage(damage);
 };
@@ -231,10 +237,10 @@ Enemy.prototype.nextAttack = function () {
     if (this.parentWorld.boss === this && this.attackCurrent >= 0 && this.attacks[this.attackCurrent].spell) {
         if (this.health <= 0 && this.parentWorld.player.spellCompleteTerms && this.bonus > 0) {
             this.parentWorld.player.score += this.bonus;
-            this.parentWorld.vp.showMessage("Spell Card Bonus!", this.bonus, 100);
+            this.parentWorld.vp.showMessage(["Spell Card Bonus!", this.bonus], 100);
         }
         else
-            this.parentWorld.vp.showMessage("Bonus failed", null, 50);
+            this.parentWorld.vp.showMessage(["Bonus failed"], 50);
     }
 
     var g = this.attackGroups[this.attackGroupCurrent];

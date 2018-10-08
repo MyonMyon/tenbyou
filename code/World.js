@@ -23,10 +23,12 @@ function World(vp) {
     this.substage = 0;
     this.substageStart = 0;
     this.stageChangeTime = -1;
+    this.continuable = true;
 
     this.eventChain = [];
 
     this.vp = vp;
+    vp.clearMessage();
 
     for (var i in STAGE) {
         this[i] = STAGE[i];
@@ -54,6 +56,18 @@ function World(vp) {
     }
 }
 
+World.prototype.startSpellPractice = function (difficulty, spell) {
+    this.stage = 0;
+    this.player.power = 4;
+    this.player.lives = 0;
+    this.player.bombs = 0;
+    this.difficulty = difficulty;
+    this.spell = spell;
+    var boss = new Enemy(this);
+    boss.addSpell(spell, difficulty);
+    boss.setBossData(BOSS[spell.boss], true);
+};
+
 World.prototype.destroy = function () {
     clearInterval(this.tickerId);
     this.vp.clearMessage();
@@ -74,9 +88,6 @@ World.prototype.nextStage = function (timeout) {
     if (timeout === 0) {
         this.time = 0;
 
-        this.player.graze = 0;
-        this.player.points = 0;
-
         if (this.stage === 0) {
             //Spell Practice Stop
             this.destroy();
@@ -85,10 +96,13 @@ World.prototype.nextStage = function (timeout) {
             bonus += this.player.power * 1000;
             bonus += this.player.graze * 10;
             bonus *= this.player.points;
-            bonus = Math.floor(bonus / 100) * 100;
-            this.vp.showMessage("Stage Clear!", "Bonus: " + bonus, this.stageInterval);
+            bonus = Math.floor(bonus / 10) * 10;
+            this.vp.showMessage(["Stage Clear!", "Bonus: " + bonus], this.stageInterval);
             this.player.score += bonus;
         }
+
+        this.player.graze = 0;
+        this.player.points = 0;
 
         ++this.stage;
         this.substage = 0;
@@ -97,7 +111,7 @@ World.prototype.nextStage = function (timeout) {
 
         if (this.stage >= this.stages.length) {
             this.pause = true;
-            this.stage = 1;
+            this.continuable = false;
         }
     } else {
         this.stageChangeTime = this.time + timeout;
@@ -154,7 +168,7 @@ World.prototype.tick = function (interval) {
             this.entities[i].flush(); //refreshing fixed coords
         }
         if (this.time === this.stages[this.stage].titleAppears) {
-            this.vp.showMessage("Stage " + this.stage + ": " + this.stages[this.stage].title, this.stages[this.stage].desc, 120, true);
+            this.vp.showMessage(["Stage " + this.stage + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 120, [FONT.title, FONT.info]);
         }
         if (this.time === this.stageChangeTime) {
             this.nextStage();

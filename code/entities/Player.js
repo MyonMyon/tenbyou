@@ -2,7 +2,9 @@ function Player(parentWorld) {
     extend(this, new Entity(parentWorld, 0, parentWorld.height / 2 - 5));
 
     this.hiscore = 1000000;
+    this.hiscoreDisplayed = 1000000;
     this.score = 0;
+    this.scoreDisplayed = 0;
 
     this.livesDefault = 2;
     this.lives = this.livesDefault;
@@ -16,7 +18,7 @@ function Player(parentWorld) {
     this.powerMax = 4;
     this.damageInc = 0.6;
 
-    this.power = 1;
+    this.power = 0;
     this.points = 0;
     this.graze = 0;
 
@@ -141,8 +143,16 @@ Player.prototype.step = function () {
         this.gatherValue = 0;
     }
 
-    if (this.score > this.hiscore)
+    if (this.score !== this.scoreDisplayed) {
+        this.scoreDisplayed = Math.min(this.score, this.scoreDisplayed + (Math.floor(Math.random() * 4000) + 4000) * 10);
+        if (this.score > this.hiscore) {
+            this.hiscoreDisplayed = this.scoreDisplayed;
+        }
+    }
+
+    if (this.score > this.hiscore) {
         this.hiscore = this.score;
+    }
 };
 
 Player.prototype.draw = function (context) {
@@ -158,10 +168,10 @@ Player.prototype.draw = function (context) {
         }
 
         context.drawImage(this.customSprite ? this.customSprite : this.parentWorld.vp.imgPlayer,
-                this.focused * (this.customSprite ? this.customSpriteWidth : IMAGE_PLAYER_WIDTH),
-                Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : IMAGE_PLAYER_HEIGHT),
-                this.customSprite ? this.customSpriteWidth : IMAGE_PLAYER_WIDTH,
-                this.customSprite ? this.customSpriteHeight : IMAGE_PLAYER_HEIGHT,
+                this.focused * (this.customSprite ? this.customSpriteWidth : IMAGE.player.width),
+                Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : IMAGE.player.height),
+                this.customSprite ? this.customSpriteWidth : IMAGE.player.width,
+                this.customSprite ? this.customSpriteHeight : IMAGE.player.height,
                 ePos.x - 4 * this.spriteWidth * this.parentWorld.vp.zoom,
                 ePos.y - 4 * this.spriteWidth * this.parentWorld.vp.zoom,
                 8 * this.spriteWidth * this.parentWorld.vp.zoom,
@@ -204,10 +214,11 @@ Player.prototype.respawn = function () {
 
     if (this.lives < 1) {
         this.parentWorld.pause = true;
+        this.parentWorld.continuable = this.parentWorld.stage > 0 && this.score % 10 < 9;
         this.lives = this.livesDefault;
         this.bombs = this.bombsDefault;
-        this.score = this.score % 100 + 1;
-        this.power = 1;
+        this.score = this.score % 10 + 1;
+        this.power = 0;
         this.graze = 0;
         this.points = 0;
     }
