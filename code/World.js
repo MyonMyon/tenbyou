@@ -22,7 +22,6 @@ function World(vp) {
     this.stage = 1;
     this.substage = 0;
     this.substageStart = 0;
-    this.stageChangeTime = -1;
     this.continuable = true;
 
     this.eventChain = [];
@@ -78,38 +77,39 @@ World.prototype.nextSubstage = function () {
     this.substageStart = this.time;
 };
 
-World.prototype.nextStage = function (timeout) {
-    var timeout = timeout || 0;
-    if (timeout === 0) {
-        this.time = 0;
+World.prototype.nextStage = function () {
+    this.time = 0;
 
-        if (this.stage === 0) {
-            //Spell Practice Stop
-            this.destroy();
-        } else {
-            var bonus = this.stage * 1000;
-            bonus += this.player.power * 1000;
-            bonus += this.player.graze * 10;
-            bonus *= this.player.points;
-            bonus = Math.floor(bonus / 10) * 10;
-            this.vp.showMessage(["Stage Clear!", "Bonus: " + bonus], this.stageInterval);
-            this.player.score += bonus;
-        }
+    ++this.stage;
+    this.substage = 0;
+    this.substageStart = 0;
 
-        this.player.graze = 0;
-        this.player.points = 0;
+    if (this.stage >= this.stages.length) {
+        this.pause = true;
+        this.continuable = false;
+        return;
+    }
 
-        ++this.stage;
-        this.substage = 0;
-        this.substageStart = 0;
-        this.stageChangeTime = -1;
+    this.player.graze = 0;
+    this.player.points = 0;
+    this.vp.clearMessage();
+};
 
-        if (this.stage >= this.stages.length) {
-            this.pause = true;
-            this.continuable = false;
-        }
+World.prototype.stageBonus = function () {
+    if (this.stage > 0) {
+        var bonus = this.stage * 1000;
+        bonus += this.player.power * 1000;
+        bonus += this.player.graze * 10;
+        bonus *= this.player.points;
+        bonus = Math.floor(bonus / 10) * 10;
+        this.player.score += bonus;
+        this.vp.showMessage(["Stage Clear!", "Bonus: " + bonus], this.stageInterval);
+        this.addEventNow(function (world) {
+            world.nextStage();
+        }, 2);
     } else {
-        this.stageChangeTime = this.time + timeout;
+        //Spell Practice Stop
+        this.destroy();
     }
 };
 
@@ -159,6 +159,10 @@ World.prototype.addEvent = function (func, stage, substage, second, repeatInterv
     }
 };
 
+World.prototype.addEventNow = function (func, secondTimeout) {
+    this.addEvent(func, this.stage, this.substage, this.relTime() + secondTimeout);
+};
+
 World.prototype.tick = function (interval) {
     if (!this.pause) {
         ++this.time;
@@ -170,9 +174,6 @@ World.prototype.tick = function (interval) {
         }
         if (this.time === this.stages[this.stage].titleAppears) {
             this.vp.showMessage(["Stage " + this.stage + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 120, [FONT.title, FONT.info]);
-        }
-        if (this.time === this.stageChangeTime) {
-            this.nextStage();
         }
         var t = this.relTime();
         var ec = this.eventChain[this.stage] ? this.eventChain[this.stage][this.substage] : null;

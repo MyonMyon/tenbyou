@@ -249,8 +249,11 @@ Enemy.prototype.nextAttack = function () {
     if (this.attackCurrent >= this.attacks.length) {
         this.behaviorFinal();
         this.parentWorld.boss = null;
-        if (this.parentWorld.bossLast)
-            this.parentWorld.nextStage(50);
+        if (this.parentWorld.bossLast) {
+            this.parentWorld.addEventNow(function(world) {
+                world.stageBonus();
+            }, 2);
+        }
         else {
             ++this.parentWorld.substage;
             this.parentWorld.substageStart = this.parentWorld.time;
