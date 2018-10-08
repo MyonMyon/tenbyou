@@ -236,5 +236,5 @@ Player.prototype.respawn = function () {
     this.x = 0;
     this.y = this.parentWorld.height / 2 - 5;
     this.bombs = Math.max(this.bombsDefault, this.bombs);
-    this.power = Math.max(this.power - 0.6, 1);
+    this.power = Math.max(this.power - 0.6, 0);
 };
