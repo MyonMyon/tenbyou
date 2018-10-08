@@ -92,7 +92,7 @@ World.prototype.nextStage = function (timeout) {
             bonus += this.player.power * 1000;
             bonus += this.player.graze * 10;
             bonus *= this.player.points;
-            bonus = Math.floor(bonus / 100) * 100;
+            bonus = Math.floor(bonus / 10) * 10;
             this.vp.showMessage(["Stage Clear!", "Bonus: " + bonus], this.stageInterval);
             this.player.score += bonus;
         }
