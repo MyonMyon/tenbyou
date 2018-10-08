@@ -27,6 +27,7 @@ function World(vp) {
     this.continuable = true;
 
     this.vp = vp;
+    vp.clearMessage();
 
     for (var i in STAGE) {
         this[i] = STAGE[i];
