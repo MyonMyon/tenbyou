@@ -77,6 +77,20 @@ var STAGE = [{
                     eventOkuu(world);
                 }
             }]
+    }, {
+        extra: 4,
+        title: "Test",
+        description: "You're not gonna see something here.",
+        appearanceSecond: 4,
+        background: "bg2.jpg",
+        backgroundSpeed: 2,
+        events: [{
+                substage: 1,
+                second: 4,
+                func: function (world) {
+                    eventOkuu(world);
+                }
+            }]
     }];
 
 eventKedamaMidboss = function (world, power) {

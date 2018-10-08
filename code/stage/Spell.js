@@ -3,6 +3,11 @@ var SPELL = {
         boss: "kedama",
         number: 0,
         names: [
+            null,
+            null,
+            null,
+            null,
+            null,
             "Nullity"
         ],
         health: 1,

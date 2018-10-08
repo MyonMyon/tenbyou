@@ -112,6 +112,12 @@ var FONT = {
         },
         d3: {
             strokeColor: "#808"
+        },
+        d4: {
+            strokeColor: "#800"
+        },
+        d5: {
+            strokeColor: "#000"
         }
     },
     title: {
@@ -164,4 +170,25 @@ var MENU_CAPACITY_COMPACT = 10;
 var MENU_SCROLL_X = ZOOM * 10;
 var MENU_SCROLL_W = ZOOM * 1;
 
-var DIFF = ["Easy", "Normal", "Hard"];
+var DIFF = [{
+        name: "Easy",
+        letter: "E"
+    },{
+        name: "Normal",
+        letter: "N"
+    },{
+        name: "Hard",
+        letter: "H"
+    },{
+        name: "Lunatic",
+        letter: "L",
+        hidden: true
+    },{
+        name: "Extra",
+        letter: "X",
+        hidden: true
+    },{
+        name: "Phantasm",
+        letter: "P",
+        hidden: true
+    }];

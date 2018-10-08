@@ -12,16 +12,18 @@ function Menu(viewPort) {
 
     var diffMenu = [];
     for (var i in DIFF) {
-        diffMenu.push({
-            id: "diff_" + i,
-            diff: +i,
-            title: DIFF[i],
-            action: function (viewPort) {
-                viewPort.world = new World(viewPort);
-                viewPort.world.difficulty = this.diff;
-                viewPort.menu.resetLocation();
-            }
-        });
+        if (!DIFF[i].hidden) {
+            diffMenu.push({
+                id: "diff_" + i,
+                diff: +i,
+                title: DIFF[i].name,
+                action: function (viewPort) {
+                    viewPort.world = new World(viewPort);
+                    viewPort.world.difficulty = this.diff;
+                    viewPort.menu.resetLocation();
+                }
+            });
+        }
     }
 
     var spellMenu = [];
@@ -34,7 +36,7 @@ function Menu(viewPort) {
                     id: "spell_" + spellNumber,
                     diff: +j,
                     spell: SPELL[i],
-                    title: "#" + viewPort.fixedInt(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j][0] + ")",
+                    title: "#" + viewPort.fixedInt(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
                     action: function (viewPort) {
                         viewPort.world = new World(viewPort);
                         viewPort.world.startSpellPractice(+this.diff, this.spell);
@@ -60,6 +62,15 @@ function Menu(viewPort) {
             id: "start",
             title: "Start Game",
             submenu: diffMenu
+        },
+        {
+            id: "extra",
+            title: "Start Extra",
+            action: function (viewPort) {
+                viewPort.world = new World(viewPort);
+                viewPort.world.startExtra(4);
+                viewPort.menu.resetLocation();
+            }
         },
         {
             id: "spell",
@@ -103,6 +114,8 @@ function Menu(viewPort) {
                 viewPort.world = new World(viewPort);
                 if (spell) {
                     viewPort.world.startSpellPractice(diff, spell);
+                } else if (DIFF[diff].hidden) {
+                    viewPort.world.startExtra(diff);
                 } else {
                     viewPort.world.difficulty = diff;
                 }

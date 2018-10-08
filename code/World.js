@@ -36,19 +36,42 @@ function World(vp) {
     }, 1000 / this.ticksPS);
 
     for (var i in STAGE) {
-        this.stages.push({
-            title: STAGE[i].title,
-            desc: STAGE[i].description || "",
-            titleAppears: Math.floor(STAGE[i].appearanceSecond * this.ticksPS),
-            background: STAGE[i].background,
-            backgroundSpeed: STAGE[i].backgroundSpeed
-        });
-        for (var j in STAGE[i].events) {
-            var e = STAGE[i].events[j];
-            this.addEvent(e.func, +i + 1, e.substage, e.second, e.repeatInterval, e.repeatCount);
+        if (!STAGE[i].extra) {
+            this.stages.push({
+                title: STAGE[i].title,
+                desc: STAGE[i].description || "",
+                titleAppears: Math.floor(STAGE[i].appearanceSecond * this.ticksPS),
+                background: STAGE[i].background,
+                backgroundSpeed: STAGE[i].backgroundSpeed
+            });
+            for (var j in STAGE[i].events) {
+                var e = STAGE[i].events[j];
+                this.addEvent(e.func, +i + 1, e.substage, e.second, e.repeatInterval, e.repeatCount);
+            }
         }
     }
 }
+
+World.prototype.startExtra = function (difficulty) {
+    this.difficulty = difficulty;
+    for (var i in STAGE) {
+        if (STAGE[i].extra === difficulty) {
+            this.stages.push({
+                extra: STAGE[i].extra,
+                title: STAGE[i].title,
+                desc: STAGE[i].description || "",
+                titleAppears: Math.floor(STAGE[i].appearanceSecond * this.ticksPS),
+                background: STAGE[i].background,
+                backgroundSpeed: STAGE[i].backgroundSpeed
+            });
+            for (var j in STAGE[i].events) {
+                var e = STAGE[i].events[j];
+                this.addEvent(e.func, +i + 1, e.substage, e.second, e.repeatInterval, e.repeatCount);
+            }
+        }
+    }
+    this.stage = this.stages.length - 1;
+};
 
 World.prototype.startSpellPractice = function (difficulty, spell) {
     this.stage = 0;
@@ -173,7 +196,13 @@ World.prototype.tick = function (interval) {
             this.entities[i].flush(); //refreshing fixed coords
         }
         if (this.time === this.stages[this.stage].titleAppears) {
-            this.vp.showMessage(["Stage " + this.stage + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 120, [FONT.title, FONT.info]);
+            var t;
+            if (this.stages[this.stage].extra) {
+                t = DIFF[this.difficulty].name + " Stage";
+            } else {
+                t = "Stage " + this.stage;
+            }
+            this.vp.showMessage([t + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 120, [FONT.title, FONT.info]);
         }
         var t = this.relTime();
         var ec = this.eventChain[this.stage] ? this.eventChain[this.stage][this.substage] : null;
