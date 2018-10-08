@@ -124,21 +124,23 @@ var FONT = {
         font: "Unispace Rg",
         size: ZOOM * 7,
         weight: "Bold",
-        color: "#c00",
+        color: "#0fc",
         strokeWidth: 4,
-        strokeColor: ZOOM > 3 ? "#fcc" : "transparent",
+        strokeColor: ZOOM > 3 ? "#066" : "transparent",
         menu: {
             size: ZOOM * 15,
-            strokeWidth: 10
+            color: "#fff",
+            strokeWidth: 10,
+            strokeColor: "#600"
         }
     },
     menu: {
         font: "Unispace Rg",
         size: ZOOM * 10,
         style: "Italic",
-        color: "#c00",
+        color: "#c99",
         strokeWidth: 4,
-        strokeColor: "#fcc",
+        strokeColor: "#633",
         selected: {
             weight: "Bold",
             color: "#fff",
