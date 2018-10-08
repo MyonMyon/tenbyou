@@ -329,7 +329,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     if (this.world.time < (this.messageStart + this.messageTime)) {
         this.context.globalAlpha = Math.min(Math.min((this.world.time - this.messageStart) / 10, (this.messageStart + this.messageTime - this.world.time) / 20), 1);
         for (var i in this.messageTextArray) {
-            this.setFont(this.messageStyleArray[i % this.messageTextArray.length]);
+            this.setFont(this.messageStyleArray[i % this.messageStyleArray.length]);
             this.drawText(this.messageTextArray[i], (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2 + this.zoom * 10 * (i - this.messageTextArray.length / 2));
         }
         this.context.globalAlpha = 1;
