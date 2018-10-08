@@ -13,7 +13,7 @@ var CHAR = {
             dir: false
         },
         onShoot: function () {
-            var count = Math.floor(this.power);
+            var count = Math.floor(this.power + 1);
             for (var i = 0; i < count; ++i) {
                 var bullet = new Projectile(
                         this.parentWorld,

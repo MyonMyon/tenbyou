@@ -18,7 +18,7 @@ function Player(parentWorld) {
     this.powerMax = 4;
     this.damageInc = 0.6;
 
-    this.power = 1;
+    this.power = 0;
     this.points = 0;
     this.graze = 0;
 
@@ -218,7 +218,7 @@ Player.prototype.respawn = function () {
         this.lives = this.livesDefault;
         this.bombs = this.bombsDefault;
         this.score = this.score % 10 + 1;
-        this.power = 1;
+        this.power = 0;
         this.graze = 0;
         this.points = 0;
     }
