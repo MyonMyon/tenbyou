@@ -15,8 +15,13 @@ function Bonus(parentWorld, x, y, cat, small, autoGather) {
 }
 
 Bonus.prototype.draw = function (context) {
-    var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
-    context.drawImage(this.parentWorld.vp.imgBonus, (this.types.indexOf(this.cat) | 0) * IMAGE.bonus.width, (this.small ? IMAGE.bonus.height : 0),
+    var minHeight = -this.parentWorld.height / 2 + 3;
+    var offScreen = this.y < minHeight;
+    var ePos = this.parentWorld.vp.toScreen(this.x, offScreen ? minHeight: this.y);
+    context.drawImage(
+            this.parentWorld.vp.imgBonus,
+            (this.types.indexOf(this.cat) | 0) * IMAGE.bonus.width,
+            (this.small + offScreen * 2) * IMAGE.bonus.height,
             IMAGE.bonus.width, IMAGE.bonus.height,
             ePos.x - 3 * this.parentWorld.vp.zoom,
             ePos.y - 3 * this.parentWorld.vp.zoom,
