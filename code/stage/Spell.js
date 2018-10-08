@@ -1,4 +1,19 @@
 var SPELL = {
+    nullity: {
+        boss: "kedama",
+        number: 0,
+        names: [
+            "Nullity"
+        ],
+        health: 1,
+        time: 600,
+        decrTime: 50,
+        bonus: 99999,
+        bonusBound: 5000,
+        func: function (entity) {
+            entity.y1 = 0.1;
+        }
+    },
     kedamaAlpha: {
         boss: "kedama",
         number: 1,
