@@ -1,4 +1,4 @@
-var ENGINE_VER = "v0.3.01 (alpha)";
+var ENGINE_VER = "v0.3.02 (alpha)";
 
 var CODE = [
     "Values",

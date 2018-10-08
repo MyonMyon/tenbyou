@@ -191,21 +191,23 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     var stg = (this.world.time < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
     var spell = (this.world.boss && this.world.boss.attackCurrent >= 0 && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
-    var bgSrc = spell ? IMAGE.spellBackground.file : this.world.stages[stg].background;
-    if (bgSrc) {
-        this.imgBG.src = RES_FOLDER + bgSrc;
-        var t = this.imgBG.height - (this.imgBG.width / this.world.width * this.world.height) - this.world.time * (spell ? 1 : this.world.stages[stg].backgroundSpeed) % (this.imgBG.height);
-        this.context.drawImage(this.imgBG,
-                0, Math.max(0, t),
-                this.imgBG.width, this.imgBG.width / this.world.width * this.world.height,
-                boundaryStart.x, boundaryStart.y - 1 - Math.min(0, t / (this.imgBG.width / this.world.width) * this.zoom),
-                this.world.width * this.zoom, this.world.height * this.zoom);
-        if (t < 0) {
+    if (this.world.stages[stg]) {
+        var bgSrc = spell ? IMAGE.spellBackground.file : this.world.stages[stg].background;
+        if (bgSrc) {
+            this.imgBG.src = RES_FOLDER + bgSrc;
+            var t = this.imgBG.height - (this.imgBG.width / this.world.width * this.world.height) - this.world.time * (spell ? 1 : this.world.stages[stg].backgroundSpeed) % (this.imgBG.height);
             this.context.drawImage(this.imgBG,
-                    0, this.imgBG.height + t,
-                    this.imgBG.width, -t,
-                    boundaryStart.x, boundaryStart.y,
-                    this.world.width * this.zoom, -Math.min(0, t / (this.imgBG.width / this.world.width) * this.zoom));
+                    0, Math.max(0, t),
+                    this.imgBG.width, this.imgBG.width / this.world.width * this.world.height,
+                    boundaryStart.x, boundaryStart.y - 1 - Math.min(0, t / (this.imgBG.width / this.world.width) * this.zoom),
+                    this.world.width * this.zoom, this.world.height * this.zoom);
+            if (t < 0) {
+                this.context.drawImage(this.imgBG,
+                        0, this.imgBG.height + t,
+                        this.imgBG.width, -t,
+                        boundaryStart.x, boundaryStart.y,
+                        this.world.width * this.zoom, -Math.min(0, t / (this.imgBG.width / this.world.width) * this.zoom));
+            }
         }
     }
 
