@@ -71,9 +71,9 @@ function getImages() {
             IMG.push(CHAR[i].sprite.file);
         }
     }
-    for (var i in STAGE.list) {
-        if (STAGE.list[i].background) {
-            IMG.push(STAGE.list[i].background);
+    for (var i in STAGE) {
+        if (STAGE[i].background) {
+            IMG.push(STAGE[i].background);
         }
     }
     for (var i in SPELL) {

@@ -30,28 +30,23 @@ function World(vp) {
     this.vp = vp;
     vp.clearMessage();
 
-    for (var i in STAGE) {
-        this[i] = STAGE[i];
-    }
-
     var self = this;
 
     this.tickerId = setInterval(function () {
         self.tick();
     }, 1000 / this.ticksPS);
 
-    for (var i in STAGE.list) {
+    for (var i in STAGE) {
         this.stages.push({
-            title: STAGE.list[i].title,
-            desc: STAGE.list[i].description || "",
-            titleAppears: Math.floor(STAGE.list[i].appearanceSecond * this.ticksPS),
-            background: STAGE.list[i].background,
-            backgroundSpeed: STAGE.list[i].backgroundSpeed
+            title: STAGE[i].title,
+            desc: STAGE[i].description || "",
+            titleAppears: Math.floor(STAGE[i].appearanceSecond * this.ticksPS),
+            background: STAGE[i].background,
+            backgroundSpeed: STAGE[i].backgroundSpeed
         });
-        for (var j in STAGE.list[i].events) {
-            var e = STAGE.list[i].events[j];
-            this.addEvent(e.func, i, e.substage, e.second, e.repeatInterval, e.repeatCount);
-            console.log(e);
+        for (var j in STAGE[i].events) {
+            var e = STAGE[i].events[j];
+            this.addEvent(e.func, +i + 1, e.substage, e.second, e.repeatInterval, e.repeatCount);
         }
     }
 }
@@ -141,6 +136,12 @@ World.prototype.setBoss = function (enemy, title, isLast) {
 };
 
 World.prototype.addEvent = function (func, stage, substage, second, repeatInterval, repeatCount) {
+    if (typeof repeatInterval === "function") {
+        repeatInterval = repeatInterval(this);
+    }
+    if (typeof repeatCount === "function") {
+        repeatCount = repeatCount(this);
+    }
     substage = substage || 0;
     var ec = this.eventChain;
     if (!ec[stage]) {
@@ -151,7 +152,7 @@ World.prototype.addEvent = function (func, stage, substage, second, repeatInterv
     }
     for (var i = 0; i < (repeatCount || 1); ++i) {
         ec[stage][substage].push({
-            second: second + i * repeatInterval,
+            second: second + i * (repeatInterval || 1),
             done: false,
             fire: func
         });
@@ -178,7 +179,7 @@ World.prototype.tick = function (interval) {
         if (ec) {
             for (var i in ec) {
                 if (!ec[i].done && t >= ec[i].second) {
-                    ec[i].fire();
+                    ec[i].fire(this);
                     ec[i].done = true;
                 }
             }
