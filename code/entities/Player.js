@@ -158,10 +158,10 @@ Player.prototype.draw = function (context) {
         }
 
         context.drawImage(this.customSprite ? this.customSprite : this.parentWorld.vp.imgPlayer,
-                this.focused * (this.customSprite ? this.customSpriteWidth : IMAGE_PLAYER_WIDTH),
-                Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : IMAGE_PLAYER_HEIGHT),
-                this.customSprite ? this.customSpriteWidth : IMAGE_PLAYER_WIDTH,
-                this.customSprite ? this.customSpriteHeight : IMAGE_PLAYER_HEIGHT,
+                this.focused * (this.customSprite ? this.customSpriteWidth : IMAGE.player.width),
+                Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : IMAGE.player.height),
+                this.customSprite ? this.customSpriteWidth : IMAGE.player.width,
+                this.customSprite ? this.customSpriteHeight : IMAGE.player.height,
                 ePos.x - 4 * this.spriteWidth * this.parentWorld.vp.zoom,
                 ePos.y - 4 * this.spriteWidth * this.parentWorld.vp.zoom,
                 8 * this.spriteWidth * this.parentWorld.vp.zoom,

@@ -20,24 +20,24 @@ function ViewPort() {
     this.prevMS = 0;
 
     this.imgPlayer = new Image();
-    this.imgPlayer.src = RES_FOLDER + IMAGE_PLAYER;
+    this.imgPlayer.src = RES_FOLDER + IMAGE.player.file;
     this.imgEnemy = new Image();
-    this.imgEnemy.src = RES_FOLDER + IMAGE_ENEMY;
+    this.imgEnemy.src = RES_FOLDER + IMAGE.enemy.file;
     this.imgBonus = new Image();
-    this.imgBonus.src = RES_FOLDER + IMAGE_BONUS;
+    this.imgBonus.src = RES_FOLDER + IMAGE.bonus.file;
     this.imgProjectile = new Image();
-    this.imgProjectile.src = RES_FOLDER + IMAGE_PROJECTILE;
+    this.imgProjectile.src = RES_FOLDER + IMAGE.projectile.file;
     this.imgParticle = new Image();
-    this.imgParticle.src = RES_FOLDER + IMAGE_PARTICLE;
+    this.imgParticle.src = RES_FOLDER + IMAGE.particle.file;
 
     this.imgBG = new Image();
     this.imgSpell = new Image();
-    this.imgSpell.src = RES_FOLDER + IMAGE_STAGE_SPELL_STRIP;
+    this.imgSpell.src = RES_FOLDER + IMAGE.spellStrip.file;
 
     this.imgBGUI = new Image();
-    this.imgBGUI.src = RES_FOLDER + IMAGE_UI_BG;
+    this.imgBGUI.src = RES_FOLDER + IMAGE.uiBackground.file;
     this.imgGUI = new Image();
-    this.imgGUI.src = RES_FOLDER + IMAGE_GUI;
+    this.imgGUI.src = RES_FOLDER + IMAGE.gui.file;
 
     this.input = new Input(this);
     this.menu = new Menu(this);
@@ -146,22 +146,22 @@ ViewPort.prototype.starShow = function (sprite, line, tab, count, parts) {
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
     var i;
     for (var i = 0; i < count; ++i)
-        this.context.drawImage(this.imgGUI, sprite * IMAGE_GUI_WIDTH, 0, IMAGE_GUI_WIDTH, IMAGE_GUI_HEIGHT,
-                boundaryRight.x + 16 + tab * INFO_TAB + (IMAGE_GUI_WIDTH - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE_GUI_WIDTH * this.zoom / 4, IMAGE_GUI_HEIGHT * this.zoom / 4);
+        this.context.drawImage(this.imgGUI, sprite * IMAGE.gui.width, 0, IMAGE.gui.width, IMAGE.gui.height,
+                boundaryRight.x + 16 + tab * INFO_TAB + (IMAGE.gui.width - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE.gui.width * this.zoom / 4, IMAGE.gui.height * this.zoom / 4);
     if (parts > 0) {
-        this.context.drawImage(this.imgGUI, sprite * IMAGE_GUI_WIDTH, (4 - parts) * IMAGE_GUI_HEIGHT, IMAGE_GUI_WIDTH, IMAGE_GUI_HEIGHT,
-                boundaryRight.x + 16 + tab * INFO_TAB + (IMAGE_GUI_WIDTH - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE_GUI_WIDTH * this.zoom / 4, IMAGE_GUI_HEIGHT * this.zoom / 4);
+        this.context.drawImage(this.imgGUI, sprite * IMAGE.gui.width, (4 - parts) * IMAGE.gui.height, IMAGE.gui.width, IMAGE.gui.height,
+                boundaryRight.x + 16 + tab * INFO_TAB + (IMAGE.gui.width - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE.gui.width * this.zoom / 4, IMAGE.gui.height * this.zoom / 4);
     }
     for (var i = count + (parts > 0 ? 1 : 0); i < 9; ++i)
-        this.context.drawImage(this.imgGUI, sprite * IMAGE_GUI_WIDTH, 4 * IMAGE_GUI_HEIGHT, IMAGE_GUI_WIDTH, IMAGE_GUI_HEIGHT,
-                boundaryRight.x + 16 + tab * INFO_TAB + (IMAGE_GUI_WIDTH - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE_GUI_WIDTH * this.zoom / 4, IMAGE_GUI_HEIGHT * this.zoom / 4);
+        this.context.drawImage(this.imgGUI, sprite * IMAGE.gui.width, 4 * IMAGE.gui.height, IMAGE.gui.width, IMAGE.gui.height,
+                boundaryRight.x + 16 + tab * INFO_TAB + (IMAGE.gui.width - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE.gui.width * this.zoom / 4, IMAGE.gui.height * this.zoom / 4);
 
 };
 
 ViewPort.prototype.iconShow = function (spriteX, spriteY, line, tab) {
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
-    this.context.drawImage(this.imgBonus, spriteX * IMAGE_GUI_WIDTH, spriteY * IMAGE_GUI_HEIGHT, IMAGE_GUI_WIDTH, IMAGE_GUI_HEIGHT,
-            boundaryRight.x + 16 + tab * INFO_TAB + (IMAGE_GUI_WIDTH - 4) * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE_GUI_WIDTH * this.zoom / 4, IMAGE_GUI_HEIGHT * this.zoom / 4);
+    this.context.drawImage(this.imgBonus, spriteX * IMAGE.gui.width, spriteY * IMAGE.gui.height, IMAGE.gui.width, IMAGE.gui.height,
+            boundaryRight.x + 16 + tab * INFO_TAB + (IMAGE.gui.width - 4) * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, IMAGE.gui.width * this.zoom / 4, IMAGE.gui.height * this.zoom / 4);
 };
 
 ViewPort.prototype.draw = function (initFromWorld) {
@@ -192,7 +192,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     var stg = (this.world.time < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
     var spell = (this.world.boss && this.world.boss.attackCurrent >= 0 && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
     if (stg >= 0) {
-        this.imgBG.src = RES_FOLDER + (spell ? IMAGE_STAGE_SPELL : this.world.stages[stg].background);
+        this.imgBG.src = RES_FOLDER + (spell ? IMAGE.spellBackground.file : this.world.stages[stg].background);
         var t = this.imgBG.height - (this.imgBG.width / this.world.width * this.world.height) - this.world.time * (spell ? 1 : this.world.stages[stg].backgroundSpeed) % (this.imgBG.height);
         this.context.drawImage(this.imgBG,
                 0, Math.max(0, t),
@@ -245,8 +245,8 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
         if (this.world.boss.attackCurrent >= 0)
             for (var i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
-                this.context.drawImage(this.imgGUI, 0, 0, IMAGE_GUI_WIDTH, IMAGE_GUI_HEIGHT,
-                        boundaryStart.x + 8 + (IMAGE_GUI_WIDTH - 4) * i * this.zoom / 4, boundaryStart.y + 24, IMAGE_GUI_WIDTH * this.zoom / 4, IMAGE_GUI_HEIGHT * this.zoom / 4);
+                this.context.drawImage(this.imgGUI, 0, 0, IMAGE.gui.width, IMAGE.gui.height,
+                        boundaryStart.x + 8 + (IMAGE.gui.width - 4) * i * this.zoom / 4, boundaryStart.y + 24, IMAGE.gui.width * this.zoom / 4, IMAGE.gui.height * this.zoom / 4);
 
         if (this.world.boss.attackCurrent >= 0 && this.world.boss.attackCurrent < this.world.boss.attacks.length && this.world.boss.attacks[this.world.boss.attackCurrent].spell) {
             this.context.textAlign = "right";

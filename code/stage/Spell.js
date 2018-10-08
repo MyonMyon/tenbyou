@@ -157,6 +157,9 @@ var SPELL = {
         decrTime: 200,
         bonus: 600000,
         bonusBound: 5000,
+        customSpriteFiles: [
+            "nuclear.png"
+        ],
         func: function (entity, difficulty) {
             if (entity.lifetime % Math.floor(12 / (difficulty + 1)) === 0) {
                 var nuclearBall = new Projectile(entity.parentWorld, (Math.random() * (entity.lifetime / 6 % 2 === 0 ? 0.5 : -0.5)) * entity.parentWorld.width, -entity.parentWorld.height / 2 - 5, 0, 6, 0, -0.09);

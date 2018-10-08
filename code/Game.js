@@ -1,4 +1,4 @@
-var ENGINE_VER = "v0.3.00 (alpha)";
+var ENGINE_VER = "v0.3.01 (alpha)";
 
 var CODE = [
     "Values",
@@ -24,30 +24,65 @@ var CODE = [
  * Loads specific scripts.
  *
  * @param {Array} nameArray Array of strings. Each string must be a valid file name with path but without extension.
+ * @param {String} elementTag HTML Tag to contain resource ("script", "image").
  * @param {String} prefix Path prefix, which is added before each file name.
+ * @param {String} postfix Path postfix, which is added after each file name.
  * @param {String} tag Tag to display in tab title during loading.
  * @param {Function} onFinish Function to execute after every script is loaded.
  */
-function loadScripts(nameArray, prefix, tag, onFinish) {
+function loadResources(nameArray, elementTag, prefix, postfix, tag, onFinish) {
     document.getElementsByTagName("title")[0].innerHTML = "Loading";
-    var totalScripts = nameArray.length;
-    var loadedScripts = 0;
+    var totalRes = nameArray.length;
+    var loadedRes = 0;
     for (var i in nameArray) {
-        var s = document.createElement("script");
-        s.src = prefix + nameArray[i] + ".js";
+        var s = document.createElement(elementTag);
+        s.src = prefix + nameArray[i] + postfix;
         s.onload = function () {
-            loadedScripts++;
-            document.getElementsByTagName("title")[0].innerHTML = "Loading " + tag + " " + loadedScripts + "/" + totalScripts;
-            if (loadedScripts === totalScripts) {
+            loadedRes++;
+            document.getElementsByTagName("title")[0].innerHTML = "Loading " + tag + " " + loadedRes + "/" + totalRes;
+            if (loadedRes === totalRes) {
                 onFinish();
             }
         };
         s.onerror = function () {
-            console.error("Script missing: " + this.src);
+            console.error("Resource missing: " + this.src);
         };
         document.head.appendChild(s);
     }
 }
+
+/**
+ * @returns {Array} Array of image resource files.
+ */
+function getImages() {
+    var IMG = [];
+    for (var i in IMAGE) {
+        if (IMAGE[i].file) {
+            IMG.push(IMAGE[i].file);
+        }
+    }
+    for (var i in BOSS) {
+        if (BOSS[i].sprite && BOSS[i].sprite.file) {
+            IMG.push(BOSS[i].sprite.file);
+        }
+    }
+    for (var i in CHAR) {
+        if (CHAR[i].sprite && CHAR[i].sprite.file) {
+            IMG.push(CHAR[i].sprite.file);
+        }
+    }
+    for (var i in STAGE.list) {
+        if (STAGE.list[i].background) {
+            IMG.push(STAGE.list[i].background);
+        }
+    }
+    for (var i in SPELL) {
+        if (SPELL[i].customSpriteFiles) {
+            IMG = IMG.concat(SPELL[i].customSpriteFiles);
+        }
+    }
+    return IMG;
+};
 
 /**
  * Creates the viewport after all the scripts are loaded.
@@ -57,6 +92,8 @@ function onLoad() {
     new ViewPort();
 }
 
-loadScripts(CODE, "code/", "game code", function () {
-    onLoad();
+loadResources(CODE, "script", "code/", ".js", "game code", function () {
+    loadResources(getImages(), "img", RES_FOLDER, "", "game resources", function () {
+        onLoad();
+    });
 });

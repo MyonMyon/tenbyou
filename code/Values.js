@@ -6,25 +6,50 @@ var SHIFT_Y = 0;
 
 var RES_FOLDER = "resources/";
 
-var IMAGE_PLAYER = "player.png";
-var IMAGE_PLAYER_WIDTH = 32;
-var IMAGE_PLAYER_HEIGHT = 32;
-
-var IMAGE_PROJECTILE = "projectile.png";
-var IMAGE_PROJECTILE_WIDTH = 16;
-var IMAGE_PROJECTILE_HEIGHT = 16;
-
-var IMAGE_BONUS = "bonus.png";
-var IMAGE_BONUS_WIDTH = 24;
-var IMAGE_BONUS_HEIGHT = 24;
-
-var IMAGE_ENEMY = "enemy.png";
-var IMAGE_ENEMY_WIDTH = 32;
-var IMAGE_ENEMY_HEIGHT = 32;
-
-var IMAGE_PARTICLE = "splash.png";
-var IMAGE_PARTICLE_WIDTH = 32;
-var IMAGE_PARTICLE_HEIGHT = 32;
+var IMAGE = {
+    player: {
+        file: "player.png",
+        width: 32,
+        height: 32
+    },
+    projectile: {
+        file: "projectile.png",
+        width: 16,
+        height: 16
+    },
+    bonus: {
+        file: "bonus.png",
+        width: 24,
+        height: 24
+    },
+    enemy: {
+        file: "enemy.png",
+        width: 32,
+        height: 32
+    },
+    particle: {
+        file: "splash.png",
+        width: 32,
+        height: 32
+    },
+    gui: {
+        file: "gui.png",
+        width: 24,
+        height: 24
+    },
+    menuBackground: {
+        file: "menubg.png"
+    },
+    uiBackground: {
+        file: "uibg.png"
+    },
+    spellBackground: {
+        file: "bgspell.jpg"
+    },
+    spellStrip: {
+        file: "scline.png"
+    }
+};
 
 var SHIELD_COLOR = "rgba(160, 0, 0, 0.3)";
 var HITBOX_COLOR = "rgba(192, 0, 0, 0.7)";
@@ -37,20 +62,10 @@ var BOSS_HEALTH_ALT_COLOR = "rgba(192, 144, 144, 0.8)";
 var BOSS_HEALTH_SPELL_COLOR = "rgba(255, 0, 0, 0.8)";
 var BOSS_HEALTH_SPELL_ALT_COLOR = "rgba(192, 0, 0, 0.8)";
 
-var IMAGE_STAGE_SPELL = "bgspell.jpg";
-var IMAGE_STAGE_SPELL_STRIP = "scline.png";
-
-var IMAGE_MENU_BG = "menubg.png";
-var IMAGE_UI_BG = "uibg.png";
-
 var BORDER_WIDTH = 2;
 var BORDER_COLOR = "#c00";
 
 var BACKGROUND = "#023";
-
-var IMAGE_GUI = "gui.png";
-var IMAGE_GUI_WIDTH = 24;
-var IMAGE_GUI_HEIGHT = 24;
 
 var FONT = {
     description: {
