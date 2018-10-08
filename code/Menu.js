@@ -27,10 +27,11 @@ function Menu(viewPort) {
     var spellMenu = [];
     var spellNumber = 0;
     for (var i in SPELL) {
+        spellNumber = SPELL[i].number || spellNumber;
         for (var j in SPELL[i].names) {
             if (SPELL[i].names[j]) {
                 spellMenu.push({
-                    id: "spell_" + ++spellNumber,
+                    id: "spell_" + spellNumber,
                     diff: +j,
                     spell: SPELL[i],
                     title: "#" + viewPort.fixedInt(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j][0] + ")",
@@ -40,6 +41,7 @@ function Menu(viewPort) {
                         viewPort.menu.resetLocation();
                     }
                 });
+                ++spellNumber;
             }
         }
     }
