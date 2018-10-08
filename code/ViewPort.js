@@ -309,7 +309,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     this.setFont(FONT.info, {minor: true});
     if (DEBUG_SHOW) {
-        this.infoShow("S" + this.world.substage + "+" + this.world.relTime().toFixed(2), 10, 0);
+        this.infoShow("S" + this.world.stage + "." + this.world.substage + "+" + this.world.relTime().toFixed(2), 10, 0);
         this.infoShow("E" + this.world.entities.length, 10, 0.5);
         this.infoShow(this.fps + "fps", 10, 1);
     }
