@@ -173,13 +173,13 @@ World.prototype.addEvent = function (func, stage, substage, second, repeatInterv
     if (!ec[stage][substage]) {
         ec[stage][substage] = [];
     }
-    for (var i = 0; i < (repeatCount || 1); ++i) {
-        ec[stage][substage].push({
-            second: second + i * (repeatInterval || 1),
-            done: false,
-            fire: func
-        });
-    }
+    ec[stage][substage].push({
+        repeatInterval: repeatInterval,
+        repeatsLeft: repeatCount - 1,
+        second: second,
+        done: false,
+        fire: func
+    });
 };
 
 World.prototype.addEventNow = function (func, secondTimeout) {
@@ -210,7 +210,12 @@ World.prototype.tick = function (interval) {
             for (var i in ec) {
                 if (!ec[i].done && t >= ec[i].second) {
                     ec[i].fire(this);
-                    ec[i].done = true;
+                    if (ec[i].repeatsLeft) {
+                        --ec[i].repeatsLeft;
+                        ec[i].second += ec[i].repeatInterval;
+                    } else {
+                        ec[i].done = true;
+                    }
                 }
             }
         }
