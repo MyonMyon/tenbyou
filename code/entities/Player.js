@@ -178,9 +178,11 @@ Player.prototype.draw = function (context) {
                 8 * this.spriteWidth * this.parentWorld.vp.zoom);
 
         if (this.focused) {
+            context.strokeStyle = HITBOX_STROKE_COLOR;
             context.fillStyle = HITBOX_COLOR;
             context.beginPath();
-            context.arc(ePos.x, ePos.y, 1 * this.parentWorld.vp.zoom * this.width, 0, Math.PI * 2, false);
+            context.arc(ePos.x, ePos.y, this.parentWorld.vp.zoom, 0, Math.PI * 2, false);
+            context.stroke();
             context.fill();
             context.closePath();
         }

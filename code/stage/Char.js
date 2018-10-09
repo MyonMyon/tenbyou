@@ -1,7 +1,7 @@
 var CHAR = {
     barashou: {
         name: "Natsuki Barashou",
-        width: 1,
+        width: 0.5,
         sprite: {
             //file: "barashou.png",
             width: 64,
@@ -40,7 +40,7 @@ var CHAR = {
     },
     freyja: {
         name: "Freyja til Folkvang",
-        width: 2,
+        width: 0.66,
         sprite: {
             //file: "freyja.png",
             width: 64,
