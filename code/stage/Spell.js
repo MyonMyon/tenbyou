@@ -74,6 +74,38 @@ var SPELL = {
                 }
         }
     },
+    orbGamma: {
+        boss: "orb",
+        number: 42,
+        names: [
+            "Balance Sign \"Dichotomy Aberration\"",
+            "Balance Sign \"Trichotomy Aberration\"",
+            "Balance Sign \"Tetrachotomy Aberration\"",
+            "Balance Sign \"Pentachotomy Aberration\""
+        ],
+        health: 160,
+        time: 1500,
+        decrTime: 200,
+        bonus: 40000,
+        bonusBound: 5000,
+        init: function (entity) {
+            var count = entity.parentWorld.difficulty + 2;
+            for (var i = 0; i < count; ++i) {
+                var satellite = new Enemy(entity.parentWorld, entity.x, entity.y, 0, 0, 0, 0, 1);
+                satellite.relAngle = Math.PI * 2 * i / count;
+                satellite.parent = entity;
+                satellite.headToPointSmoothly(entity.x + 20 * Math.sin(satellite.relAngle), entity.y + 20 * Math.cos(satellite.relAngle), 1);
+                satellite.eventChain.addEvent(function(s) {
+                    console.log("AAA")
+                    s.behavior = function() {
+                        this.relAngle += Math.PI / this.parentWorld.ticksPS;
+                        this.x = this.parent.x + 20 * Math.sin(this.relAngle);
+                        this.y = this.parent.y + 20 * Math.cos(this.relAngle);
+                    };
+                }, 1);
+            }
+        }
+    },
     orbAlpha: {
         boss: "orb",
         number: 46,

@@ -28,6 +28,8 @@ function Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite, frameCount, an
     this.spriteDir = spriteDir || false;
     this.angle = 0;
 
+    this.eventChain = new EventChain(this);
+
     this.customSprite = null;
     this.customSpriteWidth = 0;
     this.customSpriteHeight = 0;
@@ -52,6 +54,8 @@ Entity.prototype.flush = function () {
 Entity.prototype.step = function () {
     ++this.lifetime;
 
+    this.eventChain.tick();
+
     if (this.targetTime > 0) {
         this.x2 = 0;
         this.y2 = 0;
@@ -71,6 +75,10 @@ Entity.prototype.step = function () {
         this.x += this.x1;
         this.y += this.y1;
     }
+};
+
+Entity.prototype.relTime = function () {
+    return this.lifetime / this.parentWorld.ticksPS;
 };
 
 Entity.prototype.draw = function (context) {
