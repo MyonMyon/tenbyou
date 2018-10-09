@@ -6,6 +6,7 @@ var CODE = [
     "ViewPort",
     "Menu",
     "World",
+    "EventChain",
     "Input",
     "entities/Entity",
     "entities/Player",

@@ -250,13 +250,11 @@ Enemy.prototype.nextAttack = function () {
         this.behaviorFinal();
         this.parentWorld.boss = null;
         if (this.parentWorld.bossLast) {
-            this.parentWorld.addEventNow(function(world) {
+            this.parentWorld.eventChain.addEventNow(function(world) {
                 world.stageBonus();
             }, 2);
-        }
-        else {
-            ++this.parentWorld.substage;
-            this.parentWorld.substageStart = this.parentWorld.time;
+        } else {
+            this.parentWorld.nextSubstage();
         }
     } else {
         this.parentWorld.player.spellCompleteTerms = true;

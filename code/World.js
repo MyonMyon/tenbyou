@@ -24,16 +24,10 @@ function World(vp) {
     this.substageStart = 0;
     this.continuable = true;
 
-    this.eventChain = [];
-
     this.vp = vp;
     vp.clearMessage();
 
-    var self = this;
-
-    this.tickerId = setInterval(function () {
-        self.tick();
-    }, 1000 / this.ticksPS);
+    this.eventChain = new EventChain(this);
 
     for (var i in STAGE) {
         if (!STAGE[i].extra) {
@@ -44,12 +38,15 @@ function World(vp) {
                 background: STAGE[i].background,
                 backgroundSpeed: STAGE[i].backgroundSpeed
             });
-            for (var j in STAGE[i].events) {
-                var e = STAGE[i].events[j];
-                this.addEvent(e.func, +i + 1, e.substage, e.second, e.repeatInterval, e.repeatCount);
-            }
         }
     }
+    this.initEventChain();
+
+    var self = this;
+
+    this.tickerId = setInterval(function () {
+        self.tick();
+    }, 1000 / this.ticksPS);
 }
 
 World.prototype.startExtra = function (difficulty) {
@@ -64,16 +61,14 @@ World.prototype.startExtra = function (difficulty) {
                 background: STAGE[i].background,
                 backgroundSpeed: STAGE[i].backgroundSpeed
             });
-            for (var j in STAGE[i].events) {
-                var e = STAGE[i].events[j];
-                this.addEvent(e.func, +i + 1, e.substage, e.second, e.repeatInterval, e.repeatCount);
-            }
         }
     }
     this.stage = this.stages.length - 1;
+    this.initEventChain();
 };
 
 World.prototype.startSpellPractice = function (difficulty, spell) {
+    this.eventChain.clear();
     this.stage = 0;
     this.player.power = 4;
     this.player.lives = 0;
@@ -83,6 +78,16 @@ World.prototype.startSpellPractice = function (difficulty, spell) {
     var boss = new Enemy(this);
     boss.addSpell(spell, difficulty);
     boss.setBossData(BOSS[spell.boss], true);
+};
+
+World.prototype.initEventChain = function () {
+    this.eventChain.clear();
+    for (var i in STAGE[this.stage - 1].events) {
+        var e = STAGE[this.stage - 1].events[i];
+        if (e.substage === this.substage) {
+            this.eventChain.addEvent(e.func, e.second, e.repeatInterval, e.repeatCount);
+        }
+    }
 };
 
 World.prototype.destroy = function () {
@@ -98,6 +103,7 @@ World.prototype.addTime = function () {
 World.prototype.nextSubstage = function () {
     ++this.substage;
     this.substageStart = this.time;
+    this.initEventChain();
 };
 
 World.prototype.nextStage = function () {
@@ -116,6 +122,7 @@ World.prototype.nextStage = function () {
     this.player.graze = 0;
     this.player.points = 0;
     this.vp.clearMessage();
+    this.initEventChain();
 };
 
 World.prototype.stageBonus = function () {
@@ -127,7 +134,7 @@ World.prototype.stageBonus = function () {
         bonus = Math.floor(bonus / 10) * 10;
         this.player.score += bonus;
         this.vp.showMessage(["Stage Clear!", "Bonus: " + bonus], this.stageInterval);
-        this.addEventNow(function (world) {
+        this.eventChain.addEventNow(function (world) {
             world.nextStage();
         }, 2);
     } else {
@@ -158,34 +165,6 @@ World.prototype.setBoss = function (enemy, title, isLast) {
     enemy.title = title;
 };
 
-World.prototype.addEvent = function (func, stage, substage, second, repeatInterval, repeatCount) {
-    if (typeof repeatInterval === "function") {
-        repeatInterval = repeatInterval(this);
-    }
-    if (typeof repeatCount === "function") {
-        repeatCount = repeatCount(this);
-    }
-    substage = substage || 0;
-    var ec = this.eventChain;
-    if (!ec[stage]) {
-        ec[stage] = [];
-    }
-    if (!ec[stage][substage]) {
-        ec[stage][substage] = [];
-    }
-    ec[stage][substage].push({
-        repeatInterval: repeatInterval,
-        repeatsLeft: repeatCount - 1,
-        second: second,
-        done: false,
-        fire: func
-    });
-};
-
-World.prototype.addEventNow = function (func, secondTimeout) {
-    this.addEvent(func, this.stage, this.substage, this.relTime() + secondTimeout);
-};
-
 World.prototype.tick = function (interval) {
     if (!this.pause) {
         ++this.time;
@@ -204,21 +183,7 @@ World.prototype.tick = function (interval) {
             }
             this.vp.showMessage([t + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 120, [FONT.title, FONT.info]);
         }
-        var t = this.relTime();
-        var ec = this.eventChain[this.stage] ? this.eventChain[this.stage][this.substage] : null;
-        if (ec) {
-            for (var i in ec) {
-                if (!ec[i].done && t >= ec[i].second) {
-                    ec[i].fire(this);
-                    if (ec[i].repeatsLeft) {
-                        --ec[i].repeatsLeft;
-                        ec[i].second += ec[i].repeatInterval;
-                    } else {
-                        ec[i].done = true;
-                    }
-                }
-            }
-        }
+        this.eventChain.tick();
         this.vp.draw(true);
     }
 };
