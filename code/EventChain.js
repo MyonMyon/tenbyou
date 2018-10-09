@@ -16,7 +16,7 @@ EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCo
     }
     this.events.push({
         repeatInterval: repeatInterval,
-        repeatsLeft: repeatCount - 1,
+        repeatsLeft: (repeatCount || 1) - 1,
         second: second,
         done: false,
         fire: func
