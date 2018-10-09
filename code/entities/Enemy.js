@@ -156,7 +156,9 @@ Enemy.prototype.step = function () {
                         (this.attacks[this.attackCurrent].time - this.attacks[this.attackCurrent].decrTime))) *
                 (this.attacks[this.attackCurrent].bonus - this.attacks[this.attackCurrent].bonusBound)) / 100, 10) * 100;
 
-        this.attacks[this.attackCurrent].func(this, this.attacks[this.attackCurrent].param);
+        if (this.attacks[this.attackCurrent].func) {
+            this.attacks[this.attackCurrent].func(this, this.attacks[this.attackCurrent].param);
+        }
         if (this.lifetime >= this.attacks[this.attackCurrent].time) {
             this.nextAttack();
         }
@@ -212,7 +214,7 @@ Enemy.prototype.addDrops = function (cat, small, amount, reqDamage, afterAttack)
         });
 };
 
-Enemy.prototype.addAttack = function (spell, title, func, param, health, time, decrTime, bonus, bonusBound, newGroup) {
+Enemy.prototype.addAttack = function (spell, title, init, func, param, health, time, decrTime, bonus, bonusBound, newGroup) {
     //decrTime - time when bonus counter start to decrease
     //bonusBound - bonus gotten in the last moment
     //newGroup - forced start of a new group of attacks
@@ -226,11 +228,11 @@ Enemy.prototype.addAttack = function (spell, title, func, param, health, time, d
     else
         ++this.attackGroups[m].nonspells;
 
-    this.attacks[n] = {spell: spell, title: title || "", func: func, param: param, health: health, time: time, bonus: bonus, decrTime: decrTime, bonusBound: bonusBound};
+    this.attacks[n] = {spell: spell, title: title || "", init: init, func: func, param: param, health: health, time: time, bonus: bonus, decrTime: decrTime, bonusBound: bonusBound};
 };
 
 Enemy.prototype.addSpell = function (spell, difficulty, newGroup) {
-    this.addAttack(true, spell.names[difficulty], spell.func, difficulty, spell.health, spell.time, spell.decrTime, spell.bonus, spell.bonusBound, newGroup);
+    this.addAttack(true, spell.names[difficulty], spell.init, spell.func, difficulty, spell.health, spell.time, spell.decrTime, spell.bonus, spell.bonusBound, newGroup);
 };
 
 Enemy.prototype.nextAttack = function () {
@@ -259,6 +261,9 @@ Enemy.prototype.nextAttack = function () {
     } else {
         this.parentWorld.player.spellCompleteTerms = true;
         this.initHealth(this.attacks[this.attackCurrent].health);
+        if (this.attacks[this.attackCurrent].init) {
+            this.attacks[this.attackCurrent].init(this);
+        }
     }
 
     if (g && (this.attackCurrent >= (g.start + g.nonspells + g.spells))) {
