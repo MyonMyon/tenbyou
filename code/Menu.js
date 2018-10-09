@@ -19,7 +19,7 @@ function Menu(viewPort) {
                 title: DIFF[i].name,
                 action: function (viewPort) {
                     viewPort.world = new World(viewPort);
-                    viewPort.world.difficulty = this.diff;
+                    viewPort.world.startStage(1, this.diff);
                     viewPort.menu.resetLocation();
                 }
             });
@@ -117,7 +117,7 @@ function Menu(viewPort) {
                 } else if (DIFF[diff].hidden) {
                     viewPort.world.startExtra(diff);
                 } else {
-                    viewPort.world.difficulty = diff;
+                    viewPort.world.startStage(1, diff);
                 }
                 viewPort.menu.resetLocation();
             }
