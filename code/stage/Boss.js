@@ -15,7 +15,7 @@ var BOSS = {
     },
     orb: {
         name: "O.R.B.",
-        width: 2,
+        width: 6,
         sprite: {
             file: "orb.png",
             width: 128,
@@ -23,7 +23,7 @@ var BOSS = {
             frame: 0,
             frameCount: 1,
             animPeriod: 0,
-            size: 4,
+            size: 2,
             dir: false
         }
     },
