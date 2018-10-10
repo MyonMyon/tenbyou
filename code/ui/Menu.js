@@ -49,7 +49,7 @@ Menu.prototype.getCurrentTitle = function () {
  */
 Menu.prototype.resetLocation = function () {
     this.location = [];
-    this.currentIndex = 0;
+    this.rowOffset = this.currentIndex = 0;
 };
 
 /**
@@ -97,11 +97,11 @@ Menu.prototype.action = function (code) {
             var item = m.submenu[this.currentIndex];
             if (item.submenu) {
                 this.location.push(item.id);
+                this.rowOffset = this.currentIndex = 0;
             }
             if (item.action) {
                 item.action(this.viewPort);
             }
-            this.rowOffset = this.currentIndex = 0;
             break;
     }
     this.lastAction = new Date().getTime();

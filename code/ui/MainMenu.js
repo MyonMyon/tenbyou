@@ -37,7 +37,6 @@ function MainMenu(viewPort) {
                     action: function (viewPort) {
                         viewPort.world = new World(viewPort);
                         viewPort.world.startSpellPractice(+this.diff, this.spell);
-                        viewPort.mainMenu.resetLocation();
                     }
                 });
                 ++spellNumber;
