@@ -40,7 +40,8 @@ function ViewPort() {
     this.imgGUI.src = RES_FOLDER + IMAGE.gui.file;
 
     this.input = new Input(this);
-    this.menu = new Menu(this);
+    this.mainMenu = new MainMenu(this);
+    this.pauseMenu = new PauseMenu(this);
 
     var self = this;
     setInterval(function () {
@@ -177,7 +178,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.prevMS = new Date().getTime() % 1000;
 
     if (!this.world) {
-        this.menu.draw();
+        this.mainMenu.draw();
         return;
     }
 
@@ -338,8 +339,6 @@ ViewPort.prototype.draw = function (initFromWorld) {
     }
 
     if (this.world.pause) {
-        this.context.fillStyle = "rgba(0, 0, 0, 0.5)";
-        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        this.menu.draw();
+        this.pauseMenu.draw();
     }
 };

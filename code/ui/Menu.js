@@ -10,126 +10,6 @@ function Menu(viewPort) {
     this.actionDelay = 200;
     this.rowOffset = 0;
 
-    var diffMenu = [];
-    for (var i in DIFF) {
-        if (!DIFF[i].hidden) {
-            diffMenu.push({
-                id: "diff_" + i,
-                diff: +i,
-                title: DIFF[i].name,
-                action: function (viewPort) {
-                    viewPort.world = new World(viewPort);
-                    viewPort.world.startStage(1, this.diff);
-                    viewPort.menu.resetLocation();
-                }
-            });
-        }
-    }
-
-    var spellMenu = [];
-    var spellNumber = 0;
-    for (var i in SPELL) {
-        spellNumber = SPELL[i].number || spellNumber;
-        for (var j in SPELL[i].names) {
-            if (SPELL[i].names[j]) {
-                spellMenu.push({
-                    id: "spell_" + spellNumber,
-                    diff: +j,
-                    spell: SPELL[i],
-                    title: "#" + viewPort.fixedInt(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
-                    action: function (viewPort) {
-                        viewPort.world = new World(viewPort);
-                        viewPort.world.startSpellPractice(+this.diff, this.spell);
-                        viewPort.menu.resetLocation();
-                    }
-                });
-                ++spellNumber;
-            }
-        }
-    }
-    var inputMenu = [];
-    var aliases = this.viewPort.input.actionsAliases;
-    for (var i in aliases) {
-        if (aliases[i].category === "interaction") {
-            inputMenu.push({
-                title: i.toTitleCase() + ": " + this.viewPort.input.getKeyByAction(i, true)
-            });
-        }
-    }
-
-    this.tree = [
-        {
-            id: "start",
-            title: "Start Game",
-            submenu: diffMenu
-        },
-        {
-            id: "extra",
-            title: "Start Extra",
-            action: function (viewPort) {
-                viewPort.world = new World(viewPort);
-                viewPort.world.startExtra(4);
-                viewPort.menu.resetLocation();
-            }
-        },
-        {
-            id: "spell",
-            title: "Spell Practice",
-            compact: true,
-            submenu: spellMenu
-        },
-        {
-            id: "controls",
-            title: "Controls",
-            submenu: inputMenu
-        },
-        {
-            id: "quit",
-            title: "Quit",
-            action: function () {
-                window.location = "about:blank";
-            }
-        }
-    ];
-
-    this.imgBG = new Image();
-    this.imgBG.src = RES_FOLDER + IMAGE.menuBackground.file;
-
-    this.pauseTree = [
-        {
-            isVisible: function (viewPort) {
-                return viewPort.world && viewPort.world.continuable;
-            },
-            title: "Resume",
-            action: function (viewPort) {
-                viewPort.world.pause = false;
-                viewPort.menu.resetLocation();
-            }
-        },
-        {
-            title: "Restart",
-            action: function (viewPort) {
-                var diff = viewPort.world.difficulty;
-                var spell = viewPort.world.spell;
-                viewPort.world = new World(viewPort);
-                if (spell) {
-                    viewPort.world.startSpellPractice(diff, spell);
-                } else if (DIFF[diff].hidden) {
-                    viewPort.world.startExtra(diff);
-                } else {
-                    viewPort.world.startStage(1, diff);
-                }
-                viewPort.menu.resetLocation();
-            }
-        },
-        {
-            title: "To Main Menu",
-            action: function (viewPort) {
-                viewPort.world.destroy();
-                viewPort.menu.resetLocation();
-            }
-        }
-    ];
     this.resetLocation();
 }
 
@@ -137,7 +17,7 @@ function Menu(viewPort) {
  * @return {Object} Current menu item object.
  */
 Menu.prototype.getCurrentMenu = function () {
-    var menu = {submenu: this.viewPort.world ? this.pauseTree : this.tree}; //AKA Pause Menu and Main Menu
+    var menu = {submenu: this.tree}; //AKA Pause Menu and Main Menu
     var items;
 
     for (var level = 0; level < this.location.length; level++) {
@@ -258,24 +138,13 @@ Menu.prototype.changeIndex = function (delta) {
  */
 Menu.prototype.draw = function () {
     var context = this.viewPort.context;
-    if (!this.viewPort.world) {
-        context.drawImage(this.imgBG, 0, 0, this.imgBG.width, this.imgBG.height, 0, 0, WIDTH, HEIGHT);
-    }
 
     var m = this.getCurrentMenu();
     var items = m.submenu;
-    var title = this.getCurrentTitle();
 
     context.textAlign = MENU_TEXT_ALIGN;
     context.textBaseline = "top";
 
-    if (!this.viewPort.world) {
-        this.viewPort.setFont(FONT.title, {menu: true});
-        this.viewPort.drawText(title, MENU_X, MENU_TITLE_Y);
-        this.viewPort.setFont(FONT.info, {minor: true});
-        this.viewPort.drawText("Tenbyou " + ENGINE_VER + " / " + this.viewPort.fps + " FPS", MENU_X, MENU_VER_Y);
-    }
-    
     var height = m.compact ? MENU_H_COMPACT : MENU_H;
     var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
 

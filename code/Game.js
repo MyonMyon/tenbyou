@@ -7,6 +7,8 @@ var CODE = [
     "EventChain",
     "ui/ViewPort",
     "ui/Menu",
+    "ui/MainMenu",
+    "ui/PauseMenu",
     "ui/Input",
     "entities/Entity",
     "entities/Player",
