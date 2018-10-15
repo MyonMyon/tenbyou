@@ -6,9 +6,10 @@ var CHAR = {
             //file: "barashou.png",
             width: 64,
             height: 64,
-            frame: 0,
-            frameCount: 4,
-            animPeriod: 2,
+            x: 0,
+            y: 0,
+            frames: 4,
+            interval: 0.05,
             size: 1,
             dir: false
         },

@@ -4,6 +4,7 @@ var CODE = [
     "Ext",
     "World",
     "EventChain",
+    "SpriteHandler",
     "ui/ViewPort",
     "ui/Menu",
     "ui/MainMenu",

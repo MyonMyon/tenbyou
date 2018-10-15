@@ -49,7 +49,10 @@ Player.prototype.setCharacterData = function (data) {
     if (data.sprite.file) {
         this.setCustomSprite(data.sprite);
     }
-    this.setSprite(data.sprite.frame, data.sprite.frameCount, data.sprite.animPeriod, data.sprite.size, data.sprite.dir);
+    this.sh.set(data.sprite.x, data.sprite.y);
+    this.sh.animate(data.sprite.frames, data.sprite.interval);
+    //TO DO: remove
+    this.setSprite(null, null, null, data.sprite.size, data.sprite.dir);
     this.onShoot = data.onShoot;
     this.onBomb = data.onBomb;
 };
@@ -167,9 +170,10 @@ Player.prototype.draw = function (context) {
             context.closePath();
         }
 
+        var img = this.sh.getFrame(this.relTime());
         context.drawImage(this.customSprite ? this.customSprite : this.parentWorld.vp.imgPlayer,
                 this.focused * (this.customSprite ? this.customSpriteWidth : IMAGE.player.width),
-                Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : IMAGE.player.height),
+                img.y * (this.customSprite ? this.customSpriteHeight : IMAGE.player.height),
                 this.customSprite ? this.customSpriteWidth : IMAGE.player.width,
                 this.customSprite ? this.customSpriteHeight : IMAGE.player.height,
                 ePos.x - 4 * this.spriteWidth * this.parentWorld.vp.zoom,

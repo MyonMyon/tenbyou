@@ -21,6 +21,9 @@ function Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite, frameCount, an
 
     this.lifetime = 0;
 
+    this.sh = new SpriteHandler();
+
+    //TO DO: REMOVE
     this.sprite = sprite || 0;
     this.frameCount = frameCount || 1;
     this.animPeriod = animPeriod || 4;
@@ -28,6 +31,7 @@ function Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite, frameCount, an
     this.spriteDir = spriteDir || false;
     this.angle = 0;
 
+    //TO DO: REMOVE
     this.customSprite = null;
     this.customSpriteWidth = 0;
     this.customSpriteHeight = 0;
