@@ -28,8 +28,6 @@ function Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite, frameCount, an
     this.spriteDir = spriteDir || false;
     this.angle = 0;
 
-    this.eventChain = new EventChain(this);
-
     this.customSprite = null;
     this.customSpriteWidth = 0;
     this.customSpriteHeight = 0;
@@ -41,6 +39,7 @@ function Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite, frameCount, an
 
 Entity.prototype.init = function () {
     this.parentWorld.entities.push(this);
+    this.eventChain = new EventChain(this);
 };
 
 Entity.prototype.flush = function () {
