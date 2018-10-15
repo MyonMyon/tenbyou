@@ -86,6 +86,7 @@ Entity.prototype.draw = function (context) {
 Entity.prototype.remove = function () {
     //console.info("Removed Entity #" + this.id + " @ " + this.x + ";" + this.y);
     this.removalMark = true;
+    this.eventChain.clear();
 };
 
 Entity.prototype.setCustomSpriteFile = function (source, frameWidth, frameHeight) {
