@@ -214,7 +214,7 @@ Enemy.prototype.addDrops = function (cat, small, amount, reqDamage, afterAttack)
         });
 };
 
-Enemy.prototype.addAttack = function (spell, title, init, func, param, health, time, decrTime, bonus, bonusBound, newGroup) {
+Enemy.prototype.addAttack = function (spell, title, init, func, finish, param, health, time, decrTime, bonus, bonusBound, newGroup) {
     //decrTime - time when bonus counter start to decrease
     //bonusBound - bonus gotten in the last moment
     //newGroup - forced start of a new group of attacks
@@ -228,11 +228,11 @@ Enemy.prototype.addAttack = function (spell, title, init, func, param, health, t
     else
         ++this.attackGroups[m].nonspells;
 
-    this.attacks[n] = {spell: spell, title: title || "", init: init, func: func, param: param, health: health, time: time, bonus: bonus, decrTime: decrTime, bonusBound: bonusBound};
+    this.attacks[n] = {spell: spell, title: title || "", init: init, func: func, finish: finish, param: param, health: health, time: time, bonus: bonus, decrTime: decrTime, bonusBound: bonusBound};
 };
 
 Enemy.prototype.addSpell = function (spell, difficulty, newGroup) {
-    this.addAttack(true, spell.names[difficulty], spell.init, spell.func, difficulty, spell.health, spell.time, spell.decrTime, spell.bonus, spell.bonusBound, newGroup);
+    this.addAttack(true, spell.names[difficulty], spell.init, spell.func, spell.finish, difficulty, spell.health, spell.time, spell.decrTime, spell.bonus, spell.bonusBound, newGroup);
 };
 
 Enemy.prototype.nextAttack = function () {
@@ -243,6 +243,9 @@ Enemy.prototype.nextAttack = function () {
         }
         else
             this.parentWorld.vp.showMessage(["Bonus failed"], 50);
+        if (this.attacks[this.attackCurrent].finish) {
+            this.attacks[this.attackCurrent].finish(this);
+        }
     }
 
     var g = this.attackGroups[this.attackGroupCurrent];

@@ -111,7 +111,7 @@ eventKedamaMidboss = function (world, power) {
 
     var kedama = new Enemy(world);
 
-    kedama.addAttack(false, null, null, nonSpell, world.difficulty, 400, 500);
+    kedama.addAttack(false, null, null, nonSpell, null, world.difficulty, 400, 500);
     if (world.difficulty > 0) {
         if (power)
             kedama.addSpell(SPELL.kedamaBeta, world.difficulty);
@@ -138,9 +138,9 @@ eventOrb = function (world) {
 
     var orb = new Enemy(world);
 
-    orb.addAttack(false, null, null, nonSpell, world.difficulty, 100, 500);
+    orb.addAttack(false, null, null, nonSpell, null, world.difficulty, 100, 500);
     orb.addSpell(SPELL.orbAlpha, world.difficulty);
-    orb.addAttack(false, null, null, nonSpell, world.difficulty, 100, 800);
+    orb.addAttack(false, null, null, nonSpell, null, world.difficulty, 100, 800);
     orb.addSpell(SPELL.orbBeta, world.difficulty);
 
     orb.setBossData(BOSS.orb, true);
