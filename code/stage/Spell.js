@@ -90,18 +90,37 @@ var SPELL = {
         bonusBound: 5000,
         init: function (entity) {
             var count = entity.parentWorld.difficulty + 2;
+            entity.satellites = [];
             for (var i = 0; i < count; ++i) {
-                var satellite = new Enemy(entity.parentWorld, entity.x, entity.y, 0, 0, 0, 0, 1);
+                var satellite = new Enemy(entity.parentWorld, entity.x, entity.y, 0, 0, 0, 0, 1, 160);
+                satellite.setSprite(1, 1, 0, 1, false);
                 satellite.relAngle = Math.PI * 2 * i / count;
                 satellite.parent = entity;
                 satellite.headToPointSmoothly(entity.x + 20 * Math.sin(satellite.relAngle), entity.y + 20 * Math.cos(satellite.relAngle), 1);
-                satellite.eventChain.addEvent(function(s) {
-                    s.behavior = function() {
-                        this.relAngle += Math.PI / this.parentWorld.ticksPS;
+                satellite.eventChain.addEvent(function (s) {
+                    s.behavior = function () {
+                        this.relAngle += Math.PI / this.parentWorld.ticksPS / 2;
                         this.x = this.parent.x + 20 * Math.sin(this.relAngle);
                         this.y = this.parent.y + 20 * Math.cos(this.relAngle);
                     };
                 }, 1);
+                satellite.eventChain.addEvent(function (s) {
+                    var p = new Projectile(s.parentWorld);
+                    p.setVectors(s.x + s.width * Math.sin(s.relAngle), s.y + entity.width * Math.cos(s.relAngle), Math.sin(s.relAngle) * 25, Math.cos(s.relAngle) * 25);
+                    if (Math.floor(s.lifetime / s.parentWorld.ticksPS) % 6 < 3) {
+                        p.headToEntity(s.parentWorld.player, 50, -0.35);
+                        p.setSprite(6, 1, 6, 1, true);
+                    } else {
+                        p.setSprite(7, 1, 6, 1, true);
+                    }
+                    p.width = 2.5;
+                }, 1, 0.2, Infinity);
+                entity.satellites.push(satellite);
+            }
+        },
+        finish: function (entity) {
+            for (var i in entity.satellites) {
+                entity.satellites[i].remove();
             }
         }
     },
