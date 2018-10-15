@@ -167,6 +167,7 @@ var MENU_X = ZOOM * 12;
 var MENU_Y = ZOOM * 88;
 var MENU_H = ZOOM * 10;
 var MENU_H_COMPACT = ZOOM * 7;
+var MENU_SELECTION_OFFSET_X = ZOOM * 4;
 var MENU_VER_Y = ZOOM * 178;
 var MENU_TEXT_ALIGN = "left";
 var MENU_CAPACITY = 7;

@@ -153,7 +153,7 @@ Menu.prototype.draw = function () {
         var row = +i - this.rowOffset;
         if (row >= 0 && row < cap) {
             this.viewPort.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact});
-            this.viewPort.drawText(items[i].title, MENU_X, MENU_Y + height * row);
+            this.viewPort.drawText(items[i].title, MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X, MENU_Y + height * row);
         }
     }
 
