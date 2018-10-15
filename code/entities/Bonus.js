@@ -113,7 +113,7 @@ Bonus.prototype.step = function () {
         var score = this.parentWorld.player.score - oldScore;
         if (score) {
             var t = this.parentWorld.lastText;
-            if (t && t.lifetime <= 5 && t.max === max) {
+            if (t && t.lifetime <= 1 && t.max === max) {
                 t.content += score;
                 t.lifetime = 0;
                 t.x = this.parentWorld.player.x;

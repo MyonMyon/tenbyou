@@ -4,6 +4,7 @@ function Text(parentWorld, x, y, content, max) {
     this.fadeTime = 5;
     this.content = content;
     this.max = max;
+    this.y1 = -1;
 }
 
 Text.prototype.draw = function (context) {

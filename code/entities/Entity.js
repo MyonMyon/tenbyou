@@ -91,7 +91,7 @@ Entity.prototype.remove = function () {
 
 Entity.prototype.setCustomSpriteFile = function (source, frameWidth, frameHeight) {
     this.customSprite = new Image();
-    this.customSprite.src = RES_FOLDER + source;
+    this.customSprite.src = IMAGE_FOLDER + source;
     this.customSpriteWidth = frameWidth || 32;
     this.customSpriteHeight = frameHeight || 32;
 };

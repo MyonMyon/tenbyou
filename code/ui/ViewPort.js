@@ -20,27 +20,28 @@ function ViewPort() {
     this.prevMS = 0;
 
     this.imgPlayer = new Image();
-    this.imgPlayer.src = RES_FOLDER + IMAGE.player.file;
+    this.imgPlayer.src = IMAGE_FOLDER + IMAGE.player.file;
     this.imgEnemy = new Image();
-    this.imgEnemy.src = RES_FOLDER + IMAGE.enemy.file;
+    this.imgEnemy.src = IMAGE_FOLDER + IMAGE.enemy.file;
     this.imgBonus = new Image();
-    this.imgBonus.src = RES_FOLDER + IMAGE.bonus.file;
+    this.imgBonus.src = IMAGE_FOLDER + IMAGE.bonus.file;
     this.imgProjectile = new Image();
-    this.imgProjectile.src = RES_FOLDER + IMAGE.projectile.file;
+    this.imgProjectile.src = IMAGE_FOLDER + IMAGE.projectile.file;
     this.imgParticle = new Image();
-    this.imgParticle.src = RES_FOLDER + IMAGE.particle.file;
+    this.imgParticle.src = IMAGE_FOLDER + IMAGE.particle.file;
 
     this.imgBG = new Image();
     this.imgSpell = new Image();
-    this.imgSpell.src = RES_FOLDER + IMAGE.spellStrip.file;
+    this.imgSpell.src = IMAGE_FOLDER + IMAGE.spellStrip.file;
 
     this.imgBGUI = new Image();
-    this.imgBGUI.src = RES_FOLDER + IMAGE.uiBackground.file;
+    this.imgBGUI.src = IMAGE_FOLDER + IMAGE.uiBackground.file;
     this.imgGUI = new Image();
-    this.imgGUI.src = RES_FOLDER + IMAGE.gui.file;
+    this.imgGUI.src = IMAGE_FOLDER + IMAGE.gui.file;
 
     this.input = new Input(this);
-    this.menu = new Menu(this);
+    this.mainMenu = new MainMenu(this);
+    this.pauseMenu = new PauseMenu(this);
 
     var self = this;
     setInterval(function () {
@@ -177,7 +178,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.prevMS = new Date().getTime() % 1000;
 
     if (!this.world) {
-        this.menu.draw();
+        this.mainMenu.draw();
         return;
     }
 
@@ -194,7 +195,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     if (this.world.stages[stg]) {
         var bgSrc = spell ? IMAGE.spellBackground.file : this.world.stages[stg].background;
         if (bgSrc) {
-            this.imgBG.src = RES_FOLDER + bgSrc;
+            this.imgBG.src = IMAGE_FOLDER + bgSrc;
             var t = this.imgBG.height - (this.imgBG.width / this.world.width * this.world.height) - this.world.time * (spell ? 1 : this.world.stages[stg].backgroundSpeed) % (this.imgBG.height);
             this.context.drawImage(this.imgBG,
                     0, Math.max(0, t),
@@ -338,8 +339,6 @@ ViewPort.prototype.draw = function (initFromWorld) {
     }
 
     if (this.world.pause) {
-        this.context.fillStyle = "rgba(0, 0, 0, 0.5)";
-        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        this.menu.draw();
+        this.pauseMenu.draw();
     }
 };

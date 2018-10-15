@@ -19,7 +19,7 @@ function World(vp) {
     this.difficulty = 0;
     this.stages = new Array();
     this.stages[0] = {title: "", desc: "", titleAppears: 0, background: null}; //used for the spell spractice
-    this.stage = 1;
+    this.stage = 0;
     this.substage = 0;
     this.substageStart = 0;
     this.continuable = true;
@@ -29,6 +29,15 @@ function World(vp) {
 
     this.eventChain = new EventChain(this);
 
+    var self = this;
+
+    this.tickerId = setInterval(function () {
+        self.tick();
+    }, 1000 / this.ticksPS);
+}
+
+World.prototype.startStage = function (stage, difficulty) {
+    this.difficulty = difficulty;
     for (var i in STAGE) {
         if (!STAGE[i].extra) {
             this.stages.push({
@@ -40,30 +49,26 @@ function World(vp) {
             });
         }
     }
+    this.stage = stage;
     this.initEventChain();
-
-    var self = this;
-
-    this.tickerId = setInterval(function () {
-        self.tick();
-    }, 1000 / this.ticksPS);
-}
+};
 
 World.prototype.startExtra = function (difficulty) {
     this.difficulty = difficulty;
     for (var i in STAGE) {
         if (STAGE[i].extra === difficulty) {
-            this.stages.push({
+            this.stages[+i + 1] = {
                 extra: STAGE[i].extra,
                 title: STAGE[i].title,
                 desc: STAGE[i].description || "",
                 titleAppears: Math.floor(STAGE[i].appearanceSecond * this.ticksPS),
                 background: STAGE[i].background,
                 backgroundSpeed: STAGE[i].backgroundSpeed
-            });
+            };
+            break;
         }
     }
-    this.stage = this.stages.length - 1;
+    this.stage = +i + 1;
     this.initEventChain();
 };
 

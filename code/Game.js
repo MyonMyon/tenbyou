@@ -1,13 +1,15 @@
-var ENGINE_VER = "v0.3.06 (alpha)";
+var ENGINE_VER = "v0.3.08 (alpha)";
 
 var CODE = [
     "Values",
     "Ext",
-    "ViewPort",
-    "Menu",
     "World",
     "EventChain",
-    "Input",
+    "ui/ViewPort",
+    "ui/Menu",
+    "ui/MainMenu",
+    "ui/PauseMenu",
+    "ui/Input",
     "entities/Entity",
     "entities/Player",
     "entities/Enemy",
@@ -94,7 +96,7 @@ function onLoad() {
 }
 
 loadResources(CODE, "script", "code/", ".js", "game code", function () {
-    loadResources(getImages(), "img", RES_FOLDER, "", "game resources", function () {
+    loadResources(getImages(), "img", IMAGE_FOLDER, "", "game resources", function () {
         onLoad();
     });
 });

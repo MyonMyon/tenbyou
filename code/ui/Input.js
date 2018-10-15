@@ -190,15 +190,16 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
         return false;
     }
     if (!this.vp.world || this.vp.world.pause) {
+        var menu = this.vp.world ? this.vp.pauseMenu : this.vp.mainMenu;
         var action = this.defaultMappingMenu[keyAbbr];
         if (!action) {
             return false;
         }
         if (!keyValue) {
-            this.vp.menu.action("nav_null");
+            menu.action("nav_null");
             return true;
         }
-        this.vp.menu.action(action);
+        menu.action(action);
         return true;
     }
     var action = this.actionsAliases[this.defaultMapping[keyAbbr]];
