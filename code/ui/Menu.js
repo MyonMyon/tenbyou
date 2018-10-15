@@ -85,6 +85,7 @@ Menu.prototype.action = function (code) {
                 var id = this.location[last];
                 this.location.splice(last, 1);
                 this.rowOffset = this.currentIndex = 0;
+                var m = this.getCurrentMenu();
                 for (var i in m.submenu) {
                     if (m.submenu[i].id === id) {
                         this.currentIndex = +i;
