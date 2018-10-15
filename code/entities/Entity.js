@@ -89,11 +89,11 @@ Entity.prototype.remove = function () {
     this.eventChain.clear();
 };
 
-Entity.prototype.setCustomSpriteFile = function (source, frameWidth, frameHeight) {
+Entity.prototype.setCustomSprite = function (sprite) {
     this.customSprite = new Image();
-    this.customSprite.src = IMAGE_FOLDER + source;
-    this.customSpriteWidth = frameWidth || 32;
-    this.customSpriteHeight = frameHeight || 32;
+    this.customSprite.src = IMAGE_FOLDER + sprite.file;
+    this.customSpriteWidth = sprite.width || 32;
+    this.customSpriteHeight = sprite.height || 32;
 };
 
 Entity.prototype.setSprite = function (sprite, frameCount, animPeriod, spriteWidth, spriteDir) {

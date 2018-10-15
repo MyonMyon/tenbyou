@@ -47,7 +47,7 @@ function Player(parentWorld) {
 Player.prototype.setCharacterData = function (data) {
     this.width = data.width;
     if (data.sprite.file) {
-        this.setCustomSpriteFile(data.sprite.file, data.sprite.width, data.sprite.height);
+        this.setCustomSprite(data.sprite);
     }
     this.setSprite(data.sprite.frame, data.sprite.frameCount, data.sprite.animPeriod, data.sprite.size, data.sprite.dir);
     this.onShoot = data.onShoot;

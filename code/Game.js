@@ -20,7 +20,8 @@ var CODE = [
     "game/Char",
     "game/Boss",
     "game/Spell",
-    "game/Stage"
+    "game/Stage",
+    "game/Sprite"
 ];
 
 /**
@@ -79,9 +80,9 @@ function getImages() {
             IMG.push(STAGE[i].background);
         }
     }
-    for (var i in SPELL) {
-        if (SPELL[i].customSpriteFiles) {
-            IMG = IMG.concat(SPELL[i].customSpriteFiles);
+    for (var i in SPRITE) {
+        if (SPRITE[i].file) {
+            IMG.push(SPRITE[i].file);
         }
     }
     return IMG;
