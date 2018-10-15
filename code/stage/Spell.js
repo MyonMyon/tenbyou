@@ -96,7 +96,6 @@ var SPELL = {
                 satellite.parent = entity;
                 satellite.headToPointSmoothly(entity.x + 20 * Math.sin(satellite.relAngle), entity.y + 20 * Math.cos(satellite.relAngle), 1);
                 satellite.eventChain.addEvent(function(s) {
-                    console.log("AAA")
                     s.behavior = function() {
                         this.relAngle += Math.PI / this.parentWorld.ticksPS;
                         this.x = this.parent.x + 20 * Math.sin(this.relAngle);
