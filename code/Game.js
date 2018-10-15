@@ -1,7 +1,6 @@
 var ENGINE_VER = "v0.3.10 (alpha)";
 
 var CODE = [
-    "Values",
     "Ext",
     "World",
     "EventChain",
@@ -17,10 +16,11 @@ var CODE = [
     "entities/Bonus",
     "entities/Particle",
     "entities/Text",
-    "stage/Char",
-    "stage/Boss",
-    "stage/Spell",
-    "stage/Stage"
+    "game/Values",
+    "game/Char",
+    "game/Boss",
+    "game/Spell",
+    "game/Stage"
 ];
 
 /**
