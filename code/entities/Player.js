@@ -49,10 +49,8 @@ Player.prototype.setCharacterData = function (data) {
     if (data.sprite.file) {
         this.setCustomSprite(data.sprite);
     }
-    this.sh.set(data.sprite.x, data.sprite.y);
+    this.sh.set(data.sprite.x, data.sprite.y, data.sprite.size);
     this.sh.animate(data.sprite.frames, data.sprite.interval);
-    //TO DO: remove
-    this.setSprite(null, null, null, data.sprite.size, data.sprite.dir);
     this.onShoot = data.onShoot;
     this.onBomb = data.onBomb;
 };
@@ -171,15 +169,15 @@ Player.prototype.draw = function (context) {
         }
 
         var img = this.sh.getFrame(this.relTime());
-        context.drawImage(this.customSprite ? this.customSprite : this.parentWorld.vp.imgPlayer,
-                this.focused * (this.customSprite ? this.customSpriteWidth : IMAGE.player.width),
-                img.y * (this.customSprite ? this.customSpriteHeight : IMAGE.player.height),
-                this.customSprite ? this.customSpriteWidth : IMAGE.player.width,
-                this.customSprite ? this.customSpriteHeight : IMAGE.player.height,
-                ePos.x - 4 * this.spriteWidth * this.parentWorld.vp.zoom,
-                ePos.y - 4 * this.spriteWidth * this.parentWorld.vp.zoom,
-                8 * this.spriteWidth * this.parentWorld.vp.zoom,
-                8 * this.spriteWidth * this.parentWorld.vp.zoom);
+        context.drawImage(img.object,
+                (img.x + this.focused) * img.width,
+                img.y * img.height,
+                img.width,
+                img.height,
+                ePos.x - 4 * img.zoom * this.parentWorld.vp.zoom,
+                ePos.y - 4 * img.zoom * this.parentWorld.vp.zoom,
+                8 * img.zoom * this.parentWorld.vp.zoom,
+                8 * img.zoom * this.parentWorld.vp.zoom);
 
         if (this.focused) {
             context.strokeStyle = HITBOX_STROKE_COLOR;
