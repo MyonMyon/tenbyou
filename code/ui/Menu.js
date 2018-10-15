@@ -164,4 +164,7 @@ Menu.prototype.draw = function () {
         context.fillRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * height * cap / (l - cap + 1), MENU_SCROLL_W, height * cap / (l - cap + 2));
     }
 
+    var title = this.getCurrentTitle();
+    this.viewPort.setFont(FONT.title, {menu: true});
+    this.viewPort.drawText(title, MENU_X, MENU_TITLE_Y);
 };

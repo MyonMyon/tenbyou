@@ -45,6 +45,14 @@ function PauseMenu(viewPort) {
 };
 
 /**
+ * @return {String} Current menu title.
+ * @override
+ */
+PauseMenu.prototype.getCurrentTitle = function () {
+    return "Pause";
+};
+
+/**
  * Pause menu interface draw function.
  * @override
  */
