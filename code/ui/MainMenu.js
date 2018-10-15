@@ -89,7 +89,7 @@ function MainMenu(viewPort) {
     ];
 
     this.imgBG = new Image();
-    this.imgBG.src = RES_FOLDER + IMAGE.menuBackground.file;
+    this.imgBG.src = IMAGE_FOLDER + IMAGE.menuBackground.file;
 
 }
 

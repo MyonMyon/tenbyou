@@ -96,7 +96,7 @@ function onLoad() {
 }
 
 loadResources(CODE, "script", "code/", ".js", "game code", function () {
-    loadResources(getImages(), "img", RES_FOLDER, "", "game resources", function () {
+    loadResources(getImages(), "img", IMAGE_FOLDER, "", "game resources", function () {
         onLoad();
     });
 });

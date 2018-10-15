@@ -4,7 +4,8 @@ var HEIGHT = ZOOM * 192;
 var SHIFT_X = ZOOM * -48;
 var SHIFT_Y = 0;
 
-var RES_FOLDER = "resources/";
+var RESOURCE_FOLDER = "resources/";
+var IMAGE_FOLDER = RESOURCE_FOLDER + "img/";
 
 var IMAGE = {
     player: {
