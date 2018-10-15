@@ -7,7 +7,7 @@
 function Menu(viewPort) {
     this.viewPort = viewPort;
 
-    this.actionDelay = 200;
+    this.actionDelay = 100;
     this.rowOffset = 0;
 
     this.resetLocation();
