@@ -83,7 +83,7 @@ var SPELL = {
             "Balance Sign \"Tetrachotomy Aberration\"",
             "Balance Sign \"Pentachotomy Aberration\""
         ],
-        health: 160,
+        health: 500,
         time: 1500,
         decrTime: 200,
         bonus: 40000,
@@ -110,11 +110,12 @@ var SPELL = {
                     if (Math.floor(s.lifetime / s.parentWorld.ticksPS) % 6 < 3) {
                         p.headToEntity(s.parentWorld.player, 50, -0.35);
                         p.setSprite(6, 1, 6, 1, true);
+                        p.width = 2.5;
                     } else {
                         p.setSprite(7, 1, 6, 1, true);
+                        p.width = 4;
                     }
-                    p.width = 2.5;
-                }, 1, 0.2, Infinity);
+                }, 1, 0.1, Infinity);
                 entity.satellites.push(satellite);
             }
         },
