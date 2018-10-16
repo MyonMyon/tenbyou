@@ -96,8 +96,8 @@ Entity.prototype.remove = function () {
 Entity.prototype.setCustomSprite = function (sprite) {
     this.customSprite = new Image();
     this.customSprite.src = SPRITE_FOLDER + sprite.file;
-    this.customSpriteWidth = sprite.width || 32;
-    this.customSpriteHeight = sprite.height || 32;
+    this.customSpriteWidth = sprite.frameWidth || 32;
+    this.customSpriteHeight = sprite.frameHeight || 32;
 };
 
 Entity.prototype.setSprite = function (sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
