@@ -20,8 +20,8 @@ var IMAGE = {
     },
     bonus: {
         file: "bonus.png",
-        width: 24,
-        height: 24
+        width: 48,
+        height: 48
     },
     enemy: {
         file: "enemy.png",
