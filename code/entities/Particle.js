@@ -10,9 +10,9 @@ function Particle(parentWorld, x, y, removeAt, width, randomFrame, moving, sprit
 Particle.prototype.draw = function (context) {
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
     context.drawImage(this.parentWorld.vp.imgParticle,
-            this.sprite * IMAGE.particle.width,
-            (this.frame === -1 ? (Math.floor(this.lifetime / this.animPeriod) % (this.parentWorld.vp.imgParticle.height / IMAGE.particle.height)) : this.frame) * IMAGE.particle.height,
-            IMAGE.particle.width, IMAGE.particle.height,
+            this.sprite * IMAGE.particle.frameWidth,
+            (this.frame === -1 ? (Math.floor(this.lifetime / this.animPeriod) % (this.parentWorld.vp.imgParticle.height / IMAGE.particle.height)) : this.frame) * IMAGE.particle.frameHeight,
+            IMAGE.particle.frameWidth, IMAGE.particle.frameHeight,
             ePos.x - this.parentWorld.vp.zoom * this.width / 2,
             ePos.y - this.parentWorld.vp.zoom * this.width / 2,
             this.parentWorld.vp.zoom * this.width,

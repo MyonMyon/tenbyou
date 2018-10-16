@@ -37,6 +37,8 @@ function Player(parentWorld) {
     this.invulnTime = 0;
     this.autoGatherTime = 0;
 
+    this.sh.setSprite(IMAGE.player);
+
     this.respawnTime = -1;
     this.respawnTimeDefault = 10;
     this.deathbombTime = 5;
@@ -49,7 +51,7 @@ Player.prototype.setCharacterData = function (data) {
     if (data.sprite.file) {
         this.setCustomSprite(data.sprite);
     }
-    this.sh.set(data.sprite.x, data.sprite.y, data.sprite.size);
+    this.sh.setPosition(data.sprite.x, data.sprite.y);
     this.sh.animate(data.sprite.frames, data.sprite.interval);
     this.onShoot = data.onShoot;
     this.onBomb = data.onBomb;
@@ -168,16 +170,8 @@ Player.prototype.draw = function (context) {
             context.closePath();
         }
 
-        var img = this.sh.getFrame(this.relTime());
-        context.drawImage(img.object,
-                (img.x + this.focused) * img.width,
-                img.y * img.height,
-                img.width,
-                img.height,
-                ePos.x - 4 * img.zoom * this.parentWorld.vp.zoom,
-                ePos.y - 4 * img.zoom * this.parentWorld.vp.zoom,
-                8 * img.zoom * this.parentWorld.vp.zoom,
-                8 * img.zoom * this.parentWorld.vp.zoom);
+        this.sh.setPositionShift(this.focused, 0);
+        this.sh.draw(context, ePos.x, ePos.y, this.relTime(), 8 * this.parentWorld.vp.zoom);
 
         if (this.focused) {
             context.strokeStyle = HITBOX_STROKE_COLOR;

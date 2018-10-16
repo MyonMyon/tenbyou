@@ -23,10 +23,10 @@ Enemy.prototype.draw = function (context) {
         context.rotate(this.angle);
 
     context.drawImage(this.customSprite ? this.customSprite : this.parentWorld.vp.imgEnemy,
-            this.sprite * (this.customSprite ? this.customSpriteWidth : IMAGE.enemy.width),
-            Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : IMAGE.enemy.height),
-            this.customSprite ? this.customSpriteWidth : IMAGE.enemy.width,
-            this.customSprite ? this.customSpriteHeight : IMAGE.enemy.height,
+            this.sprite * (this.customSprite ? this.customSpriteWidth : IMAGE.enemy.frameWidth),
+            Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : IMAGE.enemy.frameHeight),
+            this.customSprite ? this.customSpriteWidth : IMAGE.enemy.frameWidth,
+            this.customSprite ? this.customSpriteHeight : IMAGE.enemy.frameHeight,
             -4 * this.spriteWidth * this.parentWorld.vp.zoom,
             -4 * this.spriteWidth * this.parentWorld.vp.zoom,
             8 * this.spriteWidth * this.parentWorld.vp.zoom,

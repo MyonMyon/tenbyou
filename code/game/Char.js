@@ -4,8 +4,8 @@ var CHAR = {
         width: 0.5,
         sprite: {
             //file: "barashou.png",
-            width: 64,
-            height: 64,
+            frameWidth: 32,
+            frameHeight: 32,
             x: 0,
             y: 0,
             frames: 4,

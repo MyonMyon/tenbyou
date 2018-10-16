@@ -15,10 +15,10 @@ Projectile.prototype.draw = function (context) {
         context.rotate(Math.atan2(this.y1, this.x1) - Math.PI / 2 + this.angle);
 
     context.drawImage(this.customSprite ? this.customSprite : this.parentWorld.vp.imgProjectile,
-            this.sprite * (this.customSprite ? this.customSpriteWidth : IMAGE.projectile.width),
-            Math.floor(this.parentWorld.time / this.animPeriod) % this.frameCount * (this.customSprite ? this.customSpriteHeight : IMAGE.projectile.height),
-            this.customSprite ? this.customSpriteWidth : IMAGE.projectile.width,
-            this.customSprite ? this.customSpriteHeight : IMAGE.projectile.height,
+            this.sprite * (this.customSprite ? this.customSpriteWidth : IMAGE.projectile.frameWidth),
+            Math.floor(this.parentWorld.time / this.animPeriod) % this.frameCount * (this.customSprite ? this.customSpriteHeight : IMAGE.projectile.frameHeight),
+            this.customSprite ? this.customSpriteWidth : IMAGE.projectile.frameWidth,
+            this.customSprite ? this.customSpriteHeight : IMAGE.projectile.frameHeight,
             -this.width * this.parentWorld.vp.zoom,
             -this.width * this.parentWorld.vp.zoom,
             this.width * 2 * this.parentWorld.vp.zoom,

@@ -1,7 +1,7 @@
 var SPRITE = {
     nuclear: {
         file: "nuclear.png",
-        width: 128,
-        height: 128
+        frameWidth: 128,
+        frameHeight: 128
     }
 };

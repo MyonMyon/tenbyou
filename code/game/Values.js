@@ -10,33 +10,33 @@ var IMAGE_FOLDER = RESOURCE_FOLDER + "img/";
 var IMAGE = {
     player: {
         file: "player.png",
-        width: 32,
-        height: 32
+        frameWidth: 32,
+        frameHeight: 32
     },
     projectile: {
         file: "projectile.png",
-        width: 32,
-        height: 32
+        frameWidth: 32,
+        frameHeight: 32
     },
     bonus: {
         file: "bonus.png",
-        width: 48,
-        height: 48
+        frameWidth: 48,
+        frameHeight: 48
     },
     enemy: {
         file: "enemy.png",
-        width: 32,
-        height: 32
+        frameWidth: 32,
+        frameHeight: 32
     },
     particle: {
         file: "splash.png",
-        width: 32,
-        height: 32
+        frameWidth: 32,
+        frameHeight: 32
     },
     gui: {
         file: "gui.png",
-        width: 24,
-        height: 24
+        frameWidth: 24,
+        frameHeight: 24
     },
     menuBackground: {
         file: "menubg.png"
