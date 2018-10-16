@@ -13,7 +13,6 @@ function SpriteHandler() {
 
 SpriteHandler.prototype.setSprite = function (sprite) {
     this.object = sprite.object;
-    console.log(this.object);
     this.frameWidth = sprite.frameWidth;
     this.frameHeight = sprite.frameHeight;
 };
