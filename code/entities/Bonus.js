@@ -20,9 +20,9 @@ Bonus.prototype.draw = function (context) {
     var ePos = this.parentWorld.vp.toScreen(this.x, offScreen ? minHeight: this.y);
     context.drawImage(
             this.parentWorld.vp.imgBonus,
-            (this.types.indexOf(this.cat) | 0) * IMAGE.bonus.frameWidth,
-            (this.small + offScreen * 2) * IMAGE.bonus.frameHeight,
-            IMAGE.bonus.frameWidth, IMAGE.bonus.frameHeight,
+            (this.types.indexOf(this.cat) | 0) * SPRITE.bonus.frameWidth,
+            (this.small + offScreen * 2) * SPRITE.bonus.frameHeight,
+            SPRITE.bonus.frameWidth, SPRITE.bonus.frameHeight,
             ePos.x - 3 * this.parentWorld.vp.zoom,
             ePos.y - 3 * this.parentWorld.vp.zoom,
             6 * this.parentWorld.vp.zoom,

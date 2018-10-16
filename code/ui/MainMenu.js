@@ -92,7 +92,7 @@ function MainMenu(viewPort) {
     ];
 
     this.imgBG = new Image();
-    this.imgBG.src = IMAGE_FOLDER + IMAGE.menuBackground.file;
+    this.imgBG.src = SPRITE_FOLDER + SPRITE.menuBackground.file;
 
 }
 

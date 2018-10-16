@@ -1,6 +1,6 @@
 function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
     extend(this, new Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite,
-            frameCount > 0 ? frameCount : (parentWorld.vp.imgEnemy.height / IMAGE.enemy.height), animPeriod, spriteWidth, spriteDir));
+            frameCount > 0 ? frameCount : (parentWorld.vp.imgEnemy.height / SPRITE.enemy.height), animPeriod, spriteWidth, spriteDir));
     this.initialHealth = health || 20;
     this.health = this.initialHealth;
     this.cost = this.initialHealth * 100;
@@ -23,10 +23,10 @@ Enemy.prototype.draw = function (context) {
         context.rotate(this.angle);
 
     context.drawImage(this.customSprite ? this.customSprite : this.parentWorld.vp.imgEnemy,
-            this.sprite * (this.customSprite ? this.customSpriteWidth : IMAGE.enemy.frameWidth),
-            Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : IMAGE.enemy.frameHeight),
-            this.customSprite ? this.customSpriteWidth : IMAGE.enemy.frameWidth,
-            this.customSprite ? this.customSpriteHeight : IMAGE.enemy.frameHeight,
+            this.sprite * (this.customSprite ? this.customSpriteWidth : SPRITE.enemy.frameWidth),
+            Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : SPRITE.enemy.frameHeight),
+            this.customSprite ? this.customSpriteWidth : SPRITE.enemy.frameWidth,
+            this.customSprite ? this.customSpriteHeight : SPRITE.enemy.frameHeight,
             -4 * this.spriteWidth * this.parentWorld.vp.zoom,
             -4 * this.spriteWidth * this.parentWorld.vp.zoom,
             8 * this.spriteWidth * this.parentWorld.vp.zoom,

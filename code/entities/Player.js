@@ -33,7 +33,7 @@ function Player(parentWorld) {
     this.invulnTime = 0;
     this.autoGatherTime = 0;
 
-    this.sh.setSprite(IMAGE.player);
+    this.sh.setSprite(SPRITE.player);
 
     this.respawnTime = -1;
     this.respawnTimeDefault = 10;

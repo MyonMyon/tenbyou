@@ -1,6 +1,6 @@
 function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerside, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
     extend(this, new Entity(parentWorld, x, y, x1, y1, x2, y2, width,
-            sprite || (this.playerside ? 1 : 0), frameCount > 0 ? frameCount : (parentWorld.vp.imgProjectile.height / IMAGE.projectile.height), animPeriod, spriteWidth, spriteDir));
+            sprite || (this.playerside ? 1 : 0), frameCount > 0 ? frameCount : (parentWorld.vp.imgProjectile.height / SPRITE.projectile.height), animPeriod, spriteWidth, spriteDir));
     this.playerside = playerside || false;
     this.grazed = 0;
     this.damage = 1;
@@ -15,10 +15,10 @@ Projectile.prototype.draw = function (context) {
         context.rotate(Math.atan2(this.y1, this.x1) - Math.PI / 2 + this.angle);
 
     context.drawImage(this.customSprite ? this.customSprite : this.parentWorld.vp.imgProjectile,
-            this.sprite * (this.customSprite ? this.customSpriteWidth : IMAGE.projectile.frameWidth),
-            Math.floor(this.parentWorld.time / this.animPeriod) % this.frameCount * (this.customSprite ? this.customSpriteHeight : IMAGE.projectile.frameHeight),
-            this.customSprite ? this.customSpriteWidth : IMAGE.projectile.frameWidth,
-            this.customSprite ? this.customSpriteHeight : IMAGE.projectile.frameHeight,
+            this.sprite * (this.customSprite ? this.customSpriteWidth : SPRITE.projectile.frameWidth),
+            Math.floor(this.parentWorld.time / this.animPeriod) % this.frameCount * (this.customSprite ? this.customSpriteHeight : SPRITE.projectile.frameHeight),
+            this.customSprite ? this.customSpriteWidth : SPRITE.projectile.frameWidth,
+            this.customSprite ? this.customSpriteHeight : SPRITE.projectile.frameHeight,
             -this.width * this.parentWorld.vp.zoom,
             -this.width * this.parentWorld.vp.zoom,
             this.width * 2 * this.parentWorld.vp.zoom,

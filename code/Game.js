@@ -65,9 +65,9 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, onFinish) {
  */
 function getImages() {
     var IMG = [];
-    for (var i in IMAGE) {
-        if (IMAGE[i].file) {
-            IMG.push(IMAGE[i]);
+    for (var i in SPRITE) {
+        if (SPRITE[i].file) {
+            IMG.push(SPRITE[i]);
         }
     }
     for (var i in BOSS) {
@@ -85,11 +85,6 @@ function getImages() {
             IMG.push(STAGE[i].background);
         }
     }
-    for (var i in SPRITE) {
-        if (SPRITE[i]) {
-            IMG.push(SPRITE[i]);
-        }
-    }
     return IMG;
 };
 
@@ -102,7 +97,7 @@ function onLoad() {
 }
 
 loadResources(CODE, "script", "code/", ".js", "game code", function () {
-    loadResources(getImages(), "img", IMAGE_FOLDER, "", "game resources", function () {
+    loadResources(getImages(), "img", SPRITE_FOLDER, "", "game resources", function () {
         onLoad();
     });
 });

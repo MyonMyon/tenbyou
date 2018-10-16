@@ -5,52 +5,7 @@ var SHIFT_X = ZOOM * -48;
 var SHIFT_Y = 0;
 
 var RESOURCE_FOLDER = "resources/";
-var IMAGE_FOLDER = RESOURCE_FOLDER + "img/";
-
-var IMAGE = {
-    player: {
-        file: "player.png",
-        frameWidth: 32,
-        frameHeight: 32
-    },
-    projectile: {
-        file: "projectile.png",
-        frameWidth: 32,
-        frameHeight: 32
-    },
-    bonus: {
-        file: "bonus.png",
-        frameWidth: 48,
-        frameHeight: 48
-    },
-    enemy: {
-        file: "enemy.png",
-        frameWidth: 32,
-        frameHeight: 32
-    },
-    particle: {
-        file: "splash.png",
-        frameWidth: 32,
-        frameHeight: 32
-    },
-    gui: {
-        file: "gui.png",
-        frameWidth: 24,
-        frameHeight: 24
-    },
-    menuBackground: {
-        file: "menubg.png"
-    },
-    uiBackground: {
-        file: "uibg.png"
-    },
-    spellBackground: {
-        file: "bgspell.jpg"
-    },
-    spellStrip: {
-        file: "scline.png"
-    }
-};
+var SPRITE_FOLDER = RESOURCE_FOLDER + "img/";
 
 var SHIELD_COLOR = "rgba(160, 0, 0, 0.3)";
 var HITBOX_COLOR = "rgba(255, 255, 255, 0.7)";
