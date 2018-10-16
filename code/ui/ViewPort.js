@@ -159,8 +159,16 @@ ViewPort.prototype.starShow = function (sprite, line, tab, count, parts) {
 
 ViewPort.prototype.iconShow = function (spriteX, spriteY, line, tab) {
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
-    this.context.drawImage(this.imgBonus, spriteX * SPRITE.gui.frameWidth, spriteY * SPRITE.gui.frameHeight, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
-            boundaryRight.x + 16 + tab * INFO_TAB + (SPRITE.gui.frameWidth - 4) * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, SPRITE.gui.frameWidth * this.zoom / 4, SPRITE.gui.frameHeight * this.zoom / 4);
+    this.context.drawImage(
+            this.imgBonus,
+            spriteX * SPRITE.bonus.frameWidth,
+            spriteY * SPRITE.bonus.frameHeight,
+            SPRITE.bonus.frameWidth,
+            SPRITE.bonus.frameHeight,
+            boundaryRight.x + 16 + tab * INFO_TAB + this.zoom * 5,
+            boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE,
+            6 * this.zoom,
+            6 * this.zoom);
 };
 
 ViewPort.prototype.draw = function (initFromWorld) {
