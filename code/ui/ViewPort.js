@@ -143,18 +143,18 @@ ViewPort.prototype.infoShow = function (info, line, tab, reverse) {
 
 ViewPort.prototype.starShow = function (sprite, line, tab, count, parts) {
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
-    var i;
-    for (var i = 0; i < count; ++i)
-        this.context.drawImage(this.imgGUI, sprite * SPRITE.gui.frameWidth, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
-                boundaryRight.x + 16 + tab * INFO_TAB + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, SPRITE.gui.frameWidth * this.zoom / 4, SPRITE.gui.frameHeight * this.zoom / 4);
-    if (parts > 0) {
-        this.context.drawImage(this.imgGUI, sprite * SPRITE.gui.frameWidth, (4 - parts) * SPRITE.gui.frameHeight, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
-                boundaryRight.x + 16 + tab * INFO_TAB + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, SPRITE.gui.frameWidth * this.zoom / 4, SPRITE.gui.frameHeight * this.zoom / 4);
+    for (var i = 0; i < 9; ++i) {
+        this.context.drawImage(
+                this.imgGUI,
+                sprite * SPRITE.gui.frameWidth,
+                (i < count ? 0 : (i === count ? 4 - parts : 4)) * SPRITE.gui.frameHeight,
+                SPRITE.gui.frameWidth,
+                SPRITE.gui.frameHeight,
+                boundaryRight.x + 16 + tab * INFO_TAB + i * this.zoom * 5,
+                boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE,
+                6 * this.zoom,
+                6 * this.zoom);
     }
-    for (var i = count + (parts > 0 ? 1 : 0); i < 9; ++i)
-        this.context.drawImage(this.imgGUI, sprite * SPRITE.gui.frameWidth, 4 * SPRITE.gui.frameHeight, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
-                boundaryRight.x + 16 + tab * INFO_TAB + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4, boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE, SPRITE.gui.frameWidth * this.zoom / 4, SPRITE.gui.frameHeight * this.zoom / 4);
-
 };
 
 ViewPort.prototype.iconShow = function (spriteX, spriteY, line, tab) {
