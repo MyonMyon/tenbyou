@@ -96,6 +96,9 @@ Menu.prototype.action = function (code) {
             break;
         case "nav_enter":
             var item = m.submenu[this.currentIndex];
+            if (item.isEnabled && !item.isEnabled()) {
+                break;
+            }
             if (item.submenu) {
                 this.location.push(item.id);
                 this.rowOffset = this.currentIndex = 0;
@@ -152,7 +155,7 @@ Menu.prototype.draw = function () {
     for (var i in items) {
         var row = +i - this.rowOffset;
         if (row >= 0 && row < cap) {
-            this.viewPort.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact});
+            this.viewPort.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact, disabled: items[i].isEnabled && !items[i].isEnabled()});
             this.viewPort.drawText(items[i].title, MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X, MENU_Y + height * row);
         }
     }

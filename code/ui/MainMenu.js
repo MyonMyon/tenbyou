@@ -62,6 +62,9 @@ function MainMenu(viewPort) {
         {
             id: "extra",
             title: "Start Extra",
+            isEnabled: function (viewPort) {
+                return false;
+            },
             action: function (viewPort) {
                 viewPort.world = new World(viewPort);
                 viewPort.world.startExtra(4);

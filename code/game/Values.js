@@ -148,6 +148,10 @@ var FONT = {
             color: "#fff",
             strokeColor: "#c00"
         },
+        disabled: {
+            color: "#ccc",
+            strokeColor: "#666"
+        },
         compact: {
             size: ZOOM * 7,
             strokeWidth: 3
