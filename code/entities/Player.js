@@ -1,16 +1,12 @@
 function Player(parentWorld) {
     extend(this, new Entity(parentWorld, 0, parentWorld.height / 2 - 5));
 
-    this.hiscore = 1000000;
-    this.hiscoreDisplayed = 1000000;
-    this.score = 0;
-    this.scoreDisplayed = 0;
+    this.hiscoreDisplayed = this.hiscore = 1000000;
+    this.scoreDisplayed = this.score = 0;
 
-    this.livesDefault = 2;
-    this.lives = this.livesDefault;
+    this.lives = this.livesDefault = 2;
     this.lifeParts = 0;
-    this.bombsDefault = 3;
-    this.bombs = this.bombsDefault;
+    this.bombs = this.bombsDefault = 3;
     this.bombParts = 0;
 
     this.spellCompleteTerms = true;
