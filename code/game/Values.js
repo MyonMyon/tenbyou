@@ -117,7 +117,7 @@ var FONT = {
 var INFO_LINE = ZOOM * 8;
 var INFO_TAB = ZOOM * 40;
 
-var GAME_TITLE = "Occasional Flaw";
+var GAME_TITLE = "🤔ccasional Flaw";
 var ENGINE_VER_SHOW = true;
 var DEBUG_SHOW = true;
 
