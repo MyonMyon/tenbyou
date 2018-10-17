@@ -2,8 +2,10 @@ var STAGE = [{
         title: "Nest of Precursors",
         description: "The place you will never return to.",
         appearanceSecond: 1.3,
-        background: "bg1.jpg",
-        backgroundSpeed: 10,
+        background: {
+            file: "bg1.jpg",
+            speed: 10
+        },
         events: [{
                 substage: 0,
                 second: 0.5,
@@ -62,8 +64,10 @@ var STAGE = [{
         title: "The Assembly",
         description: "Remains of the abandoned paradise.",
         appearanceSecond: 4,
-        background: "bg2.jpg",
-        backgroundSpeed: 2,
+        background: {
+            file: "bg2.jpg",
+            speed: 2
+        },
         events: [{
                 substage: 0,
                 second: 4,
@@ -82,8 +86,10 @@ var STAGE = [{
         title: "Test",
         description: "You're not gonna see something here.",
         appearanceSecond: 4,
-        background: "bg2.jpg",
-        backgroundSpeed: 2,
+        background: {
+            file: "bg2.jpg",
+            speed: 2
+        },
         events: [{
                 substage: 1,
                 second: 4,

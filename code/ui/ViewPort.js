@@ -19,8 +19,6 @@ function ViewPort() {
     this.fps = 0;
     this.prevMS = 0;
 
-    this.imgBG = new Image();
-
     this.input = new Input(this);
     this.mainMenu = new MainMenu(this);
     this.pauseMenu = new PauseMenu(this);
@@ -183,21 +181,20 @@ ViewPort.prototype.draw = function (initFromWorld) {
     var stg = (this.world.time < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
     var spell = (this.world.boss && this.world.boss.attackCurrent >= 0 && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
     if (this.world.stages[stg]) {
-        var bgSrc = spell ? SPRITE.spellBackground.file : this.world.stages[stg].background;
-        if (bgSrc) {
-            this.imgBG.src = SPRITE_FOLDER + bgSrc;
-            var t = this.imgBG.height - (this.imgBG.width / this.world.width * this.world.height) - this.world.time * (spell ? 1 : this.world.stages[stg].backgroundSpeed) % (this.imgBG.height);
-            this.context.drawImage(this.imgBG,
+        var bg = spell ? SPRITE.spellBackground : this.world.stages[stg].background;
+        if (bg) {
+            var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - this.world.time * (spell ? 1 : bg.speed) % (bg.object.height);
+            this.context.drawImage(bg.object,
                     0, Math.max(0, t),
-                    this.imgBG.width, this.imgBG.width / this.world.width * this.world.height,
-                    boundaryStart.x, boundaryStart.y - 1 - Math.min(0, t / (this.imgBG.width / this.world.width) * this.zoom),
+                    bg.object.width, bg.object.width / this.world.width * this.world.height,
+                    boundaryStart.x, boundaryStart.y - 1 - Math.min(0, t / (bg.object.width / this.world.width) * this.zoom),
                     this.world.width * this.zoom, this.world.height * this.zoom);
             if (t < 0) {
-                this.context.drawImage(this.imgBG,
-                        0, this.imgBG.height + t,
-                        this.imgBG.width, -t,
+                this.context.drawImage(bg.object,
+                        0, bg.object.height + t,
+                        bg.object.width, -t,
                         boundaryStart.x, boundaryStart.y,
-                        this.world.width * this.zoom, -Math.min(0, t / (this.imgBG.width / this.world.width) * this.zoom));
+                        this.world.width * this.zoom, -Math.min(0, t / (bg.object.width / this.world.width) * this.zoom));
             }
         }
     }
