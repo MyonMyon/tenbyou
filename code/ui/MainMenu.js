@@ -90,10 +90,6 @@ function MainMenu(viewPort) {
             }
         }
     ];
-
-    this.imgBG = new Image();
-    this.imgBG.src = SPRITE_FOLDER + SPRITE.menuBackground.file;
-
 }
 
 /**
@@ -101,7 +97,8 @@ function MainMenu(viewPort) {
  * @override
  */
 MainMenu.prototype.draw = function () {
-    this.viewPort.context.drawImage(this.imgBG, 0, 0, this.imgBG.width, this.imgBG.height, 0, 0, WIDTH, HEIGHT);
+    var o = SPRITE.menuBackground.object;
+    this.viewPort.context.drawImage(o, 0, 0, o.width, o.height, 0, 0, WIDTH, HEIGHT);
 
     this.$draw();
 

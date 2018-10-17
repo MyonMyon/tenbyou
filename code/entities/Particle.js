@@ -2,16 +2,16 @@ function Particle(parentWorld, x, y, removeAt, width, randomFrame, moving, sprit
     var a = Math.random() * Math.PI * 2;
     var r = Math.random() + 0.1;
     extend(this, new Entity(parentWorld, x, y, moving ? r * Math.cos(a) : 0, moving ? r * Math.sin(a) : 0, 0, 0, width,
-            sprite, frameCount > 0 ? frameCount : (parentWorld.vp.imgParticle.height / SPRITE.particle.height), animPeriod, spriteWidth, spriteDir));
+            sprite, frameCount > 0 ? frameCount : (SPRITE.particle.object.height / SPRITE.particle.height), animPeriod, spriteWidth, spriteDir));
     this.removeAt = removeAt || 20;
-    this.frame = randomFrame ? Math.floor(Math.random() * parentWorld.vp.imgParticle.height / SPRITE.particle.height) : -1;
+    this.frame = randomFrame ? Math.floor(Math.random() * SPRITE.particle.object.height / SPRITE.particle.height) : -1;
 }
 
 Particle.prototype.draw = function (context) {
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
-    context.drawImage(this.parentWorld.vp.imgParticle,
+    context.drawImage(SPRITE.particle.object,
             this.sprite * SPRITE.particle.frameWidth,
-            (this.frame === -1 ? (Math.floor(this.lifetime / this.animPeriod) % (this.parentWorld.vp.imgParticle.height / SPRITE.particle.height)) : this.frame) * SPRITE.particle.frameHeight,
+            (this.frame === -1 ? (Math.floor(this.lifetime / this.animPeriod) % (SPRITE.particle.object.height / SPRITE.particle.height)) : this.frame) * SPRITE.particle.frameHeight,
             SPRITE.particle.frameWidth, SPRITE.particle.frameHeight,
             ePos.x - this.parentWorld.vp.zoom * this.width / 2,
             ePos.y - this.parentWorld.vp.zoom * this.width / 2,

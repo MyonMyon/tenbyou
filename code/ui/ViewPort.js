@@ -19,23 +19,7 @@ function ViewPort() {
     this.fps = 0;
     this.prevMS = 0;
 
-    this.imgEnemy = new Image();
-    this.imgEnemy.src = SPRITE_FOLDER + SPRITE.enemy.file;
-    this.imgBonus = new Image();
-    this.imgBonus.src = SPRITE_FOLDER + SPRITE.bonus.file;
-    this.imgProjectile = new Image();
-    this.imgProjectile.src = SPRITE_FOLDER + SPRITE.projectile.file;
-    this.imgParticle = new Image();
-    this.imgParticle.src = SPRITE_FOLDER + SPRITE.particle.file;
-
     this.imgBG = new Image();
-    this.imgSpell = new Image();
-    this.imgSpell.src = SPRITE_FOLDER + SPRITE.spellStrip.file;
-
-    this.imgBGUI = new Image();
-    this.imgBGUI.src = SPRITE_FOLDER + SPRITE.uiBackground.file;
-    this.imgGUI = new Image();
-    this.imgGUI.src = SPRITE_FOLDER + SPRITE.gui.file;
 
     this.input = new Input(this);
     this.mainMenu = new MainMenu(this);
@@ -145,7 +129,7 @@ ViewPort.prototype.starShow = function (sprite, line, tab, count, parts) {
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
     for (var i = 0; i < 9; ++i) {
         this.context.drawImage(
-                this.imgGUI,
+                SPRITE.gui.object,
                 sprite * SPRITE.gui.frameWidth,
                 (i < count ? 0 : (i === count ? 4 - parts : 4)) * SPRITE.gui.frameHeight,
                 SPRITE.gui.frameWidth,
@@ -160,7 +144,7 @@ ViewPort.prototype.starShow = function (sprite, line, tab, count, parts) {
 ViewPort.prototype.iconShow = function (spriteX, spriteY, line, tab) {
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
     this.context.drawImage(
-            this.imgBonus,
+            SPRITE.bonus.object,
             spriteX * SPRITE.bonus.frameWidth,
             spriteY * SPRITE.bonus.frameHeight,
             SPRITE.bonus.frameWidth,
@@ -218,15 +202,19 @@ ViewPort.prototype.draw = function (initFromWorld) {
         }
     }
 
-    if (spell)
-        for (var i = 0; i < 2; ++i)
-            for (var j = 0; j < 2 + (boundaryEnd.x + boundaryStart.x) / (this.imgSpell.width * this.zoom / 4); ++j)
-                this.context.drawImage(this.imgSpell,
+    if (spell) {
+        var o = SPRITE.spellBackground.object;
+        for (var i = 0; i < 2; ++i) {
+            for (var j = 0; j < 2 + (boundaryEnd.x + boundaryStart.x) / (o.width * this.zoom / 4); ++j) {
+                this.context.drawImage(o,
                         0, 0,
-                        this.imgSpell.width, this.imgSpell.height,
-                        boundaryStart.x + this.world.time * (i === 0 ? 6 : -6) % (this.imgSpell.width * this.zoom / 4) + (j - 1) * (this.imgSpell.width * this.zoom / 4),
-                        (boundaryStart.y * (0.25 + (1 - i) * 0.5) + boundaryEnd.y * (0.25 + i * 0.5)) - this.imgSpell.height / 2,
-                        this.imgSpell.width * this.zoom / 4, this.imgSpell.height * this.zoom / 4);
+                        o.width, o.height,
+                        boundaryStart.x + this.world.time * (i === 0 ? 6 : -6) % (o.width * this.zoom / 4) + (j - 1) * (o.width * this.zoom / 4),
+                        (boundaryStart.y * (0.25 + (1 - i) * 0.5) + boundaryEnd.y * (0.25 + i * 0.5)) - o.height / 2,
+                        o.width * this.zoom / 4, o.height * this.zoom / 4);
+            }
+        }
+    }
 
     this.context.globalAlpha = Math.max(Math.min(Math.min(this.world.time / 5, (this.world.stageInterval - this.world.time) / 5), 1), 0);
     this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
@@ -255,7 +243,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
         if (this.world.boss.attackCurrent >= 0)
             for (var i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
-                this.context.drawImage(this.imgGUI, 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
+                this.context.drawImage(SPRITE.gui.object, 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
                         boundaryStart.x + 8 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4, boundaryStart.y + 24, SPRITE.gui.frameWidth * this.zoom / 4, SPRITE.gui.frameHeight * this.zoom / 4);
 
         if (this.world.boss.attackCurrent >= 0 && this.world.boss.attackCurrent < this.world.boss.attacks.length && this.world.boss.attacks[this.world.boss.attackCurrent].spell) {
@@ -283,10 +271,11 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.context.fillRect(0, 0, x1, yN); //left plank
     this.context.fillRect(x2, 0, xN - x2, yN); //right plank
 
-    this.context.drawImage(this.imgBGUI, 0, 0, this.imgBGUI.width, y1 / yN * this.imgBGUI.height, 0, 0, xN, y1);
-    this.context.drawImage(this.imgBGUI, 0, y2 / yN * this.imgBGUI.height, this.imgBGUI.width, y1 / yN * this.imgBGUI.height, 0, y2, xN, y1);
-    this.context.drawImage(this.imgBGUI, 0, 0, x1 / xN * this.imgBGUI.width, this.imgBGUI.height, 0, 0, x1, yN);
-    this.context.drawImage(this.imgBGUI, x2 / xN * this.imgBGUI.width, 0, (xN - x2) / xN * this.imgBGUI.width, this.imgBGUI.height, x2, 0, xN - x2, yN);
+    var o = SPRITE.uiBackground.object;
+    this.context.drawImage(o, 0, 0, o.width, y1 / yN * o.height, 0, 0, xN, y1);
+    this.context.drawImage(o, 0, y2 / yN * o.height, o.width, y1 / yN * o.height, 0, y2, xN, y1);
+    this.context.drawImage(o, 0, 0, x1 / xN * o.width, o.height, 0, 0, x1, yN);
+    this.context.drawImage(o, x2 / xN * o.width, 0, (xN - x2) / xN * o.width, o.height, x2, 0, xN - x2, yN);
 
     this.context.lineWidth = BORDER_WIDTH;
     this.context.strokeStyle = BORDER_COLOR;
