@@ -78,6 +78,7 @@ function Input(viewPort) {
         "ArrowDown": "nav_down",
         "KeyZ": "nav_enter",
         "Enter": "nav_enter",
+        "KeyX": "nav_back",
         "Escape": "nav_back"
     };
     this.pressedBuffer = [];
