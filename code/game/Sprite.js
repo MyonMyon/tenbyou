@@ -17,7 +17,31 @@ var SPRITE = {
     bonus: {
         file: "bonus.png",
         frameWidth: 48,
-        frameHeight: 48
+        frameHeight: 48,
+        large: {
+            y: 0
+        },
+        small: {
+            y: 1
+        },
+        power: {
+            x: 0
+        },
+        point: {
+            x: 1
+        },
+        bombs: {
+            x: 2
+        },
+        lives: {
+            x: 3
+        },
+        gauge: {
+            x: 4
+        },
+        offScreen: {
+            y: 2
+        }
     },
     enemy: {
         file: "enemy.png",

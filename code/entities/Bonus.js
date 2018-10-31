@@ -1,32 +1,21 @@
 function Bonus(parentWorld, x, y, cat, small, autoGather) {
-    this.types = [
-        "power",
-        "point",
-        "bombs",
-        "lives",
-        "gauge"
-    ];
-
     extend(this, new Entity(parentWorld, x, y, 0, -2, 0, 0.1, 0));
 
     this.cat = cat;
     this.small = small;
     this.autoGather = autoGather || false;
+    this.sh.setSprite(SPRITE.bonus);
+    var o = SPRITE.bonus[small ? "small" : "large"];
+    Object.assign(o, SPRITE.bonus[cat]);
+    this.sh.setPosition(o.x, o.y);
 }
 
 Bonus.prototype.draw = function (context) {
     var minHeight = -this.parentWorld.height / 2 + 3;
     var offScreen = this.y < minHeight;
     var ePos = this.parentWorld.vp.toScreen(this.x, offScreen ? minHeight: this.y);
-    context.drawImage(
-            SPRITE.bonus.object,
-            (this.types.indexOf(this.cat) | 0) * SPRITE.bonus.frameWidth,
-            (this.small + offScreen * 2) * SPRITE.bonus.frameHeight,
-            SPRITE.bonus.frameWidth, SPRITE.bonus.frameHeight,
-            ePos.x - 3 * this.parentWorld.vp.zoom,
-            ePos.y - 3 * this.parentWorld.vp.zoom,
-            6 * this.parentWorld.vp.zoom,
-            6 * this.parentWorld.vp.zoom);
+    this.sh.setPositionShift(offScreen * SPRITE.bonus.offScreen.x || 0, offScreen * SPRITE.bonus.offScreen.y || 0);
+    this.sh.draw(context, ePos.x, ePos.y, 0, 6 * this.parentWorld.vp.zoom);
 };
 
 Bonus.prototype.step = function () {
