@@ -200,7 +200,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     }
 
     if (spell) {
-        var o = SPRITE.spellBackground.object;
+        var o = SPRITE.spellStrip.object;
         for (var i = 0; i < 2; ++i) {
             for (var j = 0; j < 2 + (boundaryEnd.x + boundaryStart.x) / (o.width * this.zoom / 4); ++j) {
                 this.context.drawImage(o,
