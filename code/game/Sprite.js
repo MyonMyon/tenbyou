@@ -49,7 +49,7 @@ var SPRITE = {
         frameHeight: 32
     },
     particle: {
-        file: "splash.png",
+        file: "particle.png",
         frameWidth: 32,
         frameHeight: 32
     },
