@@ -169,7 +169,7 @@ Enemy.prototype.behavior = function () {
 };
 
 Enemy.prototype.behaviorFinal = function () {
-    new Particle(this.parentWorld, this.x, this.y, this.initialHealth < 100 ? 20 : 40, this.initialHealth < 100 ? 8 : 16, false, false, 0, this.initialHealth < 100 ? 4 : 8); //splash
+    new Particle(this.parentWorld, this.x, this.y, this.initialHealth < 100 ? 20 : 40, this.initialHealth < 100 ? 8 : 16, false, false, "splash");
     this.parentWorld.splash(this, this.initialHealth / 5, 8, 10);
     this.remove();
 };

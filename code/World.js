@@ -216,13 +216,13 @@ World.prototype.replaceBonus = function (catWhat, smallWhat, catWith, smallWith)
         if (e instanceof Bonus && e.cat === catWhat && e.small === smallWhat) {
             e.cat = catWith;
             e.small = smallWith;
-            new Particle(this, e.x, e.y, 8, 8, true, false, 1, 0, 2);
+            new Particle(this, e.x, e.y, 8, 8, true, false, "spark");
         }
     }
 };
 
 World.prototype.splash = function (entity, count, area, time) {
     for (var i = 0; i < count; ++i) {
-        new Particle(this, entity.x, entity.y, time + (Math.random() - 0.5) * time, 8, true, true, 1, 0);
+        new Particle(this, entity.x, entity.y, time + (Math.random() - 0.5) * time, 8, true, true, "spark");
     }
 };

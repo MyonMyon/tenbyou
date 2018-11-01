@@ -51,7 +51,19 @@ var SPRITE = {
     particle: {
         file: "particle.png",
         frameWidth: 32,
-        frameHeight: 32
+        frameHeight: 32,
+        splash: {
+            x: 0,
+            y: 0,
+            frames: 5,
+            interval: 0.2
+        },
+        spark: {
+            x: 1,
+            y: 0,
+            frames: 5,
+            interval: 0.1
+        }
     },
     gui: {
         file: "gui.png",
