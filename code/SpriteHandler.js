@@ -1,6 +1,7 @@
 function SpriteHandler() {
     this.animationFrames = [];
     this.animationLength = Infinity;
+    this.animationOffset = 0;
     this.position = {
         x: 0,
         y: 0
@@ -44,8 +45,12 @@ SpriteHandler.prototype.animate = function (frames, interval) {
     }
 };
 
+SpriteHandler.prototype.setRandomFrame = function () {
+    this.animationOffset = Math.random() * this.animationLength;
+};
+
 SpriteHandler.prototype.getFrame = function (time) {
-    var cTime = time % this.animationLength;
+    var cTime = (time + this.animationOffset) % this.animationLength;
     var shift = {x: 0, y: 0};
     var frameTime = 0;
     for (var i in this.animationFrames) {
