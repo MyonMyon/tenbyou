@@ -13,9 +13,23 @@ function SpriteHandler() {
 }
 
 SpriteHandler.prototype.setSprite = function (sprite) {
-    this.object = sprite.object;
-    this.frameWidth = sprite.frameWidth;
-    this.frameHeight = sprite.frameHeight;
+    if (typeof sprite === "String") {
+        this.name = sprite;
+        sprite = this.ref[sprite];
+    } else {
+        this.ref = sprite;
+    }
+    if (sprite.object) {
+        this.object = sprite.object;
+    }
+    if (sprite.frameWidth && sprite.frameHeight) {
+        this.frameWidth = sprite.frameWidth;
+        this.frameHeight = sprite.frameHeight;
+    }
+    this.setPosition(sprite.x || 0, sprite.y || 0);
+    if (sprite.frames) {
+        this.animate(sprite.frames, sprite.interval);
+    }
 };
 
 SpriteHandler.prototype.setPosition = function (x, y) {
