@@ -200,7 +200,7 @@ World.prototype.randomBonus = function () {
 World.prototype.clearField = function (damageForEnemies) {
     for (var i in this.entities) {
         var e = this.entities[i];
-        if (e instanceof Projectile && !e.playerside) {
+        if (e instanceof Projectile && !e.playerSide) {
             e.remove();
             new Bonus(this, e.x, e.y, "point", true, true);
         }

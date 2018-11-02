@@ -150,7 +150,7 @@ Entity.prototype.nearestEntity = function (type, range) {
     var nearestDistance = range || this.parentWorld.height * 2;
     for (var i in this.parentWorld.entities) {
         var e = this.parentWorld.entities[i];
-        if ((e instanceof type && ((type === Projectile && !e.playerside) || type !== Projectile)) || type === null) {
+        if ((e instanceof type && ((type === Projectile && !e.playerSide) || type !== Projectile)) || type === null) {
             if (e !== this && this.parentWorld.distanceBetweenEntities(this, e) < nearestDistance) {
                 nearest = e;
                 nearestDistance = this.parentWorld.distanceBetweenEntities(this, e);

@@ -1,7 +1,7 @@
-function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerside, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
+function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerSide, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
     extend(this, new Entity(parentWorld, x, y, x1, y1, x2, y2, width,
-            sprite || (this.playerside ? 1 : 0), frameCount > 0 ? frameCount : (SPRITE.projectile.object.height / SPRITE.projectile.height), animPeriod, spriteWidth, spriteDir));
-    this.playerside = playerside || false;
+            sprite || (this.playerSide ? 1 : 0), frameCount > 0 ? frameCount : (SPRITE.projectile.object.height / SPRITE.projectile.height), animPeriod, spriteWidth, spriteDir));
+    this.playerSide = playerSide || false;
     this.grazed = 0;
     this.damage = 1;
 }
@@ -43,7 +43,7 @@ Projectile.prototype.draw = function (context) {
 Projectile.prototype.step = function () {
     this.$step();
 
-    var div = this.playerside ? 1.8 : 2;
+    var div = this.playerSide ? 1.8 : 2;
     //remove from world
     if (this.x > this.parentWorld.width / div + this.width * 2
             || this.x < -this.parentWorld.width / div - this.width * 2
@@ -51,7 +51,7 @@ Projectile.prototype.step = function () {
             || this.y < -this.parentWorld.height / div - this.width * 2)
         this.remove();
 
-    if (!this.playerside) {
+    if (!this.playerSide) {
         //collision
         var d = this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player);
         if (d < (this.width + this.parentWorld.player.width)) {

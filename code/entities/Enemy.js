@@ -140,7 +140,7 @@ Enemy.prototype.step = function () {
     //collision with bullets
     for (var i in  this.parentWorld.entities) {
         var e = this.parentWorld.entities[i];
-        if (e instanceof Projectile && e.playerside) {
+        if (e instanceof Projectile && e.playerSide) {
             if (this.parentWorld.distanceBetweenEntities(this, e) < (this.width + e.width)) {
                 this.hurt(e.damage);
                 e.remove();

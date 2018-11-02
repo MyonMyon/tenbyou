@@ -22,7 +22,7 @@ var CHAR = {
                         this.y + Math.abs(i + 0.5 - count / 2) * 6 - 8, 0, -8);
                 bullet.width = 2;
                 bullet.damage = (1 + this.damageInc) / (count + this.damageInc);
-                bullet.playerside = true;
+                bullet.playerSide = true;
                 var special = count >= 3 && (i === 0 || i === count - 1);
                 bullet.setSprite(special ? 2 : 1, 2, 4);
                 if (special)
