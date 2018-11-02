@@ -38,10 +38,12 @@ var SPELL = {
                 for (var i = 0; i < c; ++i) {
                     var a = i / c * Math.PI * 2;
                     var d = entity.lifetime / 20;
-                    var p = new Projectile(entity.parentWorld);
-                    p.setVectors(entity.x + entity.width * Math.sin(a), entity.y + entity.width * Math.cos(a), Math.sin(a + d) * 25, Math.cos(a + d) * 25);
-                    p.width = 2.5;
-                    p.setSprite(entity.lifetime % 2 + 6, 1, 6, 1, true);
+                    new Projectile(entity.parentWorld,
+                            entity.x + entity.width * Math.sin(a),
+                            entity.y + entity.width * Math.cos(a),
+                            Math.sin(a + d) * 25,
+                            Math.cos(a + d) * 25,
+                            0, 0, 2.5, false, entity.lifetime % 2 ? "staticBlue" : "staticRed");
                 }
         }
     },
@@ -63,14 +65,16 @@ var SPELL = {
             if (entity.lifetime > 10 && entity.lifetime % 6 === 0)
                 for (var i = 0; i < c; ++i) {
                     var a = i / c * Math.PI * 2;
-                    var p = new Projectile(entity.parentWorld);
-                    p.setVectors(entity.x + entity.width * Math.sin(a), entity.y + entity.width * Math.cos(a), Math.sin(a) * 25, Math.cos(a) * 25);
-                    p.width = 2.5;
+                    var p = new Projectile(entity.parentWorld,
+                            entity.x + entity.width * Math.sin(a),
+                            entity.y + entity.width * Math.cos(a),
+                            Math.sin(a) * 25,
+                            Math.cos(a) * 25,
+                            0, 0, 2.5, false, entity.lifetime / 6 % 2 ? "staticBlue" : "staticRed");
                     p.behavior = function () {
                         if (this.lifetime % 60 === 10)
                             this.headToEntity(entity.parentWorld.player, 0, 2);
                     };
-                    p.setSprite(entity.lifetime / 6 % 2 + 6, 1, 6, 1, true);
                 }
         }
     },
@@ -105,15 +109,15 @@ var SPELL = {
                     };
                 }, 1);
                 satellite.eventChain.addEvent(function (s) {
-                    var p = new Projectile(s.parentWorld);
-                    p.setVectors(s.x + s.width * Math.sin(s.relAngle), s.y + entity.width * Math.cos(s.relAngle), Math.sin(s.relAngle) * 25, Math.cos(s.relAngle) * 25);
-                    if (Math.floor(s.lifetime / s.parentWorld.ticksPS) % 6 < 3) {
+                    var alt = Math.floor(s.lifetime / s.parentWorld.ticksPS) % 6 < 3;
+                    var p = new Projectile(s.parentWorld,
+                            s.x + s.width * Math.sin(s.relAngle),
+                            s.y + entity.width * Math.cos(s.relAngle),
+                            Math.sin(s.relAngle) * 25,
+                            Math.cos(s.relAngle) * 25,
+                            0, 0, alt ? 2.5 : 4, false, alt ? "staticRed" : "staticBlue");
+                    if (alt) {
                         p.headToEntity(s.parentWorld.player, 50, -0.35);
-                        p.setSprite(6, 1, 6, 1, true);
-                        p.width = 2.5;
-                    } else {
-                        p.setSprite(7, 1, 6, 1, true);
-                        p.width = 4;
                     }
                 }, 1, 0.1, Infinity);
                 entity.satellites.push(satellite);
@@ -146,11 +150,15 @@ var SPELL = {
                 entity.x1 = 0;
                 var c = 2 + difficulty;
                 var r = 24;
-                var s = 2;
+                var s = 60;
                 for (var i = 0; i < c; ++i) {
                     var a = i / c * Math.PI * 2 + Math.cos(entity.lifetime / 40);
-                    var p = new Projectile(entity.parentWorld, entity.x + Math.sin(a) * r, entity.y + Math.cos(a) * r, Math.sin(a) * s, Math.cos(a) * s);
-                    p.setSprite(0, 1);
+                    var p = new Projectile(entity.parentWorld,
+                            entity.x + Math.sin(a) * r,
+                            entity.y + Math.cos(a) * r,
+                            Math.sin(a) * s,
+                            Math.cos(a) * s,
+                            0, 0, 2, false, "orbBlue");
                     p.reflects = 1;
                     p.behavior = function () {
                         if ((this.x > this.parentWorld.width / 2 || this.x < -this.parentWorld.width / 2) && this.reflects > 0) {
@@ -186,34 +194,41 @@ var SPELL = {
                 entity.x = 0;
                 entity.x1 = 0;
                 var r = 2;
-                var s = 2;
+                var s = 60;
                 var a = Math.PI - entity.lifetime / 15;
                 entity.angle = entity.lifetime / 15 - Math.PI / 2;
-                var p = new Projectile(entity.parentWorld, entity.x + Math.sin(a) * r, entity.y + Math.cos(a) * r, Math.sin(a) * s, Math.cos(a) * s);
-                p.width = 4;
-                p.setSprite(6 + entity.lifetime % 2, 1);
+                var p = new Projectile(entity.parentWorld,
+                        entity.x + Math.sin(a) * r,
+                        entity.y + Math.cos(a) * r,
+                        Math.sin(a) * s,
+                        Math.cos(a) * s,
+                        0, 0, 4, false, entity.lifetime % 2 ? "staticBlue" : "staticRed");
                 if (entity.lifetime % 100 > 80) {
                     if (entity.lifetime % 200 > 100) {
                         if (entity.lifetime % 4 === 0) {
-                            s = 3;
+                            s = 90;
                             var c = 2 + difficulty;
                             for (var i = -c; i <= c; ++i) {
                                 a = -Math.atan2(entity.y - entity.parentWorld.player.y, entity.x - entity.parentWorld.player.x) - Math.PI / 2 + Math.PI / 20 * i;
-                                p = new Projectile(entity.parentWorld, entity.x + Math.sin(a) * r, entity.y + Math.cos(a) * r, Math.sin(a) * s, Math.cos(a) * s);
-                                p.setSprite(0, 1);
-                                p.width = 2;
+                                p = new Projectile(entity.parentWorld,
+                                        entity.x + Math.sin(a) * r,
+                                        entity.y + Math.cos(a) * r,
+                                        Math.sin(a) * s,
+                                        Math.cos(a) * s,
+                                        0, 0, 2, false, "orbBlue");
                             }
                         }
                     } else {
                         if (entity.lifetime % 4 === 0) {
-                            p = new Projectile(entity.parentWorld, entity.x, entity.y);
+                            p = new Projectile(entity.parentWorld,
+                                    entity.x,
+                                    entity.y,
+                                    0, 0, 0, 0, 6, false, "orbBlue");
                             p.headToEntity(entity.parentWorld.player, 100, -1.2);
-                            p.width = 6;
                             p.behavior = function () {
                                 if (this.lifetime % (32 / (difficulty + 1)) === 0)
                                     this.headToEntity(this.parentWorld.player, 80, -1.2);
                             };
-                            p.setSprite(0, 1);
                         }
                     }
                 }
@@ -235,10 +250,10 @@ var SPELL = {
         bonusBound: 5000,
         func: function (entity, difficulty) {
             if (entity.lifetime % Math.floor(12 / (difficulty + 1)) === 0) {
-                var nuclearBall = new Projectile(entity.parentWorld, (Math.random() - 0.5) * entity.parentWorld.width, -entity.parentWorld.height / 2 - 5, 0, 6, 0, -0.09);
-                nuclearBall.setCustomSprite(SPRITE.nuclear);
-                nuclearBall.setSprite(0, 1, 1, 1, false);
-                nuclearBall.width = 20;
+                var nuclearBall = new Projectile(entity.parentWorld,
+                        (Math.random() - 0.5) * entity.parentWorld.width,
+                        -entity.parentWorld.height / 2 - 5,
+                        0, 180, 0, -2.7, 20, false, "nuclear");
                 nuclearBall.behavior = function () {
                     if (this.width <= 0.2)
                         this.remove();

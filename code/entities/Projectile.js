@@ -1,6 +1,16 @@
-function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerSide, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
-    extend(this, new Entity(parentWorld, x, y, x1, y1, x2, y2, width,
-            sprite || (this.playerSide ? 1 : 0), frameCount > 0 ? frameCount : (SPRITE.projectile.object.height / SPRITE.projectile.height), animPeriod, spriteWidth, spriteDir));
+function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerSide, spriteName) {
+    extend(this, new Entity(parentWorld,
+            x,
+            y,
+            x1 / parentWorld.ticksPS,
+            y1 / parentWorld.ticksPS,
+            x2 / parentWorld.ticksPS,
+            y2 / parentWorld.ticksPS,
+            width));
+    this.sh.setSprite(SPRITE.projectile);
+    if (spriteName) {
+        this.sh.setSprite(SPRITE.projectile[spriteName], spriteName);
+    }
     this.playerSide = playerSide || false;
     this.grazed = 0;
     this.damage = 1;
@@ -18,15 +28,7 @@ Projectile.prototype.draw = function (context) {
     if (this.spriteDir || this.angle)
         context.rotate(Math.atan2(this.y1, this.x1) - Math.PI / 2 + this.angle);
 
-    context.drawImage(this.customSprite ? this.customSprite : SPRITE.projectile.object,
-            this.sprite * (this.customSprite ? this.customSpriteWidth : SPRITE.projectile.frameWidth),
-            Math.floor(this.parentWorld.time / this.animPeriod) % this.frameCount * (this.customSprite ? this.customSpriteHeight : SPRITE.projectile.frameHeight),
-            this.customSprite ? this.customSpriteWidth : SPRITE.projectile.frameWidth,
-            this.customSprite ? this.customSpriteHeight : SPRITE.projectile.frameHeight,
-            -this.width * this.parentWorld.vp.zoom,
-            -this.width * this.parentWorld.vp.zoom,
-            this.width * 2 * this.parentWorld.vp.zoom,
-            this.width * 2 * this.parentWorld.vp.zoom);
+    this.sh.draw(context, 0, 0, this.relTime(), this.parentWorld.vp.zoom * this.width * 2);
 
     if (this.spriteDir || this.angle)
         context.rotate(-Math.atan2(this.y1, this.x1) + Math.PI / 2 - this.angle);

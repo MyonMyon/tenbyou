@@ -27,13 +27,14 @@ var STAGE = [{
                         fairy.addDrops(i === 0 ? "power" : "point", i === 0, 5); //type, size (false — big), amount
                         if (Math.random() < 0.1)
                             fairy.addDrops("power", false, 1); //10% chance of big power item;
-                        fairy.bulletSprite = i + 3; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
+                        fairy.bulletSprite = i ? "eyeBlue" : "eyeRed"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
                         fairy.behavior = function () { //and now let's code the fairy's behavior!
                             if (this.lifetime % Math.floor(32 / (this.parentWorld.difficulty + 1)) === 0 && this.lifetime > 20) { //doing things every 7 ticks, starting from fairy's tick #20+
-                                var bullet = new Projectile(world, this.x, this.y); //new bullet here
+                                var bullet = new Projectile(world,
+                                        this.x,
+                                        this.y,
+                                        0, 0, 0, 0, 2, false, this.bulletSprite); //new bullet here
                                 bullet.followCounter = 0;
-                                bullet.width = 2; //bullet hitbox
-                                bullet.setSprite(this.bulletSprite, 7, 6, 1, false); //spite set, as described above
                                 bullet.headToEntity(world.player, 0, 2.5); //starting moving to the player (comment to easy graze), parameters: target entity, initial speed, acceleration
                                 bullet.behavior = function () { //and bullet's behavior!
                                     if (world.vectorLength(this.x1, this.y1) > 2) //if speed > 2
@@ -43,7 +44,7 @@ var STAGE = [{
                                             this.headToEntity(world.player, 0, 2.5); //stop and refresh directions
                                             this.followCounter++;
                                             //this.headToEntity(this.whoShotThis, 0, -0.1); //stop and refresh directions
-                                            this.sprite = (this.sprite === 3) ? 4 : 3; //swap sprites for bullets
+                                            //this.sh.setSprite((this.sh.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
                                         }
                                     }
                                 };
@@ -112,10 +113,12 @@ eventKedamaMidboss = function (world, power) {
                 var v = entity.lifetime % 100 < 50;
                 var a = i / c * Math.PI * 2;
                 var d = (v ? entity.lifetime : -entity.lifetime) / 20;
-                var p = new Projectile(entity.parentWorld);
-                p.setVectors(entity.x + entity.width * Math.sin(a + d), entity.y + entity.width * Math.cos(a + d), Math.sin(a + d) * 50, Math.cos(a + d) * 50);
-                p.width = 2.5;
-                p.setSprite(d > 0 ? 6 : 7, 1, 6, 1, true);
+                new Projectile(entity.parentWorld,
+                        entity.x + entity.width * Math.sin(a + d),
+                        entity.y + entity.width * Math.cos(a + d),
+                        Math.sin(a + d) * 50,
+                        Math.cos(a + d) * 50,
+                        0, 0, 2.5, false, d > 0 ? "staticRed" : "staticBlue");
             }
     };
 
@@ -140,8 +143,12 @@ eventOrb = function (world) {
             for (var i = 0; i < c; ++i) {
                 var a = i / c * Math.PI * 2;
                 var d = entity.lifetime / 20 * 2;
-                var p = new Projectile(entity.parentWorld, entity.x + Math.sin(a), entity.y + Math.cos(a), Math.sin(a + d), Math.cos(a + d));
-                p.setSprite(i % 2 + 6, 1, 1);
+                new Projectile(entity.parentWorld,
+                        entity.x + Math.sin(a),
+                        entity.y + Math.cos(a),
+                        Math.sin(a + d) * 30,
+                        Math.cos(a + d) * 30,
+                        0, 0, 2, false, i % 2 ? "staticBlue" : "staticRed");
             }
         }
     };

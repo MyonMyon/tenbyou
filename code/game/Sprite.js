@@ -7,12 +7,58 @@ var SPRITE = {
     projectile: {
         file: "projectile.png",
         frameWidth: 32,
-        frameHeight: 32
-    },
-    nuclear: {
-        file: "nuclear.png",
-        frameWidth: 128,
-        frameHeight: 128
+        frameHeight: 32,
+        orbBlue: {
+            x: 0,
+            y: 0,
+            frames: 4,
+            interval: 0.2
+        },
+        coin: {
+            x: 1,
+            y: 0,
+            frames: 2,
+            interval: 0.3
+        },
+        coinSpecial: {
+            x: 2,
+            y: 0,
+            frames: 2,
+            interval: 0.3
+        },
+        eyeRed: {
+            x: 3,
+            y: 0,
+            frames: 7,
+            interval: 0.15
+        },
+        eyeBlue: {
+            x: 4,
+            y: 0,
+            frames: 7,
+            interval: 0.15
+        },
+        catGreen: {
+            x: 5,
+            y: 0
+        },
+        catMagenta: {
+            x: 5,
+            y: 1
+        },
+        staticRed: {
+            x: 6,
+            y: 0
+        },
+        staticBlue: {
+            x: 7,
+            y: 0
+        },
+        nuclear: {
+            file: "nuclear.png",
+            frameWidth: 128,
+            frameHeight: 128
+        }
     },
     bonus: {
         file: "bonus.png",
