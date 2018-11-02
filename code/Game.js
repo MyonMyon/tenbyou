@@ -69,6 +69,12 @@ function getImages() {
         if (SPRITE[i].file) {
             IMG.push(SPRITE[i]);
         }
+        //and... one level deeper:
+        for (var j in SPRITE[i]) {
+            if (SPRITE[i][j].file) {
+                IMG.push(SPRITE[i][j]);
+            }
+        }
     }
     for (var i in BOSS) {
         if (BOSS[i].sprite && BOSS[i].sprite.file) {
