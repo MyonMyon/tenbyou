@@ -10,6 +10,10 @@ Projectile.prototype.draw = function (context) {
 
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
 
+    if (this.playerSide) {
+        context.globalAlpha = 0.4;
+    }
+
     context.translate(ePos.x, ePos.y);
     if (this.spriteDir || this.angle)
         context.rotate(Math.atan2(this.y1, this.x1) - Math.PI / 2 + this.angle);
@@ -38,6 +42,8 @@ Projectile.prototype.draw = function (context) {
         context.fill();
         context.closePath();
     }
+
+    context.globalAlpha = 1;
 };
 
 Projectile.prototype.step = function () {
