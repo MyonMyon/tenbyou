@@ -31,6 +31,7 @@ var STAGE = [{
                         fairy.behavior = function () { //and now let's code the fairy's behavior!
                             if (this.lifetime % Math.floor(32 / (this.parentWorld.difficulty + 1)) === 0 && this.lifetime > 20) { //doing things every 7 ticks, starting from fairy's tick #20+
                                 var bullet = new Projectile(world, this.x, this.y); //new bullet here
+                                bullet.followCounter = 0;
                                 bullet.width = 2; //bullet hitbox
                                 bullet.setSprite(this.bulletSprite, 7, 6, 1, false); //spite set, as described above
                                 bullet.headToEntity(world.player, 0, 2.5); //starting moving to the player (comment to easy graze), parameters: target entity, initial speed, acceleration
@@ -38,9 +39,12 @@ var STAGE = [{
                                     if (world.vectorLength(this.x1, this.y1) > 2) //if speed > 2
                                         this.setVectors(null, null, null, null, 0, 0); //stop accelerating
                                     if (world.time % 50 === 0) { //doing things every 50 ticks. this.parentWorld.time is for a sync move, you can replace it with this.lifetime and see what will happen
-                                        this.headToEntity(world.player, 0, 2.5); //stop and refresh directions
-                                        //this.headToEntity(this.whoShotThis, 0, -0.1); //stop and refresh directions
-                                        this.sprite = (this.sprite === 3) ? 4 : 3; //swap sprites for bullets
+                                        if (this.followCounter < 2) {
+                                            this.headToEntity(world.player, 0, 2.5); //stop and refresh directions
+                                            this.followCounter++;
+                                            //this.headToEntity(this.whoShotThis, 0, -0.1); //stop and refresh directions
+                                            this.sprite = (this.sprite === 3) ? 4 : 3; //swap sprites for bullets
+                                        }
                                     }
                                 };
                             }
