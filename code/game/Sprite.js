@@ -23,8 +23,8 @@ var SPRITE = {
         coin: {
             x: 1,
             y: 0,
-            frames: 2,
-            interval: 0.3
+            frames: 4,
+            interval: 0.1
         },
         coinSpecial: {
             x: 2,
