@@ -112,7 +112,7 @@ var SPELL = {
                     var alt = Math.floor(s.lifetime / s.parentWorld.ticksPS) % 6 < 3;
                     var p = new Projectile(s.parentWorld,
                             s.x + s.width * Math.sin(s.relAngle),
-                            s.y + entity.width * Math.cos(s.relAngle),
+                            s.y + s.width * Math.cos(s.relAngle),
                             Math.sin(s.relAngle) * 25,
                             Math.cos(s.relAngle) * 25,
                             0, 0, alt ? 2.5 : 4, false, alt ? "staticRed" : "staticBlue");
