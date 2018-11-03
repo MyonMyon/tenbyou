@@ -16,7 +16,8 @@ EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCo
     }
     this.events.push({
         repeatInterval: repeatInterval,
-        repeatsLeft: (repeatCount || 1) - 1,
+        repeatCount: repeatCount || 1,
+        iteration: 0,
         second: second,
         done: false,
         fire: func
@@ -31,13 +32,12 @@ EventChain.prototype.tick = function () {
     var t = this.parent.relTime();
     for (var i in this.events) {
         if (!this.events[i].done && t >= this.events[i].second) {
-            if (this.events[i].repeatsLeft) {
-                --this.events[i].repeatsLeft;
+            if (this.events[i].iteration < this.events[i].repeatCount - 1) {
                 this.events[i].second += this.events[i].repeatInterval;
             } else {
                 this.events[i].done = true;
             }
-            this.events[i].fire(this.parent);
+            this.events[i].fire(this.parent, this.events[i].iteration++);
         }
     }
 };
