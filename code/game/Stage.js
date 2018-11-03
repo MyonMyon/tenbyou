@@ -1,19 +1,19 @@
 var STAGE = [{
         title: "Nest of Precursors",
         description: "The place you will never return to.",
-        appearanceSecond: 1.3,
+        appearanceSecond: 0.2,
         background: {
             file: "bg1.jpg",
             speed: 10
         },
         events: [{
                 substage: 0,
-                second: 0.5,
+                second: 3,
                 repeatInterval: function (world) {
                     return 2 / (world.difficulty + 1);
                 },
                 repeatCount: function (world) {
-                    return 10 * (world.difficulty + 1);
+                    return 5 * (world.difficulty + 1);
                 },
                 func: function (world) {
                     for (var i = 0; i < 2; i++) { //two sides
@@ -54,7 +54,40 @@ var STAGE = [{
                 }
             }, {
                 substage: 0,
-                second: 24,
+                second: 15,
+                repeatInterval: 1.2,
+                repeatCount: 10,
+                func: function (world, iter) {
+                    var kedama = new Enemy(world);
+                    kedama.setSprite(0, 4, 4, 1, true); //TO REWORK SOON
+                    var x = world.width * (-1 / 4 + Math.min(iter, 9 - iter) % 5 / 8);
+                    var y = -world.height * 0.45;
+                    kedama.setVectors(x, y, 0, 12);
+                    kedama.width = 3;
+                    kedama.initHealth(15);
+                    kedama.addDrops("point", false, 7);
+                    kedama.eventChain.addEvent(function (s, i) {
+                        var shootInterval = 30 - s.parentWorld.difficulty * 6;
+                        if (i % shootInterval >= 8) {
+                            //pause every 8 shots
+                            return;
+                        }
+                        if (i % shootInterval === 0) {
+                            s.targetPos = {
+                                x: s.parentWorld.player.x,
+                                y: Math.max(s.y, s.parentWorld.player.y)};
+                        }
+                        var p = new Projectile(s.parentWorld,
+                                s.x,
+                                s.y,
+                                0, 0, 0, 0, 1.5, false, "cometPurple");
+                        p.headToEntity(s.targetPos, 50 + s.parentWorld.difficulty * 10, 0);
+                    }, 0.5, 0.1, Infinity);
+                    new Particle(world, x, y, 30, 6, false, false, "splash");
+                }
+            }, {
+                substage: 0,
+                second: 36,
                 func: function (world) {
                     eventKedamaMidboss(world, false);
                 }
