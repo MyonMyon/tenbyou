@@ -14,6 +14,12 @@ var SPRITE = {
             frames: 4,
             interval: 0.2
         },
+        cometPurple: {
+            x: 0,
+            y: 4,
+            hitbox: 0.5,
+            rotate: true
+        },
         coin: {
             x: 1,
             y: 0,
