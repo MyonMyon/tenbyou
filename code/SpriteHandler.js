@@ -22,6 +22,7 @@ SpriteHandler.prototype.setSprite = function (sprite) {
     if (sprite.object) {
         this.object = sprite.object;
     }
+    this.zoom = 1 / (sprite.hitbox || 1)
     if (sprite.frameWidth && sprite.frameHeight) {
         this.frameWidth = sprite.frameWidth;
         this.frameHeight = sprite.frameHeight;
@@ -90,6 +91,6 @@ SpriteHandler.prototype.draw = function (context, x, y, t, z) {
             this.frameHeight,
             x - z/2,
             y - z/2,
-            z,
-            z);
+            z * this.zoom,
+            z * this.zoom);
 };
