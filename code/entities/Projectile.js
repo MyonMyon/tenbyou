@@ -10,6 +10,7 @@ function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerSide, sprite
     this.sh.setSprite(SPRITE.projectile);
     if (spriteName) {
         this.sh.setSprite(SPRITE.projectile[spriteName], spriteName);
+        this.rotate = SPRITE.projectile[spriteName].rotate;
     }
     this.playerSide = playerSide || false;
     this.grazed = 0;
@@ -25,12 +26,12 @@ Projectile.prototype.draw = function (context) {
     }
 
     context.translate(ePos.x, ePos.y);
-    if (this.spriteDir || this.angle)
+    if (this.rotate || this.angle)
         context.rotate(Math.atan2(this.y1, this.x1) - Math.PI / 2 + this.angle);
 
     this.sh.draw(context, 0, 0, this.relTime(), this.parentWorld.vp.zoom * this.width * 2);
 
-    if (this.spriteDir || this.angle)
+    if (this.rotate || this.angle)
         context.rotate(-Math.atan2(this.y1, this.x1) + Math.PI / 2 - this.angle);
     context.translate(-ePos.x, -ePos.y);
 
