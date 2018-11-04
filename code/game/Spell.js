@@ -133,6 +133,9 @@ var SPELL = {
                                         Math.sin(a) * 0.06,
                                         Math.cos(a) * 0.06,
                                         2, false, iter % 200 < 70 ? "sealPurple" : "sealGray");
+                                if (iter % 200 < 70) {
+                                    p.priority = 1;
+                                }
                                 p.behavior = function() {
                                     if (this.x < -this.parentWorld.width / 2 || this.x > this.parentWorld.width / 2) {
                                         this.x1 = -this.x1;
