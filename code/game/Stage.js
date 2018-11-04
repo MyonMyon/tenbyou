@@ -82,7 +82,7 @@ var STAGE = [{
                         var p = new Projectile(s.parentWorld,
                                 s.x,
                                 s.y,
-                                0, 0, 0, 0, 1.5, false, "cometPurple");
+                                0, 0, 0, 0, 1.5, false, "kunaiBlue");
                         p.headToEntity(s.targetPos, 50 + s.parentWorld.difficulty * 10, 0);
                     }, 0.5, 0.1, Infinity);
                     new Particle(world, x, y, 30, 6, false, false, "splash");

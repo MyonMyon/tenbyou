@@ -20,6 +20,18 @@ var SPRITE = {
             hitbox: 0.5,
             rotate: true
         },
+        kunaiBlue: {
+            x: 0,
+            y: 5,
+            hitbox: 0.4,
+            rotate: true
+        },
+        kunaiRed: {
+            x: 1,
+            y: 5,
+            hitbox: 0.4,
+            rotate: true
+        },
         coin: {
             x: 1,
             y: 0,
