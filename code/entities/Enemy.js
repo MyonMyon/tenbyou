@@ -16,6 +16,7 @@ function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, sprite, frameCo
 Enemy.prototype.draw = function (context) {
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
 
+    context.save();
     context.translate(ePos.x, ePos.y);
     if (this.spriteDir && this.x1 < 0)
         context.scale(-1, 1);
@@ -32,11 +33,7 @@ Enemy.prototype.draw = function (context) {
             8 * this.spriteWidth * this.parentWorld.vp.zoom,
             8 * this.spriteWidth * this.parentWorld.vp.zoom);
 
-    if (this.angle)
-        context.rotate(-this.angle);
-    if (this.spriteDir && this.x1 < 0)
-        context.scale(-1, 1);
-    context.translate(-ePos.x, -ePos.y);
+    context.restore();
 
     if (this.parentWorld.drawHitboxes) {
         context.fillStyle = "white";

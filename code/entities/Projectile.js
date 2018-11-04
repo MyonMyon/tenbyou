@@ -25,15 +25,14 @@ Projectile.prototype.draw = function (context) {
         context.globalAlpha = 0.4;
     }
 
+    context.save();
     context.translate(ePos.x, ePos.y);
     if (this.rotate || this.angle)
         context.rotate(Math.atan2(this.y1, this.x1) - Math.PI / 2 + this.angle);
 
     this.sh.draw(context, 0, 0, this.playerSide ? this.parentWorld.relTime() : this.relTime(), this.parentWorld.vp.zoom * this.width * 2);
 
-    if (this.rotate || this.angle)
-        context.rotate(-Math.atan2(this.y1, this.x1) + Math.PI / 2 - this.angle);
-    context.translate(-ePos.x, -ePos.y);
+    context.restore();
 
     if (this.parentWorld.drawHitboxes) {
         context.fillStyle = "white";
