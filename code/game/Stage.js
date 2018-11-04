@@ -42,10 +42,12 @@ var STAGE = [{
                                     if (world.time % 50 === 0) { //doing things every 50 ticks. this.parentWorld.time is for a sync move, you can replace it with this.lifetime and see what will happen
                                         if (this.followCounter < 2) {
                                             this.headToEntity(world.player, 0, 2.5); //stop and refresh directions
-                                            this.followCounter++;
                                             //this.headToEntity(this.whoShotThis, 0, -0.1); //stop and refresh directions
-                                            //this.sh.setSprite((this.sh.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
+                                            this.sh.setSprite((this.sh.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
+                                        } else if (this.followCounter === 2) {
+                                            this.sh.setSprite("orbBlue");
                                         }
+                                        this.followCounter++;
                                     }
                                 };
                             }
