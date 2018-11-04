@@ -226,9 +226,12 @@ ViewPort.prototype.draw = function (initFromWorld) {
         Text
     ];
     for (var d in drawOrder) {
-        for (var i in this.world.entities) {
-            if (this.world.entities[i] instanceof drawOrder[d]) {
-                this.world.entities[i].draw(this.context);
+        for (var p = 0; p < 2; ++p) {
+            for (var i in this.world.entities) {
+                var e = this.world.entities[i];
+                if (e.priority === p && e instanceof drawOrder[d]) {
+                    e.draw(this.context);
+                }
             }
         }
     }

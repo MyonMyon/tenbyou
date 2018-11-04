@@ -21,6 +21,7 @@ function Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite, frameCount, an
 
     this.lifetime = 0;
 
+    this.priority = 0;
     this.sh = new SpriteHandler();
 
     //TO DO: REMOVE
