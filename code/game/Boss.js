@@ -40,5 +40,19 @@ var BOSS = {
             size: 2,
             dir: false
         }
+    },
+    lily: {
+        name: "Lily Black",
+        width: 2,
+        sprite: {
+            file: "lily.png",
+            frameWidth: 64,
+            frameHeight: 64,
+            frame: 0,
+            frameCount: 1,
+            animPeriod: 0,
+            size: 2,
+            dir: false
+        }
     }
 };

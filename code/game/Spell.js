@@ -78,6 +78,77 @@ var SPELL = {
                 }
         }
     },
+    lilyAlpha: {
+        boss: "lily",
+        number: 14,
+        names: [
+            "Solar Sign \"卍\"",
+            "Solar Sign \"卍卍\"",
+            "Solar Sign \"卍卍卍\"",
+            "Solar Sign \"卍卍卍卍\""
+        ],
+        health: 1200,
+        time: 2000,
+        decrTime: 200,
+        bonus: 40000,
+        bonusBound: 5000,
+        init: function (entity) {
+            entity.eventChain.addEvent(
+                    function (s, iter) {
+                        if (iter % 200 < 80) {
+                            for (var i = 0; i < Math.PI * 2; i += Math.PI / 2) {
+                                var p = new Projectile(s.parentWorld,
+                                        s.x + entity.width * Math.sin(i) * 4,
+                                        s.y + entity.width * Math.cos(i) * 4,
+                                        Math.sin(i) * 20,
+                                        Math.cos(i) * 20,
+                                        -Math.sin(i) * 0.3,
+                                        -Math.cos(i) * 0.3,
+                                        4, false, "sealRed");
+                                p.nextAngle = i + Math.PI / 2;
+                                p.eventChain.addEvent(function (e) {
+                                    e.setVectors(null, null,
+                                            Math.sin(e.nextAngle) * 20,
+                                            Math.cos(e.nextAngle) * 20,
+                                            Math.sin(e.nextAngle) * 0.8,
+                                            Math.cos(e.nextAngle) * 0.8);
+                                }, 2);
+                            }
+                        }
+                        if (iter % 200 === 60) {
+                            s.attackAngle = -Math.atan2(
+                                    s.y - s.parentWorld.player.y,
+                                    s.x - s.parentWorld.player.x)
+                                    - Math.PI / 2;
+                        }
+                        if (iter % 200 < 160 && iter % 200 >= 60) {
+                            var c = 3 + s.parentWorld.difficulty * 2;
+                            for (var i = 0; i < c; i++) {
+                                var a = i * Math.PI * 2 / c  + s.attackAngle;
+                                var p = new Projectile(s.parentWorld,
+                                        s.x + entity.width * Math.sin(a) * 2,
+                                        s.y + entity.width * Math.cos(a) * 2,
+                                        Math.sin(a) * 30,
+                                        Math.cos(a) * 30,
+                                        Math.sin(a) * 0.06,
+                                        Math.cos(a) * 0.06,
+                                        2, false, iter % 200 < 70 ? "sealPurple" : "sealGray");
+                                p.behavior = function() {
+                                    if (this.x < -this.parentWorld.width / 2 || this.x > this.parentWorld.width / 2) {
+                                        this.x1 = -this.x1;
+                                        this.x2 = 0;
+                                    }
+                                    if (this.y < -this.parentWorld.height / 2 || this.y > this.parentWorld.height / 2) {
+                                        this.y1 = -this.y1;
+                                        this.y2 = 0;
+                                    }
+                                };
+                            }
+                        }
+                    },
+                    1, 0.1, Infinity);
+        }
+    },
     orbGamma: {
         boss: "orb",
         number: 42,
