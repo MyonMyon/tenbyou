@@ -65,6 +65,7 @@ function Input(viewPort) {
         "KeyA": "bonus",
         "KeyS": "time",
         "KeyD": "hitbox",
+        "KeyQ": "slow",
         "KeyW": "bot",
         "KeyE": "substage",
         "KeyR": "stage",
@@ -103,6 +104,7 @@ function Input(viewPort) {
         "bot": {category: "dev", mode: "invert", func: "player.guided"},
         "substage": {category: "dev", mode: "executeOnce", func: "nextSubstage()"},
         "stage": {category: "dev", mode: "execute", func: "nextStage()"},
+        "slow": {category: "dev", mode: "execute", func: "slowMode()"},
         "pause": {category: "menu", mode: "invert", func: "pause", ignoreModality: true}
     };
     var eventTypes = ["keyDown", "keyUp", "mouseDown", "mouseUp", "mouseMove", "mouseWheel"];

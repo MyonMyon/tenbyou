@@ -8,6 +8,7 @@ function World(vp) {
     this.time = 0;
     this.ticksPS = 30;
     this.stageInterval = 80;
+    this.tickInterval = 1;
 
     this.player = new Player(this);
     this.player.setCharacterData(CHAR.barashou);
@@ -170,9 +171,23 @@ World.prototype.setBoss = function (enemy, title, isLast) {
     enemy.title = title;
 };
 
-World.prototype.tick = function (interval) {
+World.prototype.slowMode = function () {
+    var m = [1, 0.5, 0.25];
+    this.tickInterval = m[(m.indexOf(this.tickInterval) + 1) % m.length];
+};
+
+World.prototype.tick = function () {
     if (!this.pause) {
-        ++this.time;
+        this.time += this.tickInterval;
+
+        //skip frame logic:
+        if (Math.abs(Math.round(this.time) - this.time) < 0.05) {
+            this.time = Math.round(this.time);
+        }
+        if (this.time !== Math.round(this.time)) {
+            return;
+        }
+
         for (var i in this.entities) {
             this.entities[i].step();
         }

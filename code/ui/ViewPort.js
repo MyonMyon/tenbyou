@@ -307,7 +307,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     if (DEBUG_SHOW) {
         this.infoShow("S" + this.world.stage + "." + this.world.substage + "+" + this.world.relTime().toFixed(2), 10, 0);
         this.infoShow("E" + this.world.entities.length, 10, 0.5);
-        this.infoShow(this.fps + "fps", 10, 1);
+        this.infoShow(this.fps + "fps × " + this.world.tickInterval, 10, 1);
     }
 
     this.context.textAlign = "center";
