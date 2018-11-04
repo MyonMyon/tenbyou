@@ -13,7 +13,7 @@ function SpriteHandler() {
 }
 
 SpriteHandler.prototype.setSprite = function (sprite) {
-    if (typeof sprite === "String") {
+    if (typeof sprite === "string") {
         this.name = sprite;
         sprite = this.ref[sprite];
     } else {
@@ -49,6 +49,7 @@ SpriteHandler.prototype.setPositionShift = function (x, y) {
 
 SpriteHandler.prototype.animate = function (frames, interval) {
     this.list = [];
+    this.animationFrames = [];
     this.animationLength = interval;
     for (var i = 0; i < frames; ++i) {
         this.animationFrames.push({

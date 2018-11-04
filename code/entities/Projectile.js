@@ -9,7 +9,7 @@ function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerSide, sprite
             width));
     this.sh.setSprite(SPRITE.projectile);
     if (spriteName) {
-        this.sh.setSprite(SPRITE.projectile[spriteName], spriteName);
+        this.sh.setSprite(spriteName);
         this.rotate = SPRITE.projectile[spriteName].rotate;
     }
     this.playerSide = playerSide || false;
