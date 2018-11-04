@@ -32,6 +32,44 @@ var SPRITE = {
             hitbox: 0.4,
             rotate: true
         },
+        strikeBlue: {
+            x: 0,
+            y: 6,
+            hitbox: 0.75,
+            rotate: true
+        },
+        strikePurple: {
+            x: 1,
+            y: 6,
+            hitbox: 0.75,
+            rotate: true
+        },
+        strikeRed: {
+            x: 2,
+            y: 6,
+            hitbox: 0.75,
+            rotate: true
+        },
+        sealBlue: {
+            x: 0,
+            y: 7,
+            rotate: true
+        },
+        sealPurple: {
+            x: 1,
+            y: 7,
+            rotate: true
+        },
+        sealRed: {
+            x: 2,
+            y: 7,
+            rotate: true
+        },
+        sealGray: {
+            x: 3,
+            y: 7,
+            rotate: true
+        },
         coin: {
             x: 1,
             y: 0,
