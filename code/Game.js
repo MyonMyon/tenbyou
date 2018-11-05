@@ -1,4 +1,4 @@
-var ENGINE_VER = "v0.3.18 (alpha)";
+var ENGINE_VER = "v0.3.19 (alpha)";
 
 var CODE = [
     "Ext",
