@@ -2,17 +2,6 @@ var CHAR = {
     barashou: {
         name: "Natsuki Barashou",
         width: 0.5,
-        sprite: {
-            //file: "barashou.png",
-            frameWidth: 32,
-            frameHeight: 32,
-            x: 0,
-            y: 0,
-            frames: 4,
-            interval: 0.05,
-            size: 1,
-            dir: false
-        },
         onShoot: function () {
             var count = Math.floor(this.power + 1);
             for (var i = 0; i < count; ++i) {

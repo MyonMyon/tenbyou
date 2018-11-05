@@ -1,4 +1,4 @@
-function Player(parentWorld) {
+function Player(parentWorld, charName) {
     extend(this, new Entity(parentWorld, 0, parentWorld.height / 2 - 5));
 
     this.hiscoreDisplayed = this.hiscore = 1000000;
@@ -34,6 +34,10 @@ function Player(parentWorld) {
     this.autoGatherTime = 0;
 
     this.sh.setSprite(SPRITE.player);
+    this.sh.setSprite(charName);
+    this.width = CHAR[charName].width;
+    this.onShoot = CHAR[charName].onShoot;
+    this.onBomb = CHAR[charName].onBomb;
 
     this.respawnTime = -1;
     this.respawnTimeDefault = 10;
@@ -41,17 +45,6 @@ function Player(parentWorld) {
 
     this.guided = false;
 }
-
-Player.prototype.setCharacterData = function (data) {
-    this.width = data.width;
-    if (data.sprite.file) {
-        this.setCustomSprite(data.sprite);
-    }
-    this.sh.setPosition(data.sprite.x, data.sprite.y);
-    this.sh.animate(data.sprite.frames, data.sprite.interval);
-    this.onShoot = data.onShoot;
-    this.onBomb = data.onBomb;
-};
 
 Player.prototype.stepBot = function () {
     var nearest = this.nearestEntity(Projectile, 20);

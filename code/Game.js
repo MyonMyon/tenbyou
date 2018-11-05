@@ -81,11 +81,6 @@ function getImages() {
             IMG.push(BOSS[i].sprite);
         }
     }
-    for (var i in CHAR) {
-        if (CHAR[i].sprite && CHAR[i].sprite.file) {
-            IMG.push(CHAR[i].sprite);
-        }
-    }
     for (var i in STAGE) {
         if (STAGE[i].background) {
             IMG.push(STAGE[i].background);
