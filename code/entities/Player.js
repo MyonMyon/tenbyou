@@ -89,14 +89,14 @@ Player.prototype.step = function () {
     if (this.moveDown)
         this.y += d;
 
-    if (this.x > this.parentWorld.width / 2 - 5)
-        this.x = this.parentWorld.width / 2 - 5;
-    if (this.x < -this.parentWorld.width / 2 + 5)
-        this.x = -this.parentWorld.width / 2 + 5;
-    if (this.y > this.parentWorld.height / 2 - 5)
-        this.y = this.parentWorld.height / 2 - 5;
-    if (this.y < -this.parentWorld.height / 2 + 5)
-        this.y = -this.parentWorld.height / 2 + 5;
+    if (this.x > this.parentWorld.width / 2 - this.width * 2)
+        this.x = this.parentWorld.width / 2 - this.width * 2;
+    if (this.x < -this.parentWorld.width / 2 + this.width * 2)
+        this.x = -this.parentWorld.width / 2 + this.width * 2;
+    if (this.y > this.parentWorld.height / 2 - this.width * 2)
+        this.y = this.parentWorld.height / 2 - this.width * 2;
+    if (this.y < -this.parentWorld.height / 2 + this.width * 2)
+        this.y = -this.parentWorld.height / 2 + this.width * 2;
 
     if (this.shooting)
         this.shoot();
