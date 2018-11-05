@@ -161,9 +161,12 @@ Enemy.prototype.step = function () {
 Enemy.prototype.behavior = function () {
 };
 
-Enemy.prototype.behaviorFinal = function () {
+Enemy.prototype.behaviorFinal = function (ignoreOnDestroy) {
     new Particle(this.parentWorld, this.x, this.y, this.initialHealth < 100 ? 20 : 40, this.initialHealth < 100 ? 8 : 16, false, false, "splash");
     this.parentWorld.splash(this, this.initialHealth / 5, 8, 10);
+    if (!ignoreOnDestroy) {
+        this.onDestroy();
+    }
     this.remove();
 };
 

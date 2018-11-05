@@ -228,7 +228,7 @@ World.prototype.removeEnemies = function (damageForEnemies) {
     for (var i in this.entities) {
         var e = this.entities[i];
         if (e instanceof Enemy && e !== this.boss) {
-            e.behaviorFinal();
+            e.behaviorFinal(true);
         }
     }
 };
