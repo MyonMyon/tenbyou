@@ -186,6 +186,11 @@ var SPRITE = {
             interval: 0.2,
             hitbox: 0.5
         },
+        landMine: {
+            x: 1,
+            y: 3,
+            hitbox: 1
+        },
         fairyRed: {
             x: 2,
             y: 0,
