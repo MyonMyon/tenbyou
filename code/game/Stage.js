@@ -17,13 +17,14 @@ var STAGE = [{
                 },
                 func: function (world) {
                     for (var i = 0; i < 2; i++) { //two sides
-                        var fairy = new Enemy(world); //new fairy!
-                        fairy.setVectors((i === 0 ? -world.width - 4 : world.width + 4) / 2, -world.height / 2 - 2,
-                                (i === 0 ? 20 : -20), 25,
-                                (i === 0 ? -0.25 : 0.25), 0); //setting position, speed and acceleration for a fairy
-                        fairy.width = 2; //setting hitbox
-                        fairy.initHealth(10); //setting initial health (and current health too)
-                        fairy.setSprite(i + 2, 2, 4, 1, true); //sprite index, frame count, frame length, sprite width, direction-dependence
+                        var fairy = new Enemy(world,
+                                (i === 0 ? -world.width - 4 : world.width + 4) / 2,
+                                -world.height / 2 - 2,
+                                (i === 0 ? 20 : -20),
+                                25,
+                                (i === 0 ? -0.25 : 0.25),
+                                0,
+                                2, 10, i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i === 0 ? "power" : "point", i === 0, 5); //type, size (false — big), amount
                         if (Math.random() < 0.1)
                             fairy.addDrops("power", false, 1); //10% chance of big power item;
@@ -60,13 +61,9 @@ var STAGE = [{
                 repeatInterval: 1.2,
                 repeatCount: 10,
                 func: function (world, iter) {
-                    var kedama = new Enemy(world);
-                    kedama.setSprite(0, 4, 4, 1, true); //TO REWORK SOON
                     var x = world.width * (-1 / 4 + Math.min(iter, 9 - iter) % 5 / 8);
                     var y = -world.height * 0.45;
-                    kedama.setVectors(x, y, 0, 12);
-                    kedama.width = 3;
-                    kedama.initHealth(15);
+                    var kedama = new Enemy(world, x, y, 0, 12, 0, 0, 4, 15, "kedamaMinion");
                     kedama.addDrops("point", false, 7);
                     kedama.eventChain.addEvent(function (s, i) {
                         var shootInterval = 30 - s.parentWorld.difficulty * 6;
@@ -167,7 +164,7 @@ eventKedamaMidboss = function (world, power) {
             kedama.addSpell(SPELL.kedamaAlpha, world.difficulty);
     }
 
-    kedama.setBossData(BOSS.kedama, false);
+    kedama.setBossData("kedama", false);
 };
 
 eventOrb = function (world) {
@@ -195,7 +192,7 @@ eventOrb = function (world) {
     orb.addAttack(false, null, null, nonSpell, null, world.difficulty, 100, 800);
     orb.addSpell(SPELL.orbBeta, world.difficulty);
 
-    orb.setBossData(BOSS.orb, true);
+    orb.setBossData("orb", true);
 };
 
 eventOkuu = function (world) {
@@ -203,5 +200,5 @@ eventOkuu = function (world) {
 
     okuu.addSpell(SPELL.okuuAlpha, world.difficulty);
 
-    okuu.setBossData(BOSS.okuu, true);
+    okuu.setBossData("okuu", true);
 };

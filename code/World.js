@@ -82,7 +82,7 @@ World.prototype.startSpellPractice = function (difficulty, spell) {
     this.spell = spell;
     var boss = new Enemy(this);
     boss.addSpell(spell, difficulty);
-    boss.setBossData(BOSS[spell.boss], true);
+    boss.setBossData(spell.boss, true);
 };
 
 World.prototype.initEventChain = function () {

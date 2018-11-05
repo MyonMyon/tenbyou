@@ -1,6 +1,10 @@
-function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
-    extend(this, new Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite,
-            frameCount > 0 ? frameCount : (SPRITE.enemy.object.height / SPRITE.enemy.height), animPeriod, spriteWidth, spriteDir));
+function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, spriteName) {
+    extend(this, new Entity(parentWorld, x, y, x1 / parentWorld.ticksPS, y1 / parentWorld.ticksPS, x2 / parentWorld.ticksPS, y2 / parentWorld.ticksPS, width));
+    this.sh.setSprite(SPRITE.enemy);
+    if (spriteName) {
+        this.sh.setSprite(spriteName);
+        this.mirror = SPRITE.enemy[spriteName].mirror;
+    }
     this.initialHealth = health || 20;
     this.health = this.initialHealth;
     this.cost = this.initialHealth * 100;
@@ -18,20 +22,12 @@ Enemy.prototype.draw = function (context) {
 
     context.save();
     context.translate(ePos.x, ePos.y);
-    if (this.spriteDir && this.x1 < 0)
+    if (this.mirror && this.x1 < 0)
         context.scale(-1, 1);
     if (this.angle)
         context.rotate(this.angle);
 
-    context.drawImage(this.customSprite ? this.customSprite : SPRITE.enemy.object,
-            this.sprite * (this.customSprite ? this.customSpriteWidth : SPRITE.enemy.frameWidth),
-            Math.floor(this.lifetime / this.animPeriod) % (this.frameCount) * (this.customSprite ? this.customSpriteHeight : SPRITE.enemy.frameHeight),
-            this.customSprite ? this.customSpriteWidth : SPRITE.enemy.frameWidth,
-            this.customSprite ? this.customSpriteHeight : SPRITE.enemy.frameHeight,
-            -4 * this.spriteWidth * this.parentWorld.vp.zoom,
-            -4 * this.spriteWidth * this.parentWorld.vp.zoom,
-            8 * this.spriteWidth * this.parentWorld.vp.zoom,
-            8 * this.spriteWidth * this.parentWorld.vp.zoom);
+    this.sh.draw(context, 0, 0, this.relTime(), this.parentWorld.vp.zoom * this.width * 2);
 
     context.restore();
 
@@ -190,7 +186,7 @@ Enemy.prototype.hurt = function (damage) {
     } else {
         this.health = 0;
     }
-    this.parentWorld.splash(this, damage, this.spriteWidth * 5, this.spriteWidth * 5);
+    this.parentWorld.splash(this, damage, this.width * 2, this.width * 2);
     this.parentWorld.player.score += Math.round(healthOld - this.health) * 10;
 
     this.onDamage(damage);
@@ -275,12 +271,11 @@ Enemy.prototype.nextAttack = function () {
     this.lifetime = 0;
 };
 
-Enemy.prototype.setBossData = function (data, isLast) {
+Enemy.prototype.setBossData = function (bossName, isLast) {
     this.setVectors(0, -this.parentWorld.width / 2 - 40);
 
-    this.width = data.width;
-    this.setCustomSprite(data.sprite);
-    this.setSprite(data.sprite.frame, data.sprite.frameCount, data.sprite.animPeriod, data.sprite.size, data.sprite.dir);
+    this.width = BOSS[bossName].width;
+    this.sh.setSprite(bossName);
 
     this.behavior = function () {
         if (this.lifetime === 1)
@@ -289,5 +284,5 @@ Enemy.prototype.setBossData = function (data, isLast) {
             this.nextAttack();
     };
 
-    this.parentWorld.setBoss(this, data.name, isLast);
+    this.parentWorld.setBoss(this, BOSS[bossName].name, isLast);
 };

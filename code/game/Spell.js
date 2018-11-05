@@ -170,8 +170,7 @@ var SPELL = {
             var count = entity.parentWorld.difficulty + 2;
             entity.satellites = [];
             for (var i = 0; i < count; ++i) {
-                var satellite = new Enemy(entity.parentWorld, entity.x, entity.y, 0, 0, 0, 0, 1, 160);
-                satellite.setSprite(1, 1, 0, 1, false);
+                var satellite = new Enemy(entity.parentWorld, entity.x, entity.y, 0, 0, 0, 0, 2, 160, "orbMinion");
                 satellite.relAngle = Math.PI * 2 * i / count;
                 satellite.parent = entity;
                 satellite.headToPointSmoothly(entity.x + 20 * Math.sin(satellite.relAngle), entity.y + 20 * Math.cos(satellite.relAngle), 1);

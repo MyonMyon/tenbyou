@@ -76,11 +76,6 @@ function getImages() {
             }
         }
     }
-    for (var i in BOSS) {
-        if (BOSS[i].sprite && BOSS[i].sprite.file) {
-            IMG.push(BOSS[i].sprite);
-        }
-    }
     for (var i in STAGE) {
         if (STAGE[i].background) {
             IMG.push(STAGE[i].background);

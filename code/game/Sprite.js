@@ -154,7 +154,76 @@ var SPRITE = {
     enemy: {
         file: "enemy.png",
         frameWidth: 32,
-        frameHeight: 32
+        frameHeight: 32,
+        kedama: {
+            file: "g_kedama.png",
+            frameWidth: 128,
+            frameHeight: 128,
+            x: 0,
+            y: 0,
+            frames: 4,
+            interval: 0.2,
+            hitbox: 1
+        },
+        kedamaMinion: {
+            x: 0,
+            y: 0,
+            frames: 4,
+            interval: 0.2,
+            hitbox: 1
+        },
+        orb: {
+            file: "orb.png",
+            frameWidth: 128,
+            frameHeight: 128,
+            x: 0,
+            y: 0
+        },
+        orbMinion: {
+            x: 1,
+            y: 0,
+            frames: 3,
+            interval: 0.2,
+            hitbox: 0.5
+        },
+        fairyRed: {
+            x: 2,
+            y: 0,
+            frames: 2,
+            interval: 0.3,
+            hitbox: 0.5,
+            mirror: true
+        },
+        fairyBlue: {
+            x: 3,
+            y: 0,
+            frames: 2,
+            interval: 0.3,
+            hitbox: 0.5,
+            mirror: true
+        },
+        crow: {
+            x: 4,
+            y: 0,
+            frames: 2,
+            interval: 0.3
+        },
+        okuu: {
+            file: "okuu.png",
+            frameWidth: 64,
+            frameHeight: 64,
+            x: 0,
+            y: 0,
+            hitbox: 0.25
+        },
+        lily: {
+            file: "lily.png",
+            frameWidth: 64,
+            frameHeight: 64,
+            x: 0,
+            y: 0,
+            hitbox: 0.25
+        }
     },
     particle: {
         file: "particle.png",
