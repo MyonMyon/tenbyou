@@ -12,12 +12,17 @@ var CHAR = {
                         this.y + Math.abs(i + 0.5 - count / 2) * 6 - 8,
                         0, -240, 0, 0, 2, true, special ? "coinSpecial" : "coin");
                 bullet.damage = (1 + this.damageInc) / (count + this.damageInc);
-                if (special)
-                    bullet.behavior = function () {
-                        if (this.lifetime % 6 === 1) {
-                            this.headToEntity(this.nearestEntity(Enemy, 200), 200, 0);
-                        }
-                    };
+                if (special) {
+                    if (this.focused) {
+                        bullet.damage *= 1.5;
+                    } else {
+                        bullet.behavior = function () {
+                            if (this.lifetime % 6 === 1) {
+                                this.headToEntity(this.nearestEntity(Enemy, 200), 200, 0);
+                            }
+                        };
+                    }
+                }
             }
         },
         onBomb: function () {
