@@ -224,6 +224,15 @@ World.prototype.clearField = function (damageForEnemies) {
     }
 };
 
+World.prototype.removeEnemies = function (damageForEnemies) {
+    for (var i in this.entities) {
+        var e = this.entities[i];
+        if (e instanceof Enemy && e !== this.boss) {
+            e.behaviorFinal();
+        }
+    }
+};
+
 World.prototype.replaceBonus = function (catWhat, smallWhat, catWith, smallWith) {
     for (var i in this.entities) {
         var e = this.entities[i];

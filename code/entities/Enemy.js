@@ -267,6 +267,7 @@ Enemy.prototype.nextAttack = function () {
     }
 
     this.parentWorld.clearField(0);
+    this.parentWorld.removeEnemies();
 
     this.lifetime = 0;
 };
