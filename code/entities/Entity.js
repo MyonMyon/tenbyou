@@ -1,4 +1,4 @@
-function Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
+function Entity(parentWorld, x, y, x1, y1, x2, y2, width) {
     this.x = x || 0;
     this.y = y || 0;
 
@@ -24,18 +24,7 @@ function Entity(parentWorld, x, y, x1, y1, x2, y2, width, sprite, frameCount, an
     this.priority = 0;
     this.sh = new SpriteHandler();
 
-    //TO DO: REMOVE
-    this.sprite = sprite || 0;
-    this.frameCount = frameCount || 1;
-    this.animPeriod = animPeriod || 4;
-    this.spriteWidth = spriteWidth || 1;
-    this.spriteDir = spriteDir || false;
     this.angle = 0;
-
-    //TO DO: REMOVE
-    this.customSprite = null;
-    this.customSpriteWidth = 0;
-    this.customSpriteHeight = 0;
 
     this.parentWorld = parentWorld;
     this.id = ++parentWorld.lastID;
@@ -92,21 +81,6 @@ Entity.prototype.remove = function () {
     //console.info("Removed Entity #" + this.id + " @ " + this.x + ";" + this.y);
     this.removalMark = true;
     this.eventChain.clear();
-};
-
-Entity.prototype.setCustomSprite = function (sprite) {
-    this.customSprite = new Image();
-    this.customSprite.src = SPRITE_FOLDER + sprite.file;
-    this.customSpriteWidth = sprite.frameWidth || 32;
-    this.customSpriteHeight = sprite.frameHeight || 32;
-};
-
-Entity.prototype.setSprite = function (sprite, frameCount, animPeriod, spriteWidth, spriteDir) {
-    this.sprite = sprite || this.sprite;
-    this.frameCount = frameCount || this.frameCount;
-    this.animPeriod = animPeriod || this.animPeriod;
-    this.spriteWidth = spriteWidth || this.spriteWidth;
-    this.spriteDir = spriteDir || this.spriteDir;
 };
 
 Entity.prototype.setVectors = function (posX, posY, speedX, speedY, accX, accY) {
