@@ -93,6 +93,34 @@ var STAGE = [{
             }, {
                 substage: 1,
                 second: 4,
+                repeatInterval: 1.5,
+                repeatCount: 15,
+                func: function (world, iter) {
+                    var x = Math.random() * (world.width - 40) - world.width / 2 + 20;
+                    var y = -world.height / 2 + 20;
+                    if (iter % 5 < 3) {
+                        var orb = new Enemy(world, x, y, 0, 6, 0, 0, 2, 30, "orbMinion");
+                        orb.addDrops("power", true, 5);
+                        orb.addDrops("point", false, 5);
+                        orb.eventChain.addEvent(function (s, i) {
+                            var p = new Projectile(s.parentWorld, s.x, s.y, 0, 0, 0, 0, 2, false, "strikeRed");
+                            p.headToEntity(s.parentWorld.player, 50 + s.parentWorld.difficulty * 10, 0);
+                        }, 0.5, 0.75, Infinity);
+                    } else {
+                        var mine = new Enemy(world, x, y, 0, 3, 0, 0, 4, 1, "landMine");
+                        mine.onDestroy = function () {
+                            for (var i = 0; i < 8 + this.parentWorld.difficulty * 2; i++) {
+                                var sx = (Math.random() - 0.5) * 30;
+                                var sy = (Math.random() - 0.5) * 30;
+                                new Projectile(this.parentWorld, this.x, this.y, sx, sy, sx / 20, sy / 20, 3, false, "strikePurple");
+                            }
+                        };
+                    }
+                    new Particle(world, x, y, 30, 6, false, false, "splash");
+                }
+            }, {
+                substage: 1,
+                second: 36,
                 func: function (world) {
                     eventOrb(world);
                 }
