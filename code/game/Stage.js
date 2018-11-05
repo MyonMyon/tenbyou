@@ -37,11 +37,11 @@ var STAGE = [{
                                 bullet.followCounter = 0;
                                 bullet.headToEntity(world.player, 0, 2.5); //starting moving to the player (comment to easy graze), parameters: target entity, initial speed, acceleration
                                 bullet.behavior = function () { //and bullet's behavior!
-                                    if (world.vectorLength(this.x1, this.y1) > 2) //if speed > 2
+                                    if (world.vectorLength(this.x1, this.y1) > 1.5) //if speed > 1.5
                                         this.setVectors(null, null, null, null, 0, 0); //stop accelerating
                                     if (world.time % 50 === 0) { //doing things every 50 ticks. this.parentWorld.time is for a sync move, you can replace it with this.lifetime and see what will happen
                                         if (this.followCounter < 2) {
-                                            this.headToEntity(world.player, 0, 2.5); //stop and refresh directions
+                                            this.headToEntity(world.player, 0, 2); //stop and refresh directions
                                             //this.headToEntity(this.whoShotThis, 0, -0.1); //stop and refresh directions
                                             this.sh.setSprite((this.sh.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
                                         } else if (this.followCounter === 2) {
