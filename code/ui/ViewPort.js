@@ -23,6 +23,8 @@ function ViewPort() {
     this.mainMenu = new MainMenu(this);
     this.pauseMenu = new PauseMenu(this);
 
+    this.devStage = window.location.href.split(":")[0] === "file" ? "DEVELOPMENT" : "(alpha)";
+
     var self = this;
     setInterval(function () {
         self.draw(false);
@@ -312,7 +314,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     this.context.textAlign = "center";
     if (ENGINE_VER_SHOW) {
-        this.drawText("Tenbyou " + ENGINE_VER, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y);
+        this.drawText(["Tenbyou", ENGINE_VER, this.devStage].join(" "), (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y);
     }
 
     var diffO = {};
