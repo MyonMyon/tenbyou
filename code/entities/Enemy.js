@@ -250,6 +250,7 @@ Enemy.prototype.nextAttack = function () {
 
     var g = this.attackGroups[this.attackGroupCurrent];
     ++this.attackCurrent;
+    this.eventChain.clear();
 
     if (this.attackCurrent >= this.attacks.length) {
         this.behaviorFinal();
