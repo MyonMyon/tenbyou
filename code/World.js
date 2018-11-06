@@ -231,7 +231,7 @@ World.prototype.clearField = function (damageForEnemies) {
     }
 };
 
-World.prototype.removeEnemies = function (damageForEnemies) {
+World.prototype.removeEnemies = function () {
     for (var i in this.entities) {
         var e = this.entities[i];
         if (e instanceof Enemy && e !== this.boss) {
