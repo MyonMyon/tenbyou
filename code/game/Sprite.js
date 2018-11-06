@@ -228,6 +228,11 @@ var SPRITE = {
             x: 0,
             y: 0,
             hitbox: 0.25
+        },
+        stoneFace: {
+            x: 5,
+            y: 0,
+            hitbox: 0.75
         }
     },
     particle: {

@@ -114,6 +114,22 @@ var STAGE = [{
             }, {
                 substage: 1,
                 second: 36,
+                repeatInterval: 0.5,
+                repeatCount: 20,
+                func: function (world, iter) {
+                    if (iter === 0) {
+                        world.removeEnemies(); //cleanup after orbs
+                    }
+                    var stone = new Enemy(world,
+                            world.width * (Math.random() - 0.5) * 0.8, -world.height / 2 - 3,
+                            0, 30 + world.difficulty * 6,
+                            0, 2,
+                            2, 3, "stoneFace");
+                    stone.addDrops("point", false, 3);
+                }
+            }, {
+                substage: 1,
+                second: 48,
                 func: function (world) {
                     eventOrb(world);
                 }
