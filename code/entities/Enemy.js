@@ -238,6 +238,9 @@ Enemy.prototype.addSpell = function (spell, newGroup) {
 };
 
 Enemy.prototype.nextAttack = function () {
+    this.parentWorld.clearField(0);
+    this.parentWorld.removeEnemies();
+
     if (this.parentWorld.boss === this && this.attackCurrent >= 0 && this.attacks[this.attackCurrent].spell) {
         if (this.health <= 0 && this.parentWorld.player.spellCompleteTerms && this.bonus > 0) {
             this.parentWorld.player.score += this.bonus;
@@ -275,9 +278,6 @@ Enemy.prototype.nextAttack = function () {
     if (g && (this.attackCurrent >= (g.start + g.nonspells + g.spells))) {
         ++this.attackGroupCurrent;
     }
-
-    this.parentWorld.clearField(0);
-    this.parentWorld.removeEnemies();
 
     this.lifetime = 0;
 };
