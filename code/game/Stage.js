@@ -10,10 +10,10 @@ var STAGE = [{
                 substage: 0,
                 second: 3,
                 repeatInterval: function (world) {
-                    return 2 / (world.difficulty + 1);
+                    return 2 - (world.difficulty) * 0.4;
                 },
                 repeatCount: function (world) {
-                    return 5 * (world.difficulty + 1);
+                    return 3 + 2 * (world.difficulty + 1);
                 },
                 func: function (world) {
                     for (var i = 0; i < 2; i++) { //two sides
@@ -29,30 +29,23 @@ var STAGE = [{
                         if (Math.random() < 0.1)
                             fairy.addDrops("power", false, 1); //10% chance of big power item;
                         fairy.bulletSprite = i ? "eyeBlue" : "eyeRed"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
-                        fairy.behavior = function () { //and now let's code the fairy's behavior!
-                            if (this.lifetime % Math.floor(32 / (this.parentWorld.difficulty + 1)) === 0 && this.lifetime > 20) { //doing things every 7 ticks, starting from fairy's tick #20+
-                                var bullet = new Projectile(world,
-                                        this.x,
-                                        this.y,
-                                        0, 0, 0, 0, 2, false, this.bulletSprite); //new bullet here
-                                bullet.followCounter = 0;
-                                bullet.headToEntity(world.player, 0, 2.5); //starting moving to the player (comment to easy graze), parameters: target entity, initial speed, acceleration
-                                bullet.behavior = function () { //and bullet's behavior!
-                                    if (world.vectorLength(this.x1, this.y1) > 1.5) //if speed > 1.5
-                                        this.setVectors(null, null, null, null, 0, 0); //stop accelerating
-                                    if (world.time % 50 === 0) { //doing things every 50 ticks. this.parentWorld.time is for a sync move, you can replace it with this.lifetime and see what will happen
-                                        if (this.followCounter < 2) {
-                                            this.headToEntity(world.player, 0, 2); //stop and refresh directions
-                                            //this.headToEntity(this.whoShotThis, 0, -0.1); //stop and refresh directions
-                                            this.sprite.set((this.sprite.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
-                                        } else if (this.followCounter === 2) {
-                                            this.sprite.set("orbBlue");
-                                        }
-                                        this.followCounter++;
-                                    }
-                                };
-                            }
-                        };
+                        fairy.eventChain.addEvent(function (f) { //and now let's code the fairy's shooting event!
+                            var bullet = new Projectile(world, f.x, f.y, 0, 0, 0, 0, 2, false, f.bulletSprite); //new bullet here
+                            bullet.followCounter = 0;
+                            bullet.headToEntity(world.player, 0, 2.5); //starting moving to the player (comment to easy graze), parameters: target entity, initial speed, acceleration
+                            bullet.behavior = function () { //and bullet's behavior (executes every tick)!
+                                if (world.vectorLength(this.x1, this.y1) > 1.5) //if speed > 1.5
+                                    this.setVectors(null, null, null, null, 0, 0); //stop accelerating
+                            };
+                            bullet.eventChain.addEvent(function (b, iter) {
+                                if (iter < 2) {
+                                    b.headToEntity(world.player, 0, 2); //stop and refresh directions
+                                    b.sprite.set((b.sprite.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
+                                } else if (iter === 2) {
+                                    b.sprite.set("orbBlue");
+                                }
+                            }, null, 1.7, 3, true);
+                        }, 0.7, 1 - world.difficulty * 0.15, Infinity);
                     }
                 }
             }, {
@@ -165,26 +158,31 @@ var STAGE = [{
     }];
 
 eventKedamaMidboss = function (world, power) {
-    var nonSpell = function (entity, difficulty) {
-        var c = power ? 8 : 6;
-        c *= difficulty + 1;
-        if (entity.lifetime > 10 && entity.lifetime % 3 === 0 && entity.lifetime % 50 < 30)
-            for (var i = 0; i < c; ++i) {
-                var v = entity.lifetime % 100 < 50;
-                var a = i / c * Math.PI * 2;
-                var d = (v ? entity.lifetime : -entity.lifetime) / 20;
-                new Projectile(entity.parentWorld,
-                        entity.x + entity.width * Math.sin(a + d),
-                        entity.y + entity.width * Math.cos(a + d),
-                        Math.sin(a + d) * 50,
-                        Math.cos(a + d) * 50,
-                        0, 0, 2.5, false, d > 0 ? "staticRed" : "staticBlue");
-            }
-    };
-
     var kedama = new Enemy(world);
 
-    kedama.addAttack(false, null, null, nonSpell, null, world.difficulty, 400, 500);
+    kedama.addNonSpell({
+        init: function (entity) {
+            entity.eventChain.addEvent(function (e, iter) {
+                var c = (power ? 8 : 6) * (e.parentWorld.difficulty + 1);
+                if (iter % 16 >= 9) {
+                    return;
+                }
+                for (var i = 0; i < c; ++i) {
+                    var v = iter % 32 < 16;
+                    var a = i / c * Math.PI * 2;
+                    var d = (v ? e.relTime() : -e.relTime()) * 1.5;
+                    new Projectile(e.parentWorld,
+                            e.x + e.width * Math.sin(a + d),
+                            e.y + e.width * Math.cos(a + d),
+                            Math.sin(a + d) * 50,
+                            Math.cos(a + d) * 50,
+                            0, 0, 2.5, false, d > 0 ? "staticRed" : "staticBlue");
+                }
+            }, 0.3, 0.1, Infinity);
+        },
+        health: 400,
+        time: 500
+    }, world.difficulty);
     if (world.difficulty > 0) {
         if (power)
             kedama.addSpell(SPELL.kedamaBeta);
@@ -196,28 +194,31 @@ eventKedamaMidboss = function (world, power) {
 };
 
 eventOrb = function (world) {
-    var nonSpell = function (entity, difficulty) {
-        entity.x1 = Math.cos(entity.lifetime / 20);
-        if (entity.lifetime % 4 === 0) {
-            var c = 4 * (entity.attackGroupCurrent + 1) * (difficulty + 1);
+    var nsInit = function (entity) {
+        entity.eventChain.addEvent(function (e) {
+            var c = 4 * (e.attackGroupCurrent + 1) * (e.parentWorld.difficulty + 1);
             for (var i = 0; i < c; ++i) {
                 var a = i / c * Math.PI * 2;
-                var d = entity.lifetime / 20 * 2;
-                new Projectile(entity.parentWorld,
-                        entity.x + Math.sin(a),
-                        entity.y + Math.cos(a),
+                var d = e.relTime() * 3;
+                new Projectile(e.parentWorld,
+                        e.x + Math.sin(a),
+                        e.y + Math.cos(a),
                         Math.sin(a + d) * 30,
                         Math.cos(a + d) * 30,
                         0, 0, 2, false, i % 2 ? "staticBlue" : "staticRed");
             }
-        }
+        }, 0, 0.133, Infinity);
+    };
+    var nsBehavior = function (entity) {
+        //~wiggling left and right~
+        entity.x1 = Math.cos(entity.relTime() * 1.5);
     };
 
     var orb = new Enemy(world);
 
-    orb.addAttack(false, null, null, nonSpell, null, world.difficulty, 100, 500);
+    orb.addNonSpell({init: nsInit, func: nsBehavior, health: 100, time: 500});
     orb.addSpell(SPELL.orbAlpha);
-    orb.addAttack(false, null, null, nonSpell, null, world.difficulty, 100, 800);
+    orb.addNonSpell({init: nsInit, func: nsBehavior, health: 150, time: 800});
     orb.addSpell(SPELL.orbBeta);
 
     orb.setBossData("orb", true);
