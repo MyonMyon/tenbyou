@@ -11,8 +11,8 @@ var SPELL = {
             "Nullity"
         ],
         health: 1,
-        time: 600,
-        decrTime: 50,
+        time: 20,
+        decrTime: 2,
         bonus: 99999,
         bonusBound: 5000,
         func: function (entity) {
@@ -28,8 +28,8 @@ var SPELL = {
             "Soft Sign \"Not so Fluffy Revenge\""
         ],
         health: 200,
-        time: 600,
-        decrTime: 50,
+        time: 20,
+        decrTime: 2,
         bonus: 30000,
         bonusBound: 5000,
         func: function (entity) {
@@ -56,8 +56,8 @@ var SPELL = {
             "Soft Sign \"Not so Fluffy Thorns\""
         ],
         health: 400,
-        time: 500,
-        decrTime: 50,
+        time: 17,
+        decrTime: 2,
         bonus: 30000,
         bonusBound: 5000,
         func: function (entity) {
@@ -88,8 +88,8 @@ var SPELL = {
             "Solar Sign \"卍卍卍卍\""
         ],
         health: 1200,
-        time: 2000,
-        decrTime: 200,
+        time: 66,
+        decrTime: 16,
         bonus: 40000,
         bonusBound: 5000,
         init: function (entity) {
@@ -162,8 +162,8 @@ var SPELL = {
             "Balance Sign \"Pentachotomy Aberration\""
         ],
         health: 500,
-        time: 1500,
-        decrTime: 200,
+        time: 50,
+        decrTime: 10,
         bonus: 40000,
         bonusBound: 5000,
         init: function (entity) {
@@ -211,8 +211,8 @@ var SPELL = {
             "Hard-headed Sign \"Awww\""
         ],
         health: 200,
-        time: 1000,
-        decrTime: 200,
+        time: 30,
+        decrTime: 10,
         bonus: 30000,
         bonusBound: 5000,
         func: function (entity, difficulty) {
@@ -256,8 +256,8 @@ var SPELL = {
             "Reference Sign \"Nope\""
         ],
         health: 160,
-        time: 1500,
-        decrTime: 200,
+        time: 50,
+        decrTime: 10,
         bonus: 40000,
         bonusBound: 5000,
         func: function (entity, difficulty) {
@@ -317,8 +317,8 @@ var SPELL = {
             "Explosion Sign \"Not a Flare at all yet\""
         ],
         health: 1000,
-        time: 1500,
-        decrTime: 200,
+        time: 50,
+        decrTime: 10,
         bonus: 600000,
         bonusBound: 5000,
         func: function (entity, difficulty) {

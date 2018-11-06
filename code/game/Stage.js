@@ -181,7 +181,7 @@ eventKedamaMidboss = function (world, power) {
             }, 0.3, 0.1, Infinity);
         },
         health: 400,
-        time: 500
+        time: 15
     }, world.difficulty);
     if (world.difficulty > 0) {
         if (power)
@@ -216,9 +216,9 @@ eventOrb = function (world) {
 
     var orb = new Enemy(world);
 
-    orb.addNonSpell({init: nsInit, func: nsBehavior, health: 100, time: 500});
+    orb.addNonSpell({init: nsInit, func: nsBehavior, health: 100, time: 15});
     orb.addSpell(SPELL.orbAlpha);
-    orb.addNonSpell({init: nsInit, func: nsBehavior, health: 150, time: 800});
+    orb.addNonSpell({init: nsInit, func: nsBehavior, health: 150, time: 25});
     orb.addSpell(SPELL.orbBeta);
 
     orb.setBossData("orb", true);

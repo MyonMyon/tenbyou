@@ -67,16 +67,16 @@ Enemy.prototype.draw = function (context) {
                     (i + 1) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
                     (i % 2 === 0) ? BOSS_HEALTH_SPELL_COLOR : BOSS_HEALTH_SPELL_ALT_COLOR, 7);
 
+        var rt = this.relTime();
+        var at = this.attacks[this.attackCurrent].time;
+        var dt = this.attacks[this.attackCurrent].decrTime;
         if (this.attacks[this.attackCurrent].spell && this.parentWorld.player.spellCompleteTerms) { //for spells 
-            if (this.lifetime < this.attacks[this.attackCurrent].decrTime)
-                this.drawBossWheel(context, 24.5, this.lifetime / this.attacks[this.attackCurrent].time,
-                        this.attacks[this.attackCurrent].decrTime / this.attacks[this.attackCurrent].time, BOSS_TIMER_ALT_COLOR, 3);
-            this.drawBossWheel(context, 24.5, Math.max(this.lifetime / this.attacks[this.attackCurrent].time,
-                    this.attacks[this.attackCurrent].decrTime / this.attacks[this.attackCurrent].time),
-                    1, BOSS_TIMER_COLOR, 3);
-        }
-        else //for non-spells
-            this.drawBossWheel(context, 24.5, this.lifetime / this.attacks[this.attackCurrent].time, 1, BOSS_TIMER_ALT_COLOR, 3);
+            if (rt < dt) {
+                this.drawBossWheel(context, 24.5, rt / at, dt / at, BOSS_TIMER_ALT_COLOR, 3);
+            }
+            this.drawBossWheel(context, 24.5, Math.max(rt / at, dt / at), 1, BOSS_TIMER_COLOR, 3);
+        } else //for non-spells
+            this.drawBossWheel(context, 24.5, rt / at, 1, BOSS_TIMER_ALT_COLOR, 3);
     }
 };
 
@@ -144,15 +144,17 @@ Enemy.prototype.step = function () {
     if (this.attackCurrent === -1)
         this.behavior();
     else if (this.attackCurrent < this.attacks.length) {
+        var rt = this.relTime();
+        var at = this.attacks[this.attackCurrent].time;
+        var dt = this.attacks[this.attackCurrent].decrTime;
         this.bonus = parseInt((this.attacks[this.attackCurrent].bonusBound +
-                (1 - (Math.max(this.lifetime, this.attacks[this.attackCurrent].decrTime) /
-                        (this.attacks[this.attackCurrent].time - this.attacks[this.attackCurrent].decrTime))) *
+                (1 - (Math.max(rt, dt) / (at - dt))) *
                 (this.attacks[this.attackCurrent].bonus - this.attacks[this.attackCurrent].bonusBound)) / 100, 10) * 100;
 
         if (this.attacks[this.attackCurrent].func) {
             this.attacks[this.attackCurrent].func(this, this.attacks[this.attackCurrent].param);
         }
-        if (this.lifetime >= this.attacks[this.attackCurrent].time) {
+        if (rt >= at) {
             this.nextAttack();
         }
     }
@@ -286,12 +288,12 @@ Enemy.prototype.setBossData = function (bossName, isLast) {
     this.width = BOSS[bossName].width;
     this.sprite.set(bossName);
 
-    this.behavior = function () {
-        if (this.lifetime === 1)
-            this.headToPointSmoothly(0, -this.parentWorld.height / 4, 3);
-        if (this.lifetime === 100)
-            this.nextAttack();
-    };
+    this.eventChain.addEvent(function(b) {
+        b.headToPointSmoothly(0, -b.parentWorld.height / 4, 3);
+    }, 0);
+    this.eventChain.addEvent(function(b) {
+        b.nextAttack();
+    }, 3);
 
     this.parentWorld.setBoss(this, BOSS[bossName].name, isLast);
 };
