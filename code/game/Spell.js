@@ -32,19 +32,20 @@ var SPELL = {
         decrTime: 2,
         bonus: 30000,
         bonusBound: 5000,
-        func: function (entity) {
-            var c = 8;
-            if (entity.lifetime > 10 && entity.lifetime % 3 === 0)
+        init: function (entity) {
+            entity.eventChain.addEvent(function (e, iter) {
+                var c = 8;
                 for (var i = 0; i < c; ++i) {
                     var a = i / c * Math.PI * 2;
-                    var d = entity.lifetime / 20;
-                    new Projectile(entity.parentWorld,
-                            entity.x + entity.width * Math.sin(a),
-                            entity.y + entity.width * Math.cos(a),
+                    var d = e.relTime() * 1.5;
+                    new Projectile(e.parentWorld,
+                            e.x + e.width * Math.sin(a),
+                            e.y + e.width * Math.cos(a),
                             Math.sin(a + d) * 25,
                             Math.cos(a + d) * 25,
-                            0, 0, 2.5, false, entity.lifetime % 2 ? "staticBlue" : "staticRed");
+                            0, 0, 2.5, false, iter % 2 ? "staticBlue" : "staticRed");
                 }
+            }, 0.4, 0.1, Infinity);
         }
     },
     kedamaBeta: {
@@ -60,22 +61,22 @@ var SPELL = {
         decrTime: 2,
         bonus: 30000,
         bonusBound: 5000,
-        func: function (entity) {
-            var c = 5;
-            if (entity.lifetime > 10 && entity.lifetime % 6 === 0)
+        init: function (entity) {
+            entity.eventChain.addEvent(function (e, iter) {
+                var c = 5;
                 for (var i = 0; i < c; ++i) {
                     var a = i / c * Math.PI * 2;
-                    var p = new Projectile(entity.parentWorld,
-                            entity.x + entity.width * Math.sin(a),
-                            entity.y + entity.width * Math.cos(a),
+                    var p = new Projectile(e.parentWorld,
+                            e.x + e.width * Math.sin(a),
+                            e.y + e.width * Math.cos(a),
                             Math.sin(a) * 25,
                             Math.cos(a) * 25,
-                            0, 0, 2.5, false, entity.lifetime / 6 % 2 ? "staticBlue" : "staticRed");
-                    p.behavior = function () {
-                        if (this.lifetime % 60 === 10)
-                            this.headToEntity(entity.parentWorld.player, 0, 2);
-                    };
+                            0, 0, 2.5, false, iter % 2 ? "staticBlue" : "staticRed");
+                    p.eventChain.addEvent(function (proj) {
+                        proj.headToEntity(entity.parentWorld.player, 0, 2);
+                    }, 0.1, 2, Infinity);
                 }
+            }, 0.4, 0.2, Infinity);
         }
     },
     lilyAlpha: {
@@ -124,7 +125,7 @@ var SPELL = {
                         if (iter % 200 < 160 && iter % 200 >= 60) {
                             var c = 3 + s.parentWorld.difficulty * 2;
                             for (var i = 0; i < c; i++) {
-                                var a = i * Math.PI * 2 / c  + s.attackAngle;
+                                var a = i * Math.PI * 2 / c + s.attackAngle;
                                 var p = new Projectile(s.parentWorld,
                                         s.x + entity.width * Math.sin(a) * 2,
                                         s.y + entity.width * Math.cos(a) * 2,
@@ -136,7 +137,7 @@ var SPELL = {
                                 if (iter % 200 < 70) {
                                     p.priority = 1;
                                 }
-                                p.behavior = function() {
+                                p.behavior = function () {
                                     if (this.x < -this.parentWorld.width / 2 || this.x > this.parentWorld.width / 2) {
                                         this.x1 = -this.x1;
                                         this.x2 = 0;
@@ -181,8 +182,8 @@ var SPELL = {
                         this.y = this.parent.y + 20 * Math.cos(this.relAngle);
                     };
                 }, 1);
-                satellite.eventChain.addEvent(function (s) {
-                    var alt = Math.floor(s.lifetime / s.parentWorld.ticksPS) % 6 < 3;
+                satellite.eventChain.addEvent(function (s, iter) {
+                    var alt = iter % 60 < 30;
                     var p = new Projectile(s.parentWorld,
                             s.x + s.width * Math.sin(s.relAngle),
                             s.y + s.width * Math.cos(s.relAngle),
@@ -215,20 +216,18 @@ var SPELL = {
         decrTime: 10,
         bonus: 30000,
         bonusBound: 5000,
-        func: function (entity, difficulty) {
-            if (entity.lifetime === 1)
-                entity.headToPointSmoothly(0, -entity.parentWorld.height / 4, 0.5);
-            if (entity.lifetime % 4 === 0 && entity.lifetime > 20) {
-                entity.x = 0;
-                entity.x1 = 0;
-                var c = 2 + difficulty;
+        init: function (entity) {
+            entity.eventChain.addEvent(function (e) {
+                e.x = 0;
+                e.x1 = 0;
+                var c = 2 + e.parentWorld.difficulty;
                 var r = 24;
                 var s = 60;
                 for (var i = 0; i < c; ++i) {
-                    var a = i / c * Math.PI * 2 + Math.cos(entity.lifetime / 40);
-                    var p = new Projectile(entity.parentWorld,
-                            entity.x + Math.sin(a) * r,
-                            entity.y + Math.cos(a) * r,
+                    var a = i / c * Math.PI * 2 + Math.cos(e.relTime() * 0.75);
+                    var p = new Projectile(e.parentWorld,
+                            e.x + Math.sin(a) * r,
+                            e.y + Math.cos(a) * r,
                             Math.sin(a) * s,
                             Math.cos(a) * s,
                             0, 0, 2, false, "orbBlue");
@@ -244,7 +243,7 @@ var SPELL = {
                         }
                     };
                 }
-            }
+            }, 0.8, 0.133, Infinity);
         }
     },
     orbBeta: {
@@ -260,52 +259,46 @@ var SPELL = {
         decrTime: 10,
         bonus: 40000,
         bonusBound: 5000,
-        func: function (entity, difficulty) {
-            if (entity.lifetime < 20) {
-                entity.headToPointSmoothly(0, -entity.parentWorld.height / 4, 0.5);
-            } else {
-                entity.x = 0;
-                entity.x1 = 0;
+        init: function (entity) {
+            entity.headToPointSmoothly(0, -entity.parentWorld.height / 4, 0.5);
+            entity.eventChain.addEvent(function (e, iter) {
+                e.x = 0;
+                e.x1 = 0;
                 var r = 2;
                 var s = 60;
-                var a = Math.PI - entity.lifetime / 15;
-                entity.angle = entity.lifetime / 15 - Math.PI / 2;
-                var p = new Projectile(entity.parentWorld,
-                        entity.x + Math.sin(a) * r,
-                        entity.y + Math.cos(a) * r,
+                var a = Math.PI - e.relTime() * 2;
+                e.angle = e.relTime() * 2 - Math.PI / 2;
+                var p = new Projectile(e.parentWorld,
+                        e.x + Math.sin(a) * r,
+                        e.y + Math.cos(a) * r,
                         Math.sin(a) * s,
                         Math.cos(a) * s,
-                        0, 0, 4, false, entity.lifetime % 2 ? "staticBlue" : "staticRed");
-                if (entity.lifetime % 100 > 80) {
-                    if (entity.lifetime % 200 > 100) {
-                        if (entity.lifetime % 4 === 0) {
-                            s = 90;
-                            var c = 2 + difficulty;
-                            for (var i = -c; i <= c; ++i) {
-                                a = -Math.atan2(entity.y - entity.parentWorld.player.y, entity.x - entity.parentWorld.player.x) - Math.PI / 2 + Math.PI / 20 * i;
-                                p = new Projectile(entity.parentWorld,
-                                        entity.x + Math.sin(a) * r,
-                                        entity.y + Math.cos(a) * r,
-                                        Math.sin(a) * s,
-                                        Math.cos(a) * s,
-                                        0, 0, 2, false, "orbBlue");
-                            }
+                        0, 0, 4, false, iter % 2 ? "staticBlue" : "staticRed");
+            }, 0.7, 0.033, Infinity);
+            entity.eventChain.addEvent(function (e, iter) {
+                if (iter % 25 > 20) {
+                    if (iter % 50 > 25) {
+                        var s = 90;
+                        var r = 2;
+                        var c = 2 + e.parentWorld.difficulty;
+                        for (var i = -c; i <= c; ++i) {
+                            var a = -Math.atan2(e.y - e.parentWorld.player.y, e.x - e.parentWorld.player.x) - Math.PI / 2 + Math.PI / 20 * i;
+                            new Projectile(e.parentWorld,
+                                    e.x + Math.sin(a) * r,
+                                    e.y + Math.cos(a) * r,
+                                    Math.sin(a) * s,
+                                    Math.cos(a) * s,
+                                    0, 0, 2, false, "orbBlue");
                         }
                     } else {
-                        if (entity.lifetime % 4 === 0) {
-                            p = new Projectile(entity.parentWorld,
-                                    entity.x,
-                                    entity.y,
-                                    0, 0, 0, 0, 6, false, "orbBlue");
-                            p.headToEntity(entity.parentWorld.player, 100, -1.2);
-                            p.behavior = function () {
-                                if (this.lifetime % (32 / (difficulty + 1)) === 0)
-                                    this.headToEntity(this.parentWorld.player, 80, -1.2);
-                            };
-                        }
+                        var p = new Projectile(e.parentWorld, e.x, e.y, 0, 0, 0, 0, 6, false, "orbBlue");
+                        p.headToEntity(e.parentWorld.player, 100, -1.2);
+                        p.eventChain.addEvent(function (proj) {
+                            proj.headToEntity(proj.parentWorld.player, 80, -1.2);
+                        }, 0, 1 / (e.parentWorld.difficulty + 1), Infinity);
                     }
                 }
-            }
+            }, 0, 0.133, Infinity);
         }
     },
     okuuAlpha: {
@@ -321,19 +314,19 @@ var SPELL = {
         decrTime: 10,
         bonus: 600000,
         bonusBound: 5000,
-        func: function (entity, difficulty) {
-            if (entity.lifetime % Math.floor(12 / (difficulty + 1)) === 0) {
-                var nuclearBall = new Projectile(entity.parentWorld,
-                        (Math.random() - 0.5) * entity.parentWorld.width,
-                        -entity.parentWorld.height / 2 - 5,
+        init: function (entity) {
+            entity.eventChain.addEvent(function (e) {
+                var nuclearBall = new Projectile(e.parentWorld,
+                        (Math.random() - 0.5) * e.parentWorld.width,
+                        -e.parentWorld.height / 2 - 5,
                         0, 180, 0, -2.7, 20, false, "nuclear");
                 nuclearBall.behavior = function () {
                     if (this.width <= 0.2)
                         this.remove();
                     else
-                        this.width -= this.lifetime / 100;
+                        this.width = 20 - Math.pow(this.relTime(), 2) * 5;
                 };
-            }
+            }, 0, 0.4 / (entity.parentWorld.difficulty + 1), Infinity);
         }
     }
 };
