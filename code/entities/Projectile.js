@@ -7,9 +7,9 @@ function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerSide, sprite
             x2 / parentWorld.ticksPS,
             y2 / parentWorld.ticksPS,
             width));
-    this.sh.setSprite(SPRITE.projectile);
+    this.sprite.set(SPRITE.projectile);
     if (spriteName) {
-        this.sh.setSprite(spriteName);
+        this.sprite.set(spriteName);
         this.rotate = SPRITE.projectile[spriteName].rotate;
     }
     this.playerSide = playerSide || false;
@@ -30,7 +30,7 @@ Projectile.prototype.draw = function (context) {
     if (this.rotate || this.angle)
         context.rotate(Math.atan2(this.y1, this.x1) - Math.PI / 2 + this.angle);
 
-    this.sh.draw(context, 0, 0, this.playerSide ? this.parentWorld.relTime() : this.relTime(), this.parentWorld.vp.zoom * this.width * 2);
+    this.sprite.draw(context, 0, 0, this.playerSide ? this.parentWorld.relTime() : this.relTime(), this.parentWorld.vp.zoom * this.width * 2);
 
     context.restore();
 

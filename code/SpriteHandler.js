@@ -12,7 +12,7 @@ function SpriteHandler() {
     };
 }
 
-SpriteHandler.prototype.setSprite = function (sprite) {
+SpriteHandler.prototype.set = function (sprite) {
     if (typeof sprite === "string") {
         this.name = sprite;
         sprite = this.ref[sprite];

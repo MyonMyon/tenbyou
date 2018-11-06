@@ -33,8 +33,8 @@ function Player(parentWorld, charName) {
     this.invulnTime = 0;
     this.autoGatherTime = 0;
 
-    this.sh.setSprite(SPRITE.player);
-    this.sh.setSprite(charName);
+    this.sprite.set(SPRITE.player);
+    this.sprite.set(charName);
     this.width = CHAR[charName].width;
     this.onShoot = CHAR[charName].onShoot;
     this.onBomb = CHAR[charName].onBomb;
@@ -159,8 +159,8 @@ Player.prototype.draw = function (context) {
             context.closePath();
         }
 
-        this.sh.setPositionShift(this.focused, 0);
-        this.sh.draw(context, ePos.x, ePos.y, this.relTime(), 8 * this.parentWorld.vp.zoom);
+        this.sprite.setPositionShift(this.focused, 0);
+        this.sprite.draw(context, ePos.x, ePos.y, this.relTime(), 8 * this.parentWorld.vp.zoom);
 
         if (this.focused) {
             context.strokeStyle = HITBOX_STROKE_COLOR;

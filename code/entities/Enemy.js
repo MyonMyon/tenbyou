@@ -1,8 +1,8 @@
 function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, spriteName) {
     extend(this, new Entity(parentWorld, x, y, x1 / parentWorld.ticksPS, y1 / parentWorld.ticksPS, x2 / parentWorld.ticksPS, y2 / parentWorld.ticksPS, width));
-    this.sh.setSprite(SPRITE.enemy);
+    this.sprite.set(SPRITE.enemy);
     if (spriteName) {
-        this.sh.setSprite(spriteName);
+        this.sprite.set(spriteName);
         this.mirror = SPRITE.enemy[spriteName].mirror;
     }
     this.initialHealth = health || 20;
@@ -27,7 +27,7 @@ Enemy.prototype.draw = function (context) {
     if (this.angle)
         context.rotate(this.angle);
 
-    this.sh.draw(context, 0, 0, this.relTime(), this.parentWorld.vp.zoom * this.width * 2);
+    this.sprite.draw(context, 0, 0, this.relTime(), this.parentWorld.vp.zoom * this.width * 2);
 
     context.restore();
 
@@ -279,7 +279,7 @@ Enemy.prototype.setBossData = function (bossName, isLast) {
     this.setVectors(0, -this.parentWorld.width / 2 - 40);
 
     this.width = BOSS[bossName].width;
-    this.sh.setSprite(bossName);
+    this.sprite.set(bossName);
 
     this.behavior = function () {
         if (this.lifetime === 1)

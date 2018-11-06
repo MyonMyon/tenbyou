@@ -44,9 +44,9 @@ var STAGE = [{
                                         if (this.followCounter < 2) {
                                             this.headToEntity(world.player, 0, 2); //stop and refresh directions
                                             //this.headToEntity(this.whoShotThis, 0, -0.1); //stop and refresh directions
-                                            this.sh.setSprite((this.sh.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
+                                            this.sprite.set((this.sprite.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
                                         } else if (this.followCounter === 2) {
-                                            this.sh.setSprite("orbBlue");
+                                            this.sprite.set("orbBlue");
                                         }
                                         this.followCounter++;
                                     }
