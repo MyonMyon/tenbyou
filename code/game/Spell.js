@@ -316,7 +316,7 @@ var SPELL = {
             "Explosion Sign \"Not a Flare at all\"",
             "Explosion Sign \"Not a Flare at all yet\""
         ],
-        health: 300,
+        health: 1000,
         time: 1500,
         decrTime: 200,
         bonus: 600000,
