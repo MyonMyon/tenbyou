@@ -179,7 +179,6 @@ World.prototype.tick = function () {
     if (!this.pause) {
         this.time += this.tickInterval;
 
-        console.log(this.time, Math.round(this.time))
         //skip frame logic:
         if (Math.abs(Math.round(this.time) - this.time) < 0.05 || this.tickInterval === 1) {
             this.time = Math.round(this.time);
