@@ -209,9 +209,9 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
     var ignoreModality = action && action.ignoreModality;
     if (!this.vp.world.pause || ignoreModality) {
         if (action) {
-            //if (action.category === "dev" && !Settings.get("dev.controls")) {
-            //    return false;
-            //}
+            if (action.category === "dev" && !this.vp.devStage === "DEVELOPMENT") {
+                return false;
+            }
             if (this.defaultMapping[keyAbbr] === "pause") {
                 this.stopAll();
             }
