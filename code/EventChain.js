@@ -7,7 +7,7 @@ EventChain.prototype.clear = function () {
     this.events = [];
 };
 
-EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCount) {
+EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCount, useWorldTimeGrid) {
     if (typeof repeatInterval === "function") {
         repeatInterval = repeatInterval(this.parent);
     }
@@ -18,8 +18,11 @@ EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCo
         repeatInterval: repeatInterval,
         repeatCount: repeatCount || 1,
         iteration: 0,
-        second: second,
+        second: useWorldTimeGrid ?
+                (Math.floor((this.parent.parentWorld.relTime() + second) / repeatInterval) + 1) * (repeatInterval) :
+                second,
         done: false,
+        useWorldTimeGrid: useWorldTimeGrid,
         fire: func
     });
 };
@@ -29,8 +32,13 @@ EventChain.prototype.addEventNow = function (func, secondTimeout, repeatInterval
 };
 
 EventChain.prototype.tick = function () {
-    var t = this.parent.relTime();
+    var t;
     for (var i in this.events) {
+        if (this.events[i].useWorldTimeGrid) {
+            t = this.parent.parentWorld.relTime();
+        } else {
+            t = this.parent.relTime();
+        }
         if (!this.events[i].done && t >= this.events[i].second) {
             if (this.events[i].iteration < this.events[i].repeatCount - 1) {
                 this.events[i].second += this.events[i].repeatInterval;
