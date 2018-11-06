@@ -227,6 +227,10 @@ Enemy.prototype.addAttack = function (spell, title, init, func, finish, param, h
     this.attacks[n] = {spell: spell, title: title || "", init: init, func: func, finish: finish, param: param, health: health, time: time, bonus: bonus, decrTime: decrTime, bonusBound: bonusBound};
 };
 
+Enemy.prototype.addNonSpell = function (nonSpell, newGroup) {
+    this.addAttack(false, null, nonSpell.init, nonSpell.func, nonSpell.finish, this.parentWorld.difficulty, nonSpell.health, nonSpell.time, null, null, null, newGroup);
+};
+
 Enemy.prototype.addSpell = function (spell, newGroup) {
     this.addAttack(true, spell.names[this.parentWorld.difficulty], spell.init, spell.func, spell.finish, this.parentWorld.difficulty, spell.health, spell.time, spell.decrTime, spell.bonus, spell.bonusBound, newGroup);
 };
