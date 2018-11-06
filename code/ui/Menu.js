@@ -169,5 +169,5 @@ Menu.prototype.draw = function () {
 
     var title = this.getCurrentTitle();
     this.viewPort.setFont(FONT.title, {menu: true});
-    this.viewPort.drawText(title, MENU_X, MENU_TITLE_Y);
+    this.viewPort.drawText(title, MENU_X, MENU_SUBTITLE_Y);
 };

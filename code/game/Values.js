@@ -89,16 +89,20 @@ var FONT = {
     },
     title: {
         font: "Unispace Rg",
-        size: ZOOM * 7,
+        size: ZOOM * 5,
         weight: "Bold",
         color: "#0fc",
         strokeWidth: 4,
         strokeColor: ZOOM > 3 ? "#066" : "transparent",
         menu: {
-            size: ZOOM * 15,
+            size: ZOOM * 12,
             color: "#fff",
-            strokeWidth: 10,
+            strokeWidth: 8,
             strokeColor: "#600"
+        },
+        fr: {
+            size: ZOOM * 18,
+            weight: "Bold"
         }
     },
     menu: {
@@ -127,11 +131,13 @@ var FONT = {
 var INFO_LINE = ZOOM * 8;
 var INFO_TAB = ZOOM * 40;
 
-var GAME_TITLE = "Occasional Flaw";
+var FRANCHISE_TITLE = "Boundary Crossing:";
+var GAME_TITLE = "Guiding Anomalous Patterns";
 var ENGINE_VER_SHOW = true;
 var DEBUG_SHOW = true;
 
-var MENU_TITLE_Y = ZOOM * 64;
+var MENU_TITLE_Y = ZOOM * 44;
+var MENU_SUBTITLE_Y = ZOOM * 64;
 var MENU_X = ZOOM * 12;
 var MENU_Y = ZOOM * 88;
 var MENU_H = ZOOM * 10;

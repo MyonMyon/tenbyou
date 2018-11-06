@@ -101,6 +101,10 @@ MainMenu.prototype.draw = function () {
     this.viewPort.context.drawImage(o, 0, 0, o.width, o.height, 0, 0, WIDTH, HEIGHT);
 
     this.$draw();
+    if (!this.getCurrentMenu().title) {
+        this.viewPort.setFont(FONT.title, {menu: true, fr: true});
+        this.viewPort.drawText(FRANCHISE_TITLE, MENU_X, MENU_TITLE_Y);
+    }
 
     this.viewPort.setFont(FONT.info, {minor: true});
     this.viewPort.drawText(
