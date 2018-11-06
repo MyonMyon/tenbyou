@@ -227,8 +227,8 @@ Enemy.prototype.addAttack = function (spell, title, init, func, finish, param, h
     this.attacks[n] = {spell: spell, title: title || "", init: init, func: func, finish: finish, param: param, health: health, time: time, bonus: bonus, decrTime: decrTime, bonusBound: bonusBound};
 };
 
-Enemy.prototype.addSpell = function (spell, difficulty, newGroup) {
-    this.addAttack(true, spell.names[difficulty], spell.init, spell.func, spell.finish, difficulty, spell.health, spell.time, spell.decrTime, spell.bonus, spell.bonusBound, newGroup);
+Enemy.prototype.addSpell = function (spell, newGroup) {
+    this.addAttack(true, spell.names[this.parentWorld.difficulty], spell.init, spell.func, spell.finish, this.parentWorld.difficulty, spell.health, spell.time, spell.decrTime, spell.bonus, spell.bonusBound, newGroup);
 };
 
 Enemy.prototype.nextAttack = function () {

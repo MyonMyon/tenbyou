@@ -187,9 +187,9 @@ eventKedamaMidboss = function (world, power) {
     kedama.addAttack(false, null, null, nonSpell, null, world.difficulty, 400, 500);
     if (world.difficulty > 0) {
         if (power)
-            kedama.addSpell(SPELL.kedamaBeta, world.difficulty);
+            kedama.addSpell(SPELL.kedamaBeta);
         else
-            kedama.addSpell(SPELL.kedamaAlpha, world.difficulty);
+            kedama.addSpell(SPELL.kedamaAlpha);
     }
 
     kedama.setBossData("kedama", false);
@@ -216,9 +216,9 @@ eventOrb = function (world) {
     var orb = new Enemy(world);
 
     orb.addAttack(false, null, null, nonSpell, null, world.difficulty, 100, 500);
-    orb.addSpell(SPELL.orbAlpha, world.difficulty);
+    orb.addSpell(SPELL.orbAlpha);
     orb.addAttack(false, null, null, nonSpell, null, world.difficulty, 100, 800);
-    orb.addSpell(SPELL.orbBeta, world.difficulty);
+    orb.addSpell(SPELL.orbBeta);
 
     orb.setBossData("orb", true);
 };
@@ -226,7 +226,7 @@ eventOrb = function (world) {
 eventOkuu = function (world) {
     var okuu = new Enemy(world);
 
-    okuu.addSpell(SPELL.okuuAlpha, world.difficulty);
+    okuu.addSpell(SPELL.okuuAlpha);
 
     okuu.setBossData("okuu", true);
 };
