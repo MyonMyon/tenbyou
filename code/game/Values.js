@@ -89,11 +89,14 @@ var FONT = {
     },
     title: {
         font: "Unispace Rg",
-        size: ZOOM * 5,
+        size: ZOOM * 7,
         weight: "Bold",
         color: "#0fc",
         strokeWidth: 4,
         strokeColor: ZOOM > 3 ? "#066" : "transparent",
+        name: {
+            size: ZOOM * 5
+        },
         menu: {
             size: ZOOM * 12,
             color: "#fff",

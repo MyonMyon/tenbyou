@@ -329,7 +329,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.setFont(FONT.difficulty, diffO);
     this.drawText(DIFF[this.world.difficulty].name.toUpperCase(), (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
 
-    this.setFont(FONT.title);
+    this.setFont(FONT.title, {name: true});
     this.drawText(GAME_TITLE, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y - 40);
 
     //Show message:
