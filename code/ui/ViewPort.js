@@ -243,15 +243,23 @@ ViewPort.prototype.draw = function (initFromWorld) {
         this.context.textAlign = "left";
         this.drawText(this.world.boss.title, boundaryStart.x + 10, boundaryStart.y + 20);
 
-        if (this.world.boss.attackCurrent >= 0)
+        if (this.world.boss.attackCurrent >= 0) {
             for (var i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
                 this.context.drawImage(SPRITE.gui.object, 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
                         boundaryStart.x + 8 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4, boundaryStart.y + 24, SPRITE.gui.frameWidth * this.zoom / 4, SPRITE.gui.frameHeight * this.zoom / 4);
 
-        if (this.world.boss.attackCurrent >= 0 && this.world.boss.attackCurrent < this.world.boss.attacks.length && this.world.boss.attacks[this.world.boss.attackCurrent].spell) {
-            this.context.textAlign = "right";
-            this.drawText(this.world.boss.attacks[this.world.boss.attackCurrent].title, boundaryEnd.x - 10, boundaryStart.y + 20);
-            this.drawText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"), boundaryEnd.x - 10, boundaryStart.y + 40);
+            if (this.world.boss.attackCurrent < this.world.boss.attacks.length)
+                var attack = this.world.boss.attacks[this.world.boss.attackCurrent]
+                if (attack.spell) {
+                    {
+                        this.context.textAlign = "right";
+                        this.drawText(attack.title, boundaryEnd.x - 10, boundaryStart.y + 20);
+                        this.drawText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"), boundaryEnd.x - 10, boundaryStart.y + 40);
+                    }
+                }
+                this.context.textAlign = "center";
+                this.setFont(FONT.timer, {fullBonus: this.world.boss.relTime() < attack.decrTime});
+                this.drawText(this.fixedInt(Math.ceil(attack.time - this.world.boss.relTime()), 2), (boundaryStart.x + boundaryEnd.x) / 2, boundaryStart.y + 40);
         }
     }
 

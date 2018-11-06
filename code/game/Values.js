@@ -30,7 +30,17 @@ var FONT = {
         size: ZOOM * 3,
         color: "#c00",
         strokeWidth: 3,
-        strokeColor: ZOOM > 3 ? "#fcc" : "transparent"
+        strokeColor: ZOOM > 3 ? "#fcc" : "transparent",
+    },
+    timer: {
+        font: "Unispace Rg",
+        size: ZOOM * 10,
+        color: "#cff",
+        strokeWidth: 4,
+        strokeColor: "#000",
+        fullBonus: {
+            color: "#0cc"
+        }
     },
     points: {
         font: "Unispace Rg",
