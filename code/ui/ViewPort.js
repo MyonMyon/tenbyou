@@ -250,16 +250,15 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
             if (this.world.boss.attackCurrent < this.world.boss.attacks.length)
                 var attack = this.world.boss.attacks[this.world.boss.attackCurrent]
+                this.context.textAlign = "right";
                 if (attack.spell) {
                     {
-                        this.context.textAlign = "right";
-                        this.drawText(attack.title, boundaryEnd.x - 10, boundaryStart.y + 20);
-                        this.drawText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"), boundaryEnd.x - 10, boundaryStart.y + 40);
+                        this.drawText(attack.title, boundaryEnd.x - 70, boundaryStart.y + 20);
+                        this.drawText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"), boundaryEnd.x - 70, boundaryStart.y + 40);
                     }
                 }
-                this.context.textAlign = "center";
                 this.setFont(FONT.timer, {fullBonus: this.world.boss.relTime() < attack.decrTime});
-                this.drawText(this.fixedInt(Math.ceil(attack.time - this.world.boss.relTime()), 2), (boundaryStart.x + boundaryEnd.x) / 2, boundaryStart.y + 40);
+                this.drawText(this.fixedInt(Math.ceil(attack.time - this.world.boss.relTime()), 2), boundaryEnd.x - 10, boundaryStart.y + 40);
         }
     }
 
