@@ -124,7 +124,7 @@ var STAGE = [{
                             world.width * (Math.random() - 0.5) * 0.8, -world.height / 2 - 3,
                             0, 30 + world.difficulty * 6,
                             0, 2,
-                            2, 3, "stoneFace");
+                            4, 3, "stoneFace");
                     stone.addDrops("point", false, 3);
                 }
             }, {

@@ -232,6 +232,8 @@ var SPRITE = {
         stoneFace: {
             x: 5,
             y: 0,
+            width: 2,
+            height: 2,
             hitbox: 0.75
         }
     },
