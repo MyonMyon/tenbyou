@@ -23,6 +23,8 @@ SpriteHandler.prototype.set = function (sprite) {
         this.object = sprite.object;
     }
     this.zoom = 1 / (sprite.hitbox || 1);
+    this.width = sprite.width || 1;
+    this.height = sprite.height || 1;
     if (sprite.frameWidth && sprite.frameHeight) {
         this.frameWidth = sprite.frameWidth;
         this.frameHeight = sprite.frameHeight;
@@ -88,8 +90,8 @@ SpriteHandler.prototype.draw = function (context, x, y, t, z) {
     context.drawImage(this.object,
             img.x * this.frameWidth,
             img.y * this.frameHeight,
-            this.frameWidth,
-            this.frameHeight,
+            this.width * this.frameWidth,
+            this.height * this.frameHeight,
             x - z/2 * this.zoom,
             y - z/2 * this.zoom,
             z * this.zoom,
