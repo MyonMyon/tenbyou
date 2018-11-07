@@ -15,13 +15,13 @@ var CHAR = {
                 if (special) {
                     if (this.focused) {
                         bullet.damage *= 1.5;
+                        bullet.rangeForAim = 20;
                     } else {
-                        bullet.behavior = function () {
-                            if (this.lifetime % 6 === 1) {
-                                this.headToEntity(this.nearestEntity(Enemy, 200), 200, 0);
-                            }
-                        };
+                        bullet.rangeForAim = 200;
                     }
+                    bullet.eventChain.addEvent(function (b) {
+                        b.headToEntity(b.nearestEntity(Enemy, b.rangeForAim), 200, 0);
+                    }, 0, 0.2, Infinity);
                 }
             }
         },
