@@ -74,8 +74,8 @@ var STAGE = [{
                                 s.y,
                                 0, 0, 0, 0, 1.5, false, "kunaiBlue");
                         p.headToEntity(s.targetPos, 50 + s.parentWorld.difficulty * 10, 0);
-                    }, 0.5, 0.1, Infinity);
-                    new Particle(world, x, y, 30, 6, false, false, "splash");
+                    }, 1.5, 0.1, Infinity);
+                    kedama.appearanceTime = 1;
                 }
             }, {
                 substage: 0,
@@ -93,14 +93,16 @@ var STAGE = [{
                     var y = -world.height / 2 + 20;
                     if (iter % 5 < 3) {
                         var orb = new Enemy(world, x, y, 0, 6, 0, 0, 2, 30, "orbMinion");
+                        orb.appearanceTime = 1;
                         orb.addDrops("power", true, 5);
                         orb.addDrops("point", false, 5);
                         orb.eventChain.addEvent(function (s, i) {
                             var p = new Projectile(s.parentWorld, s.x, s.y, 0, 0, 0, 0, 2, false, "strikeRed");
                             p.headToEntity(s.parentWorld.player, 50 + s.parentWorld.difficulty * 10, 0);
-                        }, 0.5, 0.75, Infinity);
+                        }, 1.5, 0.75, Infinity);
                     } else {
                         var mine = new Enemy(world, x, y, 0, 3, 0, 0, 4, 1, "landMine");
+                        mine.appearanceTime = 1;
                         mine.onDestroy = function () {
                             for (var i = 0; i < 8 + this.parentWorld.difficulty * 2; i++) {
                                 var sx = (Math.random() - 0.5) * 30;
@@ -109,7 +111,6 @@ var STAGE = [{
                             }
                         };
                     }
-                    new Particle(world, x, y, 30, 6, false, false, "splash");
                 }
             }, {
                 substage: 1,
