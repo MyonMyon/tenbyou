@@ -5,6 +5,7 @@ function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, spriteName) {
         this.sprite.set(spriteName);
         this.mirror = SPRITE.enemy[spriteName].mirror;
     }
+    this.appearanceTime = 0;
     this.initialHealth = health || 20;
     this.health = this.initialHealth;
     this.cost = this.initialHealth * 100;
@@ -21,6 +22,9 @@ Enemy.prototype.draw = function (context) {
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
 
     context.save();
+    if (this.relTime() < this.appearanceTime) {
+        context.globalAlpha = this.relTime() / (this.appearanceTime * 2);
+    }
     context.translate(ePos.x, ePos.y);
     if (this.mirror && this.x1 < 0)
         context.scale(-1, 1);
@@ -94,7 +98,11 @@ Enemy.prototype.drawBossWheel = function (context, r, from, to, color, lineWidth
 };
 
 Enemy.prototype.step = function () {
+    var l = this.relTime();
     this.$step();
+    if (l < this.appearanceTime && this.relTime() >= this.appearanceTime) {
+        this.parentWorld.splash(this, this.initialHealth / 5, 8, 10);
+    }
 
     if (this.health <= 0) {
         for (var i = 0; i < this.drops.length; ++i)
@@ -134,7 +142,10 @@ Enemy.prototype.step = function () {
     for (var i in  this.parentWorld.entities) {
         var e = this.parentWorld.entities[i];
         if (e instanceof Projectile && e.playerSide) {
-            if (this.parentWorld.distanceBetweenEntities(this, e) < (this.width + e.width)) {
+            if (this.parentWorld.distanceBetweenEntities(this, e) < (this.width + e.width) &&
+            (this.parentWorld.boss !== this ||
+            (this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length)) &&
+            this.relTime() >= this.appearanceTime) {
                 this.hurt(e.damage);
                 e.remove();
             }
@@ -179,9 +190,7 @@ Enemy.prototype.onDestroy = function () {
 
 Enemy.prototype.hurt = function (damage) {
     var healthOld = this.health;
-
-    if (this.parentWorld.boss !== this || (this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length))
-        this.health -= damage;
+    this.health -= damage;
 
     if (this.health > 0) {
         for (var i = 0; i < this.drops.length; ++i)
