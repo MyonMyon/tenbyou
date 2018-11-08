@@ -82,7 +82,7 @@ function getImages() {
         }
     }
     return IMG;
-};
+}
 
 /**
  * Creates the viewport after all the scripts are loaded.

@@ -42,7 +42,7 @@ function PauseMenu(viewPort) {
             }
         }
     ];
-};
+}
 
 /**
  * @return {String} Current menu title.

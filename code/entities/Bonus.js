@@ -13,7 +13,7 @@ function Bonus(parentWorld, x, y, cat, small, autoGather) {
 Bonus.prototype.draw = function (context) {
     var minHeight = -this.parentWorld.height / 2 + 3;
     var offScreen = this.y < minHeight;
-    var ePos = this.parentWorld.vp.toScreen(this.x, offScreen ? minHeight: this.y);
+    var ePos = this.parentWorld.vp.toScreen(this.x, offScreen ? minHeight : this.y);
     this.sprite.setPositionShift(offScreen * SPRITE.bonus.offScreen.x || 0, offScreen * SPRITE.bonus.offScreen.y || 0);
     this.sprite.draw(context, ePos.x, ePos.y, 0, 6 * this.parentWorld.vp.zoom);
 };

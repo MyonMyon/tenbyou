@@ -248,8 +248,8 @@ ViewPort.prototype.draw = function (initFromWorld) {
                 this.context.drawImage(SPRITE.gui.object, 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
                         boundaryStart.x + 8 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4, boundaryStart.y + 24, SPRITE.gui.frameWidth * this.zoom / 4, SPRITE.gui.frameHeight * this.zoom / 4);
 
-            if (this.world.boss.attackCurrent < this.world.boss.attacks.length)
-                var attack = this.world.boss.attacks[this.world.boss.attackCurrent]
+            if (this.world.boss.attackCurrent < this.world.boss.attacks.length) {
+                var attack = this.world.boss.attacks[this.world.boss.attackCurrent];
                 this.context.textAlign = "right";
                 if (attack.spell) {
                     {
@@ -259,6 +259,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
                 }
                 this.setFont(FONT.timer, {fullBonus: this.world.boss.relTime() < attack.decrTime});
                 this.drawText(this.fixedInt(Math.ceil(attack.time - this.world.boss.relTime()), 2), boundaryEnd.x - 10, boundaryStart.y + 40);
+            }
         }
     }
 

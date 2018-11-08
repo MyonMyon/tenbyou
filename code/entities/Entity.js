@@ -39,7 +39,7 @@ Entity.prototype.init = function () {
 Entity.prototype.flush = function () {
     this.fixedX = this.x;
     this.fixedY = this.y;
-    if (this.removalMark) {        
+    if (this.removalMark) {
         this.parentWorld.entities.splice(this.parentWorld.entities.indexOf(this), 1);
     }
 };

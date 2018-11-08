@@ -92,8 +92,8 @@ SpriteHandler.prototype.draw = function (context, x, y, t, z) {
             img.y * this.frameHeight,
             this.width * this.frameWidth,
             this.height * this.frameHeight,
-            x - z/2 * this.zoom,
-            y - z/2 * this.zoom,
+            x - z / 2 * this.zoom,
+            y - z / 2 * this.zoom,
             z * this.zoom,
             z * this.zoom);
 };

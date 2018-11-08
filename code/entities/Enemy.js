@@ -143,9 +143,9 @@ Enemy.prototype.step = function () {
         var e = this.parentWorld.entities[i];
         if (e instanceof Projectile && e.playerSide) {
             if (this.parentWorld.distanceBetweenEntities(this, e) < (this.width + e.width) &&
-            (this.parentWorld.boss !== this ||
-            (this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length)) &&
-            this.relTime() >= this.appearanceTime) {
+                    (this.parentWorld.boss !== this ||
+                            (this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length)) &&
+                    this.relTime() >= this.appearanceTime) {
                 this.hurt(e.damage);
                 e.remove();
             }
@@ -270,7 +270,7 @@ Enemy.prototype.nextAttack = function () {
         this.behaviorFinal();
         this.parentWorld.boss = null;
         if (this.parentWorld.bossLast) {
-            this.parentWorld.eventChain.addEventNow(function(world) {
+            this.parentWorld.eventChain.addEventNow(function (world) {
                 world.stageBonus();
             }, 2);
         } else {
@@ -297,10 +297,10 @@ Enemy.prototype.setBossData = function (bossName, isLast) {
     this.width = BOSS[bossName].width;
     this.sprite.set(bossName);
 
-    this.eventChain.addEvent(function(b) {
+    this.eventChain.addEvent(function (b) {
         b.headToPointSmoothly(0, -b.parentWorld.height / 4, 3);
     }, 0);
-    this.eventChain.addEvent(function(b) {
+    this.eventChain.addEvent(function (b) {
         b.nextAttack();
     }, 3);
 

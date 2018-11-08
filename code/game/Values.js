@@ -30,7 +30,7 @@ var FONT = {
         size: ZOOM * 3,
         color: "#c00",
         strokeWidth: 3,
-        strokeColor: ZOOM > 3 ? "#fcc" : "transparent",
+        strokeColor: ZOOM > 3 ? "#fcc" : "transparent"
     },
     timer: {
         font: "Unispace Rg",
@@ -156,21 +156,21 @@ var MENU_SCROLL_W = ZOOM * 1;
 var DIFF = [{
         name: "Easy",
         letter: "E"
-    },{
+    }, {
         name: "Normal",
         letter: "N"
-    },{
+    }, {
         name: "Hard",
         letter: "H"
-    },{
+    }, {
         name: "Lunatic",
         letter: "L",
         hidden: true
-    },{
+    }, {
         name: "Extra",
         letter: "X",
         hidden: true
-    },{
+    }, {
         name: "Phantasm",
         letter: "P",
         hidden: true
