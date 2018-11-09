@@ -1,11 +1,15 @@
 var ENGINE_VER = "v0.3.21";
 
-var CODE = [
+var CODE_PRIORITY = [
     "Ext",
+    "game/Values",
+    "ui/ViewPort"
+];
+
+var CODE = [
     "World",
     "EventChain",
     "SpriteHandler",
-    "ui/ViewPort",
     "ui/Menu",
     "ui/MainMenu",
     "ui/PauseMenu",
@@ -17,7 +21,6 @@ var CODE = [
     "entities/Bonus",
     "entities/Particle",
     "entities/Text",
-    "game/Values",
     "game/Char",
     "game/Boss",
     "game/Spell",
@@ -34,12 +37,14 @@ var CODE = [
  * @param {String} prefix Path prefix, which is added before each file name.
  * @param {String} postfix Path postfix, which is added after each file name. Usually, file extension.
  * @param {String} tag Tag to display in tab title during loading.
+ * @param {Object} loadingTextHandler Object with loadingText property to be set from here.
  * @param {Function} onFinish Function to execute after every script is loaded.
  */
-function loadResources(nameArray, elementTag, prefix, postfix, tag, onFinish) {
+function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextHandler, onFinish) {
     document.getElementsByTagName("title")[0].innerHTML = "Loading";
     var totalRes = nameArray.length;
     var loadedRes = 0;
+    var fail = false;
     for (var i in nameArray) {
         var s = document.createElement(elementTag);
         s.src = prefix + (nameArray[i].file || nameArray[i]) + postfix;
@@ -49,12 +54,18 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, onFinish) {
         s.onload = function () {
             loadedRes++;
             document.getElementsByTagName("title")[0].innerHTML = "Loading " + tag + " " + loadedRes + "/" + totalRes;
+            if (loadingTextHandler && !fail) {
+                loadingTextHandler.loadingText = tag.toTitleCase() + " " + loadedRes + "/" + totalRes;
+            }
             if (loadedRes === totalRes) {
                 onFinish();
             }
         };
         s.onerror = function () {
-            console.error("Resource missing: " + this.src);
+            fail = true;
+            if (loadingTextHandler) {
+                loadingTextHandler.loadingText = "Resource missing: " + this.src;
+            }
         };
         document.head.appendChild(s);
     }
@@ -89,11 +100,14 @@ function getImages() {
  */
 function onLoad() {
     document.getElementsByTagName("title")[0].innerHTML = GAME_TITLE;
-    new ViewPort();
 }
 
-loadResources(CODE, "script", "code/", ".js", "game code", function () {
-    loadResources(getImages(), "img", SPRITE_FOLDER, "", "game resources", function () {
-        onLoad();
+loadResources(CODE_PRIORITY, "script", "code/", ".js", "game code (priority)", null, function () {
+    var vp = new ViewPort();
+    loadResources(CODE, "script", "code/", ".js", "game code", vp, function () {
+        loadResources(getImages(), "img", SPRITE_FOLDER, "", "game resources", vp, function () {
+            onLoad();
+            vp.onLoad();
+        });
     });
 });

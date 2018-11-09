@@ -19,10 +19,6 @@ function ViewPort() {
     this.fps = 0;
     this.prevMS = 0;
 
-    this.input = new Input(this);
-    this.mainMenu = new MainMenu(this);
-    this.pauseMenu = new PauseMenu(this);
-
     this.devStage = window.location.href.split(":")[0] === "file" ? "DEVELOPMENT" : "(alpha)";
 
     var self = this;
@@ -30,6 +26,14 @@ function ViewPort() {
         self.draw(false);
     }, 33);
 }
+
+ViewPort.prototype.onLoad = function () {
+    this.loaded = true;
+
+    this.input = new Input(this);
+    this.mainMenu = new MainMenu(this);
+    this.pauseMenu = new PauseMenu(this);
+};
 
 /**
  * Takes a screenshot. After that displays a message and refreshes menu or displays the file depending on the settings.
@@ -166,6 +170,18 @@ ViewPort.prototype.draw = function (initFromWorld) {
     }
 
     this.prevMS = new Date().getTime() % 1000;
+
+    if (!this.loaded) {
+        this.context.fillStyle = "#333";
+        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.textAlign = "center";
+        this.setFont(FONT.description);
+        this.drawText("LOADING", this.canvas.width / 2, this.canvas.height / 2 - this.zoom * 2);
+        this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.canvas.width / 2, this.canvas.height / 2);
+        this.drawText(this.loadingText, this.canvas.width / 2, this.canvas.height / 2 + this.zoom * 4);
+
+        return;
+    }
 
     if (!this.world) {
         this.mainMenu.draw();
