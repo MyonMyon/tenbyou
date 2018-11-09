@@ -106,7 +106,6 @@ World.prototype.addTime = function () {
         var e = this.eventChain.events[i];
         if (!e.done) {
             this.time = this.substageStart + Math.floor(e.second * this.ticksPS) - 1;
-            console.log(e.second, this.ticksPS, this.time);
             return;
         }
     }
