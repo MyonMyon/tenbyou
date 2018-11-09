@@ -20,61 +20,13 @@ var SPRITE = {
             frames: 4,
             interval: 0.2
         },
-        cometPurple: {
+        catGreen: {
             x: 0,
-            y: 4,
-            hitbox: 0.5,
-            rotate: true
+            y: 4
         },
-        kunaiBlue: {
+        catMagenta: {
             x: 0,
-            y: 5,
-            hitbox: 0.4,
-            rotate: true
-        },
-        kunaiRed: {
-            x: 1,
-            y: 5,
-            hitbox: 0.4,
-            rotate: true
-        },
-        strikeBlue: {
-            x: 0,
-            y: 6,
-            hitbox: 0.75,
-            rotate: true
-        },
-        strikePurple: {
-            x: 1,
-            y: 6,
-            hitbox: 0.75,
-            rotate: true
-        },
-        strikeRed: {
-            x: 2,
-            y: 6,
-            hitbox: 0.75,
-            rotate: true
-        },
-        sealBlue: {
-            x: 0,
-            y: 7,
-            rotate: true
-        },
-        sealPurple: {
-            x: 1,
-            y: 7,
-            rotate: true
-        },
-        sealRed: {
-            x: 2,
-            y: 7,
-            rotate: true
-        },
-        sealGray: {
-            x: 3,
-            y: 7,
-            rotate: true
+            y: 5
         },
         coin: {
             x: 1,
@@ -100,21 +52,95 @@ var SPRITE = {
             frames: 7,
             interval: 0.15
         },
-        catGreen: {
+        staticBlue: {
             x: 5,
             y: 0
         },
-        catMagenta: {
-            x: 5,
-            y: 1
-        },
-        staticRed: {
+        staticPurple: {
             x: 6,
             y: 0
         },
-        staticBlue: {
+        staticRed: {
             x: 7,
             y: 0
+        },
+        staticLime: {
+            x: 8,
+            y: 0
+        },
+        kunaiBlue: {
+            x: 5,
+            y: 1,
+            hitbox: 0.4,
+            rotate: true
+        },
+        kunaiPurple: {
+            x: 6,
+            y: 1,
+            hitbox: 0.4,
+            rotate: true
+        },
+        kunaiRed: {
+            x: 7,
+            y: 1,
+            hitbox: 0.4,
+            rotate: true
+        },
+        strikeBlue: {
+            x: 5,
+            y: 2,
+            hitbox: 0.75,
+            rotate: true
+        },
+        strikePurple: {
+            x: 6,
+            y: 2,
+            hitbox: 0.75,
+            rotate: true
+        },
+        strikeRed: {
+            x: 7,
+            y: 2,
+            hitbox: 0.75,
+            rotate: true
+        },
+        sealBlue: {
+            x: 5,
+            y: 3,
+            rotate: true
+        },
+        sealPurple: {
+            x: 6,
+            y: 3,
+            rotate: true
+        },
+        sealRed: {
+            x: 7,
+            y: 3,
+            rotate: true
+        },
+        sealGray: {
+            x: 9,
+            y: 3,
+            rotate: true
+        },
+        cometBlue: {
+            x: 5,
+            y: 4,
+            height: 2,
+            rotate: true
+        },
+        cometPurple: {
+            x: 6,
+            y: 4,
+            height: 2,
+            rotate: true
+        },
+        cometRed: {
+            x: 7,
+            y: 4,
+            height: 2,
+            rotate: true
         },
         nuclear: {
             file: "nuclear.png",
