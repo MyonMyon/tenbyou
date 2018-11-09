@@ -10,13 +10,13 @@ var SPELL = {
             null,
             "Nullity"
         ],
-        health: 1,
-        time: 20,
-        decrTime: 2,
+        health: 9999,
+        time: 99,
+        decrTime: 99,
         bonus: 99999,
         bonusBound: 5000,
         func: function (entity) {
-            entity.y1 = 0.1;
+            entity.y1 = 0.02;
         }
     },
     kedamaAlpha: {
