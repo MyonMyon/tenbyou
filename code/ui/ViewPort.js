@@ -92,11 +92,18 @@ ViewPort.prototype.showMessage = function (textArray, time, styleArray) {
     this.messageStyleArray = styleArray || [FONT.title];
 };
 
+ViewPort.prototype.showItemLine = function () {
+    this.itemLineStart = this.world.relTime();
+    this.itemLineTime = 4;
+};
+
 ViewPort.prototype.clearMessage = function () {
     this.messageTextArray = [];
     this.messageStart = 0;
     this.messageTime = 0;
     this.messageStyleArray = [FONT.title];
+    this.itemLineStart = 0;
+    this.itemLineTime = 0;
 };
 
 ViewPort.prototype.fixedInt = function (value, width) {
@@ -349,15 +356,27 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.setFont(FONT.title, {name: true});
     this.drawText(GAME_TITLE, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y - 40);
 
+    var time = this.world.relTime();
     //Show message:
-    if (this.world.relTime() < (this.messageStart + this.messageTime)) {
-        this.context.globalAlpha = Math.min(Math.min((this.world.relTime() - this.messageStart) * 3, (this.messageStart + this.messageTime - this.world.relTime()) * 1.5), 1);
+    if (time < (this.messageStart + this.messageTime)) {
+        this.context.globalAlpha = Math.min(Math.min((time - this.messageStart) * 3, (this.messageStart + this.messageTime - time) * 1.5), 1);
         for (var i in this.messageTextArray) {
             this.setFont(this.messageStyleArray[i % this.messageStyleArray.length]);
             this.drawText(this.messageTextArray[i], (boundaryStart.x + boundaryEnd.x) / 2, (boundaryStart.y + boundaryEnd.y) / 2 + this.zoom * 10 * (i - this.messageTextArray.length / 2));
         }
-        this.context.globalAlpha = 1;
     }
+    if (time < (this.itemLineStart + this.itemLineTime) && time > this.itemLineStart) {
+        this.context.textBaseline = "middle";
+        var boundaryItemLine = this.toScreen(0, -this.world.height / 3);
+        this.context.globalAlpha = Math.min(1, (time - this.itemLineStart) / 0.5, (this.itemLineStart + this.itemLineTime - time) / 0.5);
+        this.context.fillStyle = FONT.itemLine.strokeColor;
+        this.context.fillRect(boundaryStart.x, boundaryItemLine.y - this.zoom / 4, this.world.width * this.zoom, this.zoom / 2);
+
+        this.setFont(FONT.itemLine);
+        this.drawText("Item Get Border Line !", (x1 + x2) / 2, boundaryItemLine.y);
+        this.context.textBaseline = "alphabetic";
+    }
+    this.context.globalAlpha = 1;
 
     if (this.world.pause) {
         this.pauseMenu.draw();

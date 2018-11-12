@@ -8,7 +8,13 @@ var STAGE = [{
         },
         events: [{
                 substage: 0,
-                second: 3,
+                second: 4,
+                func: function (world) {
+                    world.vp.showItemLine();
+                }
+            }, {
+                substage: 0,
+                second: 8,
                 repeatInterval: function (world) {
                     return 2 - (world.difficulty) * 0.4;
                 },
@@ -50,7 +56,7 @@ var STAGE = [{
                 }
             }, {
                 substage: 0,
-                second: 15,
+                second: 20,
                 repeatInterval: 1.2,
                 repeatCount: 10,
                 func: function (world, iter) {
@@ -79,7 +85,7 @@ var STAGE = [{
                 }
             }, {
                 substage: 0,
-                second: 36,
+                second: 40,
                 func: function (world) {
                     eventKedamaMidboss(world, false);
                 }

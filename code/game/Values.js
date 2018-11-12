@@ -42,6 +42,13 @@ var FONT = {
             color: "#0cc"
         }
     },
+    itemLine: {
+        font: "Unispace Rg",
+        size: ZOOM * 4,
+        color: "#c60",
+        strokeWidth: 3,
+        strokeColor: "#ff0"
+    },
     points: {
         font: "Unispace Rg",
         size: ZOOM * 3,
