@@ -7,7 +7,7 @@ function World(vp) {
 
     this.time = 0;
     this.ticksPS = 30;
-    this.stageInterval = 80;
+    this.stageInterval = 2.5;
     this.tickInterval = 1;
 
     this.player = new Player(this, "barashou");
@@ -206,7 +206,7 @@ World.prototype.tick = function () {
             } else {
                 t = "Stage " + this.stage;
             }
-            this.vp.showMessage([t + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 120, [FONT.title, FONT.info]);
+            this.vp.showMessage([t + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 4, [FONT.title, FONT.info]);
         }
         this.eventChain.tick();
         this.vp.draw(true);
