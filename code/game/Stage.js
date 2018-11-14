@@ -1,6 +1,6 @@
 var STAGE = [{
-        title: "Nest of Precursors",
-        description: "The place you will never return to.",
+        title: "Wonderland Inbound",
+        description: "Low entropy and so much microstates.",
         appearanceSecond: 0.2,
         background: {
             file: "bg1.jpg",
@@ -135,8 +135,8 @@ var STAGE = [{
                 }
             }]
     }, {
-        title: "The Assembly",
-        description: "Remains of the abandoned paradise.",
+        title: "Misty Lake",
+        description: "Refreshing, cool and good.",
         appearanceSecond: 4,
         background: {
             file: "bg2.jpg",
