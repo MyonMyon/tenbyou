@@ -78,7 +78,28 @@ var STAGE = [{
                 }
             }, {
                 substage: 0,
-                second: 36,
+                second: 32,
+                repeatInterval: 1.2,
+                repeatCount: 20,
+                func: function (world, iter) {
+                    var r = (iter % 10 < 5) ? -1 : 1;
+                    for (var p = 0; p < 2; ++p) {
+                        var y = -world.height / 2 - 5;
+                        var x = r * (world.width / 3 + p * 10);
+                        var kedamaPaired = new Enemy(world, x, y, -r * 2, 30, -r * 0.4, 0, 4, 15, "kedamaMinion");
+                        kedamaPaired.addDrops("power", true, 3);
+                        kedamaPaired.eventChain.addEvent(function (s, i) {
+                            var p = new Projectile(s.parentWorld,
+                                    s.x,
+                                    s.y,
+                                    0, 0, 0, 0, 2, false, "kunaiRed");
+                            p.headToEntity(s.parentWorld.player, 60, 0);
+                        }, 0.5, 2 - world.difficulty * 0.2, Infinity);
+                    }
+                }
+            }, {
+                substage: 0,
+                second: 60,
                 func: function (world) {
                     eventKedamaMidboss(world, false);
                 }
