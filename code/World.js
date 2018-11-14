@@ -158,6 +158,10 @@ World.prototype.relTime = function () {
     return (this.time - this.substageStart) / this.ticksPS;
 };
 
+World.prototype.stageTime = function () {
+    return this.time / this.ticksPS;
+};
+
 World.prototype.vectorLength = function (x, y) {
     return Math.sqrt(x * x + y * y);
 };

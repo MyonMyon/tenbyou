@@ -87,13 +87,13 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth) {
 
 ViewPort.prototype.showMessage = function (textArray, time, styleArray) {
     this.messageTextArray = textArray;
-    this.messageStart = this.world.relTime();
+    this.messageStart = this.world.stageTime();
     this.messageTime = time;
     this.messageStyleArray = styleArray || [FONT.title];
 };
 
 ViewPort.prototype.showItemLine = function () {
-    this.itemLineStart = this.world.relTime();
+    this.itemLineStart = this.world.stageTime();
     this.itemLineTime = 4;
 };
 
@@ -203,7 +203,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     var boundaryEnd = this.toScreen(this.world.width / 2, this.world.height / 2);
     this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
 
-    var stg = (this.world.relTime() < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
+    var stg = (this.world.stageTime() < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
     var spell = (this.world.boss && this.world.boss.attackCurrent >= 0 && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
     if (this.world.stages[stg]) {
         var bg = spell ? SPRITE.spellBackground : this.world.stages[stg].background;
@@ -238,7 +238,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
         }
     }
 
-    this.context.globalAlpha = Math.max(Math.min(Math.min(this.world.relTime() * 6, (this.world.stageInterval - this.world.relTime()) * 6), 1), 0);
+    this.context.globalAlpha = Math.max(Math.min(Math.min(this.world.stageTime() * 6, (this.world.stageInterval - this.world.stageTime()) * 6), 1), 0);
     this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
     this.context.globalAlpha = 1;
 
@@ -356,9 +356,9 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.setFont(FONT.title, {name: true});
     this.drawText(GAME_TITLE, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y - 40);
 
-    var time = this.world.relTime();
+    var time = this.world.stageTime();
     //Show message:
-    if (time < (this.messageStart + this.messageTime)) {
+    if (time < (this.messageStart + this.messageTime) && time > this.messageStart) {
         this.context.globalAlpha = Math.min(Math.min((time - this.messageStart) * 3, (this.messageStart + this.messageTime - time) * 1.5), 1);
         for (var i in this.messageTextArray) {
             this.setFont(this.messageStyleArray[i % this.messageStyleArray.length]);
