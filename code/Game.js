@@ -1,4 +1,4 @@
-var ENGINE_VER = "v0.3.22";
+var ENGINE_VER = "v0.3.23";
 
 var CODE_PRIORITY = [
     "Ext",
