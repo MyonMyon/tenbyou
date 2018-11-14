@@ -39,7 +39,7 @@ var STAGE = [{
                             var bullet = new Projectile(world, f.x, f.y, 0, 0, 0, 0, 2, false, f.bulletSprite); //new bullet here
                             bullet.followCounter = 0;
                             bullet.headToEntity(world.player, 0, 3.5);
-                            bullet.behavior = function() {
+                            bullet.behavior = function () {
                                 if (world.vectorLength(this.x1, this.y1) > 2) {
                                     this.setVectors(null, null, null, null, 0, 0);
                                 }
