@@ -217,6 +217,7 @@ var SPELL = {
         bonus: 30000,
         bonusBound: 5000,
         init: function (entity) {
+            entity.headToPointSmoothly(0, -entity.parentWorld.height / 4, 0.5);
             entity.eventChain.addEvent(function (e) {
                 e.x = 0;
                 e.x1 = 0;
