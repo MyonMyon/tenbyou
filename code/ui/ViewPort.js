@@ -19,7 +19,8 @@ function ViewPort() {
     this.fps = 0;
     this.prevMS = 0;
 
-    this.devStage = window.location.href.split(":")[0] === "file" ? "DEVELOPMENT" : "(alpha)";
+    this.inDev = window.location.href.split(":")[0] === "file";
+    this.devStage = this.inDev ? "DEVELOPMENT" : "(alpha)";
 
     var self = this;
     setInterval(function () {
@@ -337,10 +338,12 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.infoShow(this.world.player.graze, 8, 1);
 
     this.setFont(FONT.info, {minor: true});
-    if (DEBUG_SHOW) {
+    if (this.inDev) {
         this.infoShow("S" + this.world.stage + "." + this.world.substage + "+" + this.world.relTime().toFixed(2), 10, 0);
         this.infoShow("E" + this.world.entities.length, 10, 0.5);
-        this.infoShow(this.fps + "fps × " + this.world.tickInterval, 10, 1);
+        this.infoShow(this.fps + " FPS × " + this.world.tickInterval, 10, 1);
+    } else {
+        this.infoShow(this.fps + " FPS", 10, 2);
     }
 
     this.context.textAlign = "center";
