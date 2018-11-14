@@ -61,7 +61,7 @@ Bonus.prototype.step = function () {
                 }
                 break;
             case "gauge":
-                this.parentWorld.player.power += (this.small ? 1 : this.parentWorld.player.powerMax - 1);
+                this.parentWorld.player.power += (this.small ? 1 : this.parentWorld.player.powerMax);
                 if (this.parentWorld.player.power > this.parentWorld.player.powerMax) {
                     this.parentWorld.player.power = this.parentWorld.player.powerMax;
                     this.parentWorld.clearField(0);
