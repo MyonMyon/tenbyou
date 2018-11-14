@@ -133,8 +133,10 @@ Enemy.prototype.step = function () {
     }
 
     //collision with player
-    if (this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player) <
-            (this.width + this.parentWorld.player.width) && this.parentWorld.player.invulnTime === 0) {
+    if (this.relTime() >= this.appearanceTime &&
+            this.parentWorld.player.invulnTime === 0 &&
+            this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player) <
+            (this.width + this.parentWorld.player.width)) {
         this.parentWorld.player.kill();
     }
 
