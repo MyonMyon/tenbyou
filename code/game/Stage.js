@@ -150,7 +150,53 @@ var STAGE = [{
                 }
             }, {
                 substage: 1,
-                second: 48,
+                second: 44,
+                repeatInterval: 1,
+                repeatCount: 20,
+                func: function (world, iter) {
+                    var r = (iter % 2) ? -1 : 1;
+                    var x = r * (world.width / 2 - 10);
+                    var y = Math.random() * (world.height - 10) - world.height / 2 + 5;
+                    var sideFairy = new Enemy(world, x, y, -r * 15, 0, r * 0.5, 0, 2, 10, "fairyBlue");
+                    sideFairy.appearanceTime = 1;
+                    sideFairy.addDrops("point", false, 5);
+                    sideFairy.eventChain.addEvent(function (e, i) {
+                        new Projectile(e.parentWorld,
+                                e.x, e.y,
+                                -r * 30, 0,
+                                0, 0,
+                                2 + e.parentWorld.difficulty * 0.25, false, "strikeBlue");
+                    }, 1.2, 0.2, Infinity);
+                }
+            }, {
+                substage: 1,
+                second: 64,
+                repeatInterval: 2,
+                repeatCount: 10,
+                func: function (world, iter) {
+                    var r = (iter % 2) ? -1 : 1;
+                    var fairyTurret = new Enemy(world,
+                            r * (world.width / 2 + 1), -world.height / 2 - 1,
+                            -r * 30, 30,
+                            r * 0.5, -0.5,
+                            2, 10, "fairyRed");
+                    fairyTurret.addDrops("power", true, 5);
+                    fairyTurret.eventChain.addEvent(function (e, i) {
+                        e.savedPoint = {x: e.x, y: e.y};
+                    }, 1.7, 0, 0);
+                    fairyTurret.eventChain.addEvent(function (e, i) {
+                        var a = Math.PI / 2 * -r * ((i - 2) / 12);
+                        var p = new Projectile(e.parentWorld,
+                                e.savedPoint.x, e.savedPoint.y,
+                                Math.sin(a) * 10, Math.cos(a) * 10,
+                                Math.sin(a) * 0.5, Math.cos(a) * 0.5,
+                                3 + e.parentWorld.difficulty * 0.5, false, "strikeRed");
+
+                    }, 1.8, 0.1, 17);
+                }
+            }, {
+                substage: 1,
+                second: 86,
                 func: function (world) {
                     eventOrb(world);
                 }
