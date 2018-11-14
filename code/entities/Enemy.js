@@ -139,15 +139,15 @@ Enemy.prototype.step = function () {
     }
 
     //collision with bullets
-    for (var i in  this.parentWorld.entities) {
-        var e = this.parentWorld.entities[i];
-        if (e instanceof Projectile && e.playerSide) {
-            if (this.parentWorld.distanceBetweenEntities(this, e) < (this.width + e.width) &&
-                    (this.parentWorld.boss !== this ||
-                            (this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length)) &&
-                    this.relTime() >= this.appearanceTime) {
-                this.hurt(e.damage);
-                e.remove();
+    if ((this.parentWorld.boss !== this || (this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length)) &&
+            this.relTime() >= this.appearanceTime) {
+        for (var i in  this.parentWorld.entities) {
+            var e = this.parentWorld.entities[i];
+            if (e instanceof Projectile && e.playerSide) {
+                if (this.parentWorld.distanceBetweenEntities(this, e) < (this.width + e.width)) {
+                    this.hurt(e.damage);
+                    e.remove();
+                }
             }
         }
     }
@@ -254,8 +254,7 @@ Enemy.prototype.nextAttack = function () {
         if (this.health <= 0 && this.parentWorld.player.spellCompleteTerms && this.bonus > 0) {
             this.parentWorld.player.score += this.bonus;
             this.parentWorld.vp.showMessage(["Spell Card Bonus!", this.bonus], 3);
-        }
-        else
+        } else
             this.parentWorld.vp.showMessage(["Bonus failed"], 1.5);
         if (this.attacks[this.attackCurrent].finish) {
             this.attacks[this.attackCurrent].finish(this);
