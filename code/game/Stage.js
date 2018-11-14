@@ -14,7 +14,7 @@ var STAGE = [{
                 }
             }, {
                 substage: 0,
-                second: 8,
+                second: 4,
                 repeatInterval: function (world) {
                     return 2 - (world.difficulty) * 0.4;
                 },
@@ -34,29 +34,22 @@ var STAGE = [{
                         fairy.addDrops(i === 0 ? "power" : "point", i === 0, 5); //type, size (false — big), amount
                         if (Math.random() < 0.1)
                             fairy.addDrops("power", false, 1); //10% chance of big power item;
-                        fairy.bulletSprite = i ? "eyeBlue" : "eyeRed"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
+                        fairy.bulletSprite = i ? "staticBlue" : "staticRed"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
                         fairy.eventChain.addEvent(function (f) { //and now let's code the fairy's shooting event!
                             var bullet = new Projectile(world, f.x, f.y, 0, 0, 0, 0, 2, false, f.bulletSprite); //new bullet here
                             bullet.followCounter = 0;
-                            bullet.headToEntity(world.player, 0, 2.5); //starting moving to the player (comment to easy graze), parameters: target entity, initial speed, acceleration
-                            bullet.behavior = function () { //and bullet's behavior (executes every tick)!
-                                if (world.vectorLength(this.x1, this.y1) > 1.5) //if speed > 1.5
-                                    this.setVectors(null, null, null, null, 0, 0); //stop accelerating
-                            };
-                            bullet.eventChain.addEvent(function (b, iter) {
-                                if (iter < 2) {
-                                    b.headToEntity(world.player, 0, 2); //stop and refresh directions
-                                    b.sprite.set((b.sprite.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
-                                } else if (iter === 2) {
-                                    b.sprite.set("orbBlue");
+                            bullet.headToEntity(world.player, 0, 3.5);
+                            bullet.behavior = function() {
+                                if (world.vectorLength(this.x1, this.y1) > 2) {
+                                    this.setVectors(null, null, null, null, 0, 0);
                                 }
-                            }, null, 1.7, 3, true);
+                            };
                         }, 0.7, 1 - world.difficulty * 0.15, Infinity);
                     }
                 }
             }, {
                 substage: 0,
-                second: 20,
+                second: 16,
                 repeatInterval: 1.2,
                 repeatCount: 10,
                 func: function (world, iter) {
@@ -85,7 +78,7 @@ var STAGE = [{
                 }
             }, {
                 substage: 0,
-                second: 40,
+                second: 36,
                 func: function (world) {
                     eventKedamaMidboss(world, false);
                 }
@@ -152,6 +145,48 @@ var STAGE = [{
         events: [{
                 substage: 0,
                 second: 4,
+                repeatInterval: function (world) {
+                    return 2 - (world.difficulty) * 0.4;
+                },
+                repeatCount: function (world) {
+                    return 3 + 2 * (world.difficulty + 1);
+                },
+                func: function (world) {
+                    for (var i = 0; i < 2; i++) { //two sides
+                        var fairy = new Enemy(world,
+                                (i === 0 ? -world.width - 4 : world.width + 4) / 2,
+                                -world.height / 2 - 2,
+                                (i === 0 ? 20 : -20),
+                                25,
+                                (i === 0 ? -0.25 : 0.25),
+                                0,
+                                2, 10, i ? "fairyBlue" : "fairyRed");
+                        fairy.addDrops(i === 0 ? "power" : "point", i === 0, 5); //type, size (false — big), amount
+                        if (Math.random() < 0.1)
+                            fairy.addDrops("power", false, 1); //10% chance of big power item;
+                        fairy.bulletSprite = i ? "eyeBlue" : "eyeRed"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
+                        fairy.eventChain.addEvent(function (f) { //and now let's code the fairy's shooting event!
+                            var bullet = new Projectile(world, f.x, f.y, 0, 0, 0, 0, 2, false, f.bulletSprite); //new bullet here
+                            bullet.followCounter = 0;
+                            bullet.headToEntity(world.player, 0, 2.5); //starting moving to the player (comment to easy graze), parameters: target entity, initial speed, acceleration
+                            bullet.behavior = function () { //and bullet's behavior (executes every tick)!
+                                if (world.vectorLength(this.x1, this.y1) > 1.5) //if speed > 1.5
+                                    this.setVectors(null, null, null, null, 0, 0); //stop accelerating
+                            };
+                            bullet.eventChain.addEvent(function (b, iter) {
+                                if (iter < 2) {
+                                    b.headToEntity(world.player, 0, 2); //stop and refresh directions
+                                    b.sprite.set((b.sprite.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
+                                } else if (iter === 2) {
+                                    b.sprite.set("orbBlue");
+                                }
+                            }, null, 1.7, 3, true);
+                        }, 0.7, 1 - world.difficulty * 0.15, Infinity);
+                    }
+                }
+            }, {
+                substage: 0,
+                second: 16,
                 func: function (world) {
                     eventKedamaMidboss(world, true);
                 }
