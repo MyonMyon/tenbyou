@@ -232,7 +232,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
                 this.context.drawImage(o,
                         0, 0,
                         o.width, o.height,
-                        boundaryStart.x + this.world.time * (i === 0 ? 6 : -6) % (o.width * this.zoom / 4) + (j - 1) * (o.width * this.zoom / 4),
+                        boundaryStart.x + this.world.stageTime() * (i ? -180 : 180) % (o.width * this.zoom / 4) + (j - 1) * (o.width * this.zoom / 4),
                         (boundaryStart.y * (0.25 + (1 - i) * 0.5) + boundaryEnd.y * (0.25 + i * 0.5)) - o.height / 2,
                         o.width * this.zoom / 4, o.height * this.zoom / 4);
             }
