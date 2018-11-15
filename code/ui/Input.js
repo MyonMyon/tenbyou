@@ -69,6 +69,7 @@ function Input(viewPort) {
         "KeyW": "bot",
         "KeyE": "substage",
         "KeyR": "stage",
+        "Tab": "perf",
         "KeyP": "screenshot",
         "Escape": "pause"
     };
@@ -105,6 +106,7 @@ function Input(viewPort) {
         "substage": {category: "dev", mode: "executeOnce", func: "nextSubstage()"},
         "stage": {category: "dev", mode: "execute", func: "nextStage()"},
         "slow": {category: "dev", mode: "execute", func: "slowMode()"},
+        "perf": {category: "dev", mode: "invert", func: "vp.showPerf", ignoreModality: true},
         "pause": {category: "menu", mode: "invert", func: "pause", ignoreModality: true}
     };
     var eventTypes = ["keyDown", "keyUp", "mouseDown", "mouseUp", "mouseMove", "mouseWheel"];
