@@ -136,7 +136,7 @@ var STAGE = [{
                 substage: 1,
                 second: 36,
                 repeatInterval: 0.5,
-                repeatCount: 20,
+                repeatCount: 50,
                 func: function (world, iter) {
                     if (iter === 0) {
                         world.removeEnemies(); //cleanup after orbs
@@ -150,7 +150,7 @@ var STAGE = [{
                 }
             }, {
                 substage: 1,
-                second: 44,
+                second: 40,
                 repeatInterval: 1,
                 repeatCount: 20,
                 func: function (world, iter) {
