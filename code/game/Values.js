@@ -4,6 +4,11 @@ var HEIGHT = ZOOM * 192;
 var SHIFT_X = ZOOM * -48;
 var SHIFT_Y = 0;
 
+var LOCALE_FOLDER = "locales/";
+var LOCALE_CODES = ["en-US", "ru-RU"];
+var LOCALES = [];
+var DEFAULT_LOCALE = "en-US";
+
 var RESOURCE_FOLDER = "resources/";
 var SPRITE_FOLDER = RESOURCE_FOLDER + "img/";
 
