@@ -209,7 +209,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     if (this.world.stages[stg]) {
         var bg = spell ? SPRITE.spellBackground : this.world.stages[stg].background;
         if (bg) {
-            var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - this.world.time * (spell ? 1 : bg.speed) % (bg.object.height);
+            var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.stageTime() * (spell ? 30 : bg.speed)) % (bg.object.height);
             this.context.drawImage(bg.object,
                     0, Math.max(0, t),
                     bg.object.width, bg.object.width / this.world.width * this.world.height,
@@ -232,7 +232,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
                 this.context.drawImage(o,
                         0, 0,
                         o.width, o.height,
-                        boundaryStart.x + this.world.time * (i === 0 ? 6 : -6) % (o.width * this.zoom / 4) + (j - 1) * (o.width * this.zoom / 4),
+                        boundaryStart.x + this.world.stageTime() * (i ? -180 : 180) % (o.width * this.zoom / 4) + (j - 1) * (o.width * this.zoom / 4),
                         (boundaryStart.y * (0.25 + (1 - i) * 0.5) + boundaryEnd.y * (0.25 + i * 0.5)) - o.height / 2,
                         o.width * this.zoom / 4, o.height * this.zoom / 4);
             }
