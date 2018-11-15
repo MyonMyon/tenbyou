@@ -44,8 +44,7 @@ World.prototype.startStage = function (stage, difficulty) {
                 title: STAGE[i].title,
                 desc: STAGE[i].description || "",
                 titleAppears: Math.floor(STAGE[i].appearanceSecond * this.ticksPS),
-                background: STAGE[i].background,
-                backgroundSpeed: STAGE[i].backgroundSpeed
+                background: STAGE[i].background
             });
         }
     }
@@ -62,8 +61,7 @@ World.prototype.startExtra = function (difficulty) {
                 title: STAGE[i].title,
                 desc: STAGE[i].description || "",
                 titleAppears: Math.floor(STAGE[i].appearanceSecond * this.ticksPS),
-                background: STAGE[i].background,
-                backgroundSpeed: STAGE[i].backgroundSpeed
+                background: STAGE[i].background
             };
             break;
         }
