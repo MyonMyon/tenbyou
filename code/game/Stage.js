@@ -4,7 +4,7 @@ var STAGE = [{
         appearanceSecond: 0.2,
         background: {
             file: "bg1.jpg",
-            speed: 10
+            speed: 300
         },
         events: [{
                 substage: 0,
@@ -207,7 +207,7 @@ var STAGE = [{
         appearanceSecond: 4,
         background: {
             file: "bg2.jpg",
-            speed: 2
+            speed: 60
         },
         events: [{
                 substage: 0,
