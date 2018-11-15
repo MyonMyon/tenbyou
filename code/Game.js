@@ -3,7 +3,8 @@ var ENGINE_VER = "v0.3.23";
 var CODE_PRIORITY = [
     "Ext",
     "game/Values",
-    "ui/ViewPort"
+    "ui/ViewPort",
+    "ui/PerformanceChart"
 ];
 
 var CODE = [

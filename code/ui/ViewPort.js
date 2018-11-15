@@ -22,6 +22,9 @@ function ViewPort() {
     this.inDev = window.location.href.split(":")[0] === "file";
     this.devStage = this.inDev ? "DEVELOPMENT" : "(alpha)";
 
+    this.pChart = new PerformanceChart(this);
+    this.showPerf = this.inDev;
+
     var self = this;
     setInterval(function () {
         self.draw(false);
@@ -175,6 +178,9 @@ ViewPort.prototype.draw = function (initFromWorld) {
     if (new Date().getTime() % 1000 < this.prevMS) {
         this.fps = this.ticks;
         this.ticks = 0;
+        if (this.showPerf) {
+            this.pChart.addData({ec: this.world ? this.world.entities.length : 0, tl: 1 / this.fps});
+        }
     }
 
     this.prevMS = new Date().getTime() % 1000;
@@ -383,5 +389,9 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     if (this.world.pause) {
         this.pauseMenu.draw();
+    }
+
+    if (this.showPerf) {
+        this.pChart.draw();
     }
 };
