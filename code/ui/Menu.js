@@ -14,6 +14,58 @@ function Menu(viewPort) {
 }
 
 /**
+ * Recursively updates labels of menu items according to current locale.
+ *
+ * @param {Array} tree Array of menu items. Main tree by default.
+ * @param {Boolean} elementsUnselectable Is elements of this tree unselectable.
+ */
+Menu.prototype.applyLocale = function (tree, elementsUnselectable) {
+    if (!tree) {
+        tree = this.tree;
+    }
+    var props = ["title", "titleInner", "hint", "buffer"];
+    for (var i in tree) {
+        if (tree[i].localeSelect) {
+            var selfName = Locale.getInLocale("locale." + tree[i].stateVar, tree[i].stateVar);
+            tree[i].title = selfName;
+            var lines = Locale.getLocalizedKeysCount(tree[i].stateVar);
+            var linesDefault = Locale.getLocalizedKeysCount(DEFAULT_LOCALE);
+            var completion = (lines / linesDefault * 100).toFixed(2);
+            tree[i].hint = Locale.get("locale." + tree[i].stateVar) + ". " + Locale.get(
+                    "menu.localized.hint", lines, linesDefault, completion);
+            continue;
+        }
+        for (var p in props) {
+            var key = tree[i][props[p] + "Key"];
+            if (!key && props[p] === "title" && key !== false) {
+                key = tree[i].id;
+            }
+            if (!key && props[p] === "hint" && key !== false && !elementsUnselectable) {
+                key = (tree[i].titleKey || tree[i].id) + ".hint";
+            }
+            var toWrap = tree[i][props[p] + "Wraps"];
+            if (key) {
+                var prefix = tree[i][props[p] + "KeyPure"] ? "" : "menu.";
+                var args = [prefix + key];
+                if (toWrap) {
+                    args = args.concat(tree[i][toWrap]);
+                }
+                if (tree[i][props[p] + "Args"]) {
+                    args = args.concat(tree[i][props[p] + "Args"]);
+                }
+                tree[i][props[p]] = Locale.get.apply(null, args);
+            }
+        }
+        if (tree[i].submenu) {
+            this.applyLocale(tree[i].submenu, tree[i].submenuUnselectable);
+        }
+        if (tree[i].buttons) {
+            this.applyLocale(tree[i].buttons);
+        }
+    }
+};
+
+/**
  * @return {Object} Current menu item object.
  */
 Menu.prototype.getCurrentMenu = function () {

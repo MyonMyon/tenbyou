@@ -12,14 +12,14 @@ function PauseMenu(viewPort) {
             isVisible: function (viewPort) {
                 return viewPort.world && viewPort.world.continuable;
             },
-            title: "Resume",
+            titleKey: "resume",
             action: function (viewPort) {
                 viewPort.world.pause = false;
                 viewPort.pauseMenu.resetLocation();
             }
         },
         {
-            title: "Restart",
+            titleKey: "restart",
             action: function (viewPort) {
                 var diff = viewPort.world.difficulty;
                 var spell = viewPort.world.spell;
@@ -35,13 +35,14 @@ function PauseMenu(viewPort) {
             }
         },
         {
-            title: "To Main Menu",
+            titleKey: "to_main_menu",
             action: function (viewPort) {
                 viewPort.world.destroy();
                 viewPort.pauseMenu.resetLocation();
             }
         }
     ];
+    this.applyLocale();
 }
 
 /**
