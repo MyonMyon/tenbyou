@@ -21,8 +21,6 @@ function ViewPort() {
 
     this.inDev = window.location.href.split(":")[0] === "file";
     this.devStage = this.inDev ? "DEVELOPMENT" : "(alpha)";
-
-    this.pChart = new PerformanceChart(this);
     this.showPerf = this.inDev;
 
     var self = this;
@@ -37,6 +35,8 @@ ViewPort.prototype.onLoad = function () {
     this.input = new Input(this);
     this.mainMenu = new MainMenu(this);
     this.pauseMenu = new PauseMenu(this);
+
+    this.pChart = new PerformanceChart(this);
 };
 
 /**
