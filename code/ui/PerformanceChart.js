@@ -9,7 +9,7 @@ function PerformanceChart(viewPort) {
         y: viewPort.zoom * 64
     };
     this.data = [];
-    this.maxTicks = 30;
+    this.maxTicks = 100;
     this.maxValue = {ec: 0, tl: 0.05};
 }
 
