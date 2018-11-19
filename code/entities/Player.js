@@ -31,7 +31,14 @@ function Player(parentWorld, charName) {
     this.moveDown = false;
     this.shooting = false;
     this.invulnTime = 0;
+    this.invulnTimeMin = 0.33;
+    this.invulnTimeBomb = 3.33;
+    this.invulnTimeRespawn = 1.66;
     this.autoGatherTime = 0;
+    this.autoGatherTimeDefault = 0.66;
+
+    this.shotCooldown = 0;
+    this.shotCooldownDefault = 0.033;
 
     this.sprite.set(SPRITE.player);
     this.sprite.set(charName);
@@ -40,8 +47,8 @@ function Player(parentWorld, charName) {
     this.onBomb = CHAR[charName].onBomb;
 
     this.respawnTime = null;
-    this.respawnTimeDefault = 10;
-    this.deathbombTime = 5;
+    this.respawnTimeDefault = 0.33;
+    this.deathbombTime = 0.16;
 
     this.guided = false;
 }
@@ -101,20 +108,25 @@ Player.prototype.step = function () {
     if (this.shooting)
         this.shoot();
 
-    if (this.invulnTime > 0)
-        this.invulnTime--;
+    if (this.invulnTime > 0) {
+        this.invulnTime -= 1 / this.parentWorld.ticksPS;
+    }
 
-    if (this.respawnTime > 0)
-        --this.respawnTime;
+    if (this.respawnTime > 0) {
+        this.respawnTime -= 1 / this.parentWorld.ticksPS;
+    }
 
     if (this.respawnTime !== null && this.respawnTime <= 0)
         this.respawn();
 
-    if (this.y < -this.parentWorld.width / 3)
-        this.autoGatherTime = 20;
+    if (this.y < -this.parentWorld.width / 3) {
+        this.autoGatherTime = this.autoGatherTimeDefault;
+    } else if (this.autoGatherTime > 0) {
+        this.autoGatherTime -= 1 / this.parentWorld.ticksPS;
+    }
 
-    if (this.autoGatherTime > 0) {
-        this.autoGatherTime--;
+    if (this.shotCooldown > 0) {
+        this.shotCooldown -= 1 / this.parentWorld.ticksPS;
     }
 
     if (this.gatherValue > 0) {
@@ -154,7 +166,7 @@ Player.prototype.draw = function (context) {
         if (this.invulnTime > 0) {
             context.fillStyle = SHIELD_COLOR;
             context.beginPath();
-            context.arc(ePos.x, ePos.y, (200 / (100 - this.invulnTime) + 2) * this.parentWorld.vp.zoom * this.width, 0, Math.PI * 2, false);
+            context.arc(ePos.x, ePos.y, (6 / (this.invulnTimeBomb - this.invulnTime) + 2) * this.parentWorld.vp.zoom * this.width, 0, Math.PI * 2, false);
             context.fill();
             context.closePath();
         }
@@ -175,13 +187,18 @@ Player.prototype.draw = function (context) {
 };
 
 Player.prototype.shoot = function () {
-    this.onShoot();
+    if (this.shotCooldown <= 0) {
+        this.onShoot();
+        this.shotCooldown = this.shotCooldownDefault;
+    };
 };
 
 Player.prototype.bomb = function () {
-    if (this.invulnTime <= 10 && this.bombs >= 1 && (this.respawnTime === null || this.respawnTime > this.respawnTimeDefault - this.deathbombTime)) {
+    if (this.invulnTimeMin <= 0.33 && this.bombs >= 1 && (this.respawnTime === null || this.respawnTime > this.respawnTimeDefault - this.deathbombTime)) {
         this.bombs--;
         this.onBomb();
+        this.invulnTime = this.invulnTimeBomb;
+        this.autoGatherTime = this.autoGatherTimeDefault;
         this.respawnTime = null;
         this.spellCompleteTerms = false;
     }
@@ -211,12 +228,12 @@ Player.prototype.respawn = function () {
         this.power = 0;
         this.graze = 0;
         this.points = 0;
-    }
-    else
+    } else {
         this.lives--;
+    }
 
     this.autoGatherTime = 0;
-    this.invulnTime = 50;
+    this.invulnTime = this.invulnTimeRespawn;
     for (var i = 0; i < 5; ++i) {
         if (i === 2 && this.lives < 1)
             new Bonus(this.parentWorld, this.x + (i - 2) * 20, this.y, "gauge", false, false);

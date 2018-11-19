@@ -26,9 +26,7 @@ var CHAR = {
             }
         },
         onBomb: function () {
-            this.invulnTime = 100;
             this.parentWorld.clearField(20);
-            this.autoGatherTime = 5;
         }
     },
     freyja: {
