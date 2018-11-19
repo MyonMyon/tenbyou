@@ -1,5 +1,5 @@
 function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, spriteName) {
-    extend(this, new Entity(parentWorld, x, y, x1 / parentWorld.ticksPS, y1 / parentWorld.ticksPS, x2 / parentWorld.ticksPS, y2 / parentWorld.ticksPS, width));
+    extend(this, new Entity(parentWorld, x, y, x1, y1, x2, y2, width));
     this.sprite.set(SPRITE.enemy);
     if (spriteName) {
         this.sprite.set(spriteName);
@@ -101,7 +101,7 @@ Enemy.prototype.step = function () {
     var l = this.relTime();
     this.$step();
     if (l < this.appearanceTime && this.relTime() >= this.appearanceTime) {
-        this.parentWorld.splash(this, this.initialHealth / 5, 8, 10);
+        this.parentWorld.splash(this, this.initialHealth / 5, 8, 0.33);
     }
 
     if (this.health <= 0) {
@@ -177,8 +177,8 @@ Enemy.prototype.behavior = function () {
 };
 
 Enemy.prototype.behaviorFinal = function (ignoreOnDestroy) {
-    new Particle(this.parentWorld, this.x, this.y, this.initialHealth < 100 ? 20 : 40, this.initialHealth < 100 ? 8 : 16, false, false, "splash");
-    this.parentWorld.splash(this, this.initialHealth / 5, 8, 10);
+    new Particle(this.parentWorld, this.x, this.y, this.initialHealth < 100 ? 0.66 : 1.33, this.initialHealth < 100 ? 8 : 16, false, false, "splash");
+    this.parentWorld.splash(this, this.initialHealth / 5, 8, 0.33);
     if (!ignoreOnDestroy) {
         this.onDestroy();
     }
@@ -202,7 +202,7 @@ Enemy.prototype.hurt = function (damage) {
     } else {
         this.health = 0;
     }
-    this.parentWorld.splash(this, damage, this.width * 2, this.width * 2);
+    this.parentWorld.splash(this, damage, this.width * 2, this.width * 0.07);
     this.parentWorld.player.score += Math.round(healthOld - this.health) * 10;
 
     this.onDamage(damage);

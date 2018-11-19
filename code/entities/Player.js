@@ -208,8 +208,8 @@ Player.prototype.kill = function () {
     this.respawnTime = this.respawnTimeDefault;
     this.invulnTime = this.respawnTimeDefault;
 
-    new Particle(this.parentWorld, this.x, this.y, 30, 12, false, false, "splash");
-    this.parentWorld.splash(this, 20, 10, 16);
+    new Particle(this.parentWorld, this.x, this.y, 1, 12, false, false, "splash");
+    this.parentWorld.splash(this, 20, 10, 0.5);
 };
 
 Player.prototype.respawn = function () {

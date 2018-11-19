@@ -1,5 +1,5 @@
 function Bonus(parentWorld, x, y, cat, small, autoGather) {
-    extend(this, new Entity(parentWorld, x, y, 0, -2, 0, 0.1, 0));
+    extend(this, new Entity(parentWorld, x, y, 0, -60, 0, 90, 0));
 
     this.cat = cat;
     this.small = small;
@@ -102,7 +102,7 @@ Bonus.prototype.step = function () {
         var score = this.parentWorld.player.score - oldScore;
         if (score) {
             var t = this.parentWorld.lastText;
-            if (t && t.lifetime <= 1 && t.max === max) {
+            if (t && t.relTime() <= 0.04 && t.max === max) {
                 t.content += score;
                 t.lifetime = 0;
                 t.x = this.parentWorld.player.x;

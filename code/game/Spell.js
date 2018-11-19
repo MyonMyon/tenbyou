@@ -73,7 +73,7 @@ var SPELL = {
                             Math.cos(a) * 25,
                             0, 0, 2.5, false, iter % 2 ? "staticBlue" : "staticRed");
                     p.eventChain.addEvent(function (proj) {
-                        proj.headToEntity(entity.parentWorld.player, 0, 2);
+                        proj.headToEntity(entity.parentWorld.player, 0, 60);
                     }, 0.1, 2, Infinity);
                 }
             }, 0.4, 0.2, Infinity);
@@ -103,16 +103,16 @@ var SPELL = {
                                         s.y + entity.width * Math.cos(i) * 4,
                                         Math.sin(i) * 20,
                                         Math.cos(i) * 20,
-                                        -Math.sin(i) * 0.3,
-                                        -Math.cos(i) * 0.3,
+                                        -Math.sin(i) * 9,
+                                        -Math.cos(i) * 9,
                                         4, false, "sealRed");
                                 p.nextAngle = i + Math.PI / 2;
                                 p.eventChain.addEvent(function (e) {
                                     e.setVectors(null, null,
                                             Math.sin(e.nextAngle) * 20,
                                             Math.cos(e.nextAngle) * 20,
-                                            Math.sin(e.nextAngle) * 0.8,
-                                            Math.cos(e.nextAngle) * 0.8);
+                                            Math.sin(e.nextAngle) * 24,
+                                            Math.cos(e.nextAngle) * 24);
                                 }, 2);
                             }
                         }
@@ -131,8 +131,8 @@ var SPELL = {
                                         s.y + entity.width * Math.cos(a) * 2,
                                         Math.sin(a) * 30,
                                         Math.cos(a) * 30,
-                                        Math.sin(a) * 0.06,
-                                        Math.cos(a) * 0.06,
+                                        Math.sin(a) * 1.8,
+                                        Math.cos(a) * 1.8,
                                         2, false, iter % 200 < 70 ? "sealPurple" : "sealGray");
                                 if (iter % 200 < 70) {
                                     p.priority = 1;
@@ -191,7 +191,7 @@ var SPELL = {
                             Math.cos(s.relAngle) * 25,
                             0, 0, alt ? 2.5 : 4, false, alt ? "staticRed" : "staticBlue");
                     if (alt) {
-                        p.headToEntity(s.parentWorld.player, 50, -0.35);
+                        p.headToEntity(s.parentWorld.player, 50, -10.5);
                     }
                 }, 1, 0.1, Infinity);
                 entity.satellites.push(satellite);
@@ -293,9 +293,9 @@ var SPELL = {
                         }
                     } else {
                         var p = new Projectile(e.parentWorld, e.x, e.y, 0, 0, 0, 0, 6, false, "orbBlue");
-                        p.headToEntity(e.parentWorld.player, 100, -1.2);
+                        p.headToEntity(e.parentWorld.player, 100, -36);
                         p.eventChain.addEvent(function (proj) {
-                            proj.headToEntity(proj.parentWorld.player, 80, -1.2);
+                            proj.headToEntity(proj.parentWorld.player, 80, -36);
                         }, 0, 1 / (e.parentWorld.difficulty + 1), Infinity);
                     }
                 }
@@ -320,7 +320,7 @@ var SPELL = {
                 var nuclearBall = new Projectile(e.parentWorld,
                         (Math.random() - 0.5) * e.parentWorld.width,
                         -e.parentWorld.height / 2 - 5,
-                        0, 180, 0, -2.7, 20, false, "nuclear");
+                        0, 180, 0, -81, 20, false, "nuclear");
                 nuclearBall.behavior = function () {
                     if (this.width <= 0.2)
                         this.remove();

@@ -56,17 +56,17 @@ Entity.prototype.step = function () {
         this.x1 = 0;
         this.y1 = 0;
 
-        this.x += (this.targetX - this.x) / this.targetTime;
-        this.y += (this.targetY - this.y) / this.targetTime;
-        --this.targetTime;
+        this.x += (this.targetX - this.x) / (this.targetTime * this.parentWorld.ticksPS);
+        this.y += (this.targetY - this.y) / (this.targetTime * this.parentWorld.ticksPS);
+        this.targetTime -= 1 / this.parentWorld.ticksPS;
     } else {
         this.targetTime = 0;
 
-        this.x1 += this.x2;
-        this.y1 += this.y2;
+        this.x1 += this.x2 / this.parentWorld.ticksPS;
+        this.y1 += this.y2 / this.parentWorld.ticksPS;
 
-        this.x += this.x1;
-        this.y += this.y1;
+        this.x += this.x1 / this.parentWorld.ticksPS;
+        this.y += this.y1 / this.parentWorld.ticksPS;
     }
 };
 
@@ -86,10 +86,10 @@ Entity.prototype.remove = function () {
 Entity.prototype.setVectors = function (posX, posY, speedX, speedY, accX, accY) {
     this.x = posX || posX === 0 ? posX : this.x;
     this.y = posY || posY === 0 ? posY : this.y;
-    this.x1 = speedX || speedX === 0 ? speedX / this.parentWorld.ticksPS : this.x1;
-    this.y1 = speedY || speedY === 0 ? speedY / this.parentWorld.ticksPS : this.y1;
-    this.x2 = accX || accX === 0 ? accX / this.parentWorld.ticksPS : this.x2;
-    this.y2 = accY || accY === 0 ? accY / this.parentWorld.ticksPS : this.y2;
+    this.x1 = speedX || speedX === 0 ? speedX : this.x1;
+    this.y1 = speedY || speedY === 0 ? speedY : this.y1;
+    this.x2 = accX || accX === 0 ? accX : this.x2;
+    this.y2 = accY || accY === 0 ? accY : this.y2;
 };
 
 Entity.prototype.headToEntity = function (target, speed, acc) {
@@ -117,7 +117,7 @@ Entity.prototype.headToPoint = function (targetX, targetY, speed, acc) {
 Entity.prototype.headToPointSmoothly = function (targetX, targetY, time) {
     this.targetX = targetX;
     this.targetY = targetY;
-    this.targetTime = Math.floor(time * this.parentWorld.ticksPS);
+    this.targetTime = time;
 };
 
 Entity.prototype.nearestEntity = function (type, range) {

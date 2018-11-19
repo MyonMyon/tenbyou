@@ -1,12 +1,5 @@
 function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerSide, spriteName) {
-    extend(this, new Entity(parentWorld,
-            x,
-            y,
-            x1 / parentWorld.ticksPS,
-            y1 / parentWorld.ticksPS,
-            x2 / parentWorld.ticksPS,
-            y2 / parentWorld.ticksPS,
-            width));
+    extend(this, new Entity(parentWorld, x, y, x1, y1, x2, y2, width));
     this.sprite.set(SPRITE.projectile);
     if (spriteName) {
         this.sprite.set(spriteName);
@@ -68,7 +61,7 @@ Projectile.prototype.step = function () {
                 this.parentWorld.player.kill();
         } else if (d < (this.width + this.parentWorld.player.grazeWidth) && this.grazed < this.damage && this.parentWorld.player.invulnTime <= 0) {
             ++this.parentWorld.player.graze;
-            new Particle(this.parentWorld, (this.x + this.parentWorld.player.x) / 2, (this.y + this.parentWorld.player.y) / 2, 4, 8, false, false, "spark");
+            new Particle(this.parentWorld, (this.x + this.parentWorld.player.x) / 2, (this.y + this.parentWorld.player.y) / 2, 0.13, 8, false, false, "spark");
             ++this.grazed;
         }
     }

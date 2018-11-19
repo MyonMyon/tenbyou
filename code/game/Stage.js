@@ -28,7 +28,7 @@ var STAGE = [{
                                 -world.height / 2 - 2,
                                 (i === 0 ? 20 : -20),
                                 25,
-                                (i === 0 ? -0.25 : 0.25),
+                                (i === 0 ? -7.5 : 7.5),
                                 0,
                                 2, 10, i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i === 0 ? "power" : "point", i === 0, 5); //type, size (false — big), amount
@@ -38,9 +38,9 @@ var STAGE = [{
                         fairy.eventChain.addEvent(function (f) { //and now let's code the fairy's shooting event!
                             var bullet = new Projectile(world, f.x, f.y, 0, 0, 0, 0, 2, false, f.bulletSprite); //new bullet here
                             bullet.followCounter = 0;
-                            bullet.headToEntity(world.player, 0, 3.5);
+                            bullet.headToEntity(world.player, 0, 100);
                             bullet.behavior = function () {
-                                if (world.vectorLength(this.x1, this.y1) > 2) {
+                                if (world.vectorLength(this.x1, this.y1) > 60) {
                                     this.setVectors(null, null, null, null, 0, 0);
                                 }
                             };
@@ -86,7 +86,7 @@ var STAGE = [{
                     for (var p = 0; p < 2; ++p) {
                         var y = -world.height / 2 - 5;
                         var x = r * (world.width / 3 + p * 10);
-                        var kedamaPaired = new Enemy(world, x, y, -r * 2, 30, -r * 0.4, 0, 4, 15, "kedamaMinion");
+                        var kedamaPaired = new Enemy(world, x, y, -r * 2, 30, -r * 12, 0, 4, 15, "kedamaMinion");
                         kedamaPaired.addDrops("power", true, 3);
                         kedamaPaired.eventChain.addEvent(function (s, i) {
                             var p = new Projectile(s.parentWorld,
@@ -127,7 +127,7 @@ var STAGE = [{
                             for (var i = 0; i < 8 + this.parentWorld.difficulty * 2; i++) {
                                 var sx = (Math.random() - 0.5) * 30;
                                 var sy = (Math.random() - 0.5) * 30;
-                                new Projectile(this.parentWorld, this.x, this.y, sx, sy, sx / 20, sy / 20, 3, false, "strikePurple");
+                                new Projectile(this.parentWorld, this.x, this.y, sx, sy, sx * 1.5, sy * 1.5, 3, false, "strikePurple");
                             }
                         };
                     }
@@ -144,7 +144,7 @@ var STAGE = [{
                     var stone = new Enemy(world,
                             world.width * (Math.random() - 0.5) * 0.8, -world.height / 2 - 3,
                             0, 30 + world.difficulty * 6,
-                            0, 2,
+                            0, 60,
                             4, 3, "stoneFace");
                     stone.addDrops("point", false, 3);
                 }
@@ -157,7 +157,7 @@ var STAGE = [{
                     var r = (iter % 2) ? -1 : 1;
                     var x = r * (world.width / 2 - 10);
                     var y = Math.random() * (world.height - 10) - world.height / 2 + 5;
-                    var sideFairy = new Enemy(world, x, y, -r * 15, 0, r * 0.5, 0, 2, 10, "fairyBlue");
+                    var sideFairy = new Enemy(world, x, y, -r * 15, 0, r * 15, 0, 2, 10, "fairyBlue");
                     sideFairy.appearanceTime = 1;
                     sideFairy.addDrops("point", false, 5);
                     sideFairy.eventChain.addEvent(function (e, i) {
@@ -178,7 +178,7 @@ var STAGE = [{
                     var fairyTurret = new Enemy(world,
                             r * (world.width / 2 + 1), -world.height / 2 - 1,
                             -r * 30, 30,
-                            r * 0.5, -0.5,
+                            r * 15, -15,
                             2, 10, "fairyRed");
                     fairyTurret.addDrops("power", true, 5);
                     fairyTurret.eventChain.addEvent(function (e, i) {
@@ -189,7 +189,7 @@ var STAGE = [{
                         var p = new Projectile(e.parentWorld,
                                 e.savedPoint.x, e.savedPoint.y,
                                 Math.sin(a) * 10, Math.cos(a) * 10,
-                                Math.sin(a) * 0.5, Math.cos(a) * 0.5,
+                                Math.sin(a) * 15, Math.cos(a) * 15,
                                 3 + e.parentWorld.difficulty * 0.5, false, "strikeRed");
 
                     }, 1.8, 0.1, 17);
@@ -225,7 +225,7 @@ var STAGE = [{
                                 -world.height / 2 - 2,
                                 (i === 0 ? 20 : -20),
                                 25,
-                                (i === 0 ? -0.25 : 0.25),
+                                (i === 0 ? -7.5 : 7.5),
                                 0,
                                 2, 10, i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i === 0 ? "power" : "point", i === 0, 5); //type, size (false — big), amount
@@ -235,14 +235,14 @@ var STAGE = [{
                         fairy.eventChain.addEvent(function (f) { //and now let's code the fairy's shooting event!
                             var bullet = new Projectile(world, f.x, f.y, 0, 0, 0, 0, 2, false, f.bulletSprite); //new bullet here
                             bullet.followCounter = 0;
-                            bullet.headToEntity(world.player, 0, 2.5); //starting moving to the player (comment to easy graze), parameters: target entity, initial speed, acceleration
+                            bullet.headToEntity(world.player, 0, 75); //starting moving to the player (comment to easy graze), parameters: target entity, initial speed, acceleration
                             bullet.behavior = function () { //and bullet's behavior (executes every tick)!
-                                if (world.vectorLength(this.x1, this.y1) > 1.5) //if speed > 1.5
+                                if (world.vectorLength(this.x1, this.y1) > 45) //if speed > 45 unit/s
                                     this.setVectors(null, null, null, null, 0, 0); //stop accelerating
                             };
                             bullet.eventChain.addEvent(function (b, iter) {
                                 if (iter < 2) {
-                                    b.headToEntity(world.player, 0, 2); //stop and refresh directions
+                                    b.headToEntity(world.player, 0, 60); //stop and refresh directions
                                     b.sprite.set((b.sprite.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
                                 } else if (iter === 2) {
                                     b.sprite.set("orbBlue");
@@ -336,7 +336,7 @@ eventOrb = function (world) {
     };
     var nsBehavior = function (entity) {
         //~wiggling left and right~
-        entity.x1 = Math.cos(entity.relTime() * 1.5);
+        entity.x1 = Math.cos(entity.relTime() * 1.5) * 30;
     };
 
     var orb = new Enemy(world);

@@ -247,7 +247,7 @@ World.prototype.replaceBonus = function (catWhat, smallWhat, catWith, smallWith)
         if (e instanceof Bonus && e.cat === catWhat && e.small === smallWhat) {
             e.cat = catWith;
             e.small = smallWith;
-            new Particle(this, e.x, e.y, 8, 8, true, false, "spark");
+            new Particle(this, e.x, e.y, 0.25, 8, true, false, "spark");
         }
     }
 };
