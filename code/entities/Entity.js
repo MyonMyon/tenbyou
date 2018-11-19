@@ -120,15 +120,25 @@ Entity.prototype.headToPointSmoothly = function (targetX, targetY, time) {
     this.targetTime = time;
 };
 
-Entity.prototype.nearestEntity = function (type, range) {
+Entity.prototype.nearestEntity = function (type, range, filters) {
     var nearest = null;
     var nearestDistance = range || this.parentWorld.height * 2;
     for (var i in this.parentWorld.entities) {
         var e = this.parentWorld.entities[i];
         if ((e instanceof type && ((type === Projectile && !e.playerSide) || type !== Projectile)) || type === null) {
             if (e !== this && this.parentWorld.distanceBetweenEntities(this, e) < nearestDistance) {
-                nearest = e;
-                nearestDistance = this.parentWorld.distanceBetweenEntities(this, e);
+                var complete = true;
+                if (filters) {
+                    for (var j in filters) {
+                        if (e[j]) {
+                            complete = complete && e[j]() === filters[j];
+                        }
+                    }
+                }
+                if (complete) {
+                    nearest = e;
+                    nearestDistance = this.parentWorld.distanceBetweenEntities(this, e);
+                }
             }
         }
     }
