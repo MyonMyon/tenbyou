@@ -191,7 +191,7 @@ Enemy.prototype.onDestroy = function () {
 };
 
 Enemy.prototype.isInvulnerable = function () {
-    return this === this.parentWorld.boss && this.attackCurrent === null || this.relTime < this.appearanceTime;
+    return this === this.parentWorld.boss && this.attackCurrent === null || this.relTime() < this.appearanceTime;
 };
 
 Enemy.prototype.hurt = function (damage) {
