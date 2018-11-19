@@ -211,7 +211,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
 
     var stg = (this.world.stageTime() < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
-    var spell = (this.world.boss && this.world.boss.attackCurrent >= 0 && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
+    var spell = (this.world.boss && this.world.boss.attackCurrent !== null && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
     if (this.world.stages[stg]) {
         var bg = spell ? SPRITE.spellBackground : this.world.stages[stg].background;
         if (bg) {
@@ -273,7 +273,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
         this.context.textAlign = "left";
         this.drawText(this.world.boss.title, boundaryStart.x + 10, boundaryStart.y + 20);
 
-        if (this.world.boss.attackCurrent >= 0) {
+        if (this.world.boss.attackCurrent !== null) {
             for (var i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
                 this.context.drawImage(SPRITE.gui.object, 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
                         boundaryStart.x + 8 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4, boundaryStart.y + 24, SPRITE.gui.frameWidth * this.zoom / 4, SPRITE.gui.frameHeight * this.zoom / 4);
