@@ -190,7 +190,15 @@ Enemy.prototype.onDamage = function (damage) {
 Enemy.prototype.onDestroy = function () {
 };
 
+Enemy.prototype.isInvulnerable = function () {
+    return this === this.parentWorld.boss && this.attackCurrent === null || this.relTime < this.appearanceTime;
+};
+
 Enemy.prototype.hurt = function (damage) {
+    if (this.isInvulnerable()) {
+        return;
+    }
+
     var healthOld = this.health;
     this.health -= damage;
 
