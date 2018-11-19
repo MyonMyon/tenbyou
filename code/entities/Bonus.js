@@ -1,5 +1,5 @@
 function Bonus(parentWorld, x, y, cat, small, autoGather) {
-    extend(this, new Entity(parentWorld, x, y, 0, -60, 0, 90, 0));
+    extend(this, new Entity(parentWorld, x, y, Math.random() * 20 - 10, -60, 0, 90, 0));
 
     this.cat = cat;
     this.small = small;
@@ -24,6 +24,11 @@ Bonus.prototype.step = function () {
     //remove from world
     if (this.y > this.parentWorld.height / 2 + 5)
         this.remove();
+
+    //reflect
+    if (this.x > this.parentWorld.width / 2 || this.x < -this.parentWorld.width / 2) {
+        this.x1 = -this.x1;
+    }
 
     //collision
     var d = this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player);
