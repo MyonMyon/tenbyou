@@ -20,7 +20,7 @@ var CHAR = {
                         bullet.rangeForAim = 200;
                     }
                     bullet.eventChain.addEvent(function (b) {
-                        b.headToEntity(b.nearestEntity(Enemy, b.rangeForAim), 200, 0);
+                        b.headToEntity(b.nearestEntity(Enemy, b.rangeForAim, {isInvulnerable: false}), 200, 0);
                     }, 0, 0.2, Infinity);
                 }
             }
