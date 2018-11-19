@@ -10,7 +10,7 @@ var CHAR = {
                         this.parentWorld,
                         this.x + i * (this.focused ? 2 : 8) - (this.focused ? 1 : 4) * (count - 1),
                         this.y + Math.abs(i + 0.5 - count / 2) * 6 - 8,
-                        0, -240, 0, 0, 2, true, special ? "coinSpecial" : "coin");
+                        0, -480, 0, 0, 2, true, special ? "coinSpecial" : "coin");
                 bullet.damage = (1 + this.damageInc) / (count + this.damageInc);
                 if (special) {
                     if (this.focused) {
@@ -20,7 +20,7 @@ var CHAR = {
                         bullet.rangeForAim = 200;
                     }
                     bullet.eventChain.addEvent(function (b) {
-                        b.headToEntity(b.nearestEntity(Enemy, b.rangeForAim, {isInvulnerable: false}), 200, 0);
+                        b.headToEntity(b.nearestEntity(Enemy, b.rangeForAim, {isInvulnerable: false}), 480, 0);
                     }, 0, 0.2, Infinity);
                 }
             }
