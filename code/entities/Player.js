@@ -39,7 +39,7 @@ function Player(parentWorld, charName) {
     this.onShoot = CHAR[charName].onShoot;
     this.onBomb = CHAR[charName].onBomb;
 
-    this.respawnTime = -1;
+    this.respawnTime = null;
     this.respawnTimeDefault = 10;
     this.deathbombTime = 5;
 
@@ -107,7 +107,7 @@ Player.prototype.step = function () {
     if (this.respawnTime > 0)
         --this.respawnTime;
 
-    if (this.respawnTime === 0)
+    if (this.respawnTime <= 0)
         this.respawn();
 
     if (this.y < -this.parentWorld.width / 3)
@@ -150,7 +150,7 @@ Player.prototype.step = function () {
 Player.prototype.draw = function (context) {
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
 
-    if (this.respawnTime < 0) {
+    if (this.respawnTime === null) {
         if (this.invulnTime > 0) {
             context.fillStyle = SHIELD_COLOR;
             context.beginPath();
@@ -179,10 +179,10 @@ Player.prototype.shoot = function () {
 };
 
 Player.prototype.bomb = function () {
-    if (this.invulnTime <= 10 && this.bombs >= 1 && (this.respawnTime < 0 || this.respawnTime > this.respawnTimeDefault - this.deathbombTime)) {
+    if (this.invulnTime <= 10 && this.bombs >= 1 && (this.respawnTime === null || this.respawnTime > this.respawnTimeDefault - this.deathbombTime)) {
         this.bombs--;
         this.onBomb();
-        this.respawnTime = -1;
+        this.respawnTime = null;
         this.spellCompleteTerms = false;
     }
 };
@@ -196,7 +196,7 @@ Player.prototype.kill = function () {
 };
 
 Player.prototype.respawn = function () {
-    this.respawnTime = -1;
+    this.respawnTime = null;
     this.spellCompleteTerms = false;
 
     if (this.lives < 1) {

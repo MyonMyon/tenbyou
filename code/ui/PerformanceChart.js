@@ -26,7 +26,8 @@ PerformanceChart.prototype.addData = function (data) {
         }
     }
     this.thresholds = {
-        0: "#0c0",
+        0: "#0cc",
+        0.0125: "#0c0",
         0.02: "#cc0",
         0.035: "#c00",
         0.05: "#800"

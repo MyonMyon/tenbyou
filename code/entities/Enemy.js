@@ -12,7 +12,7 @@ function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, spriteName) {
     this.title = "";
     this.drops = new Array();
     this.attacks = new Array();
-    this.attackCurrent = -1;
+    this.attackCurrent = null;
     this.attackGroups = new Array();
     this.attackGroupCurrent = 0;
     this.bonus = 0;
@@ -46,7 +46,7 @@ Enemy.prototype.draw = function (context) {
         context.closePath();
     }
 
-    if (this === this.parentWorld.boss && this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length) {
+    if (this === this.parentWorld.boss && this.attackCurrent !== null && this.attackCurrent < this.attacks.length) {
         context.lineJoin = "square";
         context.lineCap = "butt";
 
@@ -115,7 +115,7 @@ Enemy.prototype.step = function () {
                         p ? "point" : this.drops[i].cat, p ? false : this.drops[i].small, false);
             }
 
-        if (this.attackCurrent === -1) {
+        if (this.attackCurrent === null) {
             this.behaviorFinal();
             this.parentWorld.player.score += this.cost;
         } else {
@@ -141,7 +141,7 @@ Enemy.prototype.step = function () {
     }
 
     //collision with bullets
-    if ((this.parentWorld.boss !== this || (this.attackCurrent >= 0 && this.attackCurrent < this.attacks.length)) &&
+    if ((this.parentWorld.boss !== this || (this.attackCurrent !== null && this.attackCurrent < this.attacks.length)) &&
             this.relTime() >= this.appearanceTime) {
         for (var i in  this.parentWorld.entities) {
             var e = this.parentWorld.entities[i];
@@ -154,7 +154,7 @@ Enemy.prototype.step = function () {
         }
     }
 
-    if (this.attackCurrent === -1)
+    if (this.attackCurrent === null)
         this.behavior();
     else if (this.attackCurrent < this.attacks.length) {
         var rt = this.relTime();
@@ -219,7 +219,7 @@ Enemy.prototype.addDrops = function (cat, small, amount, reqDamage, afterAttack)
             cat: cat,
             small: small,
             reqDamage: reqDamage || 0,
-            attackID: afterAttack ? (this.attacks.length - 1) : -1
+            attackID: afterAttack ? (this.attacks.length - 1) : null
         });
 };
 
@@ -252,7 +252,7 @@ Enemy.prototype.nextAttack = function () {
     this.parentWorld.clearField(0);
     this.parentWorld.removeEnemies();
 
-    if (this.parentWorld.boss === this && this.attackCurrent >= 0 && this.attacks[this.attackCurrent].spell) {
+    if (this.parentWorld.boss === this && this.attackCurrent !== null && this.attacks[this.attackCurrent].spell) {
         if (this.health <= 0 && this.parentWorld.player.spellCompleteTerms && this.bonus > 0) {
             this.parentWorld.player.score += this.bonus;
             this.parentWorld.vp.showMessage(["Spell Card Bonus!", this.bonus], 3);
@@ -264,7 +264,11 @@ Enemy.prototype.nextAttack = function () {
     }
 
     var g = this.attackGroups[this.attackGroupCurrent];
-    ++this.attackCurrent;
+    if (this.attackCurrent === null) {
+        this.attackCurrent = 0;
+    } else {
+        ++this.attackCurrent;
+    }
     this.eventChain.clear();
 
     if (this.attackCurrent >= this.attacks.length) {

@@ -3,8 +3,7 @@ var ENGINE_VER = "v0.4.00";
 var CODE_PRIORITY = [
     "Ext",
     "game/Values",
-    "ui/ViewPort",
-    "ui/PerformanceChart"
+    "ui/ViewPort"
 ];
 
 var CODE = [
@@ -15,6 +14,7 @@ var CODE = [
     "ui/MainMenu",
     "ui/PauseMenu",
     "ui/Input",
+    "ui/PerformanceChart",
     "entities/Entity",
     "entities/Player",
     "entities/Enemy",
