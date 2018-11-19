@@ -107,7 +107,7 @@ Player.prototype.step = function () {
     if (this.respawnTime > 0)
         --this.respawnTime;
 
-    if (this.respawnTime <= 0)
+    if (this.respawnTime !== null && this.respawnTime <= 0)
         this.respawn();
 
     if (this.y < -this.parentWorld.width / 3)

@@ -16,7 +16,6 @@ function PerformanceChart(viewPort) {
 PerformanceChart.prototype.addData = function (data) {
     this.data.push(data);
     if (this.data.length > this.maxTicks) {
-        console.log(this.data.length - this.maxTicks, this.data.length, this.maxTicks);
         this.data.splice(0, this.data.length - this.maxTicks);
     }
     this.maxValue.ec = 0;
