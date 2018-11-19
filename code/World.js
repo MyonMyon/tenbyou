@@ -6,7 +6,7 @@ function World(vp) {
     this.entities = [];
 
     this.time = 0;
-    this.ticksPS = 30;
+    this.ticksPS = 60;
     this.stageInterval = 2.5;
     this.tickInterval = 1;
 
