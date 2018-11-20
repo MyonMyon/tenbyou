@@ -32,16 +32,6 @@ var CHAR = {
     freyja: {
         name: "Freyja til Folkvang",
         width: 0.66,
-        sprite: {
-            //file: "freyja.png",
-            width: 64,
-            height: 64,
-            frame: 0,
-            frameCount: 4,
-            animPeriod: 2,
-            size: 1,
-            dir: false
-        },
         onShoot: function () {
         },
         onBomb: function () {
