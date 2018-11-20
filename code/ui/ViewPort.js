@@ -271,24 +271,35 @@ ViewPort.prototype.draw = function (initFromWorld) {
     if (this.world.boss) {
         this.setFont(FONT.description);
         this.context.textAlign = "left";
-        this.drawText(this.world.boss.title, boundaryStart.x + 10, boundaryStart.y + 20);
+        this.drawText(this.world.boss.title,
+                boundaryStart.x + this.zoom * 2.5,
+                boundaryStart.y + this.zoom * 5);
 
         if (this.world.boss.attackCurrent !== null) {
             for (var i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
                 this.context.drawImage(SPRITE.gui.object, 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
-                        boundaryStart.x + 8 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4, boundaryStart.y + 24, SPRITE.gui.frameWidth * this.zoom / 4, SPRITE.gui.frameHeight * this.zoom / 4);
+                        boundaryStart.x + this.zoom * 2 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4,
+                        boundaryStart.y + this.zoom * 6,
+                        SPRITE.gui.frameWidth * this.zoom / 4,
+                        SPRITE.gui.frameHeight * this.zoom / 4);
 
             if (this.world.boss.attackCurrent < this.world.boss.attacks.length) {
                 var attack = this.world.boss.attacks[this.world.boss.attackCurrent];
                 this.context.textAlign = "right";
                 if (attack.spell) {
                     {
-                        this.drawText(attack.title, boundaryEnd.x - 70, boundaryStart.y + 20);
-                        this.drawText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"), boundaryEnd.x - 70, boundaryStart.y + 40);
+                        this.drawText(attack.title,
+                                boundaryEnd.x - this.zoom * 17.5,
+                                boundaryStart.y + this.zoom * 5);
+                        this.drawText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"),
+                                boundaryEnd.x - this.zoom * 17.5,
+                                boundaryStart.y + this.zoom * 10);
                     }
                 }
                 this.setFont(FONT.timer, {fullBonus: this.world.boss.relTime() < attack.decrTime});
-                this.drawText(this.fixedInt(Math.ceil(attack.time - this.world.boss.relTime()), 2), boundaryEnd.x - 10, boundaryStart.y + 40);
+                this.drawText(this.fixedInt(Math.ceil(attack.time - this.world.boss.relTime()), 2),
+                        boundaryEnd.x - this.zoom * 2.5,
+                        boundaryStart.y + this.zoom * 10);
             }
         }
     }
