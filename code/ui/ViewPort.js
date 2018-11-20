@@ -137,7 +137,7 @@ ViewPort.prototype.infoShow = function (info, line, tab, reverse) {
         tab += 0.9;
     }
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
-    this.drawText(info, boundaryRight.x + 20 + tab * INFO_TAB, boundaryRight.y + 30 + (line + 1) * INFO_LINE);
+    this.drawText(info, boundaryRight.x + this.zoom * 5 + tab * INFO_TAB, boundaryRight.y + this.zoom * 7.5 + (line + 1) * INFO_LINE);
 };
 
 ViewPort.prototype.starShow = function (sprite, line, tab, count, parts) {
@@ -149,8 +149,8 @@ ViewPort.prototype.starShow = function (sprite, line, tab, count, parts) {
                 (i < count ? 0 : (i === count ? 4 - parts : 4)) * SPRITE.gui.frameHeight,
                 SPRITE.gui.frameWidth,
                 SPRITE.gui.frameHeight,
-                boundaryRight.x + 16 + tab * INFO_TAB + i * this.zoom * 5,
-                boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE,
+                boundaryRight.x + this.zoom * 4 + tab * INFO_TAB + i * this.zoom * 5,
+                boundaryRight.y + this.zoom * 2 + (line + 1) * INFO_LINE,
                 6 * this.zoom,
                 6 * this.zoom);
     }
@@ -164,8 +164,8 @@ ViewPort.prototype.iconShow = function (spriteX, spriteY, line, tab) {
             spriteY * SPRITE.bonus.frameHeight,
             SPRITE.bonus.frameWidth,
             SPRITE.bonus.frameHeight,
-            boundaryRight.x + 16 + tab * INFO_TAB + this.zoom * 5,
-            boundaryRight.y + 24 - this.zoom * 4 + (line + 1) * INFO_LINE,
+            boundaryRight.x + this.zoom * 4 + tab * INFO_TAB + this.zoom * 5,
+            boundaryRight.y + this.zoom * 2 + (line + 1) * INFO_LINE,
             6 * this.zoom,
             6 * this.zoom);
 };
@@ -363,7 +363,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.drawText(DIFF[this.world.difficulty].name.toUpperCase(), (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
 
     this.setFont(FONT.title, {name: true});
-    this.drawText(GAME_TITLE, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y - 40);
+    this.drawText(GAME_TITLE, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y - this.zoom * 10);
 
     var time = this.world.stageTime();
     //Show message:
