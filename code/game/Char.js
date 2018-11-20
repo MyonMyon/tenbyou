@@ -17,7 +17,7 @@ var CHAR = {
                         bullet.damage *= 1.5;
                         bullet.rangeForAim = 20;
                     } else {
-                        bullet.rangeForAim = 200;
+                        bullet.rangeForAim = 100;
                     }
                     bullet.eventChain.addEvent(function (b) {
                         b.headToEntity(b.nearestEntity(Enemy, b.rangeForAim, {isInvulnerable: false}), 480, 0);
