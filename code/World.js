@@ -100,6 +100,10 @@ World.prototype.destroy = function () {
 };
 
 World.prototype.addTime = function () {
+    if (this.boss) {
+        this.boss.nextAttack();
+        return;
+    }
     for (var i in this.eventChain.events) {
         var e = this.eventChain.events[i];
         if (!e.done) {
