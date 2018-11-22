@@ -183,7 +183,7 @@ World.prototype.setBoss = function (enemy, title, isLast) {
 };
 
 World.prototype.slowMode = function () {
-    var m = [1, 0.5, 0.25];
+    var m = [1, 0.5, 0.25, 0.125];
     this.tickInterval = m[(m.indexOf(this.tickInterval) + 1) % m.length];
 };
 
