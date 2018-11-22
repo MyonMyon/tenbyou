@@ -151,6 +151,6 @@ Entity.prototype.shootProjectile = function (angle, distance, speed, acceleratio
 };
 
 Entity.prototype.shootProjectileAt = function (target, distance, speed, acceleration, width, sprite) {
-    var angle = Math.atan2(this.y - target.y, this.x - target.x);
+    var angle = Math.atan2(target.x - this.x, target.y - this.y);
     return this.shootProjectile(angle, distance, speed, acceleration, width, sprite);
 };
