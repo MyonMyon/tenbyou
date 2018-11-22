@@ -7,6 +7,22 @@
 function MainMenu(viewPort) {
     extend(this, new Menu(viewPort));
 
+    var stageMenu = [];
+    for (var i in STAGE) {
+        if (!STAGE[i].extra) {
+            stageMenu.push({
+                id: "stg_" + (+i + 1),
+                stage: +i + 1,
+                title: "Stage " + (+i + 1),
+                action: function (viewPort) {
+                    viewPort.world = new World(viewPort);
+                    viewPort.world.startStage(this.stage, viewPort.mainMenu.getCurrentMenu().diff);
+                    viewPort.mainMenu.resetLocation();
+                }
+            });
+        }
+    }
+
     var diffMenu = [];
     for (var i in DIFF) {
         if (!DIFF[i].hidden) {
@@ -14,11 +30,7 @@ function MainMenu(viewPort) {
                 id: "diff_" + i,
                 diff: +i,
                 title: DIFF[i].name,
-                action: function (viewPort) {
-                    viewPort.world = new World(viewPort);
-                    viewPort.world.startStage(1, this.diff);
-                    viewPort.mainMenu.resetLocation();
-                }
+                submenu: stageMenu
             });
         }
     }
