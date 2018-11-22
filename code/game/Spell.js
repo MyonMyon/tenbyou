@@ -25,7 +25,8 @@ var SPELL = {
         names: [
             null,
             "Soft Sign \"Fluffy Revenge\"",
-            "Soft Sign \"Not so Fluffy Revenge\""
+            "Soft Sign \"Not so Fluffy Revenge\"",
+            "Soft Sign \"Prepare to Fluff\""
         ],
         health: 200,
         time: 20,
@@ -54,7 +55,8 @@ var SPELL = {
         names: [
             null,
             "Soft Sign \"Fluffy Thorns\"",
-            "Soft Sign \"Not so Fluffy Thorns\""
+            "Soft Sign \"Not so Fluffy Thorns\"",
+            "Soft Sign \"Unfluffiest Thorns\""
         ],
         health: 400,
         time: 17,
@@ -187,7 +189,8 @@ var SPELL = {
         names: [
             "Half-headed Sign \"Regards\"",
             "Half-headed Sign \"Best Regards\"",
-            "Hard-headed Sign \"Awww\""
+            "Hard-headed Sign \"Awww\"",
+            "Hard-headed Sign \"Awww Snap\""
         ],
         health: 200,
         time: 30,
@@ -224,9 +227,10 @@ var SPELL = {
         boss: "orb",
         number: 50,
         names: [
-            "Reference Sign \"Midly Responsive Legacy\"",
+            "Reference Sign \"Mildly Responsive Legacy\"",
             "Reference Sign \"Highly Responsive Legacy\"",
-            "Reference Sign \"Nope\""
+            "Reference Sign \"Ground Zero\"",
+            "Reference Sign \"Ground Minus One\""
         ],
         health: 160,
         time: 50,
@@ -270,7 +274,8 @@ var SPELL = {
         names: [
             "Explosion Sign \"Lol Easy Modo\"",
             "Explosion Sign \"Not a Flare at all\"",
-            "Explosion Sign \"Not a Flare at all yet\""
+            "Explosion Sign \"Not a Flare at all yet\"",
+            "Explosion Sign \"Impossible Flare\""
         ],
         health: 1000,
         time: 50,

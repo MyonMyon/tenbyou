@@ -170,8 +170,7 @@ var DIFF = [{
         letter: "H"
     }, {
         name: "Lunatic",
-        letter: "L",
-        hidden: true
+        letter: "L"
     }, {
         name: "Extra",
         letter: "X",
