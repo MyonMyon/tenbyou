@@ -144,3 +144,14 @@ Entity.prototype.nearestEntity = function (type, range, filters) {
     }
     return nearest;
 };
+
+Entity.prototype.shootProjectile = function (angle, distance, speed, acceleration, width, sprite) {
+    return new Projectile(this.parentWorld,
+            this.x + distance * Math.sin(angle),
+            this.y + distance * Math.cos(angle),
+            Math.sin(angle) * speed,
+            Math.cos(angle) * speed,
+            Math.sin(angle) * acceleration,
+            Math.cos(angle) * acceleration,
+            width, false, sprite);
+};

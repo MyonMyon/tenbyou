@@ -296,12 +296,7 @@ eventKedamaMidboss = function (world, power) {
                     var v = iter % 32 < 16;
                     var a = i / c * Math.PI * 2;
                     var d = (v ? e.relTime() : -e.relTime()) * 1.5;
-                    new Projectile(e.parentWorld,
-                            e.x + e.width * Math.sin(a + d),
-                            e.y + e.width * Math.cos(a + d),
-                            Math.sin(a + d) * 50,
-                            Math.cos(a + d) * 50,
-                            0, 0, 2.5, false, d > 0 ? "staticRed" : "staticBlue");
+                    e.shootProjectile(a + d, e.width, 50, 0, 2.5, d > 0 ? "staticRed" : "staticBlue");
                 }
             }, 0.3, 0.1, Infinity);
         },
@@ -325,12 +320,7 @@ eventOrb = function (world) {
             for (var i = 0; i < c; ++i) {
                 var a = i / c * Math.PI * 2;
                 var d = e.relTime() * 3;
-                new Projectile(e.parentWorld,
-                        e.x + Math.sin(a),
-                        e.y + Math.cos(a),
-                        Math.sin(a + d) * 30,
-                        Math.cos(a + d) * 30,
-                        0, 0, 2, false, i % 2 ? "staticBlue" : "staticRed");
+                e.shootProjectile(a, 0, 30, 0, 2, i % 2 ? "staticBlue" : "staticRed");
             }
         }, 0, 0.133, Infinity);
     };
