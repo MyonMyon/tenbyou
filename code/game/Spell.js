@@ -41,8 +41,8 @@ var SPELL = {
                     new Projectile(e.parentWorld,
                             e.x + e.width * Math.sin(a),
                             e.y + e.width * Math.cos(a),
-                            Math.sin(a + d) * 25,
-                            Math.cos(a + d) * 25,
+                            Math.sin(a + d) * (20 + e.parentWorld.difficulty * 5),
+                            Math.cos(a + d) * (5 + e.parentWorld.difficulty * 20),
                             0, 0, 2.5, false, iter % 2 ? "staticBlue" : "staticRed");
                 }
             }, 0.4, 0.1, Infinity);
@@ -63,12 +63,13 @@ var SPELL = {
         bonusBound: 5000,
         init: function (entity) {
             entity.eventChain.addEvent(function (e, iter) {
-                var c = 5;
+                var c = 3 + e.parentWorld.difficulty * 2;
+                var r = e.parentWorld.difficulty * 5;
                 for (var i = 0; i < c; ++i) {
                     var a = i / c * Math.PI * 2;
-                    var p = e.shootProjectile(a, e.width, 25, 0, 2.5, iter % 2 ? "staticBlue" : "staticRed");
+                    var p = e.shootProjectile(a, e.width + r, 25, 0, 2.5, iter % 2 ? "staticBlue" : "staticRed");
                     p.eventChain.addEvent(function (proj) {
-                        proj.headToEntity(entity.parentWorld.player, 0, 60);
+                        proj.headToEntity(proj.parentWorld.player, 0, 60);
                     }, 0.1, 2, Infinity);
                 }
             }, 0.4, 0.2, Infinity);
