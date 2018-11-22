@@ -14,6 +14,7 @@ var SPRITE = {
         file: "projectile.png",
         frameWidth: 32,
         frameHeight: 32,
+        frameMargin: 1,
         orbBlue: {
             x: 0,
             y: 0,

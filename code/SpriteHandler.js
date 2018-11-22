@@ -28,6 +28,7 @@ SpriteHandler.prototype.set = function (sprite) {
     if (sprite.frameWidth && sprite.frameHeight) {
         this.frameWidth = sprite.frameWidth;
         this.frameHeight = sprite.frameHeight;
+        this.frameMargin = sprite.frameMargin || 0;
     }
     this.setPosition(sprite.x || 0, sprite.y || 0);
     if (sprite.frames) {
@@ -88,8 +89,8 @@ SpriteHandler.prototype.getFrame = function (time) {
 SpriteHandler.prototype.draw = function (context, x, y, t, z) {
     var img = this.getFrame(t);
     context.drawImage(this.object,
-            img.x * this.frameWidth,
-            img.y * this.frameHeight,
+            img.x * (this.frameWidth + this.frameMargin),
+            img.y * (this.frameHeight + this.frameMargin),
             this.width * this.frameWidth,
             this.height * this.frameHeight,
             x - z / 2 * this.zoom,
