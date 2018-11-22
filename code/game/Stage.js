@@ -108,7 +108,7 @@ var STAGE = [{
                         orb.addDrops("point", false, 2);
                         orb.eventChain.addEvent(function (s, i) {
                             s.shootProjectileAt(s.parentWorld.player, s.width, 50 + s.parentWorld.difficulty * 10, 0, 2, "strikeRed");
-                        }, 1.5, 0.75, Infinity);
+                        }, 1.5, 0.75 - world.difficulty * 0.1, Infinity);
                     } else {
                         var mine = new Enemy(world, x, y, 0, 3, 0, 0, 4, 1, "landMine");
                         mine.appearanceTime = 1;
