@@ -5,7 +5,7 @@ var CHAR = {
         onShoot: function () {
             var count = Math.floor(this.power + 1);
             for (var i = 0; i < count; ++i) {
-                var special = count >= 3 && (i === 0 || i === count - 1);
+                var special = count > 3 && (i === 0 || i === count - 1) || count === 3 && i === 1;
                 var bullet = new Projectile(
                         this.parentWorld,
                         this.x + i * (this.focused ? 2 : 8) - (this.focused ? 1 : 4) * (count - 1),
