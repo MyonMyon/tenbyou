@@ -255,7 +255,7 @@ var SPELL = {
                             e.shootProjectile(a, r, s, 0, 2, "orbBlue");
                         }
                     } else {
-                        var p = s.shootProjectileAt(e.parentWorld.player, 0, 100, -36, 6, "orbBlue");
+                        var p = e.shootProjectileAt(e.parentWorld.player, 0, 100, -36, 6, "orbBlue");
                         p.eventChain.addEvent(function (proj) {
                             proj.headToEntity(proj.parentWorld.player, 80, -36);
                         }, 0, 1 / (e.parentWorld.difficulty + 1), Infinity);
