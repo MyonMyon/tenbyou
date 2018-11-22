@@ -36,9 +36,7 @@ var STAGE = [{
                             fairy.addDrops("power", false, 1); //10% chance of big power item;
                         fairy.bulletSprite = i ? "staticBlue" : "staticRed"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
                         fairy.eventChain.addEvent(function (f) { //and now let's code the fairy's shooting event!
-                            var bullet = new Projectile(world, f.x, f.y, 0, 0, 0, 0, 2, false, f.bulletSprite); //new bullet here
-                            bullet.followCounter = 0;
-                            bullet.headToEntity(world.player, 0, 100);
+                            var bullet = f.shootProjectileAt(world.player, 0, 0, 100, 2, f.bulletSprite)
                             bullet.behavior = function () {
                                 if (world.vectorLength(this.x1, this.y1) > 60) {
                                     this.setVectors(null, null, null, null, 0, 0);
@@ -68,11 +66,7 @@ var STAGE = [{
                                 x: s.parentWorld.player.x,
                                 y: Math.max(s.y, s.parentWorld.player.y)};
                         }
-                        var p = new Projectile(s.parentWorld,
-                                s.x,
-                                s.y,
-                                0, 0, 0, 0, 1.5, false, "kunaiBlue");
-                        p.headToEntity(s.targetPos, 50 + s.parentWorld.difficulty * 10, 0);
+                        s.shootProjectileAt(s.targetPos, s.width, 50 + s.parentWorld.difficulty * 10, 0, 1.5, "kunaiBlue");
                     }, 1.5, 0.1, Infinity);
                     kedama.appearanceTime = 1;
                 }
@@ -89,11 +83,7 @@ var STAGE = [{
                         var kedamaPaired = new Enemy(world, x, y, -r * 2, 30, -r * 12, 0, 4, 15, "kedamaMinion");
                         kedamaPaired.addDrops("power", true, 1);
                         kedamaPaired.eventChain.addEvent(function (s, i) {
-                            var p = new Projectile(s.parentWorld,
-                                    s.x,
-                                    s.y,
-                                    0, 0, 0, 0, 2, false, "kunaiRed");
-                            p.headToEntity(s.parentWorld.player, 60, 0);
+                            s.shootProjectileAt(s.parentWorld.player, s.width, 60, 0, 2, "kunaiRed");
                         }, 0.5, 2 - world.difficulty * 0.2, Infinity);
                     }
                 }
@@ -117,8 +107,7 @@ var STAGE = [{
                         orb.addDrops("power", true, 2);
                         orb.addDrops("point", false, 2);
                         orb.eventChain.addEvent(function (s, i) {
-                            var p = new Projectile(s.parentWorld, s.x, s.y, 0, 0, 0, 0, 2, false, "strikeRed");
-                            p.headToEntity(s.parentWorld.player, 50 + s.parentWorld.difficulty * 10, 0);
+                            s.shootProjectileAt(s.parentWorld.player, s.width, 50 + s.parentWorld.difficulty * 10, 0, 2, "strikeRed");
                         }, 1.5, 0.75, Infinity);
                     } else {
                         var mine = new Enemy(world, x, y, 0, 3, 0, 0, 4, 1, "landMine");
@@ -233,9 +222,7 @@ var STAGE = [{
                             fairy.addDrops("power", false, 1); //10% chance of big power item;
                         fairy.bulletSprite = i ? "eyeBlue" : "eyeRed"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
                         fairy.eventChain.addEvent(function (f) { //and now let's code the fairy's shooting event!
-                            var bullet = new Projectile(world, f.x, f.y, 0, 0, 0, 0, 2, false, f.bulletSprite); //new bullet here
-                            bullet.followCounter = 0;
-                            bullet.headToEntity(world.player, 0, 75); //starting moving to the player (comment to easy graze), parameters: target entity, initial speed, acceleration
+                            var bullet = f.shootProjectileAt(world.player, 0, 0, 75, 2, f.bulletSprite);
                             bullet.behavior = function () { //and bullet's behavior (executes every tick)!
                                 if (world.vectorLength(this.x1, this.y1) > 45) //if speed > 45 unit/s
                                     this.setVectors(null, null, null, null, 0, 0); //stop accelerating

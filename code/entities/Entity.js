@@ -149,3 +149,8 @@ Entity.prototype.shootProjectile = function (angle, distance, speed, acceleratio
             Math.cos(angle) * acceleration,
             width, false, sprite);
 };
+
+Entity.prototype.shootProjectileAt = function (target, distance, speed, acceleration, width, sprite) {
+    var angle = Math.atan2(this.y - target.y, this.x - target.x);
+    return this.shootProjectile(angle, distance, speed, acceleration, width, sprite);
+};

@@ -165,9 +165,10 @@ var SPELL = {
                 }, 1);
                 satellite.eventChain.addEvent(function (s, iter) {
                     var alt = iter % 60 < 30;
-                    var p = s.shootProjectile(s.relAngle, entity.width, 25, 0, alt ? 2.5 : 4, alt ? "staticRed" : "staticBlue");
                     if (alt) {
-                        p.headToEntity(s.parentWorld.player, 50, -10.5);
+                        s.shootProjectileAt(s.parentWorld.player, s.width, 50, -10.5, 2.5, "staticRed");
+                    } else {
+                        s.shootProjectile(s.relAngle, s.width, 25, 0, 4, "staticBlue");
                     }
                 }, 1, 0.1, Infinity);
                 entity.satellites.push(satellite);
@@ -253,8 +254,7 @@ var SPELL = {
                             e.shootProjectile(a, r, s, 0, 2, "orbBlue");
                         }
                     } else {
-                        var p = new Projectile(e.parentWorld, e.x, e.y, 0, 0, 0, 0, 6, false, "orbBlue");
-                        p.headToEntity(e.parentWorld.player, 100, -36);
+                        var p = s.shootProjectileAt(e.parentWorld.player, 0, 100, -36, 6, "orbBlue");
                         p.eventChain.addEvent(function (proj) {
                             proj.headToEntity(proj.parentWorld.player, 80, -36);
                         }, 0, 1 / (e.parentWorld.difficulty + 1), Infinity);
