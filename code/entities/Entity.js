@@ -92,26 +92,20 @@ Entity.prototype.setVectors = function (posX, posY, speedX, speedY, accX, accY) 
     this.y2 = accY || accY === 0 ? accY : this.y2;
 };
 
-Entity.prototype.headToEntity = function (target, speed, acc) {
+Entity.prototype.headToEntity = function (target, speed, acceleration) {
     if (target) {
-        var d = this.parentWorld.distanceBetweenEntities(this, target);
-        if (d !== 0)
-            this.setVectors(null, null,
-                    ((target.x - this.x) / d) * speed,
-                    ((target.y - this.y) / d) * speed,
-                    ((target.x - this.x) / d) * acc,
-                    ((target.y - this.y) / d) * acc);
+        this.headToPoint(target.x, target.y, speed, acceleration);
     }
 };
 
-Entity.prototype.headToPoint = function (targetX, targetY, speed, acc) {
+Entity.prototype.headToPoint = function (targetX, targetY, speed, acceleration) {
     var d = this.parentWorld.distanceBetweenPoints(this.x, this.y, targetX, targetY);
     if (d !== 0)
         this.setVectors(null, null,
                 (targetX - this.x) / d * speed,
                 (targetY - this.y) / d * speed,
-                (targetX - this.x) / d * acc,
-                (targetY - this.y) / d * acc);
+                (targetX - this.x) / d * acceleration,
+                (targetY - this.y) / d * acceleration);
 };
 
 Entity.prototype.headToPointSmoothly = function (targetX, targetY, time) {
