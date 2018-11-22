@@ -14,13 +14,14 @@ function Menu(viewPort) {
 }
 
 /**
+ * @param {Number} parent Level offset, 1 for parent menu.
  * @return {Object} Current menu item object.
  */
-Menu.prototype.getCurrentMenu = function () {
+Menu.prototype.getCurrentMenu = function (parent) {
     var menu = {submenu: this.tree}; //AKA Pause Menu and Main Menu
     var items;
 
-    for (var level = 0; level < this.location.length; level++) {
+    for (var level = 0; level < this.location.length - (parent || 0); level++) {
         items = menu.submenu;
         for (var i in items) {
             if (items[i].id === this.location[level]) {
