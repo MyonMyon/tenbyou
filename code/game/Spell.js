@@ -44,7 +44,7 @@ var SPELL = {
                             e.y + e.width * Math.cos(a),
                             Math.sin(a + d) * (20 + e.parentWorld.difficulty * 5),
                             Math.cos(a + d) * (5 + e.parentWorld.difficulty * 20),
-                            0, 0, 2.5, false, iter % 2 ? "staticBlue" : "staticRed");
+                            0, 0, 2.5, false, iter % 2 ? "static.blue" : "static.red");
                 }
             }, 0.4, 0.1, Infinity);
         }
@@ -69,7 +69,7 @@ var SPELL = {
                 var r = e.parentWorld.difficulty * 5;
                 for (var i = 0; i < c; ++i) {
                     var a = i / c * Math.PI * 2;
-                    var p = e.shootProjectile(a, e.width + r, 25, 0, 2.5, iter % 2 ? "staticBlue" : "staticRed");
+                    var p = e.shootProjectile(a, e.width + r, 25, 0, 2.5, iter % 2 ? "static.blue" : "static.red");
                     p.eventChain.addEvent(function (proj) {
                         proj.headToEntity(proj.parentWorld.player, 0, 60);
                     }, 0.1, 2, Infinity);
@@ -96,7 +96,7 @@ var SPELL = {
                     function (s, iter) {
                         if (iter % 200 < 80) {
                             for (var i = 0; i < Math.PI * 2; i += Math.PI / 2) {
-                                var p = s.shootProjectile(i, entity.width * 4, 20, -9, 4, "sealRed");
+                                var p = s.shootProjectile(i, entity.width * 4, 20, -9, 4, "seal.red");
                                 p.nextAngle = i + Math.PI / 2;
                                 p.eventChain.addEvent(function (e) {
                                     e.setVectors(null, null,
@@ -117,7 +117,7 @@ var SPELL = {
                             var c = 3 + s.parentWorld.difficulty * 2;
                             for (var i = 0; i < c; i++) {
                                 var a = i * Math.PI * 2 / c + s.attackAngle;
-                                var p = s.shootProjectile(a, entity.width * 2, 30, 1.8, 2, iter % 200 < 70 ? "sealPurple" : "sealGray");
+                                var p = s.shootProjectile(a, entity.width * 2, 30, 1.8, 2, iter % 200 < 70 ? "seal.purple" : "seal");
                                 if (iter % 200 < 70) {
                                     p.priority = 1;
                                 }
@@ -169,9 +169,9 @@ var SPELL = {
                 satellite.eventChain.addEvent(function (s, iter) {
                     var alt = iter % 60 < 30;
                     if (alt) {
-                        s.shootProjectileAt(s.parentWorld.player, s.width, 50, -10.5, 2.5, "staticRed");
+                        s.shootProjectileAt(s.parentWorld.player, s.width, 50, -10.5, 2.5, "static.red");
                     } else {
-                        s.shootProjectile(s.relAngle, s.width, 25, 0, 4, "staticBlue");
+                        s.shootProjectile(s.relAngle, s.width, 25, 0, 4, "static.blue");
                     }
                 }, 1, 0.1, Infinity);
                 entity.satellites.push(satellite);
@@ -246,7 +246,7 @@ var SPELL = {
                 var s = 60;
                 var a = Math.PI - e.relTime() * 2;
                 e.angle = e.relTime() * 2 - Math.PI / 2;
-                e.shootProjectile(a, r, s, 0, 4, iter % 2 ? "staticBlue" : "staticRed");
+                e.shootProjectile(a, r, s, 0, 4, iter % 2 ? "static.blue" : "static.red");
             }, 0.7, 0.033, Infinity);
             entity.eventChain.addEvent(function (e, iter) {
                 if (iter % 25 > 20) {

@@ -45,8 +45,8 @@ SpriteHandler.prototype.setPosition = function (x, y) {
 
 SpriteHandler.prototype.setPositionShift = function (x, y) {
     this.positionShift = {
-        x: x,
-        y: y
+        x: x || 0,
+        y: y || 0
     };
 };
 

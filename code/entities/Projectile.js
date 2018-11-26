@@ -2,8 +2,12 @@ function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerSide, sprite
     extend(this, new Entity(parentWorld, x, y, x1, y1, x2, y2, width));
     this.sprite.set(SPRITE.projectile);
     if (spriteName) {
-        this.sprite.set(spriteName);
-        this.rotate = SPRITE.projectile[spriteName].rotate;
+        var s = spriteName.split(".");
+        this.sprite.set(s[0]);
+        if (s[1] && SPRITE.projectile[s[1]]) {
+            this.sprite.setPositionShift(SPRITE.projectile[s[1]].x, SPRITE.projectile[s[1]].y);
+        }
+        this.rotate = SPRITE.projectile[s[0]].rotate;
     }
     this.playerSide = playerSide || false;
     this.grazed = 0;

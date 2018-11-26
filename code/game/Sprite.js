@@ -53,95 +53,50 @@ var SPRITE = {
             frames: 7,
             interval: 0.15
         },
-        staticBlue: {
+        static: {
             x: 5,
             y: 0
         },
-        staticPurple: {
-            x: 6,
-            y: 0
-        },
-        staticRed: {
-            x: 7,
-            y: 0
-        },
-        staticLime: {
-            x: 8,
-            y: 0
-        },
-        kunaiBlue: {
+        kunai: {
             x: 5,
             y: 1,
             hitbox: 0.4,
             rotate: true
         },
-        kunaiPurple: {
-            x: 6,
-            y: 1,
-            hitbox: 0.4,
-            rotate: true
-        },
-        kunaiRed: {
-            x: 7,
-            y: 1,
-            hitbox: 0.4,
-            rotate: true
-        },
-        strikeBlue: {
+        strike: {
             x: 5,
             y: 2,
             hitbox: 0.75,
             rotate: true
         },
-        strikePurple: {
-            x: 6,
-            y: 2,
-            hitbox: 0.75,
-            rotate: true
-        },
-        strikeRed: {
-            x: 7,
-            y: 2,
-            hitbox: 0.75,
-            rotate: true
-        },
-        sealBlue: {
+        seal: {
             x: 5,
             y: 3,
             rotate: true
         },
-        sealPurple: {
-            x: 6,
-            y: 3,
-            rotate: true
-        },
-        sealRed: {
-            x: 7,
-            y: 3,
-            rotate: true
-        },
-        sealGray: {
-            x: 9,
-            y: 3,
-            rotate: true
-        },
-        cometBlue: {
+        comet: {
             x: 5,
             y: 4,
             height: 2,
             rotate: true
         },
-        cometPurple: {
-            x: 6,
-            y: 4,
-            height: 2,
-            rotate: true
+        red: {
+            x: 1
         },
-        cometRed: {
-            x: 7,
-            y: 4,
-            height: 2,
-            rotate: true
+        yellow: {
+            x: 2
+        },
+        lime: {
+            x: 3
+        },
+        cyan: {
+            x: 4
+        },
+        blue: {
+            x: 5
+        },
+        purple: {
+            x: 6
         },
         nuclear: {
             file: "nuclear.png",

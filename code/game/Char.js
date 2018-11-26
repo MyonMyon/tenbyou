@@ -10,7 +10,7 @@ var CHAR = {
                         this.parentWorld,
                         this.x + i * (this.focused ? 2 : 8) - (this.focused ? 1 : 4) * (count - 1),
                         this.y + Math.abs(i + 0.5 - count / 2) * 6 - 8,
-                        0, -480, 0, 0, 2, true, special ? "strikeRed" : "strikeBlue");
+                        0, -480, 0, 0, 2, true, special ? "strike.red" : "strike.blue");
                 bullet.damage = (1 + this.damageInc) / (count + this.damageInc);
                 if (special) {
                     if (this.focused) {
