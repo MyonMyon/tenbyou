@@ -307,7 +307,7 @@ eventOrb = function (world) {
             for (var i = 0; i < c; ++i) {
                 var a = i / c * Math.PI * 2;
                 var d = e.relTime() * 3;
-                e.shootProjectile(a, 0, 30, 0, 2, i % 2 ? "static.blue" : "static.red");
+                e.shootProjectile(a + d, 0, 30, 0, 2, i % 2 ? "static.blue" : "static.red");
             }
         }, 0, 0.133, Infinity);
     };
