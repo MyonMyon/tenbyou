@@ -195,6 +195,15 @@ var SPRITE = {
             frames: 2,
             interval: 0.3
         },
+        eye: {
+            x: 0,
+            y: 4,
+            width: 2,
+            height: 2,
+            frames: 3,
+            interval: 0.3,
+            hitbox: 0.6
+        },
         okuu: {
             file: "okuu.png",
             frameWidth: 64,
