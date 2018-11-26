@@ -10,7 +10,11 @@ function Entity(parentWorld, x, y, x1, y1, x2, y2, width) {
     this.x2 = x2 || 0;
     this.y2 = y2 || 0;
 
-    this.width = width || 2;
+    if (width === undefined || width === null) {
+        this.width = 2;
+    } else {
+        this.width = width;
+    }
 
     this.fixedX = this.x;
     this.fixedY = this.y;

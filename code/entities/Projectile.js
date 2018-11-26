@@ -15,6 +15,9 @@ function Projectile(parentWorld, x, y, x1, y1, x2, y2, width, playerSide, sprite
 }
 
 Projectile.prototype.draw = function (context) {
+    if (!this.width) {
+        return;
+    }
 
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
 
@@ -56,7 +59,7 @@ Projectile.prototype.step = function () {
             || this.y < -this.parentWorld.height / div - this.width * 2)
         this.remove();
 
-    if (!this.playerSide) {
+    if (!this.playerSide && this.width) {
         //collision
         var d = this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player);
         if (d < (this.width + this.parentWorld.player.width)) {
