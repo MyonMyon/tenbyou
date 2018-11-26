@@ -36,6 +36,11 @@ function World(vp) {
     }, 1000 / this.ticksPS);
 }
 
+World.prototype.setPause = function (value) {
+    this.pause = value;
+    this.vp.input.stopAll();
+};
+
 World.prototype.startStage = function (stage, difficulty) {
     this.difficulty = difficulty;
     for (var i in STAGE) {
@@ -127,7 +132,7 @@ World.prototype.nextStage = function () {
     this.substageStart = 0;
 
     if (this.stage >= this.stages.length) {
-        this.pause = true;
+        this.setPause(true);
         this.continuable = false;
         return;
     }

@@ -107,7 +107,7 @@ function Input(viewPort) {
         "stage": {category: "dev", mode: "execute", func: "nextStage()"},
         "slow": {category: "dev", mode: "execute", func: "slowMode()"},
         "perf": {category: "dev", mode: "invert", func: "vp.showPerf", ignoreModality: true},
-        "pause": {category: "menu", mode: "invert", func: "pause", ignoreModality: true}
+        "pause": {category: "menu", mode: "executeOnce", func: "setPause(true)"}
     };
     var eventTypes = ["keyDown", "keyUp", "mouseDown", "mouseUp", "mouseMove", "mouseWheel"];
     for (var i in eventTypes) {
@@ -123,7 +123,7 @@ function Input(viewPort) {
     }, false);
     window.onblur = function () {
         if (self.world) {
-            self.world.pause = true;
+            self.world.setPause(true);
         }
     };
 }
@@ -213,9 +213,6 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
         if (action) {
             if (action.category === "dev" && !this.vp.devStage === "DEVELOPMENT") {
                 return false;
-            }
-            if (this.defaultMapping[keyAbbr] === "pause") {
-                this.stopAll();
             }
             switch (action.mode) {
                 case "keyState":

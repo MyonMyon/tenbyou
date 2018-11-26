@@ -49,7 +49,7 @@ ViewPort.prototype.takeScreenShot = function () {
     try {
         var dataUrl = this.canvas.toDataURL("image/png");
         window.open(dataUrl, "_blank");
-        this.world.pause = true;
+        this.world.setPause(true);
     } catch (ex) {
         console.log("SCREENSHOT ERROR");
     }

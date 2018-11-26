@@ -14,7 +14,7 @@ function PauseMenu(viewPort) {
             },
             title: "Resume",
             action: function (viewPort) {
-                viewPort.world.pause = false;
+                viewPort.world.setPause(false);
                 viewPort.pauseMenu.resetLocation();
             }
         },

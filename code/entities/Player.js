@@ -223,7 +223,7 @@ Player.prototype.respawn = function () {
     this.spellCompleteTerms = false;
 
     if (this.lives < 1) {
-        this.parentWorld.pause = true;
+        this.parentWorld.setPause(true);
         this.parentWorld.continuable = this.parentWorld.stage > 0 && this.score % 10 < 9;
         if (!this.parentWorld.continuable) {
             return;
