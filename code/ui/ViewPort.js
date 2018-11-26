@@ -6,6 +6,9 @@ function ViewPort() {
 
     this.context = this.canvas.getContext("2d");
 
+    this.context.imageSmoothingEnabled = false;
+    this.context.mozImageSmoothingEnabled = this.context.webkitImageSmoothingEnabled = this.context.msImageSmoothingEnabled = false;
+
     this.SHIFT_X = SHIFT_X;
     this.SHIFT_Y = SHIFT_Y;
     this.zoom = ZOOM;
