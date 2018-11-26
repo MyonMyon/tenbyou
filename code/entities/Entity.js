@@ -1,6 +1,11 @@
 function Entity(parentWorld, x, y, x1, y1, x2, y2, width) {
+    //position (global)
     this.x = x || 0;
     this.y = y || 0;
+
+    //position (relative to anchor)
+    this.x0 = x || 0;
+    this.y0 = y || 0;
 
     //speed
     this.x1 = x1 || 0;
@@ -30,6 +35,9 @@ function Entity(parentWorld, x, y, x1, y1, x2, y2, width) {
 
     this.angle = 0;
 
+    this.anchor = null;
+    this.anchored = [];
+
     this.parentWorld = parentWorld;
     this.id = ++parentWorld.lastID;
     //console.info("Added Entity #" + this.id + " @ " + this.x + ";" + this.y);
@@ -54,6 +62,7 @@ Entity.prototype.step = function () {
     this.eventChain.tick();
 
     if (this.targetTime > 0) {
+        this.setAnchor(null);
         this.x2 = 0;
         this.y2 = 0;
 
@@ -69,9 +78,18 @@ Entity.prototype.step = function () {
         this.x1 += this.x2 / this.parentWorld.ticksPS;
         this.y1 += this.y2 / this.parentWorld.ticksPS;
 
-        this.x += this.x1 / this.parentWorld.ticksPS;
-        this.y += this.y1 / this.parentWorld.ticksPS;
+        this.x0 += this.x1 / this.parentWorld.ticksPS;
+        this.y0 += this.y1 / this.parentWorld.ticksPS;
+
+        if (this.anchor) {
+            this.x = this.anchor.x + this.x0;
+            this.y = this.anchor.y + this.y0;
+        } else {
+            this.x += this.x1 / this.parentWorld.ticksPS;
+            this.y += this.y1 / this.parentWorld.ticksPS;
+        }
     }
+
 };
 
 Entity.prototype.relTime = function () {
@@ -83,8 +101,27 @@ Entity.prototype.draw = function (context) {
 
 Entity.prototype.remove = function () {
     //console.info("Removed Entity #" + this.id + " @ " + this.x + ";" + this.y);
+    if (this.anchored.length) {
+        return;
+    }
     this.removalMark = true;
+    this.setAnchor(null);
     this.eventChain.clear();
+};
+
+Entity.prototype.setAnchor = function (entity) {
+    if (!entity && this.anchor) {
+        var index = this.anchor.anchored.indexOf(this);
+        if (index >= 0) {
+            this.anchor.anchored.splice(index, 1);
+        }
+    }
+    if (entity) {
+        entity.anchored.push(this);
+        this.x = entity.x + this.x0;
+        this.y = entity.y + this.y0;
+    }
+    this.anchor = entity;
 };
 
 Entity.prototype.setVectors = function (posX, posY, speedX, speedY, accX, accY) {
