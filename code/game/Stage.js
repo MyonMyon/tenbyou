@@ -201,6 +201,33 @@ var STAGE = [{
         events: [{
                 substage: 0,
                 second: 4,
+                repeatInterval: 2,
+                repeatCount: 10,
+                func: function (world, iter) {
+                    var r = (iter % 2) ? -1 : 1;
+                    var eye = new Enemy(world,
+                            r * (world.width / 2 + 1), -world.height / 2 - 1,
+                            -r * 40, 20,
+                            r * 3, -5,
+                            3, 20, "eye");
+                    eye.addDrops("power", true, 2);
+                    eye.addDrops("point", false, 2);
+                    eye.eventChain.addEvent(function (entity) {
+                        var a = entity.shootProjectileAt(entity.parentWorld.player, 5, 50, 0, 0);
+                        var count = 4 + entity.parentWorld.difficulty * 2;
+                        for (var i = 0; i < count; ++i) {
+                            var angle = i / count * Math.PI * 2;
+                            var b = new Projectile(entity.parentWorld, 0, 0,
+                                    Math.sin(angle) * 10,
+                                    Math.cos(angle) * 10,
+                                    0, 0, 2, false, i % 2 ? "static.yellow" : "static.red");
+                            b.setAnchor(a);
+                        }
+                    }, 0.2, 1, Infinity);
+                }
+            }, {
+                substage: 0,
+                second: 28,
                 repeatInterval: function (world) {
                     return 2 - (world.difficulty) * 0.4;
                 },
@@ -240,7 +267,7 @@ var STAGE = [{
                 }
             }, {
                 substage: 0,
-                second: 16,
+                second: 40,
                 func: function (world) {
                     eventKedamaMidboss(world, true);
                 }
