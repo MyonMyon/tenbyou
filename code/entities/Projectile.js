@@ -27,8 +27,10 @@ Projectile.prototype.draw = function (context) {
 
     context.save();
     context.translate(ePos.x, ePos.y);
-    if (this.rotate || this.angle)
-        context.rotate(Math.atan2(this.y1, this.x1) - Math.PI / 2 + this.angle);
+    if (this.rotate || this.angle) {
+        var a = this.useAnchorAngle ? Math.atan2(this.anchor.y1, this.anchor.x1) : Math.atan2(this.y1, this.x1);
+        context.rotate(a - Math.PI / 2 + this.angle);
+    }
 
     this.sprite.draw(context, 0, 0, this.playerSide ? this.parentWorld.relTime() : this.relTime(), this.parentWorld.vp.zoom * this.width * 2);
 

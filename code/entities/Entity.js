@@ -109,7 +109,7 @@ Entity.prototype.remove = function () {
     this.eventChain.clear();
 };
 
-Entity.prototype.setAnchor = function (entity) {
+Entity.prototype.setAnchor = function (entity, useAnchorAngle) {
     if (!entity && this.anchor) {
         var index = this.anchor.anchored.indexOf(this);
         if (index >= 0) {
@@ -122,6 +122,7 @@ Entity.prototype.setAnchor = function (entity) {
         this.y = entity.y + this.y0;
     }
     this.anchor = entity;
+    this.useAnchorAngle = useAnchorAngle;
 };
 
 Entity.prototype.setVectors = function (posX, posY, speedX, speedY, accX, accY) {
