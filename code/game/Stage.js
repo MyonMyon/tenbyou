@@ -201,6 +201,43 @@ var STAGE = [{
         events: [{
                 substage: 0,
                 second: 4,
+                repeatInterval: 1,
+                repeatCount: 12,
+                func: function (world, iter) {
+                    var r = (iter % 2) ? -1 : 1;
+                    var fairyTurret = new Enemy(world,
+                            r * (world.width / 2 + 1), -world.height / 2 - 1,
+                            -r * 30, 30,
+                            r * 15, -15,
+                            2, 10, "fairyRed");
+                    fairyTurret.addDrops("power", true, 2);
+                    fairyTurret.eventChain.addEvent(function (e, i) {
+                        e.savedPoint = {x: e.parentWorld.player.x, y: e.parentWorld.player.y};
+                        e.setVectors(null, null, 0, 0, 0, 0);
+                    }, 0.5, 0, 0);
+                    fairyTurret.eventChain.addEvent(function (entity) {
+                        var a = entity.shootProjectileAt(entity.savedPoint, 12, 50, 0, 0);
+                        for (var i = 0; i < 2; ++i) {
+                            var b = new Projectile(entity.parentWorld, 0, 0, 0, 0, 0, 0, 2, false, i ? "strike.blue" : "strike.red");
+                            b.setAnchor(a, true);
+                            b.maxDistance = i ? -10 : 10;
+                            b.behavior = function () {
+                                if (this.anchor) {
+                                    var angle = this.anchor.getAngle();
+                                    var d = Math.sin(this.relTime() * 4) * this.maxDistance;
+                                    this.x0 = Math.sin(angle - Math.PI / 2) * d;
+                                    this.y0 = Math.cos(angle - Math.PI / 2) * d;
+                                }
+                            };
+                        }
+                    }, 0.6, 0.0666, 15 + world.difficulty * 5);
+                    fairyTurret.eventChain.addEvent(function (e, i) {
+                        e.setVectors(null, null, 0, 0, e.x < 0 ? -15 : 15, -15);
+                    }, 2.7, 0, 0);
+                }
+            }, {
+                substage: 0,
+                second: 19,
                 repeatInterval: 2,
                 repeatCount: 10,
                 func: function (world, iter) {
@@ -227,7 +264,7 @@ var STAGE = [{
                 }
             }, {
                 substage: 0,
-                second: 28,
+                second: 43,
                 repeatInterval: function (world) {
                     return 2 - (world.difficulty) * 0.4;
                 },
@@ -267,7 +304,7 @@ var STAGE = [{
                 }
             }, {
                 substage: 0,
-                second: 40,
+                second: 55,
                 func: function (world) {
                     eventKedamaMidboss(world, true);
                 }
