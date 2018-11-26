@@ -96,6 +96,10 @@ Entity.prototype.relTime = function () {
     return this.lifetime / this.parentWorld.ticksPS;
 };
 
+Entity.prototype.getAngle = function () {
+    return Math.atan2(this.x1, this.y1);
+};
+
 Entity.prototype.draw = function (context) {
 };
 
