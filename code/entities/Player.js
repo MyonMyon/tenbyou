@@ -45,6 +45,8 @@ function Player(parentWorld, charName) {
     this.width = CHAR[charName].width;
     this.onShoot = CHAR[charName].onShoot;
     this.onBomb = CHAR[charName].onBomb;
+    this.onPowerChange = CHAR[charName].onPowerChange;
+    this.onPowerChange(0);
 
     this.respawnTime = null;
     this.respawnTimeDefault = 0.33;
@@ -220,6 +222,9 @@ Player.prototype.addPower = function (power) {
             this.parentWorld.replaceBonus("power", true, "point", false);
         }
     }
+    if (Math.floor(powerOld) !== Math.floor(this.power)) {
+        this.onPowerChange(Math.floor(this.power));
+    }
 };
 
 Player.prototype.kill = function () {
@@ -244,6 +249,7 @@ Player.prototype.respawn = function () {
         this.bombs = this.bombsDefault;
         this.score = this.score % 10 + 1;
         this.power = 0;
+        this.onPowerChange(0);
         this.graze = 0;
         this.points = 0;
     } else {
@@ -261,5 +267,5 @@ Player.prototype.respawn = function () {
     this.x = 0;
     this.y = this.parentWorld.height / 2 - 5;
     this.bombs = Math.max(this.bombsDefault, this.bombs);
-    this.power = Math.max(this.power - 0.6, 0);
+    this.addPower(-Math.min(this.power, 0.6));
 };

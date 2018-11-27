@@ -2,6 +2,8 @@ var CHAR = {
     barashou: {
         name: "Natsuki Barashou",
         width: 0.5,
+        onPowerChange: function (power) {
+        },
         onShoot: function () {
             var count = Math.floor(this.power + 1);
             for (var i = 0; i < count; ++i) {
