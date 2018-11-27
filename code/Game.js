@@ -47,12 +47,20 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
     var totalRes = nameArray.length;
     var loadedRes = 0;
     var fail = false;
-    for (var i in nameArray) {
+    mainLoop: for (var i in nameArray) {
         var s = document.createElement(elementTag);
-        s.src = prefix + (nameArray[i].file || nameArray[i]) + postfix;
         if (nameArray[i].file) {
+            for (var j in nameArray) {
+                var nj = nameArray[j];
+                if(nj.object && nj.file === nameArray[i].file) {
+                    nameArray[i].object = nj.object;
+                    loadedRes++; //I know the count is wrong...
+                    continue mainLoop;
+                }
+            }
             nameArray[i].object = s;
         }
+        s.src = prefix + (nameArray[i].file || nameArray[i]) + postfix;
         s.onload = function () {
             loadedRes++;
             document.getElementsByTagName("title")[0].innerHTML = "Loading " + tag + " " + loadedRes + "/" + totalRes;
