@@ -40,6 +40,7 @@ function Player(parentWorld, charName) {
     this.shotCooldown = 0;
     this.shotCooldownDefault = 0.033;
 
+    this.name = charName;
     this.sprite.set(SPRITE.player);
     this.sprite.set(charName);
     this.width = CHAR[charName].width;

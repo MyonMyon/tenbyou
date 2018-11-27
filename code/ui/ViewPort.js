@@ -255,6 +255,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     var drawOrder = [
         Enemy,
         Player,
+        Weapon,
         Bonus,
         Particle,
         Projectile,

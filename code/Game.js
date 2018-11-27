@@ -17,6 +17,7 @@ var CODE = [
     "ui/PerformanceChart",
     "entities/Entity",
     "entities/Player",
+    "entities/Weapon",
     "entities/Enemy",
     "entities/Projectile",
     "entities/Bonus",

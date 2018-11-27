@@ -7,7 +7,21 @@ var SPRITE = {
             x: 0,
             y: 0,
             frames: 4,
-            interval: 0.05
+            interval: 0.05,
+            weapons: {
+                turret: {
+                    x: 0,
+                    y: 4,
+                    width: 0.5,
+                    height: 0.5
+                },
+                turretAimed: {
+                    x: 0.5,
+                    y: 4,
+                    width: 0.5,
+                    height: 0.5
+                }
+            }
         }
     },
     projectile: {
