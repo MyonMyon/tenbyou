@@ -52,26 +52,14 @@ Bonus.prototype.step = function () {
                 this.parentWorld.player.gatherValue += (this.small ? 1 : 2);
                 break;
             case "power":
-                var fixedPower = this.parentWorld.player.power;
                 this.parentWorld.player.gatherValue += (this.small ? 1 : 2);
                 if (this.parentWorld.player.power < this.parentWorld.player.powerMax)
-                    this.parentWorld.player.power += (this.small ? 0.05 : 0.5);
+                    this.parentWorld.player.addPower(this.small ? 0.05 : 0.5);
                 else
                     this.parentWorld.player.score += (this.small ? 100 : 200) * mx;
-                if (this.parentWorld.player.power > this.parentWorld.player.powerMax)
-                    this.parentWorld.player.power = this.parentWorld.player.powerMax;
-                if (fixedPower < this.parentWorld.player.powerMax && this.parentWorld.player.power === this.parentWorld.player.powerMax) {
-                    this.parentWorld.clearField(0);
-                    this.parentWorld.replaceBonus("power", true, "point", false);
-                }
                 break;
             case "gauge":
-                this.parentWorld.player.power += (this.small ? 1 : this.parentWorld.player.powerMax);
-                if (this.parentWorld.player.power > this.parentWorld.player.powerMax) {
-                    this.parentWorld.player.power = this.parentWorld.player.powerMax;
-                    this.parentWorld.clearField(0);
-                    this.parentWorld.replaceBonus("power", true, "point", false);
-                }
+                this.parentWorld.player.addPower(this.small ? 1 : this.parentWorld.player.powerMax);
                 break;
             case "bombs":
                 if (((this.parentWorld.player.bombs === 8 && this.parentWorld.player.bombParts === 0) || this.parentWorld.player.bombs < 8) && !this.small)

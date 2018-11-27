@@ -210,6 +210,18 @@ Player.prototype.bomb = function () {
     }
 };
 
+Player.prototype.addPower = function (power) {
+    var powerOld = this.power;
+    this.power += power;
+    if (this.power > this.powerMax) {
+        this.power = this.powerMax;
+        if (powerOld < this.powerMax) {
+            this.parentWorld.clearField(0);
+            this.parentWorld.replaceBonus("power", true, "point", false);
+        }
+    }
+};
+
 Player.prototype.kill = function () {
     this.respawnTime = this.respawnTimeDefault;
     this.invulnTime = this.respawnTimeDefault;
