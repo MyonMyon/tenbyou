@@ -131,7 +131,7 @@ Player.prototype.step = function () {
 
     if (this.gatherValue > 0) {
         this.gatherValueExtremum = Math.max(this.gatherValue, this.gatherValueExtremum);
-        this.gatherValue--;
+        this.gatherValue -= 30 / this.parentWorld.ticksPS;
     }
     if (this.gatherValueExtremum >= 50 && (this.gatherValueExtremum - this.gatherValue > 20)) {
         if (this.gatherValueExtremum >= 150)
