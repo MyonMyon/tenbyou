@@ -52,11 +52,19 @@ var FONT = {
     points: {
         font: "Unispace Rg",
         size: ZOOM * 3,
-        color: "#fee",
         strokeWidth: 2,
         strokeColor: "#999",
-        max: {
+        point: {
+            color: "#fee"
+        },
+        pointMax: {
             color: "#ff0"
+        },
+        power: {
+            color: "#f66"
+        },
+        powerMax: {
+            color: "#f60"
         }
     },
     info: {

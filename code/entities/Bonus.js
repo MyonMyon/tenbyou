@@ -43,6 +43,7 @@ Bonus.prototype.step = function () {
     if (d < this.parentWorld.player.gatherWidthFinal) {
         this.remove();
         var oldScore = this.parentWorld.player.score;
+        var oldPower = this.parentWorld.player.power;
         var max = this.parentWorld.player.y < -this.parentWorld.width / 3;
         var mx = max ? 1 : 0.5;
         switch (this.cat) {
@@ -93,15 +94,26 @@ Bonus.prototype.step = function () {
                 break;
         }
         var score = this.parentWorld.player.score - oldScore;
-        if (score) {
+        var power = this.parentWorld.player.power - oldPower;
+        var cat = score ? "point" : "power";
+        if (score || power) {
             var t = this.parentWorld.lastText;
-            if (t && t.relTime() <= 0.04 && t.max === max) {
-                t.content += score;
+            if (t && t.relTime() <= 0.04 && t.max === max && t.cat === cat) {
+                t.content = +t.content + (score || power);
+                if (power) {
+                    t.content = (t.content + 0.001).toFixed(2);
+                }
                 t.lifetime = 0;
                 t.x = this.parentWorld.player.x;
                 t.y = this.parentWorld.player.y - 10;
             } else {
-                this.parentWorld.lastText = new Text(this.parentWorld, this.parentWorld.player.x, this.parentWorld.player.y - 10, score, max);
+                this.parentWorld.lastText = new Text(
+                        this.parentWorld,
+                        this.parentWorld.player.x,
+                        this.parentWorld.player.y - 10,
+                        score || (power + 0.001).toFixed(2),
+                        max,
+                        cat);
             }
         }
     }
