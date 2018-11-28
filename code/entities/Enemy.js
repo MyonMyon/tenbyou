@@ -144,7 +144,7 @@ Enemy.prototype.step = function () {
     for (var i in this.parentWorld.entities) {
         var w = this.parentWorld.entities[i];
         if (w instanceof Weapon && !w.isInvulnerable() && this.parentWorld.distanceBetweenEntities(this, w) < this.width + w.width) {
-            w.destroy();
+            w.hit();
         }
     }
 

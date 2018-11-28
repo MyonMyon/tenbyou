@@ -9,7 +9,7 @@ function Weapon(player, name, anchored) {
     this.player = player;
     var data = CHAR[player.name].weapons[name];
     this.name = name;
-    var propImport = ["behavior", "onShoot", "onDestroy", "width"];
+    var propImport = ["behavior", "onShoot", "onHit", "onDestroy", "width"];
     for (var i in propImport) {
         var d = data[propImport[i]];
         if (d) {
@@ -25,8 +25,12 @@ Weapon.prototype.step = function () {
     this.behavior();
 };
 
-Weapon.prototype.destroy = function () {
+Weapon.prototype.hit = function () {
     new Particle(this.parentWorld, this.x, this.y, 0.66, 8, false, false, "splash");
+    this.onHit();
+};
+
+Weapon.prototype.destroy = function () {
     this.parentWorld.splash(this, 3, 8, 0.33);
     this.onDestroy();
     this.remove();
@@ -38,6 +42,12 @@ Weapon.prototype.behavior = function () {
 
 Weapon.prototype.onShoot = function () {
     //Override with CHAR data!
+};
+
+Weapon.prototype.onHit = function () {
+    //Override with CHAR data!
+    //default behavior:
+    this.destroy();
 };
 
 Weapon.prototype.onDestroy = function () {

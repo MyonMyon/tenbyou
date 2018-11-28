@@ -80,7 +80,7 @@ Projectile.prototype.step = function () {
             var w = this.parentWorld.entities[i];
             if (w instanceof Weapon && !w.isInvulnerable() && this.parentWorld.distanceBetweenEntities(this, w) < this.width + w.width) {
                 this.remove();
-                w.destroy();
+                w.hit();
             }
         }
     }
