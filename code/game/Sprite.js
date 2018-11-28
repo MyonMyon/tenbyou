@@ -221,8 +221,9 @@ var SPRITE = {
             width: 2,
             height: 2,
             frames: 3,
-            interval: 0.3,
-            hitbox: 0.6
+            interval: 0.5,
+            hitbox: 0.6,
+            frameReverse: true
         },
         okuu: {
             file: "okuu.png",
