@@ -36,7 +36,7 @@ var STAGE = [{
                             fairy.addDrops("power", false, 1); //10% chance of big power item;
                         fairy.bulletSprite = i ? "static.blue" : "static.red"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
                         fairy.eventChain.addEvent(function (f) { //and now let's code the fairy's shooting event!
-                            var bullet = f.shootProjectileAt(world.player, 0, 0, 100, 2, f.bulletSprite)
+                            var bullet = f.shootProjectileAt(world.player, 0, 0, 100, 2, f.bulletSprite);
                             bullet.behavior = function () {
                                 if (world.vectorLength(this.x1, this.y1) > 60) {
                                     this.setVectors(null, null, null, null, 0, 0);
