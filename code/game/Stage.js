@@ -216,7 +216,7 @@ var STAGE = [{
                         e.setVectors(null, null, 0, 0, 0, 0);
                     }, 0.5, 0, 0);
                     fairyTurret.eventChain.addEvent(function (entity) {
-                        var a = entity.shootProjectileAt(entity.savedPoint, 12, 50, 0, 0);
+                        var a = entity.shootProjectileAt(entity.savedPoint, 4, 50, 0, 0);
                         for (var i = 0; i < 2; ++i) {
                             var b = new Projectile(entity.parentWorld, 0, 0, 0, 0, 0, 0, 2, false, i ? "strike.blue" : "strike.red");
                             b.setAnchor(a, true);
