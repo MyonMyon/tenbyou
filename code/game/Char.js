@@ -39,7 +39,18 @@ var CHAR = {
             },
             turretAuto: {
                 width: 2,
+                onHit: function () {
+                    var t = this.relTime();
+                    if (this.restoreAt && this.restoreAt > t && this.vulnerableAt < t) {
+                        this.destroy();
+                    }
+                    this.vulnerableAt = t + 1;
+                    this.restoreAt = t + 5;
+                },
                 onShoot: function () {
+                    if (this.restoreAt && this.restoreAt > this.relTime()) {
+                        return;
+                    }
                     var bullet = this.shootProjectile(-Math.PI, 4, 480, 0, 2, "strike.yellow");
                     bullet.playerSide = true;
                     bullet.damage = this.damage;
