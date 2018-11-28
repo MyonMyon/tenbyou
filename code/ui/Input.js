@@ -213,7 +213,7 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
     var ignoreModality = action && action.ignoreModality;
     if (!this.vp.world.pause || ignoreModality) {
         if (action) {
-            if (action.category === "dev" && !this.vp.devStage === "DEVELOPMENT") {
+            if (action.category === "dev" && !this.vp.inDev) {
                 return false;
             }
             switch (action.mode) {
