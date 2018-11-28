@@ -38,7 +38,7 @@ function Player(parentWorld, charName) {
     this.autoGatherTimeDefault = 0.66;
 
     this.shotCooldown = 0;
-    this.shotCooldownDefault = 0.033;
+    this.shotCooldownDefault = 0.0333;
     this.specialCooldown = 0;
     this.specialCooldownDefault = 1;
 
