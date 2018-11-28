@@ -28,13 +28,13 @@ var CHAR = {
                     bullet.playerSide = true;
                     bullet.damage = 1.5 * (1 + this.player.damageInc) / (this.count + this.player.damageInc);
                     if (this.player.focused) {
-                        bullet.rangeForAim = 20;
+                        bullet.rangeForAim = 10;
                     } else {
                         bullet.rangeForAim = 100;
                     }
                     bullet.eventChain.addEvent(function (b) {
                         b.headToEntity(b.nearestEntity(Enemy, b.rangeForAim, {isInvulnerable: false}), 480, 0);
-                    }, 0, 0.2, Infinity);
+                    }, 0, this.player.focused ? 0.05 : 0.2, Infinity);
                 }
             },
             turretAuto: {
