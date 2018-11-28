@@ -278,7 +278,8 @@ var SPRITE = {
         file: "uibg.png"
     },
     spellBackground: {
-        file: "bgspell.jpg"
+        file: "bgspell.jpg",
+        speed: 30
     },
     spellStrip: {
         file: "scline.png"

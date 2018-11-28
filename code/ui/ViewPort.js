@@ -218,7 +218,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     if (this.world.stages[stg]) {
         var bg = spell ? SPRITE.spellBackground : this.world.stages[stg].background;
         if (bg) {
-            var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.stageTime() * (spell ? 30 : bg.speed)) % (bg.object.height);
+            var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.stageTime() * bg.speed) % bg.object.height;
             this.context.drawImage(bg.object,
                     0, Math.max(0, t),
                     bg.object.width, bg.object.width / this.world.width * this.world.height,
