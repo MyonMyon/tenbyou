@@ -223,9 +223,10 @@ Player.prototype.bomb = function () {
 };
 
 Player.prototype.special = function () {
-    if (this.specialCooldown <= 0) {
+    if (this.specialCooldown <= 0 && this.power >= 1) {
         this.onSpecial();
         this.specialCooldown = this.specialCooldownDefault;
+        this.addPower(-1);
     };
 };
 

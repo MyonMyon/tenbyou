@@ -72,14 +72,11 @@ var CHAR = {
             this.parentWorld.clearField(20);
         },
         onSpecial: function () {
-            if (this.power >= 1) {
-                var turret = new Weapon(this, "turretAuto", false);
-                turret.eventChain.addEvent(function () {
-                    turret.onShoot();
-                }, this.shotCooldownDefault, this.shotCooldownDefault, Infinity);
-                turret.damage = (1 + this.damageInc) / (Math.floor(this.power) + 1 + this.damageInc);
-                this.addPower(-1);
-            }
+            var turret = new Weapon(this, "turretAuto", false);
+            turret.eventChain.addEvent(function () {
+                turret.onShoot();
+            }, this.shotCooldownDefault, this.shotCooldownDefault, Infinity);
+            turret.damage = (1 + this.damageInc) / (Math.floor(this.power) + 1 + this.damageInc);
         }
     },
     freyja: {
