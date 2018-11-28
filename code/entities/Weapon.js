@@ -15,7 +15,7 @@ function Weapon(player, name, anchored) {
         if (d) {
             this[propImport[i]] = d;
         }
-    };
+    }
     this.sprite.set(SPRITE.player);
     this.sprite.set(SPRITE.player[player.name].weapons[name]);
 }

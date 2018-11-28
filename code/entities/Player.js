@@ -51,7 +51,7 @@ function Player(parentWorld, charName) {
         if (d) {
             this[propImport[i]] = d;
         }
-    };
+    }
     this.onPowerChange(0);
 
     this.respawnTime = null;
@@ -208,7 +208,7 @@ Player.prototype.shoot = function () {
     if (this.shotCooldown <= 0) {
         this.onShoot();
         this.shotCooldown = this.shotCooldownDefault;
-    };
+    }
 };
 
 Player.prototype.bomb = function () {
@@ -227,7 +227,7 @@ Player.prototype.special = function () {
         this.onSpecial();
         this.specialCooldown = this.specialCooldownDefault;
         this.addPower(-1);
-    };
+    }
 };
 
 Player.prototype.addPower = function (power) {
