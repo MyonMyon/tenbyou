@@ -120,7 +120,7 @@ MainMenu.prototype.draw = function () {
 
     this.viewPort.setFont(FONT.info, {minor: true});
     this.viewPort.drawText(
-            [this.viewPort.version, "/", this.viewPort.fps, "FPS"].join(" "),
+            [this.viewPort.version, "/", RELEASE_DATE, "/", this.viewPort.fps, "FPS"].join(" "),
             MENU_X,
             MENU_VER_Y);
 };
