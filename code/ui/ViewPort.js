@@ -216,7 +216,6 @@ ViewPort.prototype.draw = function (initFromWorld) {
     var stg = (this.world.stageTime() < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
     var spell = (this.world.boss && this.world.boss.attackCurrent !== null && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
     if (this.world.stages[stg]) {
-        if (spell)
         var bg = spell ? (this.world.boss.attacks[this.world.boss.attackCurrent].background || SPRITE.spellBackground) : this.world.stages[stg].background;
         if (bg) {
             var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.stageTime() * bg.speed) % bg.object.height;
