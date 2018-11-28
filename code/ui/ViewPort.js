@@ -181,7 +181,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     if (new Date().getTime() % 1000 < this.prevMS) {
         this.fps = this.ticks;
         this.ticks = 0;
-        if (this.showPerf) {
+        if (this.pChart && this.showPerf) {
             this.pChart.addData({ec: this.world ? this.world.entities.length : 0, tl: 1 / this.fps});
         }
     }
