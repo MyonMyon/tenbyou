@@ -36,6 +36,14 @@ var CHAR = {
                         b.headToEntity(b.nearestEntity(Enemy, b.rangeForAim, {isInvulnerable: false}), 480, 0);
                     }, 0, 0.2, Infinity);
                 }
+            },
+            turretAuto: {
+                width: 2,
+                onShoot: function () {
+                    var bullet = this.shootProjectile(-Math.PI, 4, 480, 0, 2, "strike.yellow");
+                    bullet.playerSide = true;
+                    bullet.damage = this.damage;
+                }
             }
         },
         onPowerChange: function (power) {
@@ -62,6 +70,16 @@ var CHAR = {
         },
         onBomb: function () {
             this.parentWorld.clearField(20);
+        },
+        onSpecial: function () {
+            if (this.power >= 1) {
+                var turret = new Weapon(this, "turretAuto", false);
+                turret.eventChain.addEvent(function () {
+                    turret.onShoot();
+                }, this.shotCooldownDefault, this.shotCooldownDefault, Infinity);
+                turret.damage = (1 + this.damageInc) / (Math.floor(this.power) + 1 + this.damageInc);
+                this.addPower(-1);
+            }
         }
     },
     freyja: {

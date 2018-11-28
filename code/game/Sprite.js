@@ -20,6 +20,12 @@ var SPRITE = {
                     y: 4,
                     width: 0.5,
                     height: 0.5
+                },
+                turretAuto: {
+                    x: 1,
+                    y: 4,
+                    width: 0.5,
+                    height: 0.5
                 }
             }
         }
