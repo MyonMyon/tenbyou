@@ -54,7 +54,9 @@ SpriteHandler.prototype.animate = function (frames, interval) {
     this.list = [];
     this.animationFrames = [];
     this.animationLength = interval;
-    for (var i = 0; i < frames; i += this.height) {
+
+    var i = 0;
+    for (i = 0; i < frames * this.height; i += this.height) {
         this.animationFrames.push({
             x: 0,
             y: i,
