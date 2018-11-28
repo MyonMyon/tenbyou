@@ -70,7 +70,10 @@ Projectile.prototype.step = function () {
                 this.parentWorld.player.kill();
         } else if (d < (this.width + this.parentWorld.player.grazeWidth) && this.grazed < this.damage && this.parentWorld.player.invulnTime <= 0) {
             ++this.parentWorld.player.graze;
-            new Particle(this.parentWorld, (this.x + this.parentWorld.player.x) / 2, (this.y + this.parentWorld.player.y) / 2, 0.13, 8, false, false, "spark");
+            var xD = this.parentWorld.player.x - this.x;
+            var yD = this.parentWorld.player.y - this.y;
+            var s = new Particle(this.parentWorld, this.parentWorld.player.x, this.parentWorld.player.y, 0.25, 8, false, false, "spark");
+            s.setVectors(null, null, xD * 5, yD * 5);
             ++this.grazed;
         }
         for (var i in this.parentWorld.entities) {
