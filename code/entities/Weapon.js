@@ -1,6 +1,11 @@
-function Weapon(player, name) {
+function Weapon(player, name, anchored) {
     extend(this, new Entity(player.parentWorld, 0, 0));
-    this.setAnchor(player);
+    if (anchored) {
+        this.setAnchor(player);
+    } else {
+        this.x = player.x;
+        this.y = player.y;
+    }
     this.player = player;
     var data = CHAR[player.name].weapons[name];
     this.name = name;

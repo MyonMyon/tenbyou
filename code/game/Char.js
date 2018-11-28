@@ -48,7 +48,7 @@ var CHAR = {
             var count = power + 1;
             for (var i = 0; i < count; i++) {
                 var aimed = count > 3 && (i === 0 || i === count - 1) || count === 3 && i === 1;
-                var turret = new Weapon(this, aimed ? "turretAimed" : "turret");
+                var turret = new Weapon(this, aimed ? "turretAimed" : "turret", true);
                 turret.index = i;
                 turret.count = count;
                 this.turrets.push(turret);
