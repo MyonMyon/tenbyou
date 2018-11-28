@@ -39,11 +39,13 @@ function Player(parentWorld, charName) {
 
     this.shotCooldown = 0;
     this.shotCooldownDefault = 0.033;
+    this.specialCooldown = 0;
+    this.specialCooldownDefault = 1;
 
     this.name = charName;
     this.sprite.set(SPRITE.player);
     this.sprite.set(charName);
-    var propImport = ["width", "onShoot", "onBomb", "onPowerChange"];
+    var propImport = ["width", "onShoot", "onBomb", "onSpecial", "onPowerChange"];
     for (var i in propImport) {
         var d = CHAR[charName][propImport[i]];
         if (d) {
@@ -135,6 +137,10 @@ Player.prototype.step = function () {
         this.shotCooldown -= 1 / this.parentWorld.ticksPS;
     }
 
+    if (this.specialCooldown > 0) {
+        this.specialCooldown -= 1 / this.parentWorld.ticksPS;
+    }
+
     if (this.gatherValue > 0) {
         this.gatherValueExtremum = Math.max(this.gatherValue, this.gatherValueExtremum);
         this.gatherValue -= 30 / this.parentWorld.ticksPS;
@@ -216,6 +222,13 @@ Player.prototype.bomb = function () {
     }
 };
 
+Player.prototype.special = function () {
+    if (this.specialCooldown <= 0) {
+        this.onSpecial();
+        this.specialCooldown = this.specialCooldownDefault;
+    };
+};
+
 Player.prototype.addPower = function (power) {
     var powerOld = this.power;
     this.power += power;
@@ -236,6 +249,10 @@ Player.prototype.onShoot = function () {
 };
 
 Player.prototype.onBomb = function () {
+    //Override with CHAR data!
+};
+
+Player.prototype.onSpecial = function () {
     //Override with CHAR data!
 };
 
