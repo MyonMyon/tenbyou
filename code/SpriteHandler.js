@@ -74,7 +74,6 @@ SpriteHandler.prototype.animate = function (frames, interval, frameReverse) {
             this.animationLength += interval;
         }
     }
-    console.log(this.animationFrames);
 };
 
 SpriteHandler.prototype.setRandomFrame = function () {
