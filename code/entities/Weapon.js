@@ -41,5 +41,4 @@ Weapon.prototype.draw = function (context) {
         context.fill();
         context.closePath();
     }
-
 };
