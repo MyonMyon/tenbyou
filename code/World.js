@@ -232,8 +232,11 @@ World.prototype.clearField = function (damageForEnemies) {
     for (var i in this.entities) {
         var e = this.entities[i];
         if (e instanceof Projectile && !e.playerSide) {
+            //don't turn virtual bullets into bonuses
+            if (e.width) {
+                new Bonus(this, e.x, e.y, "point", true, true);
+            }
             e.remove();
-            new Bonus(this, e.x, e.y, "point", true, true);
         }
         if (e instanceof Enemy && damageForEnemies > 0) {
             e.hurt(damageForEnemies);
