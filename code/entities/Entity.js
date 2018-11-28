@@ -200,3 +200,7 @@ Entity.prototype.shootProjectileAt = function (target, distance, speed, accelera
     var angle = Math.atan2(target.x - this.x, target.y - this.y);
     return this.shootProjectile(angle, distance, speed, acceleration, width, sprite);
 };
+
+Entity.prototype.isInvulnerable = function () {
+    return this.invulnerable;
+};

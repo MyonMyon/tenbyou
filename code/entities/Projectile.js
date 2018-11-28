@@ -73,6 +73,13 @@ Projectile.prototype.step = function () {
             new Particle(this.parentWorld, (this.x + this.parentWorld.player.x) / 2, (this.y + this.parentWorld.player.y) / 2, 0.13, 8, false, false, "spark");
             ++this.grazed;
         }
+        for (var i in this.parentWorld.entities) {
+            var w = this.parentWorld.entities[i];
+            if (w instanceof Weapon && !w.isInvulnerable() && this.parentWorld.distanceBetweenEntities(this, w) < this.width + w.width) {
+                this.remove();
+                w.destroy();
+            }
+        }
     }
 
     this.behavior();

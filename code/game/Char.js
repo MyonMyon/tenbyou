@@ -51,6 +51,7 @@ var CHAR = {
                 var turret = new Weapon(this, aimed ? "turretAimed" : "turret", true);
                 turret.index = i;
                 turret.count = count;
+                turret.invulnerable = true;
                 this.turrets.push(turret);
             }
         },

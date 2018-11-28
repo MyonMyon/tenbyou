@@ -140,6 +140,14 @@ Enemy.prototype.step = function () {
         this.parentWorld.player.kill();
     }
 
+    //collision with placed player weapons
+    for (var i in this.parentWorld.entities) {
+        var w = this.parentWorld.entities[i];
+        if (w instanceof Weapon && !w.isInvulnerable() && this.parentWorld.distanceBetweenEntities(this, w) < this.width + w.width) {
+            w.destroy();
+        }
+    }
+
     //collision with bullets
     if ((this.parentWorld.boss !== this || (this.attackCurrent !== null && this.attackCurrent < this.attacks.length)) &&
             this.relTime() >= this.appearanceTime) {
