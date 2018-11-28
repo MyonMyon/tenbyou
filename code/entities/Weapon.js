@@ -4,9 +4,13 @@ function Weapon(player, name) {
     this.player = player;
     var data = CHAR[player.name].weapons[name];
     this.name = name;
-    this.behavior = data.behavior;
-    this.onShoot = data.onShoot;
-    this.width = data.width;
+    var propImport = ["behavior", "onShoot", "width"];
+    for (var i in propImport) {
+        var d = data[propImport[i]];
+        if (d) {
+            this[propImport[i]] = d;
+        }
+    };
     this.sprite.set(SPRITE.player);
     this.sprite.set(SPRITE.player[player.name].weapons[name]);
 }
@@ -14,6 +18,14 @@ function Weapon(player, name) {
 Weapon.prototype.step = function () {
     this.$step();
     this.behavior();
+};
+
+Weapon.prototype.behavior = function () {
+    //Override with CHAR data!
+};
+
+Weapon.prototype.onShoot = function () {
+    //Override with CHAR data!
 };
 
 Weapon.prototype.draw = function (context) {

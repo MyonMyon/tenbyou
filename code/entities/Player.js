@@ -43,10 +43,13 @@ function Player(parentWorld, charName) {
     this.name = charName;
     this.sprite.set(SPRITE.player);
     this.sprite.set(charName);
-    this.width = CHAR[charName].width;
-    this.onShoot = CHAR[charName].onShoot;
-    this.onBomb = CHAR[charName].onBomb;
-    this.onPowerChange = CHAR[charName].onPowerChange;
+    var propImport = ["width", "onShoot", "onBomb", "onPowerChange"];
+    for (var i in propImport) {
+        var d = CHAR[charName][propImport[i]];
+        if (d) {
+            this[propImport[i]] = d;
+        }
+    };
     this.onPowerChange(0);
 
     this.respawnTime = null;
@@ -226,6 +229,18 @@ Player.prototype.addPower = function (power) {
     if (Math.floor(powerOld) !== Math.floor(this.power)) {
         this.onPowerChange(Math.floor(this.power));
     }
+};
+
+Player.prototype.onShoot = function () {
+    //Override with CHAR data!
+};
+
+Player.prototype.onBomb = function () {
+    //Override with CHAR data!
+};
+
+Player.prototype.onPowerChange = function () {
+    //Override with CHAR data!
 };
 
 Player.prototype.kill = function () {
