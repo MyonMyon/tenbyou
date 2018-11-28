@@ -23,8 +23,16 @@ function ViewPort() {
     this.prevMS = 0;
 
     this.inDev = window.location.href.split(":")[0] === "file";
-    this.devStage = this.inDev ? "DEVELOPMENT" : "(alpha)";
     this.showPerf = this.inDev;
+
+    this.version = "Tenbyou v" + ENGINE_VER + " (alpha)";
+    if (this.inDev) {
+        this.version += " dev";
+    }
+    this.version += " revision";
+    if (!this.inDev) {
+        this.version += " " + this.fixedInt(REVISION_TOTAL, 4);
+    }
 
     var self = this;
     setInterval(function () {
@@ -384,7 +392,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     this.context.textAlign = "center";
     if (ENGINE_VER_SHOW) {
-        this.drawText(["Tenbyou", ENGINE_VER, this.devStage].join(" "), (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y);
+        this.drawText(this.version, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y);
     }
 
     var diffO = {};

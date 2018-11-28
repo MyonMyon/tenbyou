@@ -120,7 +120,7 @@ MainMenu.prototype.draw = function () {
 
     this.viewPort.setFont(FONT.info, {minor: true});
     this.viewPort.drawText(
-            ["Tenbyou", ENGINE_VER, this.viewPort.devStage, "/", this.viewPort.fps, "FPS"].join(" "),
+            [this.viewPort.version, "/", this.viewPort.fps, "FPS"].join(" "),
             MENU_X,
             MENU_VER_Y);
 };
