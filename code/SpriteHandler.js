@@ -32,7 +32,7 @@ SpriteHandler.prototype.set = function (sprite) {
     }
     this.setPosition(sprite.x || 0, sprite.y || 0);
     if (sprite.frames) {
-        this.animate(sprite.frames, sprite.interval);
+        this.animate(sprite.frames, sprite.interval, sprite.frameReverse);
     }
 };
 
@@ -50,7 +50,7 @@ SpriteHandler.prototype.setPositionShift = function (x, y) {
     };
 };
 
-SpriteHandler.prototype.animate = function (frames, interval) {
+SpriteHandler.prototype.animate = function (frames, interval, frameReverse) {
     this.list = [];
     this.animationFrames = [];
     this.animationLength = interval;
@@ -64,6 +64,17 @@ SpriteHandler.prototype.animate = function (frames, interval) {
         });
         this.animationLength += interval;
     }
+    if (frameReverse) {
+        for (i = i - this.height; i > 0; i -= this.height) {
+            this.animationFrames.push({
+                x: 0,
+                y: i,
+                tEnd: this.animationLength
+            });
+            this.animationLength += interval;
+        }
+    }
+    console.log(this.animationFrames);
 };
 
 SpriteHandler.prototype.setRandomFrame = function () {
