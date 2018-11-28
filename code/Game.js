@@ -102,6 +102,11 @@ function getImages() {
             IMG.push(STAGE[i].background);
         }
     }
+    for (var i in SPELL) {
+        if (SPELL[i].background) {
+            IMG.push(SPELL[i].background);
+        }
+    }
     return IMG;
 }
 
