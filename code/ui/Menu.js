@@ -31,7 +31,10 @@ Menu.prototype.getCurrentMenu = function (parent) {
             menu = null;
         }
     }
-    menu.submenu = menu.submenu.filter(item => !item.isVisible || item.isVisible(this.viewPort));
+    var vp = this.viewPort
+    menu.submenu = menu.submenu.filter(function(item) {
+        return !item.isVisible || item.isVisible(vp);
+    });
     return menu;
 };
 
