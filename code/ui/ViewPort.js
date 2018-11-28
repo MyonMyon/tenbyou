@@ -362,14 +362,16 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.infoShow("Bombs", 4, 0, true);
     this.starShow(1, 4, 1, this.world.player.bombs, this.world.player.bombParts);
 
-    this.iconShow(0, 1, 6, 0);
-    this.infoShow("Power", 6, 0, true);
-    this.infoShow(this.world.player.power.toFixed(2), 6, 1);
     this.iconShow(1, 0, 7, 0);
     this.infoShow("Points", 7, 0, true);
     this.infoShow(this.world.player.points, 7, 1);
     this.infoShow("Graze", 8, 0, true);
     this.infoShow(this.world.player.graze, 8, 1);
+
+    this.iconShow(0, 1, 6, 0);
+    this.infoShow("Power", 6, 0, true);
+    this.setFont(FONT.info, {active: this.world.player.specialCooldown <= 0 && this.world.player.power >= 1});
+    this.infoShow(this.world.player.power.toFixed(2), 6, 1);
 
     this.setFont(FONT.info, {minor: true});
     if (this.inDev) {

@@ -68,6 +68,9 @@ var FONT = {
         strokeColor: ZOOM > 3 ? "#630" : "transparent",
         minor: {
             size: ZOOM * 3
+        },
+        active: {
+            color: "#ff0"
         }
     },
     difficulty: {
