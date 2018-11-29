@@ -1,7 +1,7 @@
-var ENGINE_VER = "0.4.15";
-var RELEASE_DATE = "2018-11-28";
-var REVISION_INNER = 2;
-var REVISION_TOTAL = 396;
+var ENGINE_VER = "0.4.16";
+var RELEASE_DATE = "2018-11-29";
+var REVISION_INNER = 3;
+var REVISION_TOTAL = 399;
 
 var CODE_PRIORITY = [
     "Ext",
@@ -55,7 +55,7 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
         if (nameArray[i].file) {
             for (var j in nameArray) {
                 var nj = nameArray[j];
-                if(nj.object && nj.file === nameArray[i].file) {
+                if (nj.object && nj.file === nameArray[i].file) {
                     nameArray[i].object = nj.object;
                     loadedRes++; //I know the count is wrong...
                     continue mainLoop;
