@@ -89,9 +89,8 @@ function getFont(data) {
         "font-family": data.name,
         "src": "url(" + FONT_FOLDER + data.file + ")"
     };
-    var s = document.createElement("style");
-    s.innerHTML = "@font-face " + JSON.stringify(obj).replace(/,/g, ";").replace(/\"/g, "");
-    document.head.appendChild(s);
+    var s = document.getElementsByTagName("style")[0];
+    s.innerHTML += "\n@font-face " + JSON.stringify(obj).replace(/,/g, ";").replace(/\"/g, "");
 }
 
 /**
