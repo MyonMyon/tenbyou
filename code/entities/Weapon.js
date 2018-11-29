@@ -9,6 +9,7 @@ function Weapon(player, name, anchored) {
     this.player = player;
     var data = CHAR[player.name].weapons[name];
     this.name = name;
+    this.drops = [];
     var propImport = ["behavior", "onShoot", "onHit", "onDestroy", "width"];
     for (var i in propImport) {
         var d = data[propImport[i]];
@@ -32,6 +33,13 @@ Weapon.prototype.hit = function () {
 
 Weapon.prototype.destroy = function () {
     new Particle(this.parentWorld, this.x, this.y, 0.66, 8, false, false, "splash");
+    for (var i in this.drops) {
+        this.dropBonus(
+                Math.random() * Math.PI * 2,
+                Math.random() * 5,
+                this.drops[i].cat,
+                this.drops[i].small);
+    }
     this.onDestroy();
     this.remove();
 };
@@ -52,6 +60,15 @@ Weapon.prototype.onHit = function () {
 
 Weapon.prototype.onDestroy = function () {
     //Override with CHAR data!
+};
+
+//TODO: unite with Enemy method?
+Weapon.prototype.addDrops = function (cat, small, amount) {
+    for (var i = 0; i < amount; ++i)
+        this.drops.push({
+            cat: cat,
+            small: small
+        });
 };
 
 Weapon.prototype.draw = function (context) {
