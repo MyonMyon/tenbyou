@@ -167,10 +167,9 @@ Enemy.prototype.step = function () {
         var rt = this.relTime();
         var at = this.attacks[this.attackCurrent].time;
         var dt = this.attacks[this.attackCurrent].decrTime;
-        this.bonus = parseInt((this.attacks[this.attackCurrent].bonusBound +
-                (1 - (Math.max(rt, dt) / (at - dt))) *
-                (this.attacks[this.attackCurrent].bonus - this.attacks[this.attackCurrent].bonusBound)) / 100, 10) * 100;
-
+        var bb = this.attacks[this.attackCurrent].bonusBound;
+        var b = this.attacks[this.attackCurrent].bonus;
+        this.bonus = parseInt(Math.min(b, bb + (b - bb) * (at - rt) / (at - dt)) / 10, 10) * 10;
         if (this.attacks[this.attackCurrent].func) {
             this.attacks[this.attackCurrent].func(this);
         }
