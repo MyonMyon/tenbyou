@@ -34,10 +34,7 @@ function ViewPort() {
         this.version += " " + this.fixedInt(REVISION_TOTAL, 4);
     }
 
-    var self = this;
-    setInterval(function () {
-        self.draw(false);
-    }, 33);
+    this.draw();
 }
 
 ViewPort.prototype.onLoad = function () {
@@ -181,10 +178,12 @@ ViewPort.prototype.iconShow = function (spriteX, spriteY, line, tab) {
             6 * this.zoom);
 };
 
-ViewPort.prototype.draw = function (initFromWorld) {
-    if ((!this.world || this.world.pause) === initFromWorld) {
-        return;
-    }
+ViewPort.prototype.draw = function () {
+    var self = this;
+    requestAnimationFrame(function () {
+        self.draw();
+    });
+
     this.ticks++;
     if (new Date().getTime() % 1000 < this.prevMS) {
         this.fps = this.ticks;
@@ -203,7 +202,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
         this.setFont(FONT.description);
         this.drawText("LOADING", this.canvas.width / 2, this.canvas.height / 2 - this.zoom * 2);
         this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.canvas.width / 2, this.canvas.height / 2);
-        this.drawText(this.loadingText, this.canvas.width / 2, this.canvas.height / 2 + this.zoom * 4);
+        this.drawText(this.loadingText || "", this.canvas.width / 2, this.canvas.height / 2 + this.zoom * 4);
 
         return;
     }

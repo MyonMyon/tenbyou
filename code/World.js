@@ -9,6 +9,7 @@ function World(vp) {
     this.ticksPS = 60;
     this.stageInterval = 2.5;
     this.tickInterval = 1;
+    this.prevTick = null;
 
     this.player = new Player(this, "barashou");
     this.pause = false;
@@ -33,7 +34,7 @@ function World(vp) {
 
     this.tickerId = setInterval(function () {
         self.tick();
-    }, 1000 / this.ticksPS);
+    }, 1);
 }
 
 World.prototype.setPause = function (value) {
@@ -194,6 +195,11 @@ World.prototype.slowMode = function () {
 
 World.prototype.tick = function () {
     if (!this.pause) {
+        var thisTick = Math.floor(Date.now() * this.ticksPS / 1000);
+        if (this.prevTick === thisTick) {
+            return;
+        }
+        this.prevTick = thisTick;
         this.time += this.tickInterval;
 
         //skip frame logic:
@@ -220,7 +226,6 @@ World.prototype.tick = function () {
             this.vp.showMessage([t + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 4, [FONT.title, FONT.info]);
         }
         this.eventChain.tick();
-        this.vp.draw(true);
     }
 };
 
