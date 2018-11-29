@@ -196,6 +196,17 @@ Entity.prototype.shootProjectile = function (angle, distance, speed, acceleratio
             width, false, sprite);
 };
 
+Entity.prototype.dropBonus = function (angle, distance, cat, small) {
+    var p = cat === "power" && this.parentWorld.player.power >= this.parentWorld.player.powerMax;
+    return new Bonus(
+            this.parentWorld,
+            this.x + Math.sin(angle) * distance,
+            this.y + Math.cos(angle) * distance,
+            p ? "point" : cat,
+            p ? false : small,
+            false);
+};
+
 Entity.prototype.shootProjectileAt = function (target, distance, speed, acceleration, width, sprite) {
     var angle = Math.atan2(target.x - this.x, target.y - this.y);
     return this.shootProjectile(angle, distance, speed, acceleration, width, sprite);

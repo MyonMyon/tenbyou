@@ -107,12 +107,11 @@ Enemy.prototype.step = function () {
     if (this.health <= 0) {
         for (var i = 0; i < this.drops.length; ++i)
             if (this.drops[i].reqDamage === 0 && this.attackCurrent === this.drops[i].attackID) {
-                var a = Math.random() * Math.PI * 2;
-                var r = Math.random() * this.initialHealth / 5;
-                var p = this.drops[i].cat === "power" && this.parentWorld.player.power >= this.parentWorld.player.powerMax;
-
-                new Bonus(this.parentWorld, this.x + Math.sin(a) * r, this.y + Math.cos(a) * r,
-                        p ? "point" : this.drops[i].cat, p ? false : this.drops[i].small, false);
+                this.dropBonus(
+                        Math.random() * Math.PI * 2,
+                        Math.random() * this.initialHealth / 5,
+                        this.drops[i].cat,
+                        this.drops[i].small);
             }
 
         if (this.attackCurrent === null) {
