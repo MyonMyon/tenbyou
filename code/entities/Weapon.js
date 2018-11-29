@@ -26,12 +26,12 @@ Weapon.prototype.step = function () {
 };
 
 Weapon.prototype.hit = function () {
-    new Particle(this.parentWorld, this.x, this.y, 0.66, 8, false, false, "splash");
+    this.parentWorld.splash(this, 3, 8, 0.33);
     this.onHit();
 };
 
 Weapon.prototype.destroy = function () {
-    this.parentWorld.splash(this, 3, 8, 0.33);
+    new Particle(this.parentWorld, this.x, this.y, 0.66, 8, false, false, "splash");
     this.onDestroy();
     this.remove();
 };
