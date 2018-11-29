@@ -89,6 +89,7 @@ var CHAR = {
             }, this.shotCooldownDefault, this.shotCooldownDefault, Infinity);
             turret.damage = (1 + this.damageInc) / (Math.floor(this.power) + 1 + this.damageInc);
             turret.angle = this.y < -this.parentWorld.width / 3 ? 0 : Math.PI;
+            turret.addDrops("power", true, 3);
         }
     },
     freyja: {
