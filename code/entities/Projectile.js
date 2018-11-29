@@ -20,6 +20,18 @@ Projectile.prototype.draw = function (context) {
     }
 
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
+    var w = this.parentWorld.vp.zoom * this.width;
+    //if (this.parentWorld.drawHitboxes) {
+        context.fillStyle = "white";
+
+        context.fillRect(ePos.x - w / 2, ePos.y - w / 2, w, w);
+        return;
+        context.beginPath();
+        context.arc(ePos.x, ePos.y, 1 * this.parentWorld.vp.zoom * this.width, 0, Math.PI * 2, false);
+
+        context.fill();
+        //context.closePath();
+    //}
 
     if (this.playerSide) {
         context.globalAlpha = 0.4;
@@ -35,17 +47,6 @@ Projectile.prototype.draw = function (context) {
     this.sprite.draw(context, 0, 0, this.playerSide ? this.parentWorld.relTime() : this.relTime(), this.parentWorld.vp.zoom * this.width * 2);
 
     context.restore();
-
-    if (this.parentWorld.drawHitboxes) {
-        context.fillStyle = "white";
-
-        context.beginPath();
-
-        context.arc(ePos.x, ePos.y, 1 * this.parentWorld.vp.zoom * this.width, 0, Math.PI * 2, false);
-
-        context.fill();
-        context.closePath();
-    }
 
     context.globalAlpha = 1;
 };
