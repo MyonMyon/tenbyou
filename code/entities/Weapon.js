@@ -55,8 +55,15 @@ Weapon.prototype.onDestroy = function () {
 };
 
 Weapon.prototype.draw = function (context) {
+    var ctx = this.parentWorld.vp.context
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
-    this.sprite.draw(this.parentWorld.vp.context, ePos.x, ePos.y, this.relTime(), this.width * 2 * this.parentWorld.vp.zoom, true);
+    ctx.save();
+    ctx.translate(ePos.x, ePos.y);
+    if (this.angle !== undefined) {
+        ctx.rotate(Math.PI - this.angle);
+    }
+    this.sprite.draw(ctx, 0, 0, this.relTime(), this.width * 2 * this.parentWorld.vp.zoom, true);
+    ctx.restore();
     if (this.parentWorld.drawHitboxes) {
         context.fillStyle = "white";
 
