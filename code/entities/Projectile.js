@@ -50,16 +50,24 @@ Projectile.prototype.draw = function (context) {
     context.globalAlpha = 1;
 };
 
-Projectile.prototype.step = function () {
-    this.$step();
-
+Projectile.prototype.checkBounds = function () {
     var div = this.playerSide ? 1.8 : 2;
-    //remove from world
     if (this.x > this.parentWorld.width / div + this.width * 2
             || this.x < -this.parentWorld.width / div - this.width * 2
             || this.y > this.parentWorld.height / div + this.width * 2
-            || this.y < -this.parentWorld.height / div - this.width * 2)
+            || this.y < -this.parentWorld.height / div - this.width * 2) {
         this.remove();
+        return false;
+    }
+    return true;
+};
+
+Projectile.prototype.step = function () {
+    this.$step();
+
+    if (!this.checkBounds()) {
+        return;
+    }
 
     if (!this.playerSide && this.width) {
         //collision
@@ -75,13 +83,6 @@ Projectile.prototype.step = function () {
             var s = new Particle(this.parentWorld, this.parentWorld.player.x, this.parentWorld.player.y, 0.25, 8, false, false, "spark");
             s.setVectors(null, null, xD * 5, yD * 5);
             ++this.grazed;
-        }
-        for (var i in this.parentWorld.entities) {
-            var w = this.parentWorld.entities[i];
-            if (w instanceof Weapon && !w.isInvulnerable() && this.parentWorld.distanceBetweenEntities(this, w) < this.width + w.width) {
-                this.remove();
-                w.hit();
-            }
         }
     }
 
