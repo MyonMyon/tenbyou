@@ -6,6 +6,7 @@ var SHIFT_Y = 0;
 
 var RESOURCE_FOLDER = "resources/";
 var SPRITE_FOLDER = RESOURCE_FOLDER + "img/";
+var FONT_FOLDER = RESOURCE_FOLDER + "fonts/";
 
 var SHIELD_COLOR = "rgba(160, 0, 0, 0.3)";
 var HITBOX_COLOR = "rgba(255, 255, 255, 0.7)";
@@ -23,6 +24,14 @@ var BORDER_WIDTH = 2;
 var BORDER_COLOR = "#c00";
 
 var BACKGROUND = "#023";
+
+var FONT_FILES = [{
+        name: "Unispace Rg",
+        file: "unispace_rg.ttf"
+    }, {
+        name: "Revue Normal",
+        file: "revuen.ttf"
+    }];
 
 var FONT = {
     description: {

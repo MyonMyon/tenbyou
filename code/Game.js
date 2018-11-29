@@ -84,6 +84,16 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
     }
 }
 
+function getFont(data) {
+    var obj = {
+        "font-family": data.name,
+        "src": "url(" + FONT_FOLDER + data.file + ")"
+    };
+    var s = document.createElement("style");
+    s.innerHTML = "@font-face " + JSON.stringify(obj).replace(/,/g, ";").replace(/\"/g, "");
+    document.head.appendChild(s);
+}
+
 /**
  * @returns {Array} Array of image resource files.
  */
@@ -121,6 +131,9 @@ function onLoad() {
 }
 
 loadResources(CODE_PRIORITY, "script", "code/", ".js", "game code (priority)", null, function () {
+    for (var i in FONT_FILES) {
+        getFont(FONT_FILES[i]);
+    }
     var vp = new ViewPort();
     loadResources(CODE, "script", "code/", ".js", "game code", vp, function () {
         loadResources(getImages(), "img", SPRITE_FOLDER, "", "game resources", vp, function () {
