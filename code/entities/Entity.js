@@ -37,6 +37,7 @@ function Entity(parentWorld, x, y, x1, y1, x2, y2, width) {
 
     this.anchor = null;
     this.anchored = [];
+    this.preserve = false;
 
     this.parentWorld = parentWorld;
     this.id = ++parentWorld.lastID;
@@ -103,10 +104,16 @@ Entity.prototype.getAngle = function () {
 Entity.prototype.draw = function (context) {
 };
 
-Entity.prototype.remove = function () {
+Entity.prototype.remove = function (forced) {
     //console.info("Removed Entity #" + this.id + " @ " + this.x + ";" + this.y);
     if (this.anchored.length) {
-        return;
+        if (!forced) {
+            return;
+        }
+        var list = this.anchored.slice();
+        for(var i in list) {
+            list[i].setAnchor(null);
+        }
     }
     this.removalMark = true;
     this.setAnchor(null);
@@ -118,6 +125,12 @@ Entity.prototype.setAnchor = function (entity, useAnchorAngle) {
         var index = this.anchor.anchored.indexOf(this);
         if (index >= 0) {
             this.anchor.anchored.splice(index, 1);
+            this.x = this.anchor.x + this.anchor.x0;
+            this.y = this.anchor.y + this.anchor.x0;
+            this.x1 = this.anchor.x1 + this.anchor.x1;
+            this.y1 = this.anchor.y1 + this.anchor.x1;
+            this.x2 = this.anchor.x2 + this.anchor.x2;
+            this.y2 = this.anchor.y2 + this.anchor.x2;
         }
     }
     if (entity) {
@@ -185,15 +198,19 @@ Entity.prototype.nearestEntity = function (type, range, filters) {
     return nearest;
 };
 
-Entity.prototype.shootProjectile = function (angle, distance, speed, acceleration, width, sprite) {
-    return new Projectile(this.parentWorld,
-            this.x + distance * Math.sin(angle),
-            this.y + distance * Math.cos(angle),
+Entity.prototype.shootProjectile = function (angle, distance, speed, acceleration, width, sprite, anchored) {
+    var p = new Projectile(this.parentWorld,
+            (anchored ? 0 : this.x) + distance * Math.sin(angle),
+            (anchored ? 0 : this.y) + distance * Math.cos(angle),
             Math.sin(angle) * speed,
             Math.cos(angle) * speed,
             Math.sin(angle) * acceleration,
             Math.cos(angle) * acceleration,
             width, false, sprite);
+    if (anchored) {
+        p.setAnchor(this);
+    }
+    return p;
 };
 
 Entity.prototype.dropBonus = function (angle, distance, cat, small) {

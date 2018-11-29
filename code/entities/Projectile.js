@@ -53,13 +53,15 @@ Projectile.prototype.draw = function (context) {
 Projectile.prototype.step = function () {
     this.$step();
 
-    var div = this.playerSide ? 1.8 : 2;
-    //remove from world
-    if (this.x > this.parentWorld.width / div + this.width * 2
-            || this.x < -this.parentWorld.width / div - this.width * 2
-            || this.y > this.parentWorld.height / div + this.width * 2
-            || this.y < -this.parentWorld.height / div - this.width * 2)
-        this.remove();
+    if (!this.preserve) {
+        var div = this.playerSide ? 1.8 : 2;
+        //remove from world
+        if (this.x > this.parentWorld.width / div + this.width * 2
+                || this.x < -this.parentWorld.width / div - this.width * 2
+                || this.y > this.parentWorld.height / div + this.width * 2
+                || this.y < -this.parentWorld.height / div - this.width * 2)
+            this.remove();
+    }
 
     if (!this.playerSide && this.width) {
         //collision
