@@ -51,7 +51,7 @@ var CHAR = {
                     if (this.restoreAt && this.restoreAt > this.relTime()) {
                         return;
                     }
-                    var bullet = this.shootProjectile(-Math.PI, 4, 480, 0, 2, "strike.yellow");
+                    var bullet = this.shootProjectile(this.angle, 4, 480, 0, 2, "strike.yellow");
                     bullet.playerSide = true;
                     bullet.damage = this.damage;
                 }
@@ -88,6 +88,7 @@ var CHAR = {
                 turret.onShoot();
             }, this.shotCooldownDefault, this.shotCooldownDefault, Infinity);
             turret.damage = (1 + this.damageInc) / (Math.floor(this.power) + 1 + this.damageInc);
+            turret.angle = this.y < -this.parentWorld.width / 3 ? 0 : Math.PI;
         }
     },
     freyja: {
