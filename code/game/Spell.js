@@ -313,17 +313,17 @@ var SPELL = {
         boss: "snoop",
         number: 420,
         names: [
-            "Weed Sign \"Four Twenty\"",
-            "Weed Sign \"Four Twenty Won\"",
-            "Weed Sign \"Four Twenty Too\"",
-            "Weed Sign \"Four Twenty (Free)\""
+            "Weed Sign \"It is Weednesday My Dudes\"",
+            "Weed Sign \"Smoke Weed Every Day\"",
+            "Weed Sign \"Stoned\"",
+            "Weed Sign \"Stoned to the Core\""
         ],
         background: {
             file: "420.jpg",
             speed: 0
         },
-        health: 800,
-        time: 29,
+        health: 400,
+        time: 49,
         decrTime: 9,
         bonus: 42000,
         bonusBound: 420,

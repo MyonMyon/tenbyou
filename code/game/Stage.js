@@ -47,6 +47,12 @@ var STAGE = [{
                 }
             }, {
                 substage: 0,
+                second: 12,
+                func: function (world) {
+                    eventSnoop(world);
+                }
+            }, {
+                substage: -1,
                 second: 16,
                 repeatInterval: 1.2,
                 repeatCount: 10,
@@ -71,7 +77,7 @@ var STAGE = [{
                     kedama.appearanceTime = 1;
                 }
             }, {
-                substage: 0,
+                substage: -1,
                 second: 32,
                 repeatInterval: 1.2,
                 repeatCount: 20,
@@ -88,7 +94,7 @@ var STAGE = [{
                     }
                 }
             }, {
-                substage: 0,
+                substage: -1,
                 second: 60,
                 func: function (world) {
                     eventKedamaMidboss(world, false);
@@ -396,4 +402,11 @@ eventOkuu = function (world) {
     okuu.addSpell(SPELL.okuuAlpha);
 
     okuu.setBossData("okuu", true);
+};
+
+eventSnoop = function (world) {
+    var snoop = new Enemy(world);
+    snoop.addSpell(SPELL.snoop);
+    snoop.setBossData("snoop", true);
+    world.removeEnemies();
 };
