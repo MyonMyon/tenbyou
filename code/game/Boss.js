@@ -14,9 +14,5 @@ var BOSS = {
     lily: {
         name: "Lily Black",
         width: 2
-    },
-    snoop: {
-        name: "Snoop Dogg",
-        width: 2
     }
 };
