@@ -32,7 +32,7 @@ Menu.prototype.getCurrentMenu = function (parent) {
         }
     }
     var vp = this.viewPort
-    menu.submenu = menu.submenu.filter(function(item) {
+    menu.submenu = menu.submenu.filter(function (item) {
         return !item.isVisible || item.isVisible(vp);
     });
     return menu;

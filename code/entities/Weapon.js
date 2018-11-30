@@ -72,7 +72,7 @@ Weapon.prototype.addDrops = function (cat, small, amount) {
 };
 
 Weapon.prototype.draw = function (context) {
-    var ctx = this.parentWorld.vp.context
+    var ctx = this.parentWorld.vp.context;
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
     ctx.save();
     ctx.translate(ePos.x, ePos.y);

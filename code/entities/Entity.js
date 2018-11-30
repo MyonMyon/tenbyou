@@ -111,7 +111,7 @@ Entity.prototype.remove = function (forced) {
             return;
         }
         var list = this.anchored.slice();
-        for(var i in list) {
+        for (var i in list) {
             list[i].setAnchor(null);
         }
     }
