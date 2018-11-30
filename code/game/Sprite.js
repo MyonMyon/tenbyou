@@ -241,6 +241,17 @@ var SPRITE = {
             y: 0,
             hitbox: 0.25
         },
+        snoop: {
+            file: "sg.png",
+            frameWidth: 48,
+            frameHeight: 48,
+            x: 0,
+            y: 0,
+            frames: 8,
+            interval: 0.1,
+            hitbox: 0.2,
+            frameReverse: true
+        },
         stoneFace: {
             x: 5,
             y: 0,

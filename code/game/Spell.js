@@ -308,6 +308,71 @@ var SPELL = {
                 };
             }, 0, 0.4 / (entity.parentWorld.difficulty + 1), Infinity);
         }
+    },
+    snoop: {
+        boss: "snoop",
+        number: 420,
+        names: [
+            "Weed Sign \"Four Twenty\"",
+            "Weed Sign \"Four Twenty Won\"",
+            "Weed Sign \"Four Twenty Too\"",
+            "Weed Sign \"Four Twenty (Free)\""
+        ],
+        background: {
+            file: "420.jpg",
+            speed: 0
+        },
+        health: 800,
+        time: 29,
+        decrTime: 9,
+        bonus: 42000,
+        bonusBound: 420,
+        init: function (entity) {
+            entity.y1 = 0.02;
+            entity.eventChain.addEvent(function (e, iter) {
+                var guide = e.shootProjectileAt(e.parentWorld.player, 15, 45, 0, 2, "kunai.lime");
+                guide.reflectedTimes = 0;
+                var a = guide.getAngle();
+                for (var i = 1; i < 8; i++) {
+                    var s = Math.min(i, 8 - i);
+                    for (var j = 1; j < s * 2; j++) {
+                        var b = guide.shootProjectile(
+                                a + i * Math.PI / 4 + Math.PI,
+                                0,
+                                j * (4 + e.parentWorld.difficulty),
+                                -j,
+                                Math.min(j, s * 2 - j),
+                                "kunai.lime",
+                                true);
+                        b.preserve = true;
+                    }
+                }
+                guide.behavior = function () {
+                    var rx = this.x < -this.parentWorld.width / 2 || this.x > this.parentWorld.width / 2;
+                    var ry = this.y < -this.parentWorld.height / 2 || this.y > this.parentWorld.height / 2;
+                    if (rx || ry) {
+                        if (this.reflectedTimes < (this.parentWorld.difficulty / 2 + 1.5)) {
+                            if (rx) {
+                                this.x1 = -this.x1;
+                            }
+                            if (ry) {
+                                this.y1 = -this.y1;
+                            }
+                            for (var i in this.anchored) {
+                                this.anchored[i].x1 = this.anchored[i].y1 = 0;
+                                this.anchored[i].x2 = this.anchored[i].y2 = 0;
+                                this.anchored[i].useAnchorAngle = true;
+                            }
+                            this.reflectedTimes++;
+                        } else {
+                            for (var i in this.anchored) {
+                                this.anchored[i].preserve = false;
+                            }
+                        }
+                    }
+                };
+            }, 1.6, 3.2, Infinity);
+        }
     }
 };
 
