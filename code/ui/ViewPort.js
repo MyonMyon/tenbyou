@@ -95,9 +95,9 @@ ViewPort.prototype.setFont = function (data, options) {
     this.context.lineJoin = "bevel";
 };
 
-ViewPort.prototype.drawText = function (text, x, y, maxWidth) {
-    this.context.strokeText(text, x, y, maxWidth);
-    this.context.fillText(text, x, y, maxWidth);
+ViewPort.prototype.drawText = function (text, x, y) {
+    this.context.strokeText(text, x, y);
+    this.context.fillText(text, x, y);
 };
 
 ViewPort.prototype.showMessage = function (textArray, time, styleArray) {
