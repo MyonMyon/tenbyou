@@ -5,8 +5,10 @@ function Bonus(parentWorld, x, y, cat, small, autoGather) {
     this.small = small;
     this.autoGather = autoGather || false;
     this.sprite.set(SPRITE.bonus);
-    var o = SPRITE.bonus[small ? "small" : "large"];
-    Object.assign(o, SPRITE.bonus[cat]);
+    var o = JSON.parse(JSON.stringify(SPRITE.bonus[small ? "small" : "large"]));
+    for (var i in SPRITE.bonus[cat]) {
+        o[i] = SPRITE.bonus[cat][i];
+    }
     this.sprite.setPosition(o.x, o.y);
 }
 
