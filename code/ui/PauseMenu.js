@@ -2,43 +2,43 @@
  * Creates new instance of pause menu.
  *
  * @constructor
- * @param {ViewPort} viewPort Viewport to display the menu.
+ * @param {ViewPort} vp Viewport to display the menu.
  */
-function PauseMenu(viewPort) {
-    extend(this, new Menu(viewPort));
+function PauseMenu(vp) {
+    extend(this, new Menu(vp));
 
     this.tree = [
         {
-            isVisible: function (viewPort) {
-                return viewPort.world && viewPort.world.continuable;
+            isVisible: function (vp) {
+                return vp.world && vp.world.continuable;
             },
             title: "Resume",
-            action: function (viewPort) {
-                viewPort.world.setPause(false);
-                viewPort.pauseMenu.resetLocation();
+            action: function (vp) {
+                vp.world.setPause(false);
+                vp.pauseMenu.resetLocation();
             }
         },
         {
             title: "Restart",
-            action: function (viewPort) {
-                var diff = viewPort.world.difficulty;
-                var spell = viewPort.world.spell;
-                viewPort.world = new World(viewPort);
+            action: function (vp) {
+                var diff = vp.world.difficulty;
+                var spell = vp.world.spell;
+                vp.world = new World(vp);
                 if (spell) {
-                    viewPort.world.startSpellPractice(diff, spell);
+                    vp.world.startSpellPractice(diff, spell);
                 } else if (DIFF[diff].hidden) {
-                    viewPort.world.startExtra(diff);
+                    vp.world.startExtra(diff);
                 } else {
-                    viewPort.world.startStage(1, diff);
+                    vp.world.startStage(1, diff);
                 }
-                viewPort.pauseMenu.resetLocation();
+                vp.pauseMenu.resetLocation();
             }
         },
         {
             title: "To Main Menu",
-            action: function (viewPort) {
-                viewPort.world.destroy();
-                viewPort.pauseMenu.resetLocation();
+            action: function (vp) {
+                vp.world.destroy();
+                vp.pauseMenu.resetLocation();
             }
         }
     ];
@@ -57,8 +57,8 @@ PauseMenu.prototype.getCurrentTitle = function () {
  * @override
  */
 PauseMenu.prototype.draw = function () {
-    this.viewPort.context.fillStyle = "rgba(0, 0, 0, 0.5)";
-    this.viewPort.context.fillRect(0, 0, this.viewPort.canvas.width, this.viewPort.canvas.height);
+    this.vp.context.fillStyle = "rgba(0, 0, 0, 0.5)";
+    this.vp.context.fillRect(0, 0, this.vp.canvas.width, this.vp.canvas.height);
 
     this.$draw();
 };

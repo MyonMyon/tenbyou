@@ -1,12 +1,12 @@
-function PerformanceChart(viewPort) {
-    this.vp = viewPort;
+function PerformanceChart(vp) {
+    this.vp = vp;
     this.position = {
-        x: viewPort.zoom * 160,
-        y: viewPort.zoom * 104
+        x: vp.zoom * 160,
+        y: vp.zoom * 104
     };
     this.size = {
-        x: viewPort.zoom * 92,
-        y: viewPort.zoom * 64
+        x: vp.zoom * 92,
+        y: vp.zoom * 64
     };
     this.data = [];
     this.maxTicks = 100;

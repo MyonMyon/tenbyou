@@ -2,9 +2,9 @@
  * Creates new instance of controls handler.
  *
  * @constructor
- * @param {ViewPort} viewPort Viewport to handle the input.
+ * @param {ViewPort} vp Viewport to handle the input.
  */
-function Input(viewPort) {
+function Input(vp) {
     this.keyAliases = {};
     this.keyCodes = {
         8: "Backspace",
@@ -115,7 +115,7 @@ function Input(viewPort) {
     for (var i in eventTypes) {
         this.addEventListener(eventTypes[i]);
     }
-    this.vp = viewPort;
+    this.vp = vp;
     var self = this;
     document.addEventListener("DOMMouseScroll", function (event) {
         self.mouseWheel(event);

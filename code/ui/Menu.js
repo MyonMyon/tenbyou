@@ -2,10 +2,10 @@
  * Creates new instance of menu.
  *
  * @constructor
- * @param {ViewPort} viewPort Viewport to display the menu.
+ * @param {ViewPort} vp Viewport to display the menu.
  */
-function Menu(viewPort) {
-    this.viewPort = viewPort;
+function Menu(vp) {
+    this.vp = vp;
 
     this.actionDelay = 100;
     this.rowOffset = 0;
@@ -31,7 +31,7 @@ Menu.prototype.getCurrentMenu = function (parent) {
             menu = null;
         }
     }
-    var vp = this.viewPort
+    var vp = this.vp
     menu.submenu = menu.submenu.filter(function (item) {
         return !item.isVisible || item.isVisible(vp);
     });
@@ -108,7 +108,7 @@ Menu.prototype.action = function (code) {
                 this.rowOffset = this.currentIndex = 0;
             }
             if (item.action) {
-                item.action(this.viewPort);
+                item.action(this.vp);
             }
             break;
     }
@@ -145,7 +145,7 @@ Menu.prototype.changeIndex = function (delta) {
  * Menu interface draw function.
  */
 Menu.prototype.draw = function () {
-    var context = this.viewPort.context;
+    var context = this.vp.context;
 
     var m = this.getCurrentMenu();
     var items = m.submenu;
@@ -159,19 +159,19 @@ Menu.prototype.draw = function () {
     for (var i in items) {
         var row = +i - this.rowOffset;
         if (row >= 0 && row < cap) {
-            this.viewPort.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact, disabled: items[i].isEnabled && !items[i].isEnabled()});
-            this.viewPort.drawText(items[i].title, MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X, MENU_Y + height * row);
+            this.vp.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact, disabled: items[i].isEnabled && !items[i].isEnabled()});
+            this.vp.drawText(items[i].title, MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X, MENU_Y + height * row);
         }
     }
 
     var l = items.length;
     if (l > cap) {
-        this.viewPort.setFont(FONT.menu, {selected: true});
+        this.vp.setFont(FONT.menu, {selected: true});
         context.strokeRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * height * cap / (l - cap + 1), MENU_SCROLL_W, height * cap / (l - cap + 2));
         context.fillRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * height * cap / (l - cap + 1), MENU_SCROLL_W, height * cap / (l - cap + 2));
     }
 
     var title = this.getCurrentTitle();
-    this.viewPort.setFont(FONT.title, {menu: true});
-    this.viewPort.drawText(title, MENU_X, MENU_SUBTITLE_Y);
+    this.vp.setFont(FONT.title, {menu: true});
+    this.vp.drawText(title, MENU_X, MENU_SUBTITLE_Y);
 };

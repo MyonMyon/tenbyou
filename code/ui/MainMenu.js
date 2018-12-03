@@ -2,10 +2,10 @@
  * Creates new instance of main menu.
  *
  * @constructor
- * @param {ViewPort} viewPort Viewport to display the menu.
+ * @param {ViewPort} vp Viewport to display the menu.
  */
-function MainMenu(viewPort) {
-    extend(this, new Menu(viewPort));
+function MainMenu(vp) {
+    extend(this, new Menu(vp));
 
     var stageMenu = [];
     for (var i in STAGE) {
@@ -14,10 +14,10 @@ function MainMenu(viewPort) {
                 id: "stg_" + (+i + 1),
                 stage: +i + 1,
                 title: "Stage " + (+i + 1),
-                action: function (viewPort) {
-                    viewPort.world = new World(viewPort);
-                    viewPort.world.startStage(this.stage, viewPort.mainMenu.getCurrentMenu().diff);
-                    viewPort.mainMenu.resetLocation();
+                action: function (vp) {
+                    vp.world = new World(vp);
+                    vp.world.startStage(this.stage, vp.mainMenu.getCurrentMenu().diff);
+                    vp.mainMenu.resetLocation();
                 }
             });
         }
@@ -45,10 +45,10 @@ function MainMenu(viewPort) {
                     id: "spell_" + spellNumber,
                     diff: +j,
                     spell: SPELL[i],
-                    title: "#" + viewPort.fixedInt(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
-                    action: function (viewPort) {
-                        viewPort.world = new World(viewPort);
-                        viewPort.world.startSpellPractice(+this.diff, this.spell);
+                    title: "#" + vp.fixedInt(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
+                    action: function (vp) {
+                        vp.world = new World(vp);
+                        vp.world.startSpellPractice(+this.diff, this.spell);
                     }
                 });
                 ++spellNumber;
@@ -56,11 +56,11 @@ function MainMenu(viewPort) {
         }
     }
     var inputMenu = [];
-    var aliases = this.viewPort.input.actionsAliases;
+    var aliases = this.vp.input.actionsAliases;
     for (var i in aliases) {
         if (aliases[i].category === "interaction") {
             inputMenu.push({
-                title: i.toTitleCase() + ": " + this.viewPort.input.getKeyByAction(i, true)
+                title: i.toTitleCase() + ": " + this.vp.input.getKeyByAction(i, true)
             });
         }
     }
@@ -74,13 +74,13 @@ function MainMenu(viewPort) {
         {
             id: "extra",
             title: "Start Extra",
-            isEnabled: function (viewPort) {
+            isEnabled: function (vp) {
                 return false;
             },
-            action: function (viewPort) {
-                viewPort.world = new World(viewPort);
-                viewPort.world.startExtra(4);
-                viewPort.mainMenu.resetLocation();
+            action: function (vp) {
+                vp.world = new World(vp);
+                vp.world.startExtra(4);
+                vp.mainMenu.resetLocation();
             }
         },
         {
@@ -110,17 +110,17 @@ function MainMenu(viewPort) {
  */
 MainMenu.prototype.draw = function () {
     var o = SPRITE.menuBackground.object;
-    this.viewPort.context.drawImage(o, 0, 0, o.width, o.height, 0, 0, WIDTH, HEIGHT);
+    this.vp.context.drawImage(o, 0, 0, o.width, o.height, 0, 0, WIDTH, HEIGHT);
 
     this.$draw();
     if (!this.getCurrentMenu().title) {
-        this.viewPort.setFont(FONT.title, {menu: true, fr: true});
-        this.viewPort.drawText(FRANCHISE_TITLE, MENU_X, MENU_TITLE_Y);
+        this.vp.setFont(FONT.title, {menu: true, fr: true});
+        this.vp.drawText(FRANCHISE_TITLE, MENU_X, MENU_TITLE_Y);
     }
 
-    this.viewPort.setFont(FONT.info, {minor: true});
-    this.viewPort.drawText(
-            [this.viewPort.version, "/", RELEASE_DATE, "/", this.viewPort.fps, "FPS"].join(" "),
+    this.vp.setFont(FONT.info, {minor: true});
+    this.vp.drawText(
+            [this.vp.version, "/", RELEASE_DATE, "/", this.vp.fps, "FPS"].join(" "),
             MENU_X,
             MENU_VER_Y);
 };
