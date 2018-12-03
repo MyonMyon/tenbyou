@@ -41,10 +41,24 @@ ViewPort.prototype.changeZoom = function (delta) {
 };
 
 ViewPort.prototype.setZoom = function (zoom) {
-    this.canvas.width = WIDTH * zoom;
-    this.canvas.height = HEIGHT * zoom;
+    var dpr = window.devicePixelRatio || 1;
+    var bspr =
+            this.context.webkitBackingStorePixelRatio ||
+            this.context.mozBackingStorePixelRatio ||
+            this.context.msBackingStorePixelRatio ||
+            this.context.oBackingStorePixelRatio ||
+            this.context.backingStorePixelRatio || 1;
+    var ratio = dpr / bspr;
+
+    this.width = WIDTH * zoom;
+    this.height = HEIGHT * zoom;
+    this.canvas.width = WIDTH * zoom * ratio;
+    this.canvas.height = HEIGHT * zoom * ratio;
+    this.canvas.style.width = WIDTH * zoom + "px";
+    this.canvas.style.height = HEIGHT * zoom + "px";
 
     this.zoom = zoom;
+    this.context.scale(ratio, ratio);
 };
 
 ViewPort.prototype.onLoad = function () {
