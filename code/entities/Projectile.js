@@ -68,9 +68,9 @@ Projectile.prototype.step = function () {
         var d = this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player);
         if (d < (this.width + this.parentWorld.player.width)) {
             this.remove();
-            if (this.parentWorld.player.invulnTime <= 0)
+            if (!this.parentWorld.player.isInvulnerable())
                 this.parentWorld.player.kill();
-        } else if (d < (this.width + this.parentWorld.player.grazeWidth) && this.grazed < this.damage && this.parentWorld.player.invulnTime <= 0) {
+        } else if (d < (this.width + this.parentWorld.player.grazeWidth) && this.grazed < this.damage && !this.parentWorld.player.isInvulnerable()) {
             ++this.parentWorld.player.graze;
             var xD = this.parentWorld.player.x - this.x;
             var yD = this.parentWorld.player.y - this.y;

@@ -133,7 +133,7 @@ Enemy.prototype.step = function () {
 
     //collision with player
     if (this.relTime() >= this.appearanceTime &&
-            this.parentWorld.player.invulnTime <= 0 &&
+            !this.parentWorld.player.isInvulnerable() &&
             this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player) <
             (this.width + this.parentWorld.player.width)) {
         this.parentWorld.player.kill();

@@ -63,7 +63,7 @@ function Player(parentWorld, charName) {
 
 Player.prototype.stepBot = function () {
     var nearest = this.nearestEntity(Projectile, 20);
-    if (nearest !== null && this.invulnTime <= 0)
+    if (nearest !== null && !this.isInvulnerable())
         this.headToEntity(nearest, 0, -nearest.width * 20);
     else {
         if (Math.abs(this.x - this.fixedX * this.y - this.fixedY) < 20)
@@ -175,7 +175,7 @@ Player.prototype.draw = function (context) {
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
 
     if (this.respawnTime === null) {
-        if (this.invulnTime > 0) {
+        if (this.isInvulnerable()) {
             context.fillStyle = SHIELD_COLOR;
             context.beginPath();
             context.arc(ePos.x, ePos.y, (6 / (this.invulnTimeBomb - this.invulnTime) + 2) * this.parentWorld.vp.zoom * this.width, 0, Math.PI * 2, false);
@@ -267,6 +267,10 @@ Player.prototype.kill = function () {
 
     new Particle(this.parentWorld, this.x, this.y, 1, 12, false, false, "splash");
     this.parentWorld.splash(this, 20, 10, 0.5);
+};
+
+Player.prototype.isInvulnerable = function () {
+    return this.invulnTime > 0;
 };
 
 Player.prototype.respawn = function () {
