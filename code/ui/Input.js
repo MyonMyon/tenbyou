@@ -92,6 +92,7 @@ function Input(vp) {
     //invert:       inverts value on keyUp
     //execute:      executes function on keyDown, end function on keyUp
     //executeOnce:  same as above, but ignore keyDown repeat
+    //vp:           if true, func is called from the viewport itself, not the word, also available while in menus
     this.actionsAliases = {
         "move_left": {category: "movement", mode: "keyState", func: "player.moveLeft"},
         "move_right": {category: "movement", mode: "keyState", func: "player.moveRight"},
@@ -101,7 +102,7 @@ function Input(vp) {
         "attack": {category: "interaction", mode: "keyState", func: "player.shooting"},
         "bomb": {category: "interaction", mode: "executeOnce", func: "player.bomb()"},
         "special": {category: "interaction", mode: "executeOnce", func: "player.special()"},
-        "screenshot": {category: "interaction", mode: "executeOnce", func: "vp.takeScreenShot()"},
+        "screenshot": {category: "interaction", mode: "executeOnce", func: "takeScreenShot()", vp: true},
         "bonus": {category: "dev", mode: "executeOnce", func: "randomBonus()"},
         "time": {category: "dev", mode: "executeOnce", func: "addTime()"},
         "hitbox": {category: "dev", mode: "invert", func: "drawHitboxes"},
@@ -109,7 +110,7 @@ function Input(vp) {
         "substage": {category: "dev", mode: "executeOnce", func: "nextSubstage()"},
         "stage": {category: "dev", mode: "execute", func: "nextStage()"},
         "slow": {category: "dev", mode: "execute", func: "slowMode()"},
-        "perf": {category: "dev", mode: "invert", func: "vp.showPerf", ignoreModality: true},
+        "perf": {category: "dev", mode: "invert", func: "showPerf", vp: true},
         "pause": {category: "menu", mode: "executeOnce", func: "setPause(true)"}
     };
     var eventTypes = ["keyDown", "keyUp", "mouseDown", "mouseUp", "mouseMove", "mouseWheel"];
@@ -200,40 +201,42 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
     if (!this.vp.world || this.vp.world.pause) {
         var menu = this.vp.world ? this.vp.pauseMenu : this.vp.mainMenu;
         var action = this.defaultMappingMenu[keyAbbr];
-        if (!action) {
-            return false;
+        if (action) {
+            if (!keyValue) {
+                this.lockMenuInput = false;
+                menu.action("nav_null");
+                return true;
+            }
+            if (!this.lockMenuInput) {
+                menu.action(action);
+                return true;
+            }
         }
-        if (!keyValue) {
-            this.lockMenuInput = false;
-            menu.action("nav_null");
-            return true;
-        }
-        if (!this.lockMenuInput) {
-            menu.action(action);
-            return true;
-        }
-        return false;
     }
     var action = this.actionsAliases[this.defaultMapping[keyAbbr]];
-    var ignoreModality = action && action.ignoreModality;
-    if (!this.vp.world.pause || ignoreModality) {
+    var ignoreModality = action && action.vp;
+    if (this.vp.world && !this.vp.world.pause || ignoreModality) {
         if (action) {
+            var objString = "this.vp.";
+            if (!ignoreModality) {
+                objString += "world.";
+            }
             if (action.category === "dev" && !this.vp.inDev) {
                 return false;
             }
             switch (action.mode) {
                 case "keyState":
-                    eval("this.vp.world." + action.func + "=" + !!keyValue);
+                    eval(objString + action.func + "=" + !!keyValue);
                     break;
                 case "keyValue":
-                    eval("this.vp.world." + action.func + "=" + +keyValue);
+                    eval(objString + action.func + "=" + +keyValue);
                     break;
                 case "executeOnce":
                     if (keyValue && !action.lock) {
-                        eval("this.vp.world." + action.func);
+                        eval(objString + action.func);
                         action.lock = true;
                     } else if (action.funcEnd) {
-                        eval("this.vp.world." + action.funcEnd);
+                        eval(objString + action.funcEnd);
                     }
                     if (!keyValue) {
                         action.lock = false;
@@ -241,14 +244,14 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
                     break;
                 case "execute":
                     if (keyValue)
-                        eval("this.vp.world." + action.func);
+                        eval(objString + action.func);
                     else if (action.funcEnd) {
-                        eval("this.vp.world." + action.funcEnd);
+                        eval(objString + action.funcEnd);
                     }
                     break;
                 case "invert":
                     if (this.gamepadMode ? !!keyValue : !keyValue)
-                        eval("this.vp.world." + action.func + "=!this.vp.world." + action.func);
+                        eval(objString + action.func + "=!" + objString + action.func);
                     break;
                 default:
                     console.log("Undefined Action Mode");
