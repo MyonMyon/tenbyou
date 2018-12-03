@@ -19,4 +19,5 @@ This is an automated commit."
 git stage $FILE
 git commit -m "$MESSAGE"
 git tag -a "$VERSION_TAG" -m "$MESSAGE"
-
+git push 5apps master
+git push origin master --tags
