@@ -31,7 +31,7 @@ Menu.prototype.getCurrentMenu = function (parent) {
             menu = null;
         }
     }
-    var vp = this.vp
+    var vp = this.vp;
     menu.submenu = menu.submenu.filter(function (item) {
         return !item.isVisible || item.isVisible(vp);
     });
