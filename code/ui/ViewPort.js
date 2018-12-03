@@ -9,9 +9,6 @@ function ViewPort() {
 
     this.setZoom(ZOOM);
 
-    this.centerX = this.canvas.width / 2;
-    this.centerY = this.canvas.height / 2;
-
     this.clearMessage();
 
     this.ticks = 0;
@@ -58,6 +55,10 @@ ViewPort.prototype.setZoom = function (zoom) {
     this.canvas.style.height = HEIGHT * zoom + "px";
 
     this.zoom = zoom;
+
+    this.centerX = this.canvas.width / 2;
+    this.centerY = this.canvas.height / 2;
+
     this.context.scale(ratio, ratio);
 };
 

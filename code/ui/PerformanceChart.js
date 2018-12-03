@@ -1,12 +1,12 @@
 function PerformanceChart(vp) {
     this.vp = vp;
     this.position = {
-        x: vp.zoom * 160,
-        y: vp.zoom * 104
+        x: 160,
+        y: 104
     };
     this.size = {
-        x: vp.zoom * 92,
-        y: vp.zoom * 64
+        x: 92,
+        y: 64
     };
     this.data = [];
     this.maxTicks = 100;
@@ -35,7 +35,11 @@ PerformanceChart.prototype.addData = function (data) {
 
 PerformanceChart.prototype.draw = function () {
     this.vp.context.fillStyle = "rgba(23, 23, 23, 0.8)";
-    this.vp.context.fillRect(this.position.x, this.position.y, this.size.x, this.size.y);
+    this.vp.context.fillRect(
+            this.vp.zoom * this.position.x,
+            this.vp.zoom * this.position.y,
+            this.vp.zoom * this.size.x,
+            this.vp.zoom * this.size.y);
     this.vp.context.strokeStyle = "#ff0";
     this.vp.context.lineWidth = this.vp.zoom / 2;
     for (var i in this.data) {
@@ -45,16 +49,16 @@ PerformanceChart.prototype.draw = function () {
             }
         }
         this.vp.context.fillRect(
-                this.position.x + i * this.size.x / this.maxTicks,
-                this.position.y + this.size.y,
-                this.size.x / this.maxTicks,
-                -this.size.y * Math.min(1, this.data[i].tl / this.maxValue.tl));
+                this.vp.zoom * (this.position.x + i * this.size.x / this.maxTicks),
+                this.vp.zoom * (this.position.y + this.size.y),
+                this.vp.zoom * this.size.x / this.maxTicks,
+                this.vp.zoom * -this.size.y * Math.min(1, this.data[i].tl / this.maxValue.tl));
     }
     this.vp.context.beginPath();
     for (var i in this.data) {
         this.vp.context[i ? "lineTo" : "moveTo"](
-                this.position.x + this.size.x * i / (this.maxTicks - 1),
-                this.position.y + this.size.y * (1 - this.data[i].ec / this.maxValue.ec));
+                this.vp.zoom * (this.position.x + this.size.x * i / (this.maxTicks - 1)),
+                this.vp.zoom * (this.position.y + this.size.y * (1 - this.data[i].ec / this.maxValue.ec)));
     }
     this.vp.context.stroke();
 };
