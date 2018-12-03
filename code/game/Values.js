@@ -1,7 +1,7 @@
 var ZOOM = 4;
-var WIDTH = ZOOM * 256;
-var HEIGHT = ZOOM * 192;
-var SHIFT_X = ZOOM * -48;
+var WIDTH = 256;
+var HEIGHT = 192;
+var SHIFT_X = -48;
 var SHIFT_Y = 0;
 
 var RESOURCE_FOLDER = "resources/";
@@ -36,14 +36,14 @@ var FONT_FILES = [{
 var FONT = {
     description: {
         font: "Unispace Rg",
-        size: ZOOM * 3,
+        size: 3,
         color: "#c00",
         strokeWidth: 3,
-        strokeColor: ZOOM > 3 ? "#fcc" : "transparent"
+        strokeColor: "#fcc"
     },
     timer: {
         font: "Unispace Rg",
-        size: ZOOM * 10,
+        size: 10,
         color: "#cff",
         strokeWidth: 4,
         strokeColor: "#000",
@@ -53,14 +53,14 @@ var FONT = {
     },
     itemLine: {
         font: "Unispace Rg",
-        size: ZOOM * 4,
+        size: 4,
         color: "#c60",
         strokeWidth: 3,
         strokeColor: "#ff0"
     },
     points: {
         font: "Unispace Rg",
-        size: ZOOM * 3,
+        size: 3,
         strokeWidth: 2,
         strokeColor: "#999",
         point: {
@@ -78,13 +78,13 @@ var FONT = {
     },
     info: {
         font: "Unispace Rg",
-        size: ZOOM * 6,
+        size:6,
         weight: "Bold",
         color: "#fee",
         strokeWidth: 3,
-        strokeColor: ZOOM > 3 ? "#630" : "transparent",
+        strokeColor: "#630",
         minor: {
-            size: ZOOM * 3
+            size: 3
         },
         active: {
             color: "#ff0"
@@ -92,7 +92,7 @@ var FONT = {
     },
     difficulty: {
         font: "Revue Normal",
-        size: ZOOM * 7,
+        size: 7,
         color: "#fee",
         strokeWidth: 6,
         d0: {
@@ -116,28 +116,28 @@ var FONT = {
     },
     title: {
         font: "Unispace Rg",
-        size: ZOOM * 7,
+        size: 7,
         weight: "Bold",
         color: "#0fc",
         strokeWidth: 4,
-        strokeColor: ZOOM > 3 ? "#066" : "transparent",
+        strokeColor: "#066",
         name: {
-            size: ZOOM * 5
+            size: 5
         },
         menu: {
-            size: ZOOM * 12,
+            size: 12,
             color: "#fff",
             strokeWidth: 8,
             strokeColor: "#600"
         },
         fr: {
-            size: ZOOM * 18,
+            size: 18,
             weight: "Bold"
         }
     },
     menu: {
         font: "Unispace Rg",
-        size: ZOOM * 10,
+        size: 10,
         style: "Italic",
         color: "#c99",
         strokeWidth: 4,
@@ -152,32 +152,32 @@ var FONT = {
             strokeColor: "#666"
         },
         compact: {
-            size: ZOOM * 7,
+            size: 7,
             strokeWidth: 3
         }
     }
 };
 
-var INFO_LINE = ZOOM * 8;
-var INFO_TAB = ZOOM * 40;
+var INFO_LINE = 8;
+var INFO_TAB = 40;
 
 var FRANCHISE_TITLE = "Boundary Crossing:";
 var GAME_TITLE = "Guiding Anomalous Patterns";
 var ENGINE_VER_SHOW = true;
 
-var MENU_TITLE_Y = ZOOM * 44;
-var MENU_SUBTITLE_Y = ZOOM * 64;
-var MENU_X = ZOOM * 12;
-var MENU_Y = ZOOM * 88;
-var MENU_H = ZOOM * 10;
-var MENU_H_COMPACT = ZOOM * 7;
-var MENU_SELECTION_OFFSET_X = ZOOM * 4;
-var MENU_VER_Y = ZOOM * 178;
+var MENU_TITLE_Y = 44;
+var MENU_SUBTITLE_Y = 64;
+var MENU_X = 12;
+var MENU_Y = 88;
+var MENU_H = 10;
+var MENU_H_COMPACT = 7;
+var MENU_SELECTION_OFFSET_X = 4;
+var MENU_VER_Y = 178;
 var MENU_TEXT_ALIGN = "left";
 var MENU_CAPACITY = 7;
 var MENU_CAPACITY_COMPACT = 10;
-var MENU_SCROLL_X = ZOOM * 10;
-var MENU_SCROLL_W = ZOOM * 1;
+var MENU_SCROLL_X = 10;
+var MENU_SCROLL_W = 1;
 
 var DIFF = [{
         name: "Easy",

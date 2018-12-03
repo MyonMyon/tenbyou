@@ -153,25 +153,31 @@ Menu.prototype.draw = function () {
     context.textAlign = MENU_TEXT_ALIGN;
     context.textBaseline = "top";
 
-    var height = m.compact ? MENU_H_COMPACT : MENU_H;
+    var height = this.vp.zoom * (m.compact ? MENU_H_COMPACT : MENU_H);
     var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
 
     for (var i in items) {
         var row = +i - this.rowOffset;
         if (row >= 0 && row < cap) {
             this.vp.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact, disabled: items[i].isEnabled && !items[i].isEnabled()});
-            this.vp.drawText(items[i].title, MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X, MENU_Y + height * row);
+            this.vp.drawText(items[i].title,
+                    this.vp.zoom * (MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X),
+                    this.vp.zoom * MENU_Y + height * row);
         }
     }
 
     var l = items.length;
     if (l > cap) {
         this.vp.setFont(FONT.menu, {selected: true});
-        context.strokeRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * height * cap / (l - cap + 1), MENU_SCROLL_W, height * cap / (l - cap + 2));
-        context.fillRect(MENU_SCROLL_X, MENU_Y + this.rowOffset * height * cap / (l - cap + 1), MENU_SCROLL_W, height * cap / (l - cap + 2));
+        context.strokeRect(this.vp.zoom * MENU_SCROLL_X,
+                this.vp.zoom * MENU_Y + this.rowOffset * height * cap / (l - cap + 1),
+                this.vp.zoom * MENU_SCROLL_W, height * cap / (l - cap + 2));
+        context.fillRect(this.vp.zoom * MENU_SCROLL_X,
+                this.vp.zoom * MENU_Y + this.rowOffset * height * cap / (l - cap + 1),
+                this.vp.zoom * MENU_SCROLL_W, height * cap / (l - cap + 2));
     }
 
     var title = this.getCurrentTitle();
     this.vp.setFont(FONT.title, {menu: true});
-    this.vp.drawText(title, MENU_X, MENU_SUBTITLE_Y);
+    this.vp.drawText(title, this.vp.zoom * MENU_X, this.vp.zoom * MENU_SUBTITLE_Y);
 };

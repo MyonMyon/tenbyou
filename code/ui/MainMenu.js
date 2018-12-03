@@ -110,17 +110,17 @@ function MainMenu(vp) {
  */
 MainMenu.prototype.draw = function () {
     var o = SPRITE.menuBackground.object;
-    this.vp.context.drawImage(o, 0, 0, o.width, o.height, 0, 0, WIDTH, HEIGHT);
+    this.vp.context.drawImage(o, 0, 0, o.width, o.height, 0, 0, WIDTH * this.vp.zoom, HEIGHT * this.vp.zoom);
 
     this.$draw();
     if (!this.getCurrentMenu().title) {
         this.vp.setFont(FONT.title, {menu: true, fr: true});
-        this.vp.drawText(FRANCHISE_TITLE, MENU_X, MENU_TITLE_Y);
+        this.vp.drawText(FRANCHISE_TITLE, MENU_X * this.vp.zoom, MENU_TITLE_Y * this.vp.zoom);
     }
 
     this.vp.setFont(FONT.info, {minor: true});
     this.vp.drawText(
             [this.vp.version, "/", RELEASE_DATE, "/", this.vp.fps, "FPS"].join(" "),
-            MENU_X,
-            MENU_VER_Y);
+            MENU_X * this.vp.zoom,
+            MENU_VER_Y * this.vp.zoom);
 };

@@ -1,17 +1,13 @@
 function ViewPort() {
     this.canvas = document.createElement("canvas");
     document.body.appendChild(this.canvas);
-    this.canvas.width = WIDTH;
-    this.canvas.height = HEIGHT;
 
     this.context = this.canvas.getContext("2d");
 
     this.context.imageSmoothingEnabled = false;
     this.context.mozImageSmoothingEnabled = this.context.webkitImageSmoothingEnabled = this.context.msImageSmoothingEnabled = false;
 
-    this.SHIFT_X = SHIFT_X;
-    this.SHIFT_Y = SHIFT_Y;
-    this.zoom = ZOOM;
+    this.setZoom(ZOOM);
 
     this.centerX = this.canvas.width / 2;
     this.centerY = this.canvas.height / 2;
@@ -39,6 +35,14 @@ function ViewPort() {
         self.draw(false);
     }, 33);
 }
+
+
+ViewPort.prototype.setZoom = function (zoom) {
+    this.canvas.width = WIDTH * zoom;
+    this.canvas.height = HEIGHT * zoom;
+
+    this.zoom = zoom;
+};
 
 ViewPort.prototype.onLoad = function () {
     this.loaded = true;
@@ -69,7 +73,7 @@ ViewPort.prototype.setFont = function (data, options) {
     var attr = ["font", "size", "weight", "style", "color", "strokeWidth", "strokeColor"];
     var font = {
         font: "sans-serif",
-        size: this.zoom * 5,
+        size: 5,
         color: "blue",
         strokeColor: "transparent",
         strokeWidth: 0
@@ -90,6 +94,7 @@ ViewPort.prototype.setFont = function (data, options) {
             }
         }
     }
+    font.size *= this.zoom;
     this.context.font = (font.weight ? font.weight + " " : "") + (font.style ? font.style + " " : "") + font.size + "px " + font.font;
     this.context.fillStyle = font.color;
     this.context.strokeStyle = font.strokeColor;
@@ -139,8 +144,8 @@ ViewPort.prototype.starText = function (value, char) {
 
 ViewPort.prototype.toScreen = function (worldX, worldY) {
     var value = {x: 0, y: 0};
-    value.x = this.centerX + worldX * this.zoom + this.SHIFT_X;
-    value.y = this.centerY + worldY * this.zoom + this.SHIFT_Y;
+    value.x = this.centerX + (worldX + SHIFT_X) * this.zoom;
+    value.y = this.centerY + (worldY + SHIFT_Y) * this.zoom;
     return value;
 };
 
@@ -150,7 +155,10 @@ ViewPort.prototype.infoShow = function (info, line, tab, reverse) {
         tab += 0.9;
     }
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
-    this.drawText(info, boundaryRight.x + this.zoom * 5 + tab * INFO_TAB, boundaryRight.y + this.zoom * 7.5 + (line + 1) * INFO_LINE);
+    this.drawText(
+            info,
+            boundaryRight.x + this.zoom * (5 + tab * INFO_TAB),
+            boundaryRight.y + this.zoom * (7.5 + (line + 1) * INFO_LINE));
 };
 
 ViewPort.prototype.starShow = function (sprite, line, tab, count, parts) {
@@ -162,8 +170,8 @@ ViewPort.prototype.starShow = function (sprite, line, tab, count, parts) {
                 (i < count ? 0 : (i === count ? 4 - parts : 4)) * SPRITE.gui.frameHeight,
                 SPRITE.gui.frameWidth,
                 SPRITE.gui.frameHeight,
-                boundaryRight.x + this.zoom * 4 + tab * INFO_TAB + i * this.zoom * 5,
-                boundaryRight.y + this.zoom * 2 + (line + 1) * INFO_LINE,
+                boundaryRight.x + this.zoom * (4 + i * 5 + tab * INFO_TAB),
+                boundaryRight.y + this.zoom * (2 + (line + 1) * INFO_LINE),
                 6 * this.zoom,
                 6 * this.zoom);
     }
@@ -177,8 +185,8 @@ ViewPort.prototype.iconShow = function (spriteX, spriteY, line, tab) {
             spriteY * SPRITE.bonus.frameHeight,
             SPRITE.bonus.frameWidth,
             SPRITE.bonus.frameHeight,
-            boundaryRight.x + this.zoom * 4 + tab * INFO_TAB + this.zoom * 5,
-            boundaryRight.y + this.zoom * 2 + (line + 1) * INFO_LINE,
+            boundaryRight.x + this.zoom * (9 + tab * INFO_TAB),
+            boundaryRight.y + this.zoom * (2 + (line + 1) * INFO_LINE),
             6 * this.zoom,
             6 * this.zoom);
 };
