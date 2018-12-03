@@ -216,7 +216,7 @@ Player.prototype.shoot = function () {
 };
 
 Player.prototype.bomb = function () {
-    if (this.invulnTimeMin <= 0.33 && this.bombs >= 1 && (this.respawnTime === null || this.respawnTime > this.respawnTimeDefault - this.deathbombTime)) {
+    if (this.invulnTime <= this.invulnTimeMin && this.bombs >= 1 && (this.respawnTime === null || this.respawnTime > this.respawnTimeDefault - this.deathbombTime)) {
         this.bombs--;
         this.onBomb();
         this.invulnTime = this.invulnTimeBomb;
