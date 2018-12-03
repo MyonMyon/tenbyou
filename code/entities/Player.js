@@ -237,6 +237,9 @@ Player.prototype.special = function () {
 Player.prototype.addPower = function (power) {
     var powerOld = this.power;
     this.power += power;
+    if (this.power < 0) {
+        this.power = 0;
+    }
     if (this.power > this.powerMax) {
         this.power = this.powerMax;
         if (powerOld < this.powerMax) {

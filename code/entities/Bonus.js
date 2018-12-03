@@ -61,6 +61,9 @@ Bonus.prototype.step = function () {
                 else
                     this.world.player.score += (this.small ? 100 : 200) * mx;
                 break;
+            case "debuff":
+                this.world.player.addPower(this.small ? -0.1 : -1);
+                break;
             case "gauge":
                 this.world.player.addPower(this.small ? 1 : this.world.player.powerMax);
                 break;

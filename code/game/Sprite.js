@@ -149,6 +149,9 @@ var SPRITE = {
         gauge: {
             x: 4
         },
+        debuff: {
+            x: 6
+        },
         offScreen: {
             y: 2
         }
