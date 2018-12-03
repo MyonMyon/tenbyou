@@ -36,6 +36,9 @@ function ViewPort() {
     }, 33);
 }
 
+ViewPort.prototype.changeZoom = function (delta) {
+    this.setZoom(this.zoom + delta);
+};
 
 ViewPort.prototype.setZoom = function (zoom) {
     this.canvas.width = WIDTH * zoom;

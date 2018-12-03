@@ -70,6 +70,8 @@ function Input(vp) {
         "KeyW": "bot",
         "KeyE": "substage",
         "KeyR": "stage",
+        "PageUp": "zoomOut",
+        "PageDown": "zoomIn",
         "Tab": "perf",
         "KeyP": "screenshot",
         "Escape": "pause"
@@ -111,6 +113,8 @@ function Input(vp) {
         "stage": {category: "dev", mode: "execute", func: "nextStage()"},
         "slow": {category: "dev", mode: "execute", func: "slowMode()"},
         "perf": {category: "dev", mode: "invert", func: "showPerf", vp: true},
+        "zoomOut": {category: "menu", mode: "executeOnce", func: "changeZoom(-1)", vp: true},
+        "zoomIn": {category: "menu", mode: "executeOnce", func: "changeZoom(1)", vp: true},
         "pause": {category: "menu", mode: "executeOnce", func: "setPause(true)"}
     };
     var eventTypes = ["keyDown", "keyUp", "mouseDown", "mouseUp", "mouseMove", "mouseWheel"];
