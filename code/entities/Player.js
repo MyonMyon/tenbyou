@@ -127,7 +127,7 @@ Player.prototype.step = function () {
     if (this.respawnTime !== null && this.respawnTime <= 0)
         this.respawn();
 
-    if (this.y < -this.parentWorld.width / 3) {
+    if (this.isMaxBonus()) {
         this.autoGatherTime = this.autoGatherTimeDefault;
     } else if (this.autoGatherTime > 0) {
         this.autoGatherTime -= 1 / this.parentWorld.ticksPS;
@@ -271,6 +271,10 @@ Player.prototype.kill = function () {
 
     new Particle(this.parentWorld, this.x, this.y, 1, 12, false, false, "splash");
     this.parentWorld.splash(this, 20, 10, 0.5);
+};
+
+Player.prototype.isMaxBonus = function () {
+    return this.y < this.parentWorld.maxBonusY;
 };
 
 Player.prototype.isInvulnerable = function () {

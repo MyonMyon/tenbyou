@@ -1,6 +1,7 @@
 function World(vp) {
     this.width = 150;
     this.height = 180;
+    this.maxBonusY = -this.height / 3;
 
     this.lastID = 0;
     this.entities = [];

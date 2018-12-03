@@ -46,7 +46,7 @@ Bonus.prototype.step = function () {
         this.remove();
         var oldScore = this.parentWorld.player.score;
         var oldPower = this.parentWorld.player.power;
-        var max = this.parentWorld.player.y < -this.parentWorld.width / 3;
+        var max = this.parentWorld.player.isMaxBonus();
         var mx = max ? 1 : 0.5;
         switch (this.cat) {
             case "point":

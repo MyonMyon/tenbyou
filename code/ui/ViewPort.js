@@ -414,7 +414,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     }
     if (time < (this.itemLineStart + this.itemLineTime) && time > this.itemLineStart) {
         this.context.textBaseline = "middle";
-        var boundaryItemLine = this.toScreen(0, -this.world.height / 3);
+        var boundaryItemLine = this.toScreen(0, this.world.maxBonusY);
         this.context.globalAlpha = Math.min(1, (time - this.itemLineStart) / 0.5, (this.itemLineStart + this.itemLineTime - time) / 0.5);
         this.context.fillStyle = FONT.itemLine.strokeColor;
         this.context.fillRect(boundaryStart.x, boundaryItemLine.y - this.zoom / 4, this.world.width * this.zoom, this.zoom / 2);
