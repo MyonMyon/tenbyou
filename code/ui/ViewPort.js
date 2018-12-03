@@ -349,7 +349,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
         this.context.drawImage(
                 SPRITE.gui.object,
                 2 * SPRITE.gui.frameWidth,
-                (this.prevMS < 500) * SPRITE.gui.frameHeight,
+                (Math.floor(this.world.relTime() * 2) % 2) * SPRITE.gui.frameHeight,
                 SPRITE.gui.frameWidth,
                 SPRITE.gui.frameHeight,
                 this.toScreen(this.world.boss.x, 0).x - 3 * this.zoom,
