@@ -1,5 +1,5 @@
-function Player(parentWorld, charName) {
-    extend(this, new Entity(parentWorld, 0, parentWorld.height / 2 - 5));
+function Player(world, charName) {
+    extend(this, new Entity(world, 0, world.height / 2 - 5));
 
     this.hiscoreDisplayed = this.hiscore = 1000000;
     this.scoreDisplayed = this.score = 0;
@@ -93,7 +93,7 @@ Player.prototype.step = function () {
     if (this.focused)
         d /= 2;
 
-    d /= this.parentWorld.ticksPS;
+    d /= this.world.ticksPS;
 
     if (this.moveLeft)
         this.x -= d;
@@ -104,24 +104,24 @@ Player.prototype.step = function () {
     if (this.moveDown)
         this.y += d;
 
-    if (this.x > this.parentWorld.width / 2 - this.width * 2)
-        this.x = this.parentWorld.width / 2 - this.width * 2;
-    if (this.x < -this.parentWorld.width / 2 + this.width * 2)
-        this.x = -this.parentWorld.width / 2 + this.width * 2;
-    if (this.y > this.parentWorld.height / 2 - this.width * 2)
-        this.y = this.parentWorld.height / 2 - this.width * 2;
-    if (this.y < -this.parentWorld.height / 2 + this.width * 2)
-        this.y = -this.parentWorld.height / 2 + this.width * 2;
+    if (this.x > this.world.width / 2 - this.width * 2)
+        this.x = this.world.width / 2 - this.width * 2;
+    if (this.x < -this.world.width / 2 + this.width * 2)
+        this.x = -this.world.width / 2 + this.width * 2;
+    if (this.y > this.world.height / 2 - this.width * 2)
+        this.y = this.world.height / 2 - this.width * 2;
+    if (this.y < -this.world.height / 2 + this.width * 2)
+        this.y = -this.world.height / 2 + this.width * 2;
 
     if (this.shooting)
         this.shoot();
 
     if (this.invulnTime > 0) {
-        this.invulnTime -= 1 / this.parentWorld.ticksPS;
+        this.invulnTime -= 1 / this.world.ticksPS;
     }
 
     if (this.respawnTime > 0) {
-        this.respawnTime -= 1 / this.parentWorld.ticksPS;
+        this.respawnTime -= 1 / this.world.ticksPS;
     }
 
     if (this.respawnTime !== null && this.respawnTime <= 0)
@@ -130,30 +130,30 @@ Player.prototype.step = function () {
     if (this.isMaxBonus()) {
         this.autoGatherTime = this.autoGatherTimeDefault;
     } else if (this.autoGatherTime > 0) {
-        this.autoGatherTime -= 1 / this.parentWorld.ticksPS;
+        this.autoGatherTime -= 1 / this.world.ticksPS;
     }
 
     if (this.shotCooldown > 0) {
-        this.shotCooldown -= 1 / this.parentWorld.ticksPS;
+        this.shotCooldown -= 1 / this.world.ticksPS;
     }
 
     if (this.specialCooldown > 0) {
-        this.specialCooldown -= 1 / this.parentWorld.ticksPS;
+        this.specialCooldown -= 1 / this.world.ticksPS;
     }
 
     if (this.gatherValue > 0) {
         this.gatherValueExtremum = Math.max(this.gatherValue, this.gatherValueExtremum);
-        this.gatherValue -= 30 / this.parentWorld.ticksPS;
+        this.gatherValue -= 30 / this.world.ticksPS;
     }
     if (this.gatherValueExtremum >= 50 && (this.gatherValueExtremum - this.gatherValue > 20)) {
         if (this.gatherValueExtremum >= 150)
-            new Bonus(this.parentWorld, this.x, -this.parentWorld.height / 2 + 20, "lives", false, false);
+            new Bonus(this.world, this.x, -this.world.height / 2 + 20, "lives", false, false);
         else if (this.gatherValueExtremum >= 100)
-            new Bonus(this.parentWorld, this.x, -this.parentWorld.height / 2 + 20, "lives", true, false);
+            new Bonus(this.world, this.x, -this.world.height / 2 + 20, "lives", true, false);
         else if (this.gatherValueExtremum >= 75)
-            new Bonus(this.parentWorld, this.x, -this.parentWorld.height / 2 + 20, "bombs", false, false);
+            new Bonus(this.world, this.x, -this.world.height / 2 + 20, "bombs", false, false);
         else
-            new Bonus(this.parentWorld, this.x, -this.parentWorld.height / 2 + 20, "bombs", true, false);
+            new Bonus(this.world, this.x, -this.world.height / 2 + 20, "bombs", true, false);
         this.score += Math.floor(this.gatherValueExtremum / 10) * 1000;
         this.gatherValueExtremum = 0;
         this.gatherValue = 0;
@@ -172,18 +172,18 @@ Player.prototype.step = function () {
 };
 
 Player.prototype.draw = function (context) {
-    var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
+    var ePos = this.world.vp.toScreen(this.x, this.y);
 
     if (this.respawnTime === null) {
         context.save();
         if (this.isInvulnerable()) {
             context.fillStyle = SHIELD_COLOR;
             context.beginPath();
-            context.arc(ePos.x, ePos.y, (6 / (this.invulnTimeBomb - this.invulnTime) + 2) * this.parentWorld.vp.zoom * this.width, 0, Math.PI * 2, false);
+            context.arc(ePos.x, ePos.y, (6 / (this.invulnTimeBomb - this.invulnTime) + 2) * this.world.vp.zoom * this.width, 0, Math.PI * 2, false);
             context.fill();
             context.closePath();
 
-            context.globalAlpha = 0.3 + Math.floor(this.parentWorld.relTime() * 8) % 2 * 0.2;
+            context.globalAlpha = 0.3 + Math.floor(this.world.relTime() * 8) % 2 * 0.2;
         }
 
         if (this.moveLeft !== this.moveRight) {
@@ -193,13 +193,13 @@ Player.prototype.draw = function (context) {
         } else {
             this.sprite.setPositionShift(0, 0);
         }
-        this.sprite.draw(context, ePos.x, ePos.y, this.relTime(), 8 * this.parentWorld.vp.zoom);
+        this.sprite.draw(context, ePos.x, ePos.y, this.relTime(), 8 * this.world.vp.zoom);
 
         if (this.focused) {
             context.strokeStyle = HITBOX_STROKE_COLOR;
             context.fillStyle = HITBOX_COLOR;
             context.beginPath();
-            context.arc(ePos.x, ePos.y, this.parentWorld.vp.zoom, 0, Math.PI * 2, false);
+            context.arc(ePos.x, ePos.y, this.world.vp.zoom, 0, Math.PI * 2, false);
             context.stroke();
             context.fill();
             context.closePath();
@@ -240,8 +240,8 @@ Player.prototype.addPower = function (power) {
     if (this.power > this.powerMax) {
         this.power = this.powerMax;
         if (powerOld < this.powerMax) {
-            this.parentWorld.clearField(0);
-            this.parentWorld.replaceBonus("power", true, "point", false);
+            this.world.clearField(0);
+            this.world.replaceBonus("power", true, "point", false);
         }
     }
     if (Math.floor(powerOld) !== Math.floor(this.power)) {
@@ -269,12 +269,12 @@ Player.prototype.kill = function () {
     this.respawnTime = this.respawnTimeDefault;
     this.invulnTime = this.respawnTimeDefault;
 
-    new Particle(this.parentWorld, this.x, this.y, 1, 12, false, false, "splash");
-    this.parentWorld.splash(this, 20, 10, 0.5);
+    new Particle(this.world, this.x, this.y, 1, 12, false, false, "splash");
+    this.world.splash(this, 20, 10, 0.5);
 };
 
 Player.prototype.isMaxBonus = function () {
-    return this.y < this.parentWorld.maxBonusY;
+    return this.y < this.world.maxBonusY;
 };
 
 Player.prototype.isInvulnerable = function () {
@@ -286,9 +286,9 @@ Player.prototype.respawn = function () {
     this.spellCompleteTerms = false;
 
     if (this.lives < 1) {
-        this.parentWorld.setPause(true);
-        this.parentWorld.continuable = this.parentWorld.stage > 0 && this.score % 10 < 9;
-        if (!this.parentWorld.continuable) {
+        this.world.setPause(true);
+        this.world.continuable = this.world.stage > 0 && this.score % 10 < 9;
+        if (!this.world.continuable) {
             return;
         }
         this.lives = this.livesDefault;
@@ -306,12 +306,12 @@ Player.prototype.respawn = function () {
     this.invulnTime = this.invulnTimeRespawn;
     for (var i = 0; i < 5; ++i) {
         if (i === 2 && this.lives < 1)
-            new Bonus(this.parentWorld, this.x + (i - 2) * 20, this.y, "gauge", false, false);
+            new Bonus(this.world, this.x + (i - 2) * 20, this.y, "gauge", false, false);
         else
-            new Bonus(this.parentWorld, this.x + (i - 2) * 20, this.y, "power", false, false);
+            new Bonus(this.world, this.x + (i - 2) * 20, this.y, "power", false, false);
     }
     this.x = 0;
-    this.y = this.parentWorld.height / 2 - 5;
+    this.y = this.world.height / 2 - 5;
     this.bombs = Math.max(this.bombsDefault, this.bombs);
     this.addPower(-Math.min(this.power, 0.6));
 };

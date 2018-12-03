@@ -1,5 +1,5 @@
-function Bonus(parentWorld, x, y, cat, small, autoGather) {
-    extend(this, new Entity(parentWorld, x, y, Math.random() * 20 - 10, -60, 0, 90, 0));
+function Bonus(world, x, y, cat, small, autoGather) {
+    extend(this, new Entity(world, x, y, Math.random() * 20 - 10, -60, 0, 90, 0));
 
     this.cat = cat;
     this.small = small;
@@ -13,106 +13,106 @@ function Bonus(parentWorld, x, y, cat, small, autoGather) {
 }
 
 Bonus.prototype.draw = function (context) {
-    var minHeight = -this.parentWorld.height / 2 + 3;
+    var minHeight = -this.world.height / 2 + 3;
     var offScreen = this.y < minHeight;
-    var ePos = this.parentWorld.vp.toScreen(this.x, offScreen ? minHeight : this.y);
+    var ePos = this.world.vp.toScreen(this.x, offScreen ? minHeight : this.y);
     this.sprite.setPositionShift(offScreen * SPRITE.bonus.offScreen.x || 0, offScreen * SPRITE.bonus.offScreen.y || 0);
-    this.sprite.draw(context, ePos.x, ePos.y, 0, 6 * this.parentWorld.vp.zoom);
+    this.sprite.draw(context, ePos.x, ePos.y, 0, 6 * this.world.vp.zoom);
 };
 
 Bonus.prototype.step = function () {
     this.$step();
 
     //remove from world
-    if (this.y > this.parentWorld.height / 2 + 5)
+    if (this.y > this.world.height / 2 + 5)
         this.remove();
 
     //reflect
-    if (this.x > this.parentWorld.width / 2 || this.x < -this.parentWorld.width / 2) {
+    if (this.x > this.world.width / 2 || this.x < -this.world.width / 2) {
         this.x1 = -this.x1;
     }
 
     //collision
-    var d = this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player);
+    var d = this.world.distanceBetweenEntities(this, this.world.player);
 
     if (this.autoGather)
-        this.headToEntity(this.parentWorld.player, 120, 0);
+        this.headToEntity(this.world.player, 120, 0);
 
-    if (d < this.parentWorld.player.gatherWidth || this.parentWorld.player.autoGatherTime > 0) {
+    if (d < this.world.player.gatherWidth || this.world.player.autoGatherTime > 0) {
         this.autoGather = true;
     }
 
-    if (d < this.parentWorld.player.gatherWidthFinal) {
+    if (d < this.world.player.gatherWidthFinal) {
         this.remove();
-        var oldScore = this.parentWorld.player.score;
-        var oldPower = this.parentWorld.player.power;
-        var max = this.parentWorld.player.isMaxBonus();
+        var oldScore = this.world.player.score;
+        var oldPower = this.world.player.power;
+        var max = this.world.player.isMaxBonus();
         var mx = max ? 1 : 0.5;
         switch (this.cat) {
             case "point":
-                this.parentWorld.player.points += (this.small ? 0 : 1);
-                this.parentWorld.player.score += (this.small ? 100 : 200) * mx;
-                this.parentWorld.player.gatherValue += (this.small ? 1 : 2);
+                this.world.player.points += (this.small ? 0 : 1);
+                this.world.player.score += (this.small ? 100 : 200) * mx;
+                this.world.player.gatherValue += (this.small ? 1 : 2);
                 break;
             case "power":
-                this.parentWorld.player.gatherValue += (this.small ? 1 : 2);
-                if (this.parentWorld.player.power < this.parentWorld.player.powerMax)
-                    this.parentWorld.player.addPower(this.small ? 0.1 : 1) * mx;
+                this.world.player.gatherValue += (this.small ? 1 : 2);
+                if (this.world.player.power < this.world.player.powerMax)
+                    this.world.player.addPower(this.small ? 0.1 : 1) * mx;
                 else
-                    this.parentWorld.player.score += (this.small ? 100 : 200) * mx;
+                    this.world.player.score += (this.small ? 100 : 200) * mx;
                 break;
             case "gauge":
-                this.parentWorld.player.addPower(this.small ? 1 : this.parentWorld.player.powerMax);
+                this.world.player.addPower(this.small ? 1 : this.world.player.powerMax);
                 break;
             case "bombs":
-                if (((this.parentWorld.player.bombs === 8 && this.parentWorld.player.bombParts === 0) || this.parentWorld.player.bombs < 8) && !this.small)
-                    ++this.parentWorld.player.bombs;
-                else if (this.parentWorld.player.bombs <= 8 && this.small)
-                    ++this.parentWorld.player.bombParts;
+                if (((this.world.player.bombs === 8 && this.world.player.bombParts === 0) || this.world.player.bombs < 8) && !this.small)
+                    ++this.world.player.bombs;
+                else if (this.world.player.bombs <= 8 && this.small)
+                    ++this.world.player.bombParts;
                 else {
-                    this.parentWorld.player.score += (this.small ? 300 : 500) * mx;
-                    this.parentWorld.player.bombs = 9;
-                    this.parentWorld.player.bombParts = 0;
+                    this.world.player.score += (this.small ? 300 : 500) * mx;
+                    this.world.player.bombs = 9;
+                    this.world.player.bombParts = 0;
                 }
-                if (this.parentWorld.player.bombParts >= 4) {
-                    this.parentWorld.player.bombParts -= 4;
-                    ++this.parentWorld.player.bombs;
+                if (this.world.player.bombParts >= 4) {
+                    this.world.player.bombParts -= 4;
+                    ++this.world.player.bombs;
                 }
                 break;
             case "lives":
-                if (((this.parentWorld.player.lives === 8 && this.parentWorld.player.lifeParts === 0) || this.parentWorld.player.lives < 8) && !this.small)
-                    ++this.parentWorld.player.lives;
-                else if (this.parentWorld.player.lives <= 8 && this.small)
-                    ++this.parentWorld.player.lifeParts;
+                if (((this.world.player.lives === 8 && this.world.player.lifeParts === 0) || this.world.player.lives < 8) && !this.small)
+                    ++this.world.player.lives;
+                else if (this.world.player.lives <= 8 && this.small)
+                    ++this.world.player.lifeParts;
                 else {
-                    this.parentWorld.player.score += (this.small ? 500 : 2000) * mx;
-                    this.parentWorld.player.lives = 9;
-                    this.parentWorld.player.lifeParts = 0;
+                    this.world.player.score += (this.small ? 500 : 2000) * mx;
+                    this.world.player.lives = 9;
+                    this.world.player.lifeParts = 0;
                 }
-                if (this.parentWorld.player.lifeParts >= 3) {
-                    this.parentWorld.player.lifeParts -= 3;
-                    ++this.parentWorld.player.lives;
+                if (this.world.player.lifeParts >= 3) {
+                    this.world.player.lifeParts -= 3;
+                    ++this.world.player.lives;
                 }
                 break;
         }
-        var score = this.parentWorld.player.score - oldScore;
-        var power = this.parentWorld.player.power - oldPower;
+        var score = this.world.player.score - oldScore;
+        var power = this.world.player.power - oldPower;
         var cat = score ? "point" : "power";
         if (score || power) {
-            var t = this.parentWorld.lastText;
+            var t = this.world.lastText;
             if (t && t.relTime() <= 0.04 && t.max === max && t.cat === cat) {
                 t.content = +t.content + (score || power);
                 if (power) {
                     t.content = (t.content + 0.001).toFixed(2);
                 }
                 t.lifetime = 0;
-                t.x = this.parentWorld.player.x;
-                t.y = this.parentWorld.player.y - 10;
+                t.x = this.world.player.x;
+                t.y = this.world.player.y - 10;
             } else {
-                this.parentWorld.lastText = new Text(
-                        this.parentWorld,
-                        this.parentWorld.player.x,
-                        this.parentWorld.player.y - 10,
+                this.world.lastText = new Text(
+                        this.world,
+                        this.world.player.x,
+                        this.world.player.y - 10,
                         score || (power + 0.001).toFixed(2),
                         max,
                         cat);

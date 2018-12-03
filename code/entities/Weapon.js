@@ -1,5 +1,5 @@
 function Weapon(player, name, anchored) {
-    extend(this, new Entity(player.parentWorld, 0, 0));
+    extend(this, new Entity(player.world, 0, 0));
     if (anchored) {
         this.setAnchor(player);
     } else {
@@ -27,12 +27,12 @@ Weapon.prototype.step = function () {
 };
 
 Weapon.prototype.hit = function () {
-    this.parentWorld.splash(this, 3, 8, 0.33);
+    this.world.splash(this, 3, 8, 0.33);
     this.onHit();
 };
 
 Weapon.prototype.destroy = function () {
-    new Particle(this.parentWorld, this.x, this.y, 0.66, 8, false, false, "splash");
+    new Particle(this.world, this.x, this.y, 0.66, 8, false, false, "splash");
     for (var i in this.drops) {
         this.dropBonus(
                 Math.random() * Math.PI * 2,
@@ -72,21 +72,21 @@ Weapon.prototype.addDrops = function (cat, small, amount) {
 };
 
 Weapon.prototype.draw = function (context) {
-    var ctx = this.parentWorld.vp.context;
-    var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
+    var ctx = this.world.vp.context;
+    var ePos = this.world.vp.toScreen(this.x, this.y);
     ctx.save();
     ctx.translate(ePos.x, ePos.y);
     if (this.angle !== undefined) {
         ctx.rotate(Math.PI - this.angle);
     }
-    this.sprite.draw(ctx, 0, 0, this.relTime(), this.width * 2 * this.parentWorld.vp.zoom, true);
+    this.sprite.draw(ctx, 0, 0, this.relTime(), this.width * 2 * this.world.vp.zoom, true);
     ctx.restore();
-    if (this.parentWorld.drawHitboxes) {
+    if (this.world.drawHitboxes) {
         context.fillStyle = "white";
 
         context.beginPath();
 
-        context.arc(ePos.x, ePos.y, 1 * this.parentWorld.vp.zoom * this.width, 0, Math.PI * 2, false);
+        context.arc(ePos.x, ePos.y, 1 * this.world.vp.zoom * this.width, 0, Math.PI * 2, false);
 
         context.fill();
         context.closePath();

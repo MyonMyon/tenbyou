@@ -1,5 +1,5 @@
-function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, spriteName) {
-    extend(this, new Entity(parentWorld, x, y, x1, y1, x2, y2, width));
+function Enemy(world, x, y, x1, y1, x2, y2, width, health, spriteName) {
+    extend(this, new Entity(world, x, y, x1, y1, x2, y2, width));
     this.sprite.set(SPRITE.enemy);
     if (spriteName) {
         this.sprite.set(spriteName);
@@ -19,7 +19,7 @@ function Enemy(parentWorld, x, y, x1, y1, x2, y2, width, health, spriteName) {
 }
 
 Enemy.prototype.draw = function (context) {
-    var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
+    var ePos = this.world.vp.toScreen(this.x, this.y);
 
     context.save();
     if (this.relTime() < this.appearanceTime) {
@@ -31,22 +31,22 @@ Enemy.prototype.draw = function (context) {
     if (this.angle)
         context.rotate(this.angle);
 
-    this.sprite.draw(context, 0, 0, this.relTime(), this.parentWorld.vp.zoom * this.width * 2);
+    this.sprite.draw(context, 0, 0, this.relTime(), this.world.vp.zoom * this.width * 2);
 
     context.restore();
 
-    if (this.parentWorld.drawHitboxes) {
+    if (this.world.drawHitboxes) {
         context.fillStyle = "white";
 
         context.beginPath();
 
-        context.arc(ePos.x, ePos.y, 1 * this.parentWorld.vp.zoom * this.width, 0, Math.PI * 2, false);
+        context.arc(ePos.x, ePos.y, 1 * this.world.vp.zoom * this.width, 0, Math.PI * 2, false);
 
         context.fill();
         context.closePath();
     }
 
-    if (this === this.parentWorld.boss && this.attackCurrent !== null && this.attackCurrent < this.attacks.length) {
+    if (this === this.world.boss && this.attackCurrent !== null && this.attackCurrent < this.attacks.length) {
         context.lineJoin = "square";
         context.lineCap = "butt";
 
@@ -74,7 +74,7 @@ Enemy.prototype.draw = function (context) {
         var rt = this.relTime();
         var at = this.attacks[this.attackCurrent].time;
         var dt = this.attacks[this.attackCurrent].decrTime;
-        if (this.attacks[this.attackCurrent].spell && this.parentWorld.player.spellCompleteTerms) { //for spells 
+        if (this.attacks[this.attackCurrent].spell && this.world.player.spellCompleteTerms) { //for spells 
             if (rt < dt) {
                 this.drawBossWheel(context, 24.5, rt / at, dt / at, BOSS_TIMER_ALT_COLOR, 3);
             }
@@ -86,12 +86,12 @@ Enemy.prototype.draw = function (context) {
 
 Enemy.prototype.drawBossWheel = function (context, r, from, to, color, lineWidth) {
     if (from !== to) {
-        var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
+        var ePos = this.world.vp.toScreen(this.x, this.y);
         context.lineWidth = lineWidth;
         context.strokeStyle = color;
 
         context.beginPath();
-        context.arc(ePos.x, ePos.y, r * this.parentWorld.vp.zoom, -Math.PI / 2 + Math.PI * from * 2, -Math.PI / 2 + Math.PI * to * 2, false);
+        context.arc(ePos.x, ePos.y, r * this.world.vp.zoom, -Math.PI / 2 + Math.PI * from * 2, -Math.PI / 2 + Math.PI * to * 2, false);
         context.stroke();
         context.closePath();
     }
@@ -101,7 +101,7 @@ Enemy.prototype.step = function () {
     var l = this.relTime();
     this.$step();
     if (l < this.appearanceTime && this.relTime() >= this.appearanceTime) {
-        this.parentWorld.splash(this, this.initialHealth / 5, 8, 0.33);
+        this.world.splash(this, this.initialHealth / 5, 8, 0.33);
     }
 
     if (this.health <= 0) {
@@ -116,44 +116,44 @@ Enemy.prototype.step = function () {
 
         if (this.attackCurrent === null) {
             this.behaviorFinal();
-            this.parentWorld.player.score += this.cost;
+            this.world.player.score += this.cost;
         } else {
             this.nextAttack();
         }
     }
 
     //remove from world
-    if ((this.x > this.parentWorld.width / 2 + this.width * 2
-            || this.x < -this.parentWorld.width / 2 - this.width * 2
-            || this.y > this.parentWorld.height / 2 + this.width * 2
-            || this.y < -this.parentWorld.height / 2 - this.width * 2) && this !== this.parentWorld.boss) {//DO NOT DELETE BOSSES
+    if ((this.x > this.world.width / 2 + this.width * 2
+            || this.x < -this.world.width / 2 - this.width * 2
+            || this.y > this.world.height / 2 + this.width * 2
+            || this.y < -this.world.height / 2 - this.width * 2) && this !== this.world.boss) {//DO NOT DELETE BOSSES
         this.remove();
         return;
     }
 
     //collision with player
     if (this.relTime() >= this.appearanceTime &&
-            !this.parentWorld.player.isInvulnerable() &&
-            this.parentWorld.distanceBetweenEntities(this, this.parentWorld.player) <
-            (this.width + this.parentWorld.player.width)) {
-        this.parentWorld.player.kill();
+            !this.world.player.isInvulnerable() &&
+            this.world.distanceBetweenEntities(this, this.world.player) <
+            (this.width + this.world.player.width)) {
+        this.world.player.kill();
     }
 
     //collision with placed player weapons
-    for (var i in this.parentWorld.entities) {
-        var w = this.parentWorld.entities[i];
-        if (w instanceof Weapon && !w.isInvulnerable() && this.parentWorld.distanceBetweenEntities(this, w) < this.width + w.width) {
+    for (var i in this.world.entities) {
+        var w = this.world.entities[i];
+        if (w instanceof Weapon && !w.isInvulnerable() && this.world.distanceBetweenEntities(this, w) < this.width + w.width) {
             w.hit();
         }
     }
 
     //collision with bullets
-    if ((this.parentWorld.boss !== this || (this.attackCurrent !== null && this.attackCurrent < this.attacks.length)) &&
+    if ((this.world.boss !== this || (this.attackCurrent !== null && this.attackCurrent < this.attacks.length)) &&
             this.relTime() >= this.appearanceTime) {
-        for (var i in  this.parentWorld.entities) {
-            var e = this.parentWorld.entities[i];
+        for (var i in  this.world.entities) {
+            var e = this.world.entities[i];
             if (e instanceof Projectile && e.playerSide) {
-                if (this.parentWorld.distanceBetweenEntities(this, e) < (this.width + e.width)) {
+                if (this.world.distanceBetweenEntities(this, e) < (this.width + e.width)) {
                     this.hurt(e.damage);
                     e.remove();
                 }
@@ -183,8 +183,8 @@ Enemy.prototype.behavior = function () {
 };
 
 Enemy.prototype.behaviorFinal = function (ignoreOnDestroy) {
-    new Particle(this.parentWorld, this.x, this.y, this.initialHealth < 100 ? 0.66 : 1.33, this.initialHealth < 100 ? 8 : 16, false, false, "splash");
-    this.parentWorld.splash(this, this.initialHealth / 5, 8, 0.33);
+    new Particle(this.world, this.x, this.y, this.initialHealth < 100 ? 0.66 : 1.33, this.initialHealth < 100 ? 8 : 16, false, false, "splash");
+    this.world.splash(this, this.initialHealth / 5, 8, 0.33);
     if (!ignoreOnDestroy) {
         this.onDestroy();
     }
@@ -197,7 +197,7 @@ Enemy.prototype.onDestroy = function () {
 };
 
 Enemy.prototype.isInvulnerable = function () {
-    return this === this.parentWorld.boss && this.attackCurrent === null || this.relTime() < this.appearanceTime;
+    return this === this.world.boss && this.attackCurrent === null || this.relTime() < this.appearanceTime;
 };
 
 Enemy.prototype.hurt = function (damage) {
@@ -211,13 +211,13 @@ Enemy.prototype.hurt = function (damage) {
     if (this.health > 0) {
         for (var i = 0; i < this.drops.length; ++i)
             if (this.drops[i].reqDamage !== 0 && this.attackCurrent === this.drops[i].attackID && ((((this.initialHealth - this.health) % this.drops[i].reqDamage) < ((this.initialHealth - this.health - damage) % this.drops[i].reqDamage) && damage > 0) || damage > this.drops[i].reqDamage))
-                new Bonus(this.parentWorld, this.x + Math.random() * 12 - 6, this.y + Math.random() * 12 - 6,
-                        (this.drops[i].cat === "power" && this.parentWorld.player.power >= this.parentWorld.player.powerMax) ? "point" : this.drops[i].cat, this.drops[i].small, false);
+                new Bonus(this.world, this.x + Math.random() * 12 - 6, this.y + Math.random() * 12 - 6,
+                        (this.drops[i].cat === "power" && this.world.player.power >= this.world.player.powerMax) ? "point" : this.drops[i].cat, this.drops[i].small, false);
     } else {
         this.health = 0;
     }
-    this.parentWorld.splash(this, damage, this.width * 2, this.width * 0.07);
-    this.parentWorld.player.score += Math.round(healthOld - this.health) * 10;
+    this.world.splash(this, damage, this.width * 2, this.width * 0.07);
+    this.world.player.score += Math.round(healthOld - this.health) * 10;
 
     this.onDamage(damage);
 };
@@ -261,19 +261,19 @@ Enemy.prototype.addNonSpell = function (nonSpell, newGroup) {
 };
 
 Enemy.prototype.addSpell = function (spell, newGroup) {
-    this.addAttack(true, spell.names[this.parentWorld.difficulty], spell, newGroup);
+    this.addAttack(true, spell.names[this.world.difficulty], spell, newGroup);
 };
 
 Enemy.prototype.nextAttack = function () {
-    this.parentWorld.clearField(0);
-    this.parentWorld.removeEnemies();
+    this.world.clearField(0);
+    this.world.removeEnemies();
 
-    if (this.parentWorld.boss === this && this.attackCurrent !== null && this.attacks[this.attackCurrent].spell) {
-        if (this.health <= 0 && this.parentWorld.player.spellCompleteTerms && this.bonus > 0) {
-            this.parentWorld.player.score += this.bonus;
-            this.parentWorld.vp.showMessage(["Spell Card Bonus!", this.bonus], 3);
+    if (this.world.boss === this && this.attackCurrent !== null && this.attacks[this.attackCurrent].spell) {
+        if (this.health <= 0 && this.world.player.spellCompleteTerms && this.bonus > 0) {
+            this.world.player.score += this.bonus;
+            this.world.vp.showMessage(["Spell Card Bonus!", this.bonus], 3);
         } else
-            this.parentWorld.vp.showMessage(["Bonus failed"], 1.5);
+            this.world.vp.showMessage(["Bonus failed"], 1.5);
         if (this.attacks[this.attackCurrent].finish) {
             this.attacks[this.attackCurrent].finish(this);
         }
@@ -289,16 +289,16 @@ Enemy.prototype.nextAttack = function () {
 
     if (this.attackCurrent >= this.attacks.length) {
         this.behaviorFinal();
-        this.parentWorld.boss = null;
-        if (this.parentWorld.bossLast) {
-            this.parentWorld.eventChain.addEventNow(function (world) {
+        this.world.boss = null;
+        if (this.world.bossLast) {
+            this.world.eventChain.addEventNow(function (world) {
                 world.stageBonus();
             }, 2);
         } else {
-            this.parentWorld.nextSubstage();
+            this.world.nextSubstage();
         }
     } else {
-        this.parentWorld.player.spellCompleteTerms = true;
+        this.world.player.spellCompleteTerms = true;
         this.initHealth(this.attacks[this.attackCurrent].health);
         if (this.attacks[this.attackCurrent].init) {
             this.attacks[this.attackCurrent].init(this);
@@ -313,17 +313,17 @@ Enemy.prototype.nextAttack = function () {
 };
 
 Enemy.prototype.setBossData = function (bossName, isLast) {
-    this.setVectors(0, -this.parentWorld.width / 2 - 40);
+    this.setVectors(0, -this.world.width / 2 - 40);
 
     this.width = BOSS[bossName].width;
     this.sprite.set(bossName);
 
     this.eventChain.addEvent(function (b) {
-        b.headToPointSmoothly(0, -b.parentWorld.height / 4, 3);
+        b.headToPointSmoothly(0, -b.world.height / 4, 3);
     }, 0);
     this.eventChain.addEvent(function (b) {
         b.nextAttack();
     }, 3);
 
-    this.parentWorld.setBoss(this, BOSS[bossName].name, isLast);
+    this.world.setBoss(this, BOSS[bossName].name, isLast);
 };

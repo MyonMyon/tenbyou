@@ -1,4 +1,4 @@
-function Entity(parentWorld, x, y, x1, y1, x2, y2, width) {
+function Entity(world, x, y, x1, y1, x2, y2, width) {
     //position (global)
     this.x = x || 0;
     this.y = y || 0;
@@ -39,13 +39,13 @@ function Entity(parentWorld, x, y, x1, y1, x2, y2, width) {
     this.anchored = [];
     this.preserve = false;
 
-    this.parentWorld = parentWorld;
-    this.id = ++parentWorld.lastID;
+    this.world = world;
+    this.id = ++world.lastID;
     //console.info("Added Entity #" + this.id + " @ " + this.x + ";" + this.y);
 }
 
 Entity.prototype.init = function () {
-    this.parentWorld.entities.push(this);
+    this.world.entities.push(this);
     this.eventChain = new EventChain(this);
 };
 
@@ -53,7 +53,7 @@ Entity.prototype.flush = function () {
     this.fixedX = this.x;
     this.fixedY = this.y;
     if (this.removalMark) {
-        this.parentWorld.entities.splice(this.parentWorld.entities.indexOf(this), 1);
+        this.world.entities.splice(this.world.entities.indexOf(this), 1);
     }
 };
 
@@ -70,31 +70,31 @@ Entity.prototype.step = function () {
         this.x1 = 0;
         this.y1 = 0;
 
-        this.x += (this.targetX - this.x) / (this.targetTime * this.parentWorld.ticksPS);
-        this.y += (this.targetY - this.y) / (this.targetTime * this.parentWorld.ticksPS);
-        this.targetTime -= 1 / this.parentWorld.ticksPS;
+        this.x += (this.targetX - this.x) / (this.targetTime * this.world.ticksPS);
+        this.y += (this.targetY - this.y) / (this.targetTime * this.world.ticksPS);
+        this.targetTime -= 1 / this.world.ticksPS;
     } else {
         this.targetTime = 0;
 
-        this.x1 += this.x2 / this.parentWorld.ticksPS;
-        this.y1 += this.y2 / this.parentWorld.ticksPS;
+        this.x1 += this.x2 / this.world.ticksPS;
+        this.y1 += this.y2 / this.world.ticksPS;
 
-        this.x0 += this.x1 / this.parentWorld.ticksPS;
-        this.y0 += this.y1 / this.parentWorld.ticksPS;
+        this.x0 += this.x1 / this.world.ticksPS;
+        this.y0 += this.y1 / this.world.ticksPS;
 
         if (this.anchor) {
             this.x = this.anchor.x + this.x0;
             this.y = this.anchor.y + this.y0;
         } else {
-            this.x += this.x1 / this.parentWorld.ticksPS;
-            this.y += this.y1 / this.parentWorld.ticksPS;
+            this.x += this.x1 / this.world.ticksPS;
+            this.y += this.y1 / this.world.ticksPS;
         }
     }
 
 };
 
 Entity.prototype.relTime = function () {
-    return this.lifetime / this.parentWorld.ticksPS;
+    return this.lifetime / this.world.ticksPS;
 };
 
 Entity.prototype.getAngle = function () {
@@ -158,7 +158,7 @@ Entity.prototype.headToEntity = function (target, speed, acceleration) {
 };
 
 Entity.prototype.headToPoint = function (targetX, targetY, speed, acceleration) {
-    var d = this.parentWorld.distanceBetweenPoints(this.x, this.y, targetX, targetY);
+    var d = this.world.distanceBetweenPoints(this.x, this.y, targetX, targetY);
     if (d !== 0)
         this.setVectors(null, null,
                 (targetX - this.x) / d * speed,
@@ -175,11 +175,11 @@ Entity.prototype.headToPointSmoothly = function (targetX, targetY, time) {
 
 Entity.prototype.nearestEntity = function (type, range, filters) {
     var nearest = null;
-    var nearestDistance = range || this.parentWorld.height * 2;
-    for (var i in this.parentWorld.entities) {
-        var e = this.parentWorld.entities[i];
+    var nearestDistance = range || this.world.height * 2;
+    for (var i in this.world.entities) {
+        var e = this.world.entities[i];
         if ((e instanceof type && ((type === Projectile && !e.playerSide) || type !== Projectile)) || type === null) {
-            if (e !== this && this.parentWorld.distanceBetweenEntities(this, e) < nearestDistance) {
+            if (e !== this && this.world.distanceBetweenEntities(this, e) < nearestDistance) {
                 var complete = true;
                 if (filters) {
                     for (var j in filters) {
@@ -190,7 +190,7 @@ Entity.prototype.nearestEntity = function (type, range, filters) {
                 }
                 if (complete) {
                     nearest = e;
-                    nearestDistance = this.parentWorld.distanceBetweenEntities(this, e);
+                    nearestDistance = this.world.distanceBetweenEntities(this, e);
                 }
             }
         }
@@ -199,7 +199,7 @@ Entity.prototype.nearestEntity = function (type, range, filters) {
 };
 
 Entity.prototype.shootProjectile = function (angle, distance, speed, acceleration, width, sprite, anchored) {
-    var p = new Projectile(this.parentWorld,
+    var p = new Projectile(this.world,
             (anchored ? 0 : this.x) + distance * Math.sin(angle),
             (anchored ? 0 : this.y) + distance * Math.cos(angle),
             Math.sin(angle) * speed,
@@ -214,9 +214,9 @@ Entity.prototype.shootProjectile = function (angle, distance, speed, acceleratio
 };
 
 Entity.prototype.dropBonus = function (angle, distance, cat, small) {
-    var p = cat === "power" && this.parentWorld.player.power >= this.parentWorld.player.powerMax;
+    var p = cat === "power" && this.world.player.power >= this.world.player.powerMax;
     return new Bonus(
-            this.parentWorld,
+            this.world,
             this.x + Math.sin(angle) * distance,
             this.y + Math.cos(angle) * distance,
             p ? "point" : cat,

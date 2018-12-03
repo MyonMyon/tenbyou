@@ -1,7 +1,7 @@
-function Particle(parentWorld, x, y, removeAt, width, randomFrame, moving, spriteName) {
+function Particle(world, x, y, removeAt, width, randomFrame, moving, spriteName) {
     var a = Math.random() * Math.PI * 2;
     var r = 30 * (Math.random() + 0.1);
-    extend(this, new Entity(parentWorld, x, y, moving ? r * Math.cos(a) : 0, moving ? r * Math.sin(a) : 0, 0, 0, width));
+    extend(this, new Entity(world, x, y, moving ? r * Math.cos(a) : 0, moving ? r * Math.sin(a) : 0, 0, 0, width));
     this.removeAt = removeAt || 0.66;
     this.sprite.set(SPRITE.particle);
     if (spriteName) {
@@ -13,8 +13,8 @@ function Particle(parentWorld, x, y, removeAt, width, randomFrame, moving, sprit
 }
 
 Particle.prototype.draw = function (context) {
-    var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
-    this.sprite.draw(context, ePos.x, ePos.y, this.relTime(), this.parentWorld.vp.zoom * this.width);
+    var ePos = this.world.vp.toScreen(this.x, this.y);
+    this.sprite.draw(context, ePos.x, ePos.y, this.relTime(), this.world.vp.zoom * this.width);
 };
 
 Particle.prototype.step = function () {

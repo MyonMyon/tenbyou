@@ -80,7 +80,7 @@ var CHAR = {
             }
         },
         onBomb: function () {
-            this.parentWorld.clearField(20);
+            this.world.clearField(20);
         },
         onSpecial: function () {
             var turret = new Weapon(this, "turretAuto", false);

@@ -19,7 +19,7 @@ EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCo
         repeatCount: repeatCount || 1,
         iteration: 0,
         second: useWorldTimeGrid ?
-                (Math.floor((this.parent.parentWorld.relTime() + second) / repeatInterval) + 1) * (repeatInterval) :
+                (Math.floor((this.parent.world.relTime() + second) / repeatInterval) + 1) * (repeatInterval) :
                 second,
         done: false,
         useWorldTimeGrid: useWorldTimeGrid,
@@ -35,7 +35,7 @@ EventChain.prototype.tick = function () {
     var t;
     for (var i in this.events) {
         if (this.events[i].useWorldTimeGrid) {
-            t = this.parent.parentWorld.relTime();
+            t = this.parent.world.relTime();
         } else {
             t = this.parent.relTime();
         }

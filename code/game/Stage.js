@@ -56,17 +56,17 @@ var STAGE = [{
                     var kedama = new Enemy(world, x, y, 0, 12, 0, 0, 4, 15, "kedamaMinion");
                     kedama.addDrops("point", false, 2);
                     kedama.eventChain.addEvent(function (s, i) {
-                        var shootInterval = 30 - s.parentWorld.difficulty * 6;
+                        var shootInterval = 30 - s.world.difficulty * 6;
                         if (i % shootInterval >= 8) {
                             //pause every 8 shots
                             return;
                         }
                         if (i % shootInterval === 0) {
                             s.targetPos = {
-                                x: s.parentWorld.player.x,
-                                y: Math.max(s.y, s.parentWorld.player.y)};
+                                x: s.world.player.x,
+                                y: Math.max(s.y, s.world.player.y)};
                         }
-                        s.shootProjectileAt(s.targetPos, s.width, 50 + s.parentWorld.difficulty * 10, 0, 1.5, "kunai.blue");
+                        s.shootProjectileAt(s.targetPos, s.width, 50 + s.world.difficulty * 10, 0, 1.5, "kunai.blue");
                     }, 1.5, 0.1, Infinity);
                     kedama.appearanceTime = 1;
                 }
@@ -83,7 +83,7 @@ var STAGE = [{
                         var kedamaPaired = new Enemy(world, x, y, -r * 2, 30, -r * 12, 0, 4, 15, "kedamaMinion");
                         kedamaPaired.addDrops(p ? "point" : "power", !p, 1);
                         kedamaPaired.eventChain.addEvent(function (s, i) {
-                            s.shootProjectileAt(s.parentWorld.player, s.width, 60, 0, 2, "kunai.purple");
+                            s.shootProjectileAt(s.world.player, s.width, 60, 0, 2, "kunai.purple");
                         }, 0.5, 2 - world.difficulty * 0.2, Infinity);
                     }
                 }
@@ -107,16 +107,16 @@ var STAGE = [{
                         orb.addDrops("power", true, 1);
                         orb.addDrops("point", false, 1);
                         orb.eventChain.addEvent(function (s, i) {
-                            s.shootProjectileAt(s.parentWorld.player, s.width, 50 + s.parentWorld.difficulty * 10, 0, 2, "strike.red");
+                            s.shootProjectileAt(s.world.player, s.width, 50 + s.world.difficulty * 10, 0, 2, "strike.red");
                         }, 1.5, 0.75 - world.difficulty * 0.1, Infinity);
                     } else {
                         var mine = new Enemy(world, x, y, 0, 3, 0, 0, 4, 1, "landMine");
                         mine.appearanceTime = 1;
                         mine.onDestroy = function () {
-                            for (var i = 0; i < 8 + this.parentWorld.difficulty * 2; i++) {
+                            for (var i = 0; i < 8 + this.world.difficulty * 2; i++) {
                                 var sx = (Math.random() - 0.5) * 30;
                                 var sy = (Math.random() - 0.5) * 30;
-                                new Projectile(this.parentWorld, this.x, this.y, sx, sy, sx * 1.5, sy * 1.5, 3, false, "strike.purple");
+                                new Projectile(this.world, this.x, this.y, sx, sy, sx * 1.5, sy * 1.5, 3, false, "strike.purple");
                             }
                         };
                     }
@@ -150,11 +150,11 @@ var STAGE = [{
                     sideFairy.appearanceTime = 1;
                     sideFairy.addDrops("point", false, 2);
                     sideFairy.eventChain.addEvent(function (e, i) {
-                        new Projectile(e.parentWorld,
+                        new Projectile(e.world,
                                 e.x, e.y,
                                 -r * 30, 0,
                                 0, 0,
-                                2 + e.parentWorld.difficulty * 0.25, false, "strike.blue");
+                                2 + e.world.difficulty * 0.25, false, "strike.blue");
                     }, 1.2, 0.2, Infinity);
                 }
             }, {
@@ -175,11 +175,11 @@ var STAGE = [{
                     }, 1.7, 0, 0);
                     fairyTurret.eventChain.addEvent(function (e, i) {
                         var a = Math.PI / 2 * -r * ((i - 2) / 12);
-                        var p = new Projectile(e.parentWorld,
+                        var p = new Projectile(e.world,
                                 e.savedPoint.x, e.savedPoint.y,
                                 Math.sin(a) * 10, Math.cos(a) * 10,
                                 Math.sin(a) * 15, Math.cos(a) * 15,
-                                3 + e.parentWorld.difficulty * 0.5, false, "strike.red");
+                                3 + e.world.difficulty * 0.5, false, "strike.red");
 
                     }, 1.8, 0.1, 17);
                 }
@@ -212,13 +212,13 @@ var STAGE = [{
                             2, 10, "fairyRed");
                     fairyTurret.addDrops("power", true, 1);
                     fairyTurret.eventChain.addEvent(function (e, i) {
-                        e.savedPoint = {x: e.parentWorld.player.x, y: e.parentWorld.player.y};
+                        e.savedPoint = {x: e.world.player.x, y: e.world.player.y};
                         e.setVectors(null, null, 0, 0, 0, 0);
                     }, 0.5, 0, 0);
                     fairyTurret.eventChain.addEvent(function (entity) {
                         var a = entity.shootProjectileAt(entity.savedPoint, 4, 50, 0, 0);
                         for (var i = 0; i < 2; ++i) {
-                            var b = new Projectile(entity.parentWorld, 0, 0, 0, 0, 0, 0, 2, false, i ? "strike.blue" : "strike.red");
+                            var b = new Projectile(entity.world, 0, 0, 0, 0, 0, 0, 2, false, i ? "strike.blue" : "strike.red");
                             b.setAnchor(a, true);
                             b.maxDistance = i ? -10 : 10;
                             b.behavior = function () {
@@ -250,11 +250,11 @@ var STAGE = [{
                     eye.addDrops("power", true, 1);
                     eye.addDrops("point", false, 2);
                     eye.eventChain.addEvent(function (entity) {
-                        var a = entity.shootProjectileAt(entity.parentWorld.player, 5, 50, 0, 0);
-                        var count = 4 + entity.parentWorld.difficulty * 2;
+                        var a = entity.shootProjectileAt(entity.world.player, 5, 50, 0, 0);
+                        var count = 4 + entity.world.difficulty * 2;
                         for (var i = 0; i < count; ++i) {
                             var angle = i / count * Math.PI * 2;
-                            var b = new Projectile(entity.parentWorld, 0, 0,
+                            var b = new Projectile(entity.world, 0, 0,
                                     Math.sin(angle) * 10,
                                     Math.cos(angle) * 10,
                                     0, 0, 2, false, i % 2 ? "static.yellow" : "static.red");
@@ -339,7 +339,7 @@ eventKedamaMidboss = function (world, power) {
     kedama.addNonSpell({
         init: function (entity) {
             entity.eventChain.addEvent(function (e, iter) {
-                var c = (power ? 8 : 6) * (e.parentWorld.difficulty + 1);
+                var c = (power ? 8 : 6) * (e.world.difficulty + 1);
                 if (iter % 16 >= 9) {
                     return;
                 }
@@ -367,7 +367,7 @@ eventKedamaMidboss = function (world, power) {
 eventOrb = function (world) {
     var nsInit = function (entity) {
         entity.eventChain.addEvent(function (e) {
-            var c = 4 * (e.attackGroupCurrent + 1) * (e.parentWorld.difficulty + 1);
+            var c = 4 * (e.attackGroupCurrent + 1) * (e.world.difficulty + 1);
             for (var i = 0; i < c; ++i) {
                 var a = i / c * Math.PI * 2;
                 var d = e.relTime() * 3;
