@@ -175,12 +175,15 @@ Player.prototype.draw = function (context) {
     var ePos = this.parentWorld.vp.toScreen(this.x, this.y);
 
     if (this.respawnTime === null) {
+        context.save();
         if (this.isInvulnerable()) {
             context.fillStyle = SHIELD_COLOR;
             context.beginPath();
             context.arc(ePos.x, ePos.y, (6 / (this.invulnTimeBomb - this.invulnTime) + 2) * this.parentWorld.vp.zoom * this.width, 0, Math.PI * 2, false);
             context.fill();
             context.closePath();
+
+            context.globalAlpha = 0.3 + Math.floor(this.parentWorld.relTime() * 8) % 2 * 0.2;
         }
 
         if (this.moveLeft !== this.moveRight) {
@@ -201,6 +204,7 @@ Player.prototype.draw = function (context) {
             context.fill();
             context.closePath();
         }
+        context.restore();
     }
 };
 
