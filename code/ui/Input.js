@@ -84,6 +84,7 @@ function Input(vp) {
         "KeyX": "nav_back",
         "Escape": "nav_back"
     };
+    this.lockMenuInput = false;
     this.pressedBuffer = [];
     this.directions = ["Left", "Right", "Up", "Down"];
     //MODES:
@@ -203,11 +204,15 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
             return false;
         }
         if (!keyValue) {
+            this.lockMenuInput = false;
             menu.action("nav_null");
             return true;
         }
-        menu.action(action);
-        return true;
+        if (!this.lockMenuInput) {
+            menu.action(action);
+            return true;
+        }
+        return false;
     }
     var action = this.actionsAliases[this.defaultMapping[keyAbbr]];
     var ignoreModality = action && action.ignoreModality;
@@ -267,6 +272,7 @@ Input.prototype.stopAll = function () {
             }
         }
     }
+    this.lockMenuInput = true;
 };
 
 /**
