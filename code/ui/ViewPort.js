@@ -98,6 +98,7 @@ ViewPort.prototype.setFont = function (data, options) {
         }
     }
     font.size *= this.zoom;
+    font.strokeWidth *= this.zoom;
     this.context.font = (font.weight ? font.weight + " " : "") + (font.style ? font.style + " " : "") + font.size + "px " + font.font;
     this.context.fillStyle = font.color;
     this.context.strokeStyle = font.strokeColor;
@@ -353,7 +354,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.context.drawImage(o, 0, 0, x1 / xN * o.width, o.height, 0, 0, x1, yN);
     this.context.drawImage(o, x2 / xN * o.width, 0, (xN - x2) / xN * o.width, o.height, x2, 0, xN - x2, yN);
 
-    this.context.lineWidth = BORDER_WIDTH;
+    this.context.lineWidth = BORDER_WIDTH * this.zoom;
     this.context.strokeStyle = BORDER_COLOR;
 
     this.context.strokeRect(x1, y1, x2 - x1, y2 - y1); //border

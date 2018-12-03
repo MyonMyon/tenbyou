@@ -50,9 +50,9 @@ Enemy.prototype.draw = function (context) {
         context.lineJoin = "square";
         context.lineCap = "butt";
 
-        this.drawBossWheel(context, 22, 0, 1, BOSS_WHEEL_COLOR, 2);
-        this.drawBossWheel(context, 24, 0, 1, BOSS_WHEEL_COLOR, 2);
-        this.drawBossWheel(context, 25, 0, 1, BOSS_WHEEL_COLOR, 2);
+        this.drawBossWheel(context, 22, 0, 1, BOSS_WHEEL_COLOR, BOSS_WHEEL_WIDTH);
+        this.drawBossWheel(context, 24, 0, 1, BOSS_WHEEL_COLOR, BOSS_WHEEL_WIDTH);
+        this.drawBossWheel(context, 25, 0, 1, BOSS_WHEEL_COLOR, BOSS_WHEEL_WIDTH);
 
         var sectionsS = this.attackGroups[this.attackGroupCurrent].spells;
         var sectionsN = this.attackGroups[this.attackGroupCurrent].nonspells;
@@ -64,30 +64,30 @@ Enemy.prototype.draw = function (context) {
             this.drawBossWheel(context, 23,
                     (i + ((i === thisSection) ? 1 - this.health / this.initialHealth : 0)) / sectionsN * (fullWheel ? 1 : 0.75),
                     (i + 1) / sectionsN * (fullWheel ? 1 : 0.75),
-                    (i % 2 === 0) ? BOSS_HEALTH_COLOR : BOSS_HEALTH_ALT_COLOR, 7);
+                    (i % 2 === 0) ? BOSS_HEALTH_COLOR : BOSS_HEALTH_ALT_COLOR, BOSS_HEALTH_WIDTH);
         for (var i = Math.max(thisSection - sectionsN, 0); i < sectionsS; ++i)
             this.drawBossWheel(context, 23,
                     (i + ((i === (thisSection - sectionsN)) ? 1 - this.health / this.initialHealth : 0)) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
                     (i + 1) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
-                    (i % 2 === 0) ? BOSS_HEALTH_SPELL_COLOR : BOSS_HEALTH_SPELL_ALT_COLOR, 7);
+                    (i % 2 === 0) ? BOSS_HEALTH_SPELL_COLOR : BOSS_HEALTH_SPELL_ALT_COLOR, BOSS_HEALTH_WIDTH);
 
         var rt = this.relTime();
         var at = this.attacks[this.attackCurrent].time;
         var dt = this.attacks[this.attackCurrent].decrTime;
         if (this.attacks[this.attackCurrent].spell && this.world.player.spellCompleteTerms) { //for spells 
             if (rt < dt) {
-                this.drawBossWheel(context, 24.5, rt / at, dt / at, BOSS_TIMER_ALT_COLOR, 3);
+                this.drawBossWheel(context, 24.5, rt / at, dt / at, BOSS_TIMER_ALT_COLOR, BOSS_TIMER_WIDTH);
             }
-            this.drawBossWheel(context, 24.5, Math.max(rt / at, dt / at), 1, BOSS_TIMER_COLOR, 3);
+            this.drawBossWheel(context, 24.5, Math.max(rt / at, dt / at), 1, BOSS_TIMER_COLOR, BOSS_TIMER_WIDTH);
         } else //for non-spells
-            this.drawBossWheel(context, 24.5, rt / at, 1, BOSS_TIMER_ALT_COLOR, 3);
+            this.drawBossWheel(context, 24.5, rt / at, 1, BOSS_TIMER_ALT_COLOR, BOSS_TIMER_WIDTH);
     }
 };
 
 Enemy.prototype.drawBossWheel = function (context, r, from, to, color, lineWidth) {
     if (from !== to) {
         var ePos = this.world.vp.toScreen(this.x, this.y);
-        context.lineWidth = lineWidth;
+        context.lineWidth = lineWidth * this.world.vp.zoom;
         context.strokeStyle = color;
 
         context.beginPath();

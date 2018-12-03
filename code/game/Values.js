@@ -12,15 +12,20 @@ var SHIELD_COLOR = "rgba(160, 0, 0, 0.3)";
 var HITBOX_COLOR = "rgba(255, 255, 255, 0.7)";
 var HITBOX_STROKE_COLOR = "rgba(0, 0, 0, 0.7)";
 
+var BOSS_WHEEL_WIDTH = 0.5;
 var BOSS_WHEEL_COLOR = "rgba(0, 0, 0, 0.8)";
+
+var BOSS_TIMER_WIDTH = 0.75;
 var BOSS_TIMER_COLOR = "rgba(192, 255, 255, 0.8)";
 var BOSS_TIMER_ALT_COLOR = "rgba(0, 192, 192, 0.8)";
+
+var BOSS_HEALTH_WIDTH = 1.75;
 var BOSS_HEALTH_COLOR = "rgba(255, 192, 192, 0.8)";
 var BOSS_HEALTH_ALT_COLOR = "rgba(192, 144, 144, 0.8)";
 var BOSS_HEALTH_SPELL_COLOR = "rgba(255, 0, 0, 0.8)";
 var BOSS_HEALTH_SPELL_ALT_COLOR = "rgba(192, 0, 0, 0.8)";
 
-var BORDER_WIDTH = 2;
+var BORDER_WIDTH = 0.5;
 var BORDER_COLOR = "#c00";
 
 var BACKGROUND = "#023";
@@ -38,14 +43,14 @@ var FONT = {
         font: "Unispace Rg",
         size: 3,
         color: "#c00",
-        strokeWidth: 3,
+        strokeWidth: 0.75,
         strokeColor: "#fcc"
     },
     timer: {
         font: "Unispace Rg",
         size: 10,
         color: "#cff",
-        strokeWidth: 4,
+        strokeWidth: 1,
         strokeColor: "#000",
         fullBonus: {
             color: "#0cc"
@@ -55,13 +60,13 @@ var FONT = {
         font: "Unispace Rg",
         size: 4,
         color: "#c60",
-        strokeWidth: 3,
+        strokeWidth: 0.75,
         strokeColor: "#ff0"
     },
     points: {
         font: "Unispace Rg",
         size: 3,
-        strokeWidth: 2,
+        strokeWidth: 0.5,
         strokeColor: "#999",
         point: {
             color: "#fee"
@@ -81,7 +86,7 @@ var FONT = {
         size:6,
         weight: "Bold",
         color: "#fee",
-        strokeWidth: 3,
+        strokeWidth: 0.75,
         strokeColor: "#630",
         minor: {
             size: 3
@@ -94,7 +99,7 @@ var FONT = {
         font: "Revue Normal",
         size: 7,
         color: "#fee",
-        strokeWidth: 6,
+        strokeWidth: 1.5,
         d0: {
             strokeColor: "#080"
         },
@@ -119,7 +124,7 @@ var FONT = {
         size: 7,
         weight: "Bold",
         color: "#0fc",
-        strokeWidth: 4,
+        strokeWidth: 1,
         strokeColor: "#066",
         name: {
             size: 5
@@ -127,7 +132,7 @@ var FONT = {
         menu: {
             size: 12,
             color: "#fff",
-            strokeWidth: 8,
+            strokeWidth: 2,
             strokeColor: "#600"
         },
         fr: {
@@ -140,7 +145,7 @@ var FONT = {
         size: 10,
         style: "Italic",
         color: "#c99",
-        strokeWidth: 4,
+        strokeWidth: 1,
         strokeColor: "#633",
         selected: {
             weight: "Bold",
@@ -153,7 +158,7 @@ var FONT = {
         },
         compact: {
             size: 7,
-            strokeWidth: 3
+            strokeWidth: 0.75
         }
     }
 };
