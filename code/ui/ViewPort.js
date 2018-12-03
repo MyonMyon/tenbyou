@@ -62,6 +62,10 @@ ViewPort.prototype.setZoom = function (zoom) {
     this.context.scale(ratio, ratio);
 };
 
+ViewPort.prototype.onResize = function () {
+    this.changeZoom(0);
+};
+
 ViewPort.prototype.onLoad = function () {
     this.loaded = true;
 

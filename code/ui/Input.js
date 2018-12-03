@@ -129,6 +129,9 @@ function Input(vp) {
     document.addEventListener("contextmenu", function (event) {
         event.preventDefault();
     }, false);
+    window.onresize = function () {
+        vp.onResize();
+    };
     window.onblur = function () {
         if (self.world) {
             self.world.setPause(true);
