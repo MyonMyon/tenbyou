@@ -3,13 +3,13 @@ var RELEASE_DATE = "2018-12-03";
 var REVISION_INNER = 8;
 var REVISION_TOTAL = 442;
 
-var CODE_PRIORITY = [
-    "Ext",
+var PRIORITY_CODE = [
+    "engine/Ext",
     "game/Values",
-    "ui/ViewPort"
+    "engine/ui/ViewPort"
 ];
 
-var CODE = [
+var ENGINE_CODE = [
     "World",
     "EventChain",
     "SpriteHandler",
@@ -25,12 +25,15 @@ var CODE = [
     "entities/Projectile",
     "entities/Bonus",
     "entities/Particle",
-    "entities/Text",
-    "game/Char",
-    "game/Boss",
-    "game/Spell",
-    "game/Stage",
-    "game/Sprite"
+    "entities/Text"
+];
+
+var GAME_CODE = [
+    "Char",
+    "Boss",
+    "Spell",
+    "Stage",
+    "Sprite"
 ];
 
 /**
@@ -129,15 +132,17 @@ function onLoad() {
     document.getElementsByTagName("title")[0].innerHTML = GAME_TITLE;
 }
 
-loadResources(CODE_PRIORITY, "script", "code/", ".js", "game code (priority)", null, function () {
+loadResources(PRIORITY_CODE, "script", "", ".js", "priority code", null, function () {
     for (var i in FONT_FILES) {
         getFont(FONT_FILES[i]);
     }
     var vp = new ViewPort();
-    loadResources(CODE, "script", "code/", ".js", "game code", vp, function () {
-        loadResources(getImages(), "img", SPRITE_FOLDER, "", "game resources", vp, function () {
-            onLoad();
-            vp.onLoad();
+    loadResources(ENGINE_CODE, "script", "engine/", ".js", "engine code", vp, function () {
+        loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, function () {
+            loadResources(getImages(), "img", SPRITE_FOLDER, "", "game resources", vp, function () {
+                onLoad();
+                vp.onLoad();
+            });
         });
     });
 });
