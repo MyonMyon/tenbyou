@@ -58,7 +58,7 @@ PauseMenu.prototype.getCurrentTitle = function () {
  */
 PauseMenu.prototype.draw = function () {
     this.vp.context.fillStyle = "rgba(0, 0, 0, 0.5)";
-    this.vp.context.fillRect(0, 0, this.vp.canvas.width, this.vp.canvas.height);
+    this.vp.context.fillRect(0, 0, this.vp.width, this.vp.height);
 
     this.$draw();
 };

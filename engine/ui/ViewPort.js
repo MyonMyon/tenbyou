@@ -56,8 +56,8 @@ ViewPort.prototype.setZoom = function (zoom) {
 
     this.zoom = zoom;
 
-    this.centerX = this.canvas.width / 2;
-    this.centerY = this.canvas.height / 2;
+    this.centerX = this.width / 2;
+    this.centerY = this.height / 2;
 
     this.context.scale(ratio, ratio);
 };
@@ -231,12 +231,12 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     if (!this.loaded) {
         this.context.fillStyle = "#333";
-        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.fillRect(0, 0, this.width, this.height);
         this.context.textAlign = "center";
         this.setFont(FONT.description);
-        this.drawText("LOADING", this.canvas.width / 2, this.canvas.height / 2 - this.zoom * 2);
-        this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.canvas.width / 2, this.canvas.height / 2);
-        this.drawText(this.loadingText, this.canvas.width / 2, this.canvas.height / 2 + this.zoom * 4);
+        this.drawText("LOADING", this.width / 2, this.height / 2 - this.zoom * 2);
+        this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.width / 2, this.height / 2);
+        this.drawText(this.loadingText, this.width / 2, this.height / 2 + this.zoom * 4);
 
         return;
     }
@@ -356,8 +356,8 @@ ViewPort.prototype.draw = function (initFromWorld) {
     var x1 = boundaryStart.x;
     var x2 = boundaryEnd.x;
 
-    var xN = this.canvas.width;
-    var yN = this.canvas.height;
+    var xN = this.width;
+    var yN = this.height;
 
     var y1 = boundaryStart.y;
     var y2 = yN - boundaryStart.y;
@@ -425,16 +425,16 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     this.context.textAlign = "center";
     if (ENGINE_VERSION_SHOW) {
-        this.drawText(this.version, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y);
+        this.drawText(this.version, (boundaryEnd.x + this.width) / 2, boundaryEnd.y);
     }
 
     var diffO = {};
     diffO["d" + this.world.difficulty] = true;
     this.setFont(FONT.difficulty, diffO);
-    this.drawText(DIFF[this.world.difficulty].name.toUpperCase(), (boundaryEnd.x + this.canvas.width) / 2, boundaryStart.y + 6 * this.zoom);
+    this.drawText(DIFF[this.world.difficulty].name.toUpperCase(), (boundaryEnd.x + this.width) / 2, boundaryStart.y + 6 * this.zoom);
 
     this.setFont(FONT.title, {name: true});
-    this.drawText(GAME_TITLE, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y - this.zoom * 10);
+    this.drawText(GAME_TITLE, (boundaryEnd.x + this.width) / 2, boundaryEnd.y - this.zoom * 10);
 
     var time = this.world.stageTime();
     //Show message:
