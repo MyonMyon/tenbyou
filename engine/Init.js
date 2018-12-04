@@ -36,6 +36,19 @@ var GAME_CODE = [
     "Sprite"
 ];
 
+var IMAGE_LOAD = [{
+        object: "SPRITE",
+        itemProp: "file",
+        push: true,
+        checkInside: true
+    }, {
+        object: "STAGE",
+        itemProp: "background"
+    }, {
+        object: "SPELL",
+        itemProp: "background"
+    }];
+
 /**
  * Loads specific scripts.
  *
@@ -101,28 +114,30 @@ function getFont(data) {
  */
 function getImages() {
     var IMG = [];
-    for (var i in SPRITE) {
-        if (SPRITE[i].file) {
-            IMG.push(SPRITE[i]);
-        }
-        //and... one level deeper:
-        for (var j in SPRITE[i]) {
-            if (SPRITE[i][j].file) {
-                IMG.push(SPRITE[i][j]);
+    for (var s in IMAGE_LOAD) {
+        var data = IMAGE_LOAD[s];
+        var o = window[data.object];
+        for (var i in o) {
+            getImage(o[i], data, IMG);
+            if (data.checkInside) {
+                //and... one level deeper:
+                for (var j in o[i]) {
+                    getImage(o[i][j], data, IMG);
+                }
             }
         }
     }
-    for (var i in STAGE) {
-        if (STAGE[i].background) {
-            IMG.push(STAGE[i].background);
-        }
-    }
-    for (var i in SPELL) {
-        if (SPELL[i].background) {
-            IMG.push(SPELL[i].background);
-        }
-    }
     return IMG;
+}
+
+function getImage(item, data, array) {
+    if (item[data.itemProp]) {
+        if (data.push) {
+            array.push(item);
+        } else {
+            array.push(item[data.itemProp]);
+        }
+    }
 }
 
 /**
