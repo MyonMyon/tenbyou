@@ -1,7 +1,8 @@
 FILE="engine/Init.js"
 REL_DATE=$(date +%Y-%m-%d)
-REV_INNER=$(($(git rev-list  `git rev-list --tags --no-walk --max-count=1`..HEAD --count)+1))
-REV_TOTAL=$(($(git rev-list --count HEAD)+1))
+REV_INNER=$(($(git rev-list  `git rev-list --tags --no-walk --max-count=1`..HEAD --count engine)))
+REV_TOTAL_OLD=$(sed -n "s:.*REVISION_TOTAL = \(.*\);:\1:p" $FILE)
+REV_TOTAL=$(($REV_TOTAL_OLD+$REV_INNER))
 
 if [ "$1" ]; then
     VERSION_NEW=$1;
