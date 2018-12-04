@@ -18,7 +18,7 @@ function ViewPort() {
     this.inDev = window.location.href.split(":")[0] === "file";
     this.showPerf = this.inDev;
 
-    this.version = "Tenbyou v" + ENGINE_VER + " (alpha)";
+    this.version = "Tenbyou v" + ENGINE_VERSION + " (alpha)";
     if (this.inDev) {
         this.version += " dev";
     }
@@ -424,7 +424,7 @@ ViewPort.prototype.draw = function (initFromWorld) {
     }
 
     this.context.textAlign = "center";
-    if (ENGINE_VER_SHOW) {
+    if (ENGINE_VERSION_SHOW) {
         this.drawText(this.version, (boundaryEnd.x + this.canvas.width) / 2, boundaryEnd.y);
     }
 

@@ -168,7 +168,7 @@ var INFO_TAB = 40;
 
 var FRANCHISE_TITLE = "Boundary Crossing:";
 var GAME_TITLE = "Guiding Anomalous Patterns";
-var ENGINE_VER_SHOW = true;
+var ENGINE_VERSION_SHOW = true;
 
 var MENU_TITLE_Y = 44;
 var MENU_SUBTITLE_Y = 64;
