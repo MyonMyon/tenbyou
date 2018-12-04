@@ -100,6 +100,21 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
     }
 }
 
+function getIcon() {
+    var MIME = {
+        "ico": "image/x-icon",
+        "jpg": "image/jpeg",
+        "jpeg": "image/jpeg",
+        "png": "image/png",
+        "svg": "image/svg+xml"
+    };
+    var s = document.createElement("link");
+    s.rel = "shortcut icon";
+    s.href = ICON;
+    s.type = MIME[ICON.split(".")[1]];
+    document.head.appendChild(s);
+}
+
 function getFont(data) {
     var obj = {
         "font-family": data.name,
@@ -153,6 +168,7 @@ loadResources(PRIORITY_CODE, "script", "", ".js", "priority code", null, functio
     }
     var vp = new ViewPort();
     loadResources(ENGINE_CODE, "script", "engine/", ".js", "engine code", vp, function () {
+        getIcon(ICON);
         loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, function () {
             loadResources(getImages(), "img", SPRITE_FOLDER, "", "game resources", vp, function () {
                 onLoad();

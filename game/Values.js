@@ -7,6 +7,7 @@ var SHIFT_Y = 0;
 var RESOURCE_FOLDER = "resources/";
 var SPRITE_FOLDER = RESOURCE_FOLDER + "img/";
 var FONT_FOLDER = RESOURCE_FOLDER + "fonts/";
+var ICON = SPRITE_FOLDER + "icon.png";
 
 var SHIELD_COLOR = "rgba(160, 0, 0, 0.3)";
 var HITBOX_COLOR = "rgba(255, 255, 255, 0.7)";
