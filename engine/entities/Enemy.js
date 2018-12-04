@@ -154,7 +154,7 @@ Enemy.prototype.step = function () {
             var e = this.world.entities[i];
             if (e instanceof Projectile && e.playerSide) {
                 if (this.world.distanceBetweenEntities(this, e) < (this.width + e.width)) {
-                    this.hurt(e.damage);
+                    this.hurt(e.damage, {x: e.x, y: e.y});
                     e.remove();
                 }
             }
@@ -200,7 +200,7 @@ Enemy.prototype.isInvulnerable = function () {
     return this === this.world.boss && this.attackCurrent === null || this.relTime() < this.appearanceTime;
 };
 
-Enemy.prototype.hurt = function (damage) {
+Enemy.prototype.hurt = function (damage, position) {
     if (this.isInvulnerable()) {
         return;
     }
@@ -216,7 +216,7 @@ Enemy.prototype.hurt = function (damage) {
     } else {
         this.health = 0;
     }
-    this.world.splash(this, damage, this.width * 2, this.width * 0.07);
+    this.world.splash(position || this, damage, this.width * 2, this.width * 0.07);
     this.world.player.score += Math.round(healthOld - this.health) * 10;
 
     this.onDamage(damage);
