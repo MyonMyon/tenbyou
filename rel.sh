@@ -1,4 +1,4 @@
-FILE="code/Game.js"
+FILE="engine/Init.js"
 REL_DATE=$(date +%Y-%m-%d)
 REV_INNER=$(($(git rev-list  `git rev-list --tags --no-walk --max-count=1`..HEAD --count)+1))
 REV_TOTAL=$(($(git rev-list --count HEAD)+1))
