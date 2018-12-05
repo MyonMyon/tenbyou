@@ -64,7 +64,7 @@ Bonus.prototype.step = function () {
             case "power":
                 this.world.player.gatherValue += (this.small ? 1 : 2);
                 if (this.world.player.power < this.world.player.powerMax)
-                    this.world.player.addPower(this.small ? 0.1 : 1) * mx;
+                    this.world.player.addPower((this.small ? 0.1 : 1) * mx);
                 else
                     this.world.player.score += (this.small ? 100 : 200) * mx;
                 break;
