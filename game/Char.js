@@ -6,12 +6,12 @@ var CHAR = {
             turret: {
                 width: 2,
                 behavior: function () {
-                    var a = -Math.PI - (this.count - 1) * Math.PI / 8 + this.index * Math.PI / 4;
-                    this.x0 = Math.sin(a) * (this.player.focused ? 6 : 12);
-                    this.y0 = Math.cos(a) * 6;
+                    var a = -Math.PI / 2 - (this.count - 1) * Math.PI / 8 + this.index * Math.PI / 4;
+                    this.x0 = Math.cos(a) * (this.player.focused ? 6 : 12);
+                    this.y0 = Math.sin(a) * 6;
                 },
                 onShoot: function () {
-                    var bullet = this.shootProjectile(-Math.PI, 4, 480, 0, 2, "strike.blue");
+                    var bullet = this.shootProjectile(-Math.PI / 2, 4, 480, 0, 2, "strike.blue");
                     bullet.playerSide = true;
                     bullet.damage = (1 + this.player.damageInc) / (this.count + this.player.damageInc);
                 }
@@ -19,12 +19,12 @@ var CHAR = {
             turretAimed: {
                 width: 2,
                 behavior: function () {
-                    var a = -Math.PI - (this.count - 1) * Math.PI / 8 + this.index * Math.PI / 4;
-                    this.x0 = Math.sin(a) * (this.player.focused ? 6 : 12);
-                    this.y0 = Math.cos(a) * 6;
+                    var a = -Math.PI / 2 - (this.count - 1) * Math.PI / 8 + this.index * Math.PI / 4;
+                    this.x0 = Math.cos(a) * (this.player.focused ? 6 : 12);
+                    this.y0 = Math.sin(a) * 6;
                 },
                 onShoot: function () {
-                    var bullet = this.shootProjectile(-Math.PI, 4, 480, 0, 2, "strike.red");
+                    var bullet = this.shootProjectile(-Math.PI / 2, 4, 480, 0, 2, "strike.red");
                     bullet.playerSide = true;
                     bullet.damage = 1.5 * (1 + this.player.damageInc) / (this.count + this.player.damageInc);
                     if (this.player.focused) {
@@ -88,7 +88,7 @@ var CHAR = {
                 turret.onShoot();
             }, this.shotCooldownDefault, this.shotCooldownDefault, Infinity);
             turret.damage = (1 + this.damageInc) / (Math.floor(this.power) + 1 + this.damageInc);
-            turret.angle = this.isMaxBonus() ? 0 : Math.PI;
+            turret.angle = this.isMaxBonus() ? Math.PI / 2 : -Math.PI / 2;
             turret.addDrops("power", true, 3);
         }
     },

@@ -40,10 +40,10 @@ var SPELL = {
                     var a = i / c * Math.PI * 2;
                     var d = e.relTime() * 1.5;
                     new Projectile(e.world,
-                            e.x + e.width * Math.sin(a),
-                            e.y + e.width * Math.cos(a),
-                            Math.sin(a + d) * (20 + e.world.difficulty * 5),
-                            Math.cos(a + d) * (5 + e.world.difficulty * 20),
+                            e.x + e.width * Math.cos(a),
+                            e.y + e.width * Math.sin(a),
+                            Math.cos(a + d) * (20 + e.world.difficulty * 5),
+                            Math.sin(a + d) * (5 + e.world.difficulty * 20),
                             0, 0, 2.5, false, iter % 2 ? "static.blue" : "static.red");
                 }
             }, 0.4, 0.1, Infinity);
@@ -68,7 +68,7 @@ var SPELL = {
                 var c = 3 + e.world.difficulty * 2;
                 var r = e.world.difficulty * 5;
                 for (var i = 0; i < c; ++i) {
-                    var a = i / c * Math.PI * 2;
+                    var a = i / c * Math.PI * 2 + Math.PI / 2;
                     var p = e.shootProjectile(a, e.width + r, 25, 0, 2.5, iter % 2 ? "static.blue" : "static.red");
                     p.eventChain.addEvent(function (proj) {
                         proj.headToEntity(proj.world.player, 0, 60);
@@ -101,21 +101,20 @@ var SPELL = {
                         if (iter % 200 < 80) {
                             for (var i = 0; i < Math.PI * 2; i += Math.PI / 2) {
                                 var p = s.shootProjectile(i, entity.width * 4, 20, -9, 4, "seal.red");
-                                p.nextAngle = i + Math.PI / 2;
+                                p.nextAngle = i - Math.PI / 2;
                                 p.eventChain.addEvent(function (e) {
                                     e.setVectors(null, null,
-                                            Math.sin(e.nextAngle) * 20,
                                             Math.cos(e.nextAngle) * 20,
-                                            Math.sin(e.nextAngle) * 24,
-                                            Math.cos(e.nextAngle) * 24);
+                                            Math.sin(e.nextAngle) * 20,
+                                            Math.cos(e.nextAngle) * 24,
+                                            Math.sin(e.nextAngle) * 24);
                                 }, 2);
                             }
                         }
                         if (iter % 200 === 60) {
-                            s.attackAngle = -Math.atan2(
-                                    s.y - s.world.player.y,
-                                    s.x - s.world.player.x)
-                                    - Math.PI / 2;
+                            s.attackAngle = Math.atan2(
+                                    s.world.player.y - s.y,
+                                    s.world.player.x - s.x);
                         }
                         if (iter % 200 < 160 && iter % 200 >= 60) {
                             var c = 3 + s.world.difficulty * 2;
@@ -162,12 +161,12 @@ var SPELL = {
                 var satellite = new Enemy(entity.world, entity.x, entity.y, 0, 0, 0, 0, 2, 160, "orbMinion");
                 satellite.relAngle = Math.PI * 2 * i / count;
                 satellite.parent = entity;
-                satellite.headToPointSmoothly(entity.x + 20 * Math.sin(satellite.relAngle), entity.y + 20 * Math.cos(satellite.relAngle), 1);
+                satellite.headToPointSmoothly(entity.x + 20 * Math.cos(satellite.relAngle), entity.y + 20 * Math.sin(satellite.relAngle), 1);
                 satellite.eventChain.addEvent(function (s) {
                     s.behavior = function () {
                         this.relAngle += Math.PI / this.world.ticksPS / 2;
-                        this.x = this.parent.x + 20 * Math.sin(this.relAngle);
-                        this.y = this.parent.y + 20 * Math.cos(this.relAngle);
+                        this.x = this.parent.x + 20 * Math.cos(this.relAngle);
+                        this.y = this.parent.y + 20 * Math.sin(this.relAngle);
                     };
                 }, 1);
                 satellite.eventChain.addEvent(function (s, iter) {
@@ -214,7 +213,7 @@ var SPELL = {
                 var r = 24;
                 var s = 60;
                 for (var i = 0; i < c; ++i) {
-                    var a = i / c * Math.PI * 2 + Math.cos(e.relTime() * 0.75);
+                    var a = Math.PI / 2 + i / c * Math.PI * 2 - Math.cos(e.relTime() * 0.75);
                     var p = e.shootProjectile(a, r, s, 0, 2, "orbBlue");
                     p.reflects = 1;
                     p.behavior = function () {
@@ -256,9 +255,8 @@ var SPELL = {
                 e.x1 = 0;
                 var r = 2;
                 var s = 60;
-                var a = Math.PI - e.relTime() * 2;
-                e.angle = e.relTime() * 2 - Math.PI / 2;
-                e.shootProjectile(a, r, s, 0, 4, iter % 2 ? "static.blue" : "static.red");
+                e.angle = e.relTime() * 2 - Math.PI /2;
+                e.shootProjectile(e.angle, r, s, 0, 4, iter % 2 ? "static.blue" : "static.red");
             }, 0.7, 0.033, Infinity);
             entity.eventChain.addEvent(function (e, iter) {
                 if (iter % 25 > 20) {
@@ -267,7 +265,7 @@ var SPELL = {
                         var r = 2;
                         var c = 2 + e.world.difficulty;
                         for (var i = -c; i <= c; ++i) {
-                            var a = -Math.atan2(e.y - e.world.player.y, e.x - e.world.player.x) - Math.PI / 2 + Math.PI / 20 * i;
+                            var a = Math.atan2(e.world.player.y - e.y, e.world.player.x - e.x) + Math.PI / 20 * i;
                             e.shootProjectile(a, r, s, 0, 2, "orbBlue");
                         }
                     } else {

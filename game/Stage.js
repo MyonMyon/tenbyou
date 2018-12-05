@@ -177,8 +177,8 @@ var STAGE = [{
                         var a = Math.PI / 2 * -r * ((i - 2) / 12);
                         var p = new Projectile(e.world,
                                 e.savedPoint.x, e.savedPoint.y,
-                                Math.sin(a) * 10, Math.cos(a) * 10,
-                                Math.sin(a) * 15, Math.cos(a) * 15,
+                                Math.cos(a) * 10, Math.sin(a) * 10,
+                                Math.cos(a) * 15, Math.sin(a) * 15,
                                 3 + e.world.difficulty * 0.5, false, "strike.red");
 
                     }, 1.8, 0.1, 17);
@@ -225,8 +225,8 @@ var STAGE = [{
                                 if (this.anchor) {
                                     var angle = this.anchor.getAngle();
                                     var d = Math.sin(this.relTime() * 4) * this.maxDistance;
-                                    this.x0 = Math.sin(angle - Math.PI / 2) * d;
-                                    this.y0 = Math.cos(angle - Math.PI / 2) * d;
+                                    this.x0 = Math.cos(angle - Math.PI / 2) * d;
+                                    this.y0 = Math.sin(angle - Math.PI / 2) * d;
                                 }
                             };
                         }
@@ -255,8 +255,8 @@ var STAGE = [{
                         for (var i = 0; i < count; ++i) {
                             var angle = i / count * Math.PI * 2;
                             var b = new Projectile(entity.world, 0, 0,
-                                    Math.sin(angle) * 10,
                                     Math.cos(angle) * 10,
+                                    Math.sin(angle) * 10,
                                     0, 0, 2, false, i % 2 ? "static.yellow" : "static.red");
                             b.setAnchor(a);
                         }

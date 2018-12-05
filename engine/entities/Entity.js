@@ -98,7 +98,7 @@ Entity.prototype.relTime = function () {
 };
 
 Entity.prototype.getAngle = function () {
-    return Math.atan2(this.x1, this.y1);
+    return Math.atan2(this.y1, this.x1);
 };
 
 Entity.prototype.draw = function (context) {
@@ -200,12 +200,12 @@ Entity.prototype.nearestEntity = function (type, range, filters) {
 
 Entity.prototype.shootProjectile = function (angle, distance, speed, acceleration, width, sprite, anchored) {
     var p = new Projectile(this.world,
-            (anchored ? 0 : this.x) + distance * Math.sin(angle),
-            (anchored ? 0 : this.y) + distance * Math.cos(angle),
-            Math.sin(angle) * speed,
+            (anchored ? 0 : this.x) + distance * Math.cos(angle),
+            (anchored ? 0 : this.y) + distance * Math.sin(angle),
             Math.cos(angle) * speed,
-            Math.sin(angle) * acceleration,
+            Math.sin(angle) * speed,
             Math.cos(angle) * acceleration,
+            Math.sin(angle) * acceleration,
             width, false, sprite);
     if (anchored) {
         p.setAnchor(this);
@@ -217,15 +217,15 @@ Entity.prototype.dropBonus = function (angle, distance, cat, small) {
     var p = cat === "power" && this.world.player.power >= this.world.player.powerMax;
     return new Bonus(
             this.world,
-            this.x + Math.sin(angle) * distance,
-            this.y + Math.cos(angle) * distance,
+            this.x + Math.cos(angle) * distance,
+            this.y + Math.sin(angle) * distance,
             p ? "point" : cat,
             p ? false : small,
             false);
 };
 
 Entity.prototype.shootProjectileAt = function (target, distance, speed, acceleration, width, sprite) {
-    var angle = Math.atan2(target.x - this.x, target.y - this.y);
+    var angle = Math.atan2(target.y - this.y, target.x - this.x);
     return this.shootProjectile(angle, distance, speed, acceleration, width, sprite);
 };
 
