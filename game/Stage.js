@@ -30,7 +30,7 @@ var STAGE = [{
                                 25,
                                 (i === 0 ? -7.5 : 7.5),
                                 0,
-                                2, 5, i ? "fairyBlue" : "fairyRed");
+                                2, 1, i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i ? "point" : "power", !i, 1); //type, size (false — big), amount
                         if (Math.random() < 0.1)
                             fairy.addDrops("power", false, 1); //10% chance of big power item;
@@ -53,7 +53,7 @@ var STAGE = [{
                 func: function (world, iter) {
                     var x = world.width * (-1 / 4 + Math.min(iter, 9 - iter) % 5 / 8);
                     var y = -world.height * 0.45;
-                    var kedama = new Enemy(world, x, y, 0, 12, 0, 0, 4, 8, "kedamaMinion");
+                    var kedama = new Enemy(world, x, y, 0, 12, 0, 0, 4, 12, "kedamaMinion");
                     kedama.addDrops("point", false, 2);
                     kedama.eventChain.addEvent(function (s, i) {
                         var shootInterval = 30 - s.world.difficulty * 6;
@@ -80,7 +80,7 @@ var STAGE = [{
                     for (var p = 0; p < 2; ++p) {
                         var y = -world.height / 2 - 5;
                         var x = r * (world.width / 3 + p * 10);
-                        var kedamaPaired = new Enemy(world, x, y, -r * 2, 30, -r * 12, 0, 4, 8, "kedamaMinion");
+                        var kedamaPaired = new Enemy(world, x, y, -r * 2, 30, -r * 12, 0, 4, 12, "kedamaMinion");
                         kedamaPaired.addDrops(p ? "point" : "power", !p, 1);
                         kedamaPaired.eventChain.addEvent(function (s, i) {
                             s.shootProjectileAt(s.world.player, s.width, 60, 0, 2, "kunai.purple");
@@ -102,7 +102,7 @@ var STAGE = [{
                     var x = Math.random() * (world.width - 40) - world.width / 2 + 20;
                     var y = -world.height / 2 + 20;
                     if (iter % 5 < 3) {
-                        var orb = new Enemy(world, x, y, 0, 6, 0, 0, 2, 20, "orbMinion");
+                        var orb = new Enemy(world, x, y, 0, 6, 0, 0, 2, 25, "orbMinion");
                         orb.appearanceTime = 1;
                         orb.addDrops("power", true, 1);
                         orb.addDrops("point", false, 1);
@@ -148,7 +148,7 @@ var STAGE = [{
                     var y = Math.min(world.height / 2 - 5,
                             Math.max(-world.height / 2 + 5,
                                     world.player.y - 20 + Math.random() * 10));
-                    var sideFairy = new Enemy(world, x, y, -r * 15, 0, r * 15, 0, 2, 5, "fairyBlue");
+                    var sideFairy = new Enemy(world, x, y, -r * 15, 0, r * 15, 0, 2, 1, "fairyBlue");
                     sideFairy.appearanceTime = 1;
                     sideFairy.addDrops("point", false, 2);
                     sideFairy.eventChain.addEvent(function (e, i) {
@@ -170,7 +170,7 @@ var STAGE = [{
                             r * (world.width / 2 + 1), -world.height / 2 - 1,
                             -r * 30, 30,
                             r * 15, -15,
-                            2, 10, "fairyRed");
+                            2, 1, "fairyRed");
                     fairyTurret.addDrops("power", true, 1);
                     fairyTurret.eventChain.addEvent(function (e, i) {
                         e.savedPoint = {x: e.x, y: e.y};
@@ -211,7 +211,7 @@ var STAGE = [{
                             r * (world.width / 2 + 1), -world.height / 2 - 1,
                             -r * 30, 30,
                             r * 15, -15,
-                            2, 5, "fairyRed");
+                            2, 1, "fairyRed");
                     fairyTurret.addDrops("power", true, 1);
                     fairyTurret.eventChain.addEvent(function (e, i) {
                         e.savedPoint = {x: e.world.player.x, y: e.world.player.y};
@@ -282,7 +282,7 @@ var STAGE = [{
                                 25,
                                 (i === 0 ? -7.5 : 7.5),
                                 0,
-                                2, 5, i ? "fairyBlue" : "fairyRed");
+                                2, 1, i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i ? "point" : "power", !i, 1); //type, size (false — big), amount
                         if (Math.random() < 0.1)
                             fairy.addDrops("power", false, 1); //10% chance of big power item;

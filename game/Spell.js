@@ -29,8 +29,8 @@ var SPELL = {
             "Soft Sign \"Prepare to Fluff\""
         ],
         health: 400,
-        time: 20,
-        decrTime: 2,
+        time: 40,
+        decrTime: 5,
         bonus: 30000,
         bonusBound: 5000,
         init: function (entity) {
@@ -59,8 +59,8 @@ var SPELL = {
             "Soft Sign \"Unfluffiest Thorns\""
         ],
         health: 600,
-        time: 17,
-        decrTime: 2,
+        time: 40,
+        decrTime: 5,
         bonus: 30000,
         bonusBound: 5000,
         init: function (entity) {
@@ -198,8 +198,8 @@ var SPELL = {
             speed: 100
         },
         health: 400,
-        time: 30,
-        decrTime: 10,
+        time: 45,
+        decrTime: 15,
         bonus: 30000,
         bonusBound: 5000,
         init: function (entity) {
@@ -242,8 +242,8 @@ var SPELL = {
             "Reference Sign \"Ground Minus One\""
         ],
         health: 320,
-        time: 50,
-        decrTime: 10,
+        time: 60,
+        decrTime: 20,
         bonus: 40000,
         bonusBound: 5000,
         init: function (entity) {
