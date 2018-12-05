@@ -126,11 +126,11 @@ Entity.prototype.setAnchor = function (entity, useAnchorAngle) {
         if (index >= 0) {
             this.anchor.anchored.splice(index, 1);
             this.x = this.anchor.x + this.anchor.x0;
-            this.y = this.anchor.y + this.anchor.x0;
-            this.x1 = this.anchor.x1 + this.anchor.x1;
-            this.y1 = this.anchor.y1 + this.anchor.x1;
-            this.x2 = this.anchor.x2 + this.anchor.x2;
-            this.y2 = this.anchor.y2 + this.anchor.x2;
+            this.y = this.anchor.y + this.anchor.y0;
+            this.x1 = this.anchor.x1 + this.x1;
+            this.y1 = this.anchor.y1 + this.y1;
+            this.x2 = this.anchor.x2 + this.x2;
+            this.y2 = this.anchor.y2 + this.y2;
         }
     }
     if (entity) {
