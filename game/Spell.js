@@ -112,9 +112,7 @@ var SPELL = {
                             }
                         }
                         if (iter % 200 === 60) {
-                            s.attackAngle = Math.atan2(
-                                    s.world.player.y - s.y,
-                                    s.world.player.x - s.x);
+                            s.attackAngle = s.world.angleBetweenEntities(s, s.world.player);
                         }
                         if (iter % 200 < 160 && iter % 200 >= 60) {
                             var c = 3 + s.world.difficulty * 2;
@@ -265,7 +263,7 @@ var SPELL = {
                         var r = 2;
                         var c = 2 + e.world.difficulty;
                         for (var i = -c; i <= c; ++i) {
-                            var a = Math.atan2(e.world.player.y - e.y, e.world.player.x - e.x) + Math.PI / 20 * i;
+                            var a = e.world.angleBetweenEntities(e, e.world.player) + Math.PI / 20 * i;
                             e.shootProjectile(a, r, s, 0, 2, "orbBlue");
                         }
                     } else {

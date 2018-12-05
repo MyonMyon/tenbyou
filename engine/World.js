@@ -174,6 +174,10 @@ World.prototype.vectorLength = function (x, y) {
     return Math.sqrt(x * x + y * y);
 };
 
+World.prototype.angleBetweenEntities = function (entity1, entity2) {
+    return Math.atan2(entity2.y - entity1.y, entity2.x - entity1.x);
+};
+
 World.prototype.distanceBetweenEntities = function (entity1, entity2) {
     return Math.sqrt(Math.pow(entity1.x - entity2.x, 2) + Math.pow(entity1.y - entity2.y, 2));
 };

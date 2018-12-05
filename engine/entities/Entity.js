@@ -225,7 +225,7 @@ Entity.prototype.dropBonus = function (angle, distance, cat, small) {
 };
 
 Entity.prototype.shootProjectileAt = function (target, distance, speed, acceleration, width, sprite) {
-    var angle = Math.atan2(target.y - this.y, target.x - this.x);
+    var angle = this.world.angleBetweenEntities(this, target);
     return this.shootProjectile(angle, distance, speed, acceleration, width, sprite);
 };
 
