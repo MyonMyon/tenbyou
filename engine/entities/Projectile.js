@@ -28,7 +28,7 @@ Projectile.prototype.draw = function (context) {
     context.save();
     context.translate(ePos.x, ePos.y);
     if (this.rotate || this.angle) {
-        var a = this.useAnchorAngle ? Math.atan2(this.anchor.y1, this.anchor.x1) : Math.atan2(this.y1, this.x1);
+        var a = this.useAnchorAngle ? this.anchor.getAngle() : this.getAngle();
         context.rotate(a - Math.PI / 2 + this.angle);
     }
 
