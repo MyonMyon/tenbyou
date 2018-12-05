@@ -33,7 +33,7 @@ var CHAR = {
                         bullet.rangeForAim = 100;
                     }
                     bullet.eventChain.addEvent(function (b) {
-                        b.headToEntity(b.nearestEntity(Enemy, b.rangeForAim, null, {isInvulnerable: false}), 480, 0);
+                        b.headToEntity(b.nearestEntity(Enemy, b.rangeForAim, Math.PI / 4, {isInvulnerable: false}), 480, 0);
                     }, 0, this.player.focused ? 0.05 : 0.2, Infinity);
                 }
             },
