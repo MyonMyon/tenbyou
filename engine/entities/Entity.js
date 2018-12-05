@@ -173,13 +173,16 @@ Entity.prototype.headToPointSmoothly = function (targetX, targetY, time) {
     this.targetTime = time;
 };
 
-Entity.prototype.nearestEntity = function (type, range, filters) {
+Entity.prototype.nearestEntity = function (type, range, angleRange, filters) {
+    var angleRange = angleRange || Math.PI;
     var nearest = null;
     var nearestDistance = range || this.world.height * 2;
     for (var i in this.world.entities) {
         var e = this.world.entities[i];
         if ((e instanceof type && ((type === Projectile && !e.playerSide) || type !== Projectile)) || type === null) {
-            if (e !== this && this.world.distanceBetweenEntities(this, e) < nearestDistance) {
+            if (e !== this &&
+                    this.world.distanceBetweenEntities(this, e) < nearestDistance &&
+                    Math.abs(this.world.angleBetweenEntities(this, e) - this.getAngle()) <= angleRange) {
                 var complete = true;
                 if (filters) {
                     for (var j in filters) {
