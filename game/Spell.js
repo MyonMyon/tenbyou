@@ -28,7 +28,7 @@ var SPELL = {
             "Soft Sign \"Not so Fluffy Revenge\"",
             "Soft Sign \"Prepare to Fluff\""
         ],
-        health: 200,
+        health: 400,
         time: 20,
         decrTime: 2,
         bonus: 30000,
@@ -58,7 +58,7 @@ var SPELL = {
             "Soft Sign \"Not so Fluffy Thorns\"",
             "Soft Sign \"Unfluffiest Thorns\""
         ],
-        health: 400,
+        health: 600,
         time: 17,
         decrTime: 2,
         bonus: 30000,
@@ -199,7 +199,7 @@ var SPELL = {
             file: "spell_sp.jpg",
             speed: 100
         },
-        health: 200,
+        health: 400,
         time: 30,
         decrTime: 10,
         bonus: 30000,
@@ -243,7 +243,7 @@ var SPELL = {
             "Reference Sign \"Ground Zero\"",
             "Reference Sign \"Ground Minus One\""
         ],
-        health: 160,
+        health: 320,
         time: 50,
         decrTime: 10,
         bonus: 40000,

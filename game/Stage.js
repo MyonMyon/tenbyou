@@ -30,7 +30,7 @@ var STAGE = [{
                                 25,
                                 (i === 0 ? -7.5 : 7.5),
                                 0,
-                                2, 10, i ? "fairyBlue" : "fairyRed");
+                                2, 5, i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i ? "point" : "power", !i, 1); //type, size (false — big), amount
                         if (Math.random() < 0.1)
                             fairy.addDrops("power", false, 1); //10% chance of big power item;
@@ -53,7 +53,7 @@ var STAGE = [{
                 func: function (world, iter) {
                     var x = world.width * (-1 / 4 + Math.min(iter, 9 - iter) % 5 / 8);
                     var y = -world.height * 0.45;
-                    var kedama = new Enemy(world, x, y, 0, 12, 0, 0, 4, 15, "kedamaMinion");
+                    var kedama = new Enemy(world, x, y, 0, 12, 0, 0, 4, 8, "kedamaMinion");
                     kedama.addDrops("point", false, 2);
                     kedama.eventChain.addEvent(function (s, i) {
                         var shootInterval = 30 - s.world.difficulty * 6;
@@ -80,7 +80,7 @@ var STAGE = [{
                     for (var p = 0; p < 2; ++p) {
                         var y = -world.height / 2 - 5;
                         var x = r * (world.width / 3 + p * 10);
-                        var kedamaPaired = new Enemy(world, x, y, -r * 2, 30, -r * 12, 0, 4, 15, "kedamaMinion");
+                        var kedamaPaired = new Enemy(world, x, y, -r * 2, 30, -r * 12, 0, 4, 8, "kedamaMinion");
                         kedamaPaired.addDrops(p ? "point" : "power", !p, 1);
                         kedamaPaired.eventChain.addEvent(function (s, i) {
                             s.shootProjectileAt(s.world.player, s.width, 60, 0, 2, "kunai.purple");
@@ -102,7 +102,7 @@ var STAGE = [{
                     var x = Math.random() * (world.width - 40) - world.width / 2 + 20;
                     var y = -world.height / 2 + 20;
                     if (iter % 5 < 3) {
-                        var orb = new Enemy(world, x, y, 0, 6, 0, 0, 2, 30, "orbMinion");
+                        var orb = new Enemy(world, x, y, 0, 6, 0, 0, 2, 20, "orbMinion");
                         orb.appearanceTime = 1;
                         orb.addDrops("power", true, 1);
                         orb.addDrops("point", false, 1);
@@ -134,7 +134,7 @@ var STAGE = [{
                             world.width * (Math.random() - 0.5) * 0.8, -world.height / 2 - 3,
                             0, 30 + world.difficulty * 6,
                             0, 60,
-                            4, 3, "stoneFace");
+                            4, 2, "stoneFace");
                     stone.addDrops("point", false, 1);
                 }
             }, {
@@ -146,7 +146,7 @@ var STAGE = [{
                     var r = (iter % 2) ? -1 : 1;
                     var x = r * (world.width / 2 - 10);
                     var y = Math.random() * (world.height - 10) - world.height / 2 + 5;
-                    var sideFairy = new Enemy(world, x, y, -r * 15, 0, r * 15, 0, 2, 10, "fairyBlue");
+                    var sideFairy = new Enemy(world, x, y, -r * 15, 0, r * 15, 0, 2, 5, "fairyBlue");
                     sideFairy.appearanceTime = 1;
                     sideFairy.addDrops("point", false, 2);
                     sideFairy.eventChain.addEvent(function (e, i) {
@@ -209,7 +209,7 @@ var STAGE = [{
                             r * (world.width / 2 + 1), -world.height / 2 - 1,
                             -r * 30, 30,
                             r * 15, -15,
-                            2, 10, "fairyRed");
+                            2, 5, "fairyRed");
                     fairyTurret.addDrops("power", true, 1);
                     fairyTurret.eventChain.addEvent(function (e, i) {
                         e.savedPoint = {x: e.world.player.x, y: e.world.player.y};
@@ -246,7 +246,7 @@ var STAGE = [{
                             r * (world.width / 2 + 1), -world.height / 2 - 1,
                             -r * 40, 20,
                             r * 3, -5,
-                            3, 20, "eye");
+                            3, 10, "eye");
                     eye.addDrops("power", true, 1);
                     eye.addDrops("point", false, 2);
                     eye.eventChain.addEvent(function (entity) {
@@ -280,7 +280,7 @@ var STAGE = [{
                                 25,
                                 (i === 0 ? -7.5 : 7.5),
                                 0,
-                                2, 10, i ? "fairyBlue" : "fairyRed");
+                                2, 5, i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i ? "point" : "power", !i, 1); //type, size (false — big), amount
                         if (Math.random() < 0.1)
                             fairy.addDrops("power", false, 1); //10% chance of big power item;
@@ -351,7 +351,7 @@ eventKedamaMidboss = function (world, power) {
                 }
             }, 0.3, 0.1, Infinity);
         },
-        health: 400,
+        health: 800,
         time: 15
     }, world.difficulty);
     if (world.difficulty > 0) {
@@ -382,9 +382,9 @@ eventOrb = function (world) {
 
     var orb = new Enemy(world);
 
-    orb.addNonSpell({init: nsInit, func: nsBehavior, health: 100, time: 15});
+    orb.addNonSpell({init: nsInit, func: nsBehavior, health: 300, time: 15});
     orb.addSpell(SPELL.orbAlpha);
-    orb.addNonSpell({init: nsInit, func: nsBehavior, health: 150, time: 25});
+    orb.addNonSpell({init: nsInit, func: nsBehavior, health: 500, time: 25});
     orb.addSpell(SPELL.orbBeta);
 
     orb.setBossData("orb", true);
