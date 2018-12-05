@@ -307,14 +307,14 @@ Player.prototype.respawn = function () {
 
     this.autoGatherTime = 0;
     this.invulnTime = this.invulnTimeRespawn;
-    for (var i = 0; i < 5; ++i) {
-        if (i === 2 && this.lives < 1)
-            new Bonus(this.world, this.x + (i - 2) * 20, this.y, "gauge", false, false);
+    for (var i = 0; i < 9; ++i) {
+        if (i === 4 && this.lives < 1)
+            new Bonus(this.world, this.x, this.y, "gauge", false, false);
         else
-            new Bonus(this.world, this.x + (i - 2) * 20, this.y, "power", false, false);
+            new Bonus(this.world, this.x + (i - 4) * 10, this.y, "power", true, false);
     }
     this.x = 0;
     this.y = this.world.height / 2 - 5;
     this.bombs = Math.max(this.bombsDefault, this.bombs);
-    this.addPower(-Math.min(this.power, 0.6));
+    this.addPower(-Math.min(this.power, 1));
 };
