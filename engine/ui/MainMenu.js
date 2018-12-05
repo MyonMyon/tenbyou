@@ -68,12 +68,12 @@ function MainMenu(vp) {
     this.tree = [
         {
             id: "start",
-            title: "Start Game",
+            title: "Game Start",
             submenu: diffMenu
         },
         {
             id: "extra",
-            title: "Start Extra",
+            title: "Extra Start",
             isEnabled: function (vp) {
                 return false;
             },
