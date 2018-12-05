@@ -369,7 +369,7 @@ eventKedamaMidboss = function (world, power) {
 eventOrb = function (world) {
     var nsInit = function (entity) {
         entity.eventChain.addEvent(function (e) {
-            var c = 4 * (e.attackGroupCurrent + 1) * (e.world.difficulty + 1);
+            var c = 2 * (e.attackGroupCurrent + 3) * (e.world.difficulty + 1);
             for (var i = 0; i < c; ++i) {
                 var a = i / c * Math.PI * 2;
                 var d = e.relTime() * 3;
