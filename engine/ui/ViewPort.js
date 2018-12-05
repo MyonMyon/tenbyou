@@ -15,7 +15,7 @@ function ViewPort() {
     this.fps = 0;
     this.prevMS = 0;
 
-    this.inDev = window.location.href.split(":")[0] === "file";
+    this.inDev = DEV_MODE;
     this.showPerf = this.inDev;
 
     this.version = "Tenbyou v" + ENGINE_VERSION + " (alpha)";
