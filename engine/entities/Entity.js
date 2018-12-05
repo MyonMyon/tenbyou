@@ -15,6 +15,18 @@ function Entity(world, x, y, x1, y1, x2, y2, width) {
     this.x2 = x2 || 0;
     this.y2 = y2 || 0;
 
+    //ang. position
+    this.a0 = 0;
+    this.r0 = 0;
+
+    //ang. speed
+    this.a1 = 0;
+    this.r1 = 0;
+
+    //ang. acceleration
+    this.a2 = 0;
+    this.r2 = 0;
+
     if (width === undefined || width === null) {
         this.width = 2;
     } else {
@@ -76,6 +88,12 @@ Entity.prototype.step = function () {
     } else {
         this.targetTime = 0;
 
+        this.a1 += this.a2 / this.world.ticksPS;
+        this.r1 += this.r2 / this.world.ticksPS;
+
+        this.a0 += this.a1 / this.world.ticksPS;
+        this.r0 += this.r1 / this.world.ticksPS;
+
         this.x1 += this.x2 / this.world.ticksPS;
         this.y1 += this.y2 / this.world.ticksPS;
 
@@ -83,8 +101,8 @@ Entity.prototype.step = function () {
         this.y0 += this.y1 / this.world.ticksPS;
 
         if (this.anchor) {
-            this.x = this.anchor.x + this.x0;
-            this.y = this.anchor.y + this.y0;
+            this.x = this.anchor.x + this.x0 + Math.cos(this.a0) * this.r0;
+            this.y = this.anchor.y + this.y0 + Math.sin(this.a0) * this.r0;
         } else {
             this.x += this.x1 / this.world.ticksPS;
             this.y += this.y1 / this.world.ticksPS;
@@ -149,6 +167,15 @@ Entity.prototype.setVectors = function (posX, posY, speedX, speedY, accX, accY) 
     this.y1 = speedY || speedY === 0 ? speedY : this.y1;
     this.x2 = accX || accX === 0 ? accX : this.x2;
     this.y2 = accY || accY === 0 ? accY : this.y2;
+};
+
+Entity.prototype.setPolarVectors = function (posA, posR, speedA, speedR, accA, accR) {
+    this.a0 = posA || posA === 0 ? posA : this.a0;
+    this.r0 = posR || posR === 0 ? posR : this.r0;
+    this.a1 = speedA || speedA === 0 ? speedA : this.a1;
+    this.r1 = speedR || speedR === 0 ? speedR : this.r1;
+    this.a2 = accA || accA === 0 ? accA : this.a2;
+    this.r2 = accR || accR === 0 ? accR : this.r2;
 };
 
 Entity.prototype.headToEntity = function (target, speed, acceleration) {
