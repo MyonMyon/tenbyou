@@ -312,10 +312,45 @@ var STAGE = [{
                 }
             }, {
                 substage: 1,
-                second: 4,
+                second: 2,
+                repeatInterval: 2,
+                repeatCount: 5,
+                func: function (world, iter) {
+                    var r = (iter % 2) ? -1 : 1;
+                    var eye = new Enemy(world,
+                            r * (world.width / 2 + 1), -world.height / 2 - 1,
+                            -r * 40, 20,
+                            r * 3, -5,
+                            3, 10, "eye");
+                    eye.addDrops("power", true, 2);
+                    eye.addDrops("point", false, 3);
+                    eye.eventChain.addEvent(function (entity, iter) {
+                        var a = entity.shootProjectileAt(entity.world.player, 5, 50, 0, 0);
+                        var count = 4 + entity.world.difficulty * 2;
+                        for (var i = 0; i < count; ++i) {
+                            var angle = i / count * Math.PI * 2;
+                            var b = new Projectile(entity.world, 0, 0, 0, 0, 0, 0, 2, false, i % 2 ? "static.yellow" : "static.red");
+                            b.setPolarVectors(angle, 1, 0, 20, Math.PI / 4 * (iter % 2 ? -1 : 1), -10);
+                            b.setAnchor(a);
+                        }
+                    }, 0.2, 1, Infinity);
+                }
+            }, {
+                substage: 1,
+                second: 18,
                 func: function (world) {
                     eventOkuu(world);
                 }
+            }]
+    }, {
+        title: "TEST",
+        description: "There is nothing here. Be patient.",
+        appearanceSecond: 4,
+        background: {
+            file: "bg2.jpg",
+            speed: 60
+        },
+        events: [{
             }]
     }, {
         extra: 4,
