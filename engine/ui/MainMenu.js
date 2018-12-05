@@ -98,7 +98,7 @@ function MainMenu(vp) {
             id: "quit",
             title: "Quit",
             action: function () {
-                window.location = document.referer || "about:blank";
+                window.location = document.referrer || "about:blank";
             }
         }
     ];
