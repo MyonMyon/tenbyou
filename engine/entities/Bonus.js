@@ -17,7 +17,14 @@ Bonus.prototype.draw = function (context) {
     var offScreen = this.y < minHeight;
     var ePos = this.world.vp.toScreen(this.x, offScreen ? minHeight : this.y);
     this.sprite.setPositionShift(offScreen * SPRITE.bonus.offScreen.x || 0, offScreen * SPRITE.bonus.offScreen.y || 0);
-    this.sprite.draw(context, ePos.x, ePos.y, 0, 6 * this.world.vp.zoom);
+
+    context.save();
+    context.translate(ePos.x, ePos.y);
+    if (!offScreen && this.y1 < 0) {
+        context.rotate(this.relTime() * (this.id % 2 ? 10 : -10));
+    }
+    this.sprite.draw(context, 0, 0, 0, 6 * this.world.vp.zoom);
+    context.restore();
 };
 
 Bonus.prototype.step = function () {
