@@ -8,6 +8,24 @@ var SPRITE = {
             y: 0,
             frames: 4,
             interval: 0.05,
+            states: {
+                idle: {
+                    x: 0,
+                    y: 0
+                },
+                focused: {
+                    x: 1,
+                    y: 0
+                },
+                moveLeft: {
+                    x: 3,
+                    y: 0
+                },
+                moveRight: {
+                    x: 2,
+                    y: 0
+                }
+            },
             weapons: {
                 turret: {
                     x: 0,

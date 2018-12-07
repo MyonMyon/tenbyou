@@ -30,6 +30,7 @@ SpriteHandler.prototype.set = function (sprite) {
         this.frameHeight = sprite.frameHeight;
         this.frameMargin = sprite.frameMargin || 0;
     }
+    this.states = sprite.states || {};
     this.setPosition(sprite.x || 0, sprite.y || 0);
     if (sprite.frames) {
         this.animate(sprite.frames, sprite.interval, sprite.frameReverse);
@@ -41,6 +42,12 @@ SpriteHandler.prototype.setPosition = function (x, y) {
         x: x,
         y: y
     };
+};
+
+SpriteHandler.prototype.setState = function (state) {
+    if (this.states[state]) {
+        this.setPositionShift(this.states[state].x, this.states[state].y);
+    }
 };
 
 SpriteHandler.prototype.setPositionShift = function (x, y) {

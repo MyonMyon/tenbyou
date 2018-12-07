@@ -186,12 +186,12 @@ Player.prototype.draw = function (context) {
             context.globalAlpha = 0.3 + Math.floor(this.world.relTime() * 8) % 2 * 0.2;
         }
 
-        if (this.moveLeft !== this.moveRight) {
-            this.sprite.setPositionShift(this.moveLeft ? 3 : 2, 0);
-        } else if (this.focused) {
-            this.sprite.setPositionShift(1, 0);
+        if (this.focused) {
+            this.sprite.setState("focused");
+        } else if (this.moveLeft !== this.moveRight) {
+            this.sprite.setState(this.moveLeft ? "moveLeft" : "moveRight");
         } else {
-            this.sprite.setPositionShift(0, 0);
+            this.sprite.setState("idle");
         }
         this.sprite.draw(context, ePos.x, ePos.y, this.relTime(), 8 * this.world.vp.zoom);
 
