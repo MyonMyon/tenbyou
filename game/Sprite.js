@@ -1,7 +1,7 @@
 var SPRITE = {
     player: {
         barashou: {
-            file: "nb.png",
+            file: "player/nb.png",
             frameWidth: 32,
             frameHeight: 32,
             x: 0,
@@ -49,7 +49,7 @@ var SPRITE = {
         }
     },
     projectile: {
-        file: "projectile.png",
+        file: "projectile/projectile.png",
         frameWidth: 32,
         frameHeight: 32,
         frameMargin: 1,
@@ -137,7 +137,7 @@ var SPRITE = {
             x: 6
         },
         nuclear: {
-            file: "nuclear.png",
+            file: "projectile/nuclear.png",
             frameWidth: 128,
             frameHeight: 128
         }
@@ -175,11 +175,11 @@ var SPRITE = {
         }
     },
     enemy: {
-        file: "enemy.png",
+        file: "enemy/enemy.png",
         frameWidth: 32,
         frameHeight: 32,
         kedama: {
-            file: "g_kedama.png",
+            file: "enemy/g_kedama.png",
             frameWidth: 128,
             frameHeight: 128,
             x: 0,
@@ -196,7 +196,7 @@ var SPRITE = {
             hitbox: 1
         },
         orb: {
-            file: "orb.png",
+            file: "enemy/orb.png",
             frameWidth: 128,
             frameHeight: 128,
             x: 0,
@@ -247,7 +247,7 @@ var SPRITE = {
             frameReverse: true
         },
         okuu: {
-            file: "okuu.png",
+            file: "enemy/okuu.png",
             frameWidth: 64,
             frameHeight: 64,
             x: 0,
@@ -255,7 +255,7 @@ var SPRITE = {
             hitbox: 0.25
         },
         lily: {
-            file: "lily.png",
+            file: "enemy/lily.png",
             frameWidth: 64,
             frameHeight: 64,
             x: 0,
@@ -293,16 +293,16 @@ var SPRITE = {
         frameHeight: 24
     },
     menuBackground: {
-        file: "menubg.png"
+        file: "bg/menu.png"
     },
     uiBackground: {
-        file: "uibg.png"
+        file: "bg/ui.png"
     },
     spellBackground: {
-        file: "bgspell.jpg",
+        file: "bg/spell/default.jpg",
         speed: 30
     },
     spellStrip: {
-        file: "scline.png"
+        file: "bg/spell/scline.png"
     }
 };

@@ -3,7 +3,7 @@ var STAGE = [{
         description: "Low entropy and so much microstates.",
         appearanceSecond: 0.2,
         background: {
-            file: "bg1.jpg",
+            file: "bg/stage/1.jpg",
             speed: 300
         },
         events: [{
@@ -197,7 +197,7 @@ var STAGE = [{
         description: "Refreshing, cool and good.",
         appearanceSecond: 4,
         background: {
-            file: "bg2.jpg",
+            file: "bg/stage/2.jpg",
             speed: 60
         },
         events: [{
@@ -347,7 +347,7 @@ var STAGE = [{
         description: "There is nothing here. Be patient.",
         appearanceSecond: 4,
         background: {
-            file: "bg2.jpg",
+            file: "bg/stage/2.jpg",
             speed: 60
         },
         events: [{
@@ -358,7 +358,7 @@ var STAGE = [{
         description: "You're not gonna see something here.",
         appearanceSecond: 4,
         background: {
-            file: "bg2.jpg",
+            file: "bg/stage/2.jpg",
             speed: 2
         },
         events: [{

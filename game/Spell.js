@@ -87,7 +87,7 @@ var SPELL = {
             "Solar Sign \"卍卍卍卍\""
         ],
         background: {
-            file: "spell_gr.jpg",
+            file: "bg/spell/gr.jpg",
             speed: 100
         },
         health: 1200,
@@ -194,7 +194,7 @@ var SPELL = {
             "Hard-headed Sign \"Awww Snap\""
         ],
         background: {
-            file: "spell_sp.jpg",
+            file: "bg/spell/sp.jpg",
             speed: 100
         },
         health: 400,
@@ -230,7 +230,7 @@ var SPELL = {
     },
     orbBeta: {
         background: {
-            file: "spell_sp.jpg",
+            file: "bg/spell/sp.jpg",
             speed: 100
         },
         boss: "orb",
