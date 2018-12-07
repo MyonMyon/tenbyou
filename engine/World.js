@@ -11,7 +11,7 @@ function World(vp) {
     this.stageInterval = 2.5;
     this.tickInterval = 1;
 
-    this.player = new Player(this, "barashou");
+    this.setPlayer("barashou");
     this.pause = false;
     this.drawHitboxes = false;
     this.boss = null;
@@ -40,6 +40,10 @@ function World(vp) {
 World.prototype.setPause = function (value) {
     this.pause = value;
     this.vp.input.stopAll();
+};
+
+World.prototype.setPlayer = function (charName) {
+    this.player = new Player(this, charName);
 };
 
 World.prototype.startStage = function (stage, difficulty) {
