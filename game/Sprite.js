@@ -1,9 +1,9 @@
 var SPRITE = {
     player: {
-        file: "player.png",
-        frameWidth: 32,
-        frameHeight: 32,
         barashou: {
+            file: "nb.png",
+            frameWidth: 32,
+            frameHeight: 32,
             x: 0,
             y: 0,
             frames: 4,
