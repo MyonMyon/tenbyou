@@ -100,13 +100,15 @@ SpriteHandler.prototype.getFrame = function (time) {
 
 SpriteHandler.prototype.draw = function (context, x, y, t, z) {
     var img = this.getFrame(t);
-    context.drawImage(this.object,
-            img.x * (this.frameWidth + this.frameMargin),
-            img.y * (this.frameHeight + this.frameMargin),
-            this.width * this.frameWidth,
-            this.height * this.frameHeight,
-            x - z / 2 * this.zoom,
-            y - z / 2 * this.zoom,
-            z * this.zoom,
-            z * this.zoom);
+    if (this.object) {
+        context.drawImage(this.object,
+                img.x * (this.frameWidth + this.frameMargin),
+                img.y * (this.frameHeight + this.frameMargin),
+                this.width * this.frameWidth,
+                this.height * this.frameHeight,
+                x - z / 2 * this.zoom,
+                y - z / 2 * this.zoom,
+                z * this.zoom,
+                z * this.zoom);
+    }
 };
