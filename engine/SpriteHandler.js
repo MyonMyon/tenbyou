@@ -34,6 +34,8 @@ SpriteHandler.prototype.set = function (sprite) {
     this.setPosition(sprite.x || 0, sprite.y || 0);
     if (sprite.frames) {
         this.animate(sprite.frames, sprite.interval, sprite.frameReverse);
+    } else {
+        this.animate(1, 0, false);
     }
 };
 

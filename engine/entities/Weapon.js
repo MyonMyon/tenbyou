@@ -18,6 +18,7 @@ function Weapon(player, name, anchored) {
         }
     }
     this.sprite.set(SPRITE.player);
+    this.sprite.set(player.name);
     this.sprite.set(SPRITE.player[player.name].weapons[name]);
 }
 
