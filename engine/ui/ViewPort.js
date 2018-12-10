@@ -433,7 +433,7 @@ ViewPort.prototype.drawLoading = function () {
     this.setFont(FONT.description);
     this.drawText("LOADING", this.width / 2, this.height / 2 - this.zoom * 2);
     this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.width / 2, this.height / 2);
-    this.drawText(this.loadingText, this.width / 2, this.height / 2 + this.zoom * 4);
+    this.drawText(this.loadingText || "", this.width / 2, this.height / 2 + this.zoom * 4);
 };
 
 ViewPort.prototype.draw = function (initFromWorld) {
