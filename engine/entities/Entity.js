@@ -248,6 +248,20 @@ Entity.prototype.shootProjectileAt = function (target, distance, speed, accelera
     return this.shootProjectile(angle, distance, speed, acceleration, width, sprite);
 };
 
+Entity.prototype.arcProjectiles = function (centerAngle, rangeAngle, count, distance, speed, acceleration, width, sprite) {
+    var ps = [];
+    for (var i = 0; i < count; i++) {
+        var a = Util.iterate(centerAngle, i) - rangeAngle / 2 + i * rangeAngle / count;
+        ps.push(this.shootProjectile(a,
+                Util.iterate(distance, i),
+                Util.iterate(speed, i),
+                Util.iterate(acceleration, i),
+                Util.iterate(width, i),
+                Util.iterate(sprite, i)));
+    }
+    return ps;
+};
+
 Entity.prototype.isInvulnerable = function () {
     return this.invulnerable;
 };
