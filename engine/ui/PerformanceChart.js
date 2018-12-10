@@ -9,7 +9,7 @@ function PerformanceChart(vp) {
         y: 64
     };
     this.data = [];
-    this.maxTicks = 100;
+    this.maxTicks = 200;
     this.maxValue = {ec: 0, tl: 0.05};
 
     this.modes = ["off", "timed", "point"];
