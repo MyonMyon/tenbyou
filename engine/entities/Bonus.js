@@ -42,7 +42,6 @@ Bonus.prototype.step = function () {
             this.x1 = -this.x1;
         } else {
             this.x1 = this.x > 0 ? -offSpeed : offSpeed;
-            console.log("MORE", offSpeed, this, this.world.width / 2);
         }
     }
 
