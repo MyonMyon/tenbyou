@@ -187,7 +187,7 @@ World.prototype.collisionCheck = function (entity1, entity2, distance) {
     if (Math.abs(entity1.x - entity2.x) > distance || Math.abs(entity1.y - entity2.y) > distance) {
         return false;
     }
-    return this.distanceBetweenEntities(entity1, entity2) > distance;
+    return this.distanceBetweenEntities(entity1, entity2) < distance;
 };
 
 World.prototype.distanceBetweenEntities = function (entity1, entity2) {
