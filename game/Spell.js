@@ -253,7 +253,7 @@ var SPELL = {
                 e.x1 = 0;
                 var r = 2;
                 var s = 60;
-                e.angle = e.relTime() * 2 - Math.PI /2;
+                e.angle = e.relTime() * 2 - Math.PI / 2;
                 e.shootProjectile(e.angle, r, s, 0, 4, iter % 2 ? "static.blue" : "static.red");
             }, 0.7, 0.033, Infinity);
             entity.eventChain.addEvent(function (e, iter) {
