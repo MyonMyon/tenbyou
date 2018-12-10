@@ -243,6 +243,15 @@ Entity.prototype.shootProjectile = function (angle, distance, speed, acceleratio
     return p;
 };
 
+Entity.prototype.shootProjectileAt = function (target, distance, speed, acceleration, width, sprite) {
+    var angle = this.world.angleBetweenEntities(this, target);
+    return this.shootProjectile(angle, distance, speed, acceleration, width, sprite);
+};
+
+Entity.prototype.isInvulnerable = function () {
+    return this.invulnerable;
+};
+
 Entity.prototype.dropBonus = function (angle, distance, cat, small) {
     var p = cat === "power" && this.world.player.power >= this.world.player.powerMax;
     return new Bonus(
@@ -252,13 +261,4 @@ Entity.prototype.dropBonus = function (angle, distance, cat, small) {
             p ? "point" : cat,
             p ? false : small,
             false);
-};
-
-Entity.prototype.shootProjectileAt = function (target, distance, speed, acceleration, width, sprite) {
-    var angle = this.world.angleBetweenEntities(this, target);
-    return this.shootProjectile(angle, distance, speed, acceleration, width, sprite);
-};
-
-Entity.prototype.isInvulnerable = function () {
-    return this.invulnerable;
 };
