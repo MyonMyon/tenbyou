@@ -85,6 +85,9 @@ Weapon.prototype.addDrops = function (cat, small, amount) {
 };
 
 Weapon.prototype.draw = function (context) {
+    if (this.removalMark) {
+        return; //bye-bye!
+    }
     var ctx = this.world.vp.context;
     var ePos = this.world.vp.toScreen(this.x, this.y);
     ctx.save();
