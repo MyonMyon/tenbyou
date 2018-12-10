@@ -145,9 +145,9 @@ var STAGE = [{
                 func: function (world, iter) {
                     var r = (iter % 2) ? -1 : 1;
                     var x = r * (world.width / 2 - 10);
-                    var y = Math.min(world.height / 2 - 5,
-                            Math.max(-world.height / 2 + 5,
-                                    world.player.y - 20 + Math.random() * 10));
+                    var y = Math.min(world.height / 2 - 2,
+                            Math.max(-world.height / 2 + 2,
+                                    world.player.y - 15 + Math.random() * 30));
                     var sideFairy = new Enemy(world, x, y, -r * 15, 0, r * 15, 0, 2, 1, "fairyBlue");
                     sideFairy.appearanceTime = 1;
                     sideFairy.addDrops("point", false, 2);
