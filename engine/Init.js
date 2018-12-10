@@ -12,6 +12,7 @@ var PRIORITY_CODE = [
 var ENGINE_CODE = [
     "World",
     "EventChain",
+    "Util",
     "SpriteHandler",
     "ui/menu/Menu",
     "ui/menu/MainMenu",
