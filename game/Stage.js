@@ -364,11 +364,16 @@ var STAGE = [{
                             2, 1, "fairyRed");
                     fairyTurret.addDrops("power", true, 1);
                     fairyTurret.eventChain.addEvent(function (e, iter) {
-                        e.arcProjectiles(Util.toAngle(e.x > 0 ? "sw" : "se"), 3 * Math.PI / 2, 25, 5, [25, 30, 40, 30], 0, 2, ["static.red", "static.lime", "static.blue", "static.lime"]);
+                        e.setVectors(null, null, 0, 0, 0, 0);
+                        e.arcProjectiles(
+                                Util.toAngle(e.x > 0 ? "sw" : "se"),
+                                3 * Math.PI / 2, 9 + 8 * e.world.difficulty,
+                                5, [45, 35, 25, 35], 0, 2.5,
+                                ["static.red", "static.lime", "static.blue", "static.lime"]);
                         if (iter === 2) {
                             e.setVectors(null, null, 0, 0, e.x < 0 ? -15 : 15, -15);
                         }
-                    }, 1.5, 0.5, 3);
+                    }, 1.5, 0.3, 3);
                 }
             }]
     }, {
