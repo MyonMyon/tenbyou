@@ -174,20 +174,21 @@ Player.prototype.step = function () {
         var e = this.world.entities[i];
         if (e instanceof Projectile && !e.playerSide && e.width) {
             //collision
-            var d = this.world.distanceBetweenEntities(e, this);
-            if (d < (e.width + this.width)) {
-                e.remove();
-                if (!this.isInvulnerable()) {
-                    this.kill();
-                    break;
+            if (this.world.collisionCheck(e, this, this.grazeWidth)) {
+                if (this.world.collisionCheck(e, this)) {
+                    e.remove();
+                    if (!this.isInvulnerable()) {
+                        this.kill();
+                        break;
+                    }
+                } else if (e.grazed < e.damage && !this.isInvulnerable()) {
+                    ++this.graze;
+                    var xD = this.x - e.x;
+                    var yD = this.y - e.y;
+                    var s = new Particle(this.world, this.x, this.y, 0.25, 8, false, false, "spark");
+                    s.setVectors(null, null, xD * 5, yD * 5);
+                    ++e.grazed;
                 }
-            } else if (d < (e.width + this.grazeWidth) && e.grazed < e.damage && !this.isInvulnerable()) {
-                ++this.graze;
-                var xD = this.x - e.x;
-                var yD = this.y - e.y;
-                var s = new Particle(this.world, this.x, this.y, 0.25, 8, false, false, "spark");
-                s.setVectors(null, null, xD * 5, yD * 5);
-                ++e.grazed;
             }
         }
     }

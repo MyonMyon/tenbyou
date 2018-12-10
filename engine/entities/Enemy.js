@@ -142,7 +142,7 @@ Enemy.prototype.step = function () {
     //collision with placed player weapons
     for (var i in this.world.entities) {
         var w = this.world.entities[i];
-        if (w instanceof Weapon && !w.isInvulnerable() && this.world.distanceBetweenEntities(this, w) < this.width + w.width) {
+        if (w instanceof Weapon && !w.isInvulnerable() && this.world.collisionCheck(this, w)) {
             w.hit();
         }
     }
@@ -153,7 +153,7 @@ Enemy.prototype.step = function () {
         for (var i in  this.world.entities) {
             var e = this.world.entities[i];
             if (e instanceof Projectile && e.playerSide) {
-                if (this.world.distanceBetweenEntities(this, e) < (this.width + e.width)) {
+                if (this.world.collisionCheck(this, e)) {
                     this.hurt(e.damage, {x: e.x, y: e.y});
                     e.remove();
                 }

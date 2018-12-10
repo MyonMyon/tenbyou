@@ -182,6 +182,14 @@ World.prototype.angleBetweenEntities = function (entity1, entity2) {
     return Math.atan2(entity2.y - entity1.y, entity2.x - entity1.x);
 };
 
+World.prototype.collisionCheck = function (entity1, entity2, distance) {
+    distance = (distance || 0) + entity1.width + entity2.width;
+    if (Math.abs(entity1.x - entity2.x) > distance || Math.abs(entity1.y - entity2.y) > distance) {
+        return false;
+    }
+    return this.distanceBetweenEntities(entity1, entity2) > distance;
+};
+
 World.prototype.distanceBetweenEntities = function (entity1, entity2) {
     return Math.sqrt(Math.pow(entity1.x - entity2.x, 2) + Math.pow(entity1.y - entity2.y, 2));
 };
