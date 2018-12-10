@@ -80,7 +80,7 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
             }
             nameArray[i].object = s;
         }
-        s.src = prefix + (nameArray[i].file || nameArray[i]) + postfix;
+        s.src = prefix + (nameArray[i].file || nameArray[i]) + postfix + "?v=" + ENGINE_VERSION;
         s.onload = function () {
             loadedRes++;
             document.getElementsByTagName("title")[0].innerHTML = "Loading " + tag + " " + loadedRes + "/" + totalRes;
