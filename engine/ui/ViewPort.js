@@ -297,9 +297,10 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
 
     this.setFont(FONT.info, {minor: true});
     if (this.inDev) {
-        this.infoShow("S" + this.world.stage + "." + this.world.substage + "+" + this.world.relTime().toFixed(2), 10, 0);
-        this.infoShow("E" + this.world.entities.length, 10, 0.5);
-        this.infoShow(this.fps + " FPS × " + this.world.tickInterval, 10, 1);
+        this.infoShow("S#" + this.world.stage + "." + this.world.substage, 10, 0);
+        this.infoShow("T+" + this.world.relTime().toFixed(2), 10, 0.5);
+        this.infoShow("E=" + this.world.entities.length, 10, 1);
+        this.infoShow(this.fps + " FPS × " + this.world.tickInterval, 10, 1.5);
     } else {
         this.infoShow(this.fps + " FPS", 10, 2);
     }
