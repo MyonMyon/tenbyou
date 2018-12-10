@@ -52,8 +52,8 @@ PerformanceChart.prototype.getThresholdColor = function (value) {
 };
 
 PerformanceChart.prototype.drawPoint = function () {
-    this.vp.context.strokeStyle = "#fff";
     for (var i = 0; i < this.maxValue.ec; i += 100) {
+        this.vp.context.strokeStyle = i % 1000 ? "#fff" : "#f00";
         this.vp.context.lineWidth = this.vp.zoom / (i % 500 ? 4 : 2);
         this.vp.context.beginPath();
         this.vp.context.moveTo(
