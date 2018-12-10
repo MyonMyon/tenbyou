@@ -35,8 +35,14 @@ Bonus.prototype.step = function () {
         this.remove();
 
     //reflect
-    if (this.x > this.world.width / 2 || this.x < -this.world.width / 2) {
-        this.x1 = -this.x1;
+    var offScreen = Math.abs(this.x) - this.world.width / 2;
+    if (offScreen > 0) {
+        var offSpeed = offScreen * 5; //show on screen in 0.2 seconds
+        if (Math.abs(this.x1) > offSpeed) {
+        } else {
+            this.x1 = this.x > 0 ? -offSpeed : offSpeed;
+            console.log("MORE", offSpeed, this, this.world.width / 2);
+        }
     }
 
     //collision
