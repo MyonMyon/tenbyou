@@ -39,6 +39,7 @@ Bonus.prototype.step = function () {
     if (offScreen > 0) {
         var offSpeed = offScreen * 5; //show on screen in 0.2 seconds
         if (Math.abs(this.x1) > offSpeed) {
+            this.x1 = -this.x1;
         } else {
             this.x1 = this.x > 0 ? -offSpeed : offSpeed;
             console.log("MORE", offSpeed, this, this.world.width / 2);
