@@ -10,10 +10,10 @@ function Enemy(world, x, y, x1, y1, x2, y2, width, health, spriteName) {
     this.health = this.initialHealth;
     this.cost = this.initialHealth * 100;
     this.title = "";
-    this.drops = new Array();
-    this.attacks = new Array();
+    this.drops = [];
+    this.attacks = [];
     this.attackCurrent = null;
-    this.attackGroups = new Array();
+    this.attackGroups = [];
     this.attackGroupCurrent = 0;
     this.bonus = 0;
 }
