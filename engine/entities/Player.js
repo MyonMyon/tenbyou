@@ -169,6 +169,28 @@ Player.prototype.step = function () {
     if (this.score > this.hiscore) {
         this.hiscore = this.score;
     }
+
+    for (var i in this.world.entities) {
+        var e = this.world.entities[i];
+        if (e instanceof Projectile && !e.playerSide && e.width) {
+            //collision
+            var d = this.world.distanceBetweenEntities(e, this);
+            if (d < (e.width + this.width)) {
+                e.remove();
+                if (!this.isInvulnerable()) {
+                    this.kill();
+                    break;
+                }
+            } else if (d < (e.width + this.grazeWidth) && e.grazed < e.damage && !this.isInvulnerable()) {
+                ++this.graze;
+                var xD = this.x - e.x;
+                var yD = this.y - e.y;
+                var s = new Particle(this.world, this.x, this.y, 0.25, 8, false, false, "spark");
+                s.setVectors(null, null, xD * 5, yD * 5);
+                ++e.grazed;
+            }
+        }
+    }
 };
 
 Player.prototype.draw = function (context) {

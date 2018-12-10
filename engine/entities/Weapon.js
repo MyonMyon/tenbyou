@@ -24,6 +24,18 @@ function Weapon(player, name, anchored) {
 
 Weapon.prototype.step = function () {
     this.$step();
+
+    if (!this.isInvulnerable()) {
+        for (var i in this.world.entities) {
+            var e = this.world.entities[i];
+            if (e instanceof Projectile && !e.playerSide && e.width && this.world.distanceBetweenEntities(e, this) < e.width + this.width) {
+                //collision
+                e.remove();
+                this.hit();
+            }
+        }
+    }
+
     this.behavior();
 };
 

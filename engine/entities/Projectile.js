@@ -63,30 +63,6 @@ Projectile.prototype.step = function () {
             this.remove();
     }
 
-    if (!this.playerSide && this.width) {
-        //collision
-        var d = this.world.distanceBetweenEntities(this, this.world.player);
-        if (d < (this.width + this.world.player.width)) {
-            this.remove();
-            if (!this.world.player.isInvulnerable())
-                this.world.player.kill();
-        } else if (d < (this.width + this.world.player.grazeWidth) && this.grazed < this.damage && !this.world.player.isInvulnerable()) {
-            ++this.world.player.graze;
-            var xD = this.world.player.x - this.x;
-            var yD = this.world.player.y - this.y;
-            var s = new Particle(this.world, this.world.player.x, this.world.player.y, 0.25, 8, false, false, "spark");
-            s.setVectors(null, null, xD * 5, yD * 5);
-            ++this.grazed;
-        }
-        for (var i in this.world.entities) {
-            var w = this.world.entities[i];
-            if (w instanceof Weapon && !w.isInvulnerable() && this.world.distanceBetweenEntities(this, w) < this.width + w.width) {
-                this.remove();
-                w.hit();
-            }
-        }
-    }
-
     this.behavior();
 };
 
