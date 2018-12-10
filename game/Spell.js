@@ -8,13 +8,26 @@ var SPELL = {
             null,
             null,
             null,
-            "Nullity"
+            "Nullity Sign \"RIP FPS\""
         ],
         health: 9999,
         time: 99,
         decrTime: 99,
         bonus: 99999,
         bonusBound: 5000,
+        init: function (entity) {
+            var w = 61;
+            var h = 76;
+            entity.eventChain.addEvent(function (e, iter) {
+                for (var i = iter * 5; i < (iter + 1) * 5; i++) {
+                    var x = (i % w) * e.world.width / (w - 1) - e.world.width / 2;
+                    var y = Math.floor(i / w) * e.world.height / (h - 1) - e.world.height / 2;
+                    var p = new Projectile(
+                            e.world, x, y, 0, 0, 0, 0, 1.5, true,
+                            ["seal.cyan", "seal.yellow", "seal.magenta"][Math.floor(Math.random() * 3)]);
+                }
+            }, 0.0166, 0.0166, h * w);
+        },
         func: function (entity) {
             entity.y1 = 0.02;
         }
