@@ -35,7 +35,7 @@ SpriteHandler.prototype.set = function (sprite) {
     if (sprite.frames) {
         this.animate(sprite.frames, sprite.interval, sprite.frameReverse);
     } else {
-        this.animate(1, 0, false);
+        this.animationFrames = [];
     }
 };
 
@@ -90,16 +90,18 @@ SpriteHandler.prototype.setRandomFrame = function () {
 };
 
 SpriteHandler.prototype.getFrame = function (time) {
-    var cTime = (time + this.animationOffset) % this.animationLength;
     var shift = {x: 0, y: 0};
-    var frameTime = 0;
-    for (var i in this.animationFrames) {
-        var frame = this.animationFrames[i];
-        if (cTime >= frameTime && cTime < frame.tEnd) {
-            shift = frame;
-            break;
+    if (this.animationFrames.length) {
+        var cTime = (time + this.animationOffset) % this.animationLength;
+        var frameTime = 0;
+        for (var i in this.animationFrames) {
+            var frame = this.animationFrames[i];
+            if (cTime >= frameTime && cTime < frame.tEnd) {
+                shift = frame;
+                break;
+            }
+            frameTime = frame.tEnd;
         }
-        frameTime = frame.tEnd;
     }
     return {
         x: this.position.x + this.positionShift.x + shift.x,
