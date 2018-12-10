@@ -286,3 +286,25 @@ World.prototype.splash = function (entity, count, area, time) {
         new Particle(this, entity.x, entity.y, time + (Math.random() - 0.5) * time, 8, true, true, "spark");
     }
 };
+
+World.prototype.draw = function (context) {
+    var drawOrder = [
+        Enemy,
+        Player,
+        Weapon,
+        Bonus,
+        Particle,
+        Projectile,
+        Text
+    ];
+    for (var d in drawOrder) {
+        for (var p = 0; p < 2; ++p) {
+            for (var i in this.entities) {
+                var e = this.entities[i];
+                if (e.priority === p && e instanceof drawOrder[d]) {
+                    e.draw(context);
+                }
+            }
+        }
+    }
+};

@@ -214,141 +214,8 @@ ViewPort.prototype.iconShow = function (spriteX, spriteY, line, tab) {
             6 * this.zoom);
 };
 
-ViewPort.prototype.draw = function (initFromWorld) {
-    if ((!this.world || this.world.pause) === initFromWorld) {
-        return;
-    }
-    this.ticks++;
-    if (new Date().getTime() % 1000 < this.prevMS) {
-        this.fps = this.ticks;
-        this.ticks = 0;
-        if (this.pChart && this.showPerf) {
-            this.pChart.addData({ec: this.world ? this.world.entities.length : 0, tl: 1 / this.fps});
-        }
-    }
-
-    this.prevMS = new Date().getTime() % 1000;
-
-    if (!this.loaded) {
-        this.context.fillStyle = "#333";
-        this.context.fillRect(0, 0, this.width, this.height);
-        this.context.textAlign = "center";
-        this.setFont(FONT.description);
-        this.drawText("LOADING", this.width / 2, this.height / 2 - this.zoom * 2);
-        this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.width / 2, this.height / 2);
-        this.drawText(this.loadingText, this.width / 2, this.height / 2 + this.zoom * 4);
-
-        return;
-    }
-
-    if (!this.world) {
-        this.mainMenu.draw();
-        return;
-    }
-
+ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
     this.context.textBaseline = "alphabetic";
-    this.context.textAlign = "left";
-
-    this.context.fillStyle = "black";
-    var boundaryStart = this.toScreen(-this.world.width / 2, -this.world.height / 2);
-    var boundaryEnd = this.toScreen(this.world.width / 2, this.world.height / 2);
-    this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
-
-    var stg = (this.world.stageTime() < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
-    var spell = (this.world.boss && this.world.boss.attackCurrent !== null && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
-    if (this.world.stages[stg]) {
-        var bg = spell ? (this.world.boss.attacks[this.world.boss.attackCurrent].background || SPRITE.spellBackground) : this.world.stages[stg].background;
-        if (bg) {
-            var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.stageTime() * bg.speed) % bg.object.height;
-            this.context.drawImage(bg.object,
-                    0, Math.max(0, t),
-                    bg.object.width, bg.object.width / this.world.width * this.world.height,
-                    boundaryStart.x, boundaryStart.y - 1 - Math.min(0, t / (bg.object.width / this.world.width) * this.zoom),
-                    this.world.width * this.zoom, this.world.height * this.zoom);
-            if (t < 0) {
-                this.context.drawImage(bg.object,
-                        0, bg.object.height + t,
-                        bg.object.width, -t,
-                        boundaryStart.x, boundaryStart.y,
-                        this.world.width * this.zoom, -Math.min(0, t / (bg.object.width / this.world.width) * this.zoom));
-            }
-        }
-    }
-
-    if (spell) {
-        var o = SPRITE.spellStrip.object;
-        for (var i = 0; i < 2; ++i) {
-            for (var j = 0; j < 2 + (boundaryEnd.x + boundaryStart.x) / (o.width * this.zoom / 4); ++j) {
-                this.context.drawImage(o,
-                        0, 0,
-                        o.width, o.height,
-                        boundaryStart.x + this.world.stageTime() * (i ? -180 : 180) % (o.width * this.zoom / 4) + (j - 1) * (o.width * this.zoom / 4),
-                        (boundaryStart.y * (0.25 + (1 - i) * 0.5) + boundaryEnd.y * (0.25 + i * 0.5)) - o.height / 2,
-                        o.width * this.zoom / 4, o.height * this.zoom / 4);
-            }
-        }
-    }
-
-    this.context.globalAlpha = Math.max(Math.min(Math.min(this.world.stageTime() * 6, (this.world.stageInterval - this.world.stageTime()) * 6), 1), 0);
-    this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
-    this.context.globalAlpha = 1;
-
-    var drawOrder = [
-        Enemy,
-        Player,
-        Weapon,
-        Bonus,
-        Particle,
-        Projectile,
-        Text
-    ];
-    for (var d in drawOrder) {
-        for (var p = 0; p < 2; ++p) {
-            for (var i in this.world.entities) {
-                var e = this.world.entities[i];
-                if (e.priority === p && e instanceof drawOrder[d]) {
-                    e.draw(this.context);
-                }
-            }
-        }
-    }
-
-    if (this.world.boss) {
-        this.setFont(FONT.description);
-        this.context.textAlign = "left";
-        this.drawText(this.world.boss.title,
-                boundaryStart.x + this.zoom * 2.5,
-                boundaryStart.y + this.zoom * 5);
-
-        if (this.world.boss.attackCurrent !== null) {
-            for (var i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
-                this.context.drawImage(SPRITE.gui.object, 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
-                        boundaryStart.x + this.zoom * 2 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4,
-                        boundaryStart.y + this.zoom * 6,
-                        SPRITE.gui.frameWidth * this.zoom / 4,
-                        SPRITE.gui.frameHeight * this.zoom / 4);
-
-            if (this.world.boss.attackCurrent < this.world.boss.attacks.length) {
-                var attack = this.world.boss.attacks[this.world.boss.attackCurrent];
-                this.context.textAlign = "right";
-                if (attack.spell) {
-                    {
-                        this.drawText(attack.title,
-                                boundaryEnd.x - this.zoom * 17.5,
-                                boundaryStart.y + this.zoom * 5);
-                        this.drawText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"),
-                                boundaryEnd.x - this.zoom * 17.5,
-                                boundaryStart.y + this.zoom * 10);
-                    }
-                }
-                this.setFont(FONT.timer, {fullBonus: this.world.boss.relTime() < attack.decrTime});
-                this.drawText(this.fixedInt(Math.ceil(attack.time - this.world.boss.relTime()), 2),
-                        boundaryEnd.x - this.zoom * 2.5,
-                        boundaryStart.y + this.zoom * 10);
-            }
-        }
-    }
-
     this.context.lineJoin = "round";
     this.context.lineCap = "round";
 
@@ -435,6 +302,91 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     this.setFont(FONT.title, {name: true});
     this.drawText(GAME_TITLE, (boundaryEnd.x + this.width) / 2, boundaryEnd.y - this.zoom * 10);
+};
+
+ViewPort.prototype.drawBackground = function (boundaryStart, boundaryEnd) {
+    this.context.fillStyle = "black";
+    var boundaryStart = this.toScreen(-this.world.width / 2, -this.world.height / 2);
+    var boundaryEnd = this.toScreen(this.world.width / 2, this.world.height / 2);
+    this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
+
+    var stg = (this.world.stageTime() < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
+    var spell = (this.world.boss && this.world.boss.attackCurrent !== null && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
+    if (this.world.stages[stg]) {
+        var bg = spell ? (this.world.boss.attacks[this.world.boss.attackCurrent].background || SPRITE.spellBackground) : this.world.stages[stg].background;
+        if (bg) {
+            var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.stageTime() * bg.speed) % bg.object.height;
+            this.context.drawImage(bg.object,
+                    0, Math.max(0, t),
+                    bg.object.width, bg.object.width / this.world.width * this.world.height,
+                    boundaryStart.x, boundaryStart.y - 1 - Math.min(0, t / (bg.object.width / this.world.width) * this.zoom),
+                    this.world.width * this.zoom, this.world.height * this.zoom);
+            if (t < 0) {
+                this.context.drawImage(bg.object,
+                        0, bg.object.height + t,
+                        bg.object.width, -t,
+                        boundaryStart.x, boundaryStart.y,
+                        this.world.width * this.zoom, -Math.min(0, t / (bg.object.width / this.world.width) * this.zoom));
+            }
+        }
+    }
+
+    if (spell) {
+        var o = SPRITE.spellStrip.object;
+        for (var i = 0; i < 2; ++i) {
+            for (var j = 0; j < 2 + (boundaryEnd.x + boundaryStart.x) / (o.width * this.zoom / 4); ++j) {
+                this.context.drawImage(o,
+                        0, 0,
+                        o.width, o.height,
+                        boundaryStart.x + this.world.stageTime() * (i ? -180 : 180) % (o.width * this.zoom / 4) + (j - 1) * (o.width * this.zoom / 4),
+                        (boundaryStart.y * (0.25 + (1 - i) * 0.5) + boundaryEnd.y * (0.25 + i * 0.5)) - o.height / 2,
+                        o.width * this.zoom / 4, o.height * this.zoom / 4);
+            }
+        }
+    }
+
+    this.context.globalAlpha = Math.max(Math.min(Math.min(this.world.stageTime() * 6, (this.world.stageInterval - this.world.stageTime()) * 6), 1), 0);
+    this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
+    this.context.globalAlpha = 1;
+};
+
+ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
+    this.context.textBaseline = "alphabetic";
+    if (this.world.boss) {
+        this.setFont(FONT.description);
+        this.context.textAlign = "left";
+        this.drawText(this.world.boss.title,
+                boundaryStart.x + this.zoom * 2.5,
+                boundaryStart.y + this.zoom * 5);
+
+        if (this.world.boss.attackCurrent !== null) {
+            for (var i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
+                this.context.drawImage(SPRITE.gui.object, 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
+                        boundaryStart.x + this.zoom * 2 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4,
+                        boundaryStart.y + this.zoom * 6,
+                        SPRITE.gui.frameWidth * this.zoom / 4,
+                        SPRITE.gui.frameHeight * this.zoom / 4);
+
+            if (this.world.boss.attackCurrent < this.world.boss.attacks.length) {
+                var attack = this.world.boss.attacks[this.world.boss.attackCurrent];
+                this.context.textAlign = "right";
+                if (attack.spell) {
+                    {
+                        this.drawText(attack.title,
+                                boundaryEnd.x - this.zoom * 17.5,
+                                boundaryStart.y + this.zoom * 5);
+                        this.drawText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"),
+                                boundaryEnd.x - this.zoom * 17.5,
+                                boundaryStart.y + this.zoom * 10);
+                    }
+                }
+                this.setFont(FONT.timer, {fullBonus: this.world.boss.relTime() < attack.decrTime});
+                this.drawText(this.fixedInt(Math.ceil(attack.time - this.world.boss.relTime()), 2),
+                        boundaryEnd.x - this.zoom * 2.5,
+                        boundaryStart.y + this.zoom * 10);
+            }
+        }
+    }
 
     var time = this.world.stageTime();
     //Show message:
@@ -453,10 +405,53 @@ ViewPort.prototype.draw = function (initFromWorld) {
         this.context.fillRect(boundaryStart.x, boundaryItemLine.y - this.zoom / 4, this.world.width * this.zoom, this.zoom / 2);
 
         this.setFont(FONT.itemLine);
-        this.drawText("Item Get Border Line !", (x1 + x2) / 2, boundaryItemLine.y);
+        this.drawText("Item Get Border Line !", (boundaryStart.x + boundaryEnd.x) / 2, boundaryItemLine.y);
         this.context.textBaseline = "alphabetic";
     }
     this.context.globalAlpha = 1;
+};
+
+ViewPort.prototype.draw = function (initFromWorld) {
+    if ((!this.world || this.world.pause) === initFromWorld) {
+        return;
+    }
+    this.ticks++;
+    if (new Date().getTime() % 1000 < this.prevMS) {
+        this.fps = this.ticks;
+        this.ticks = 0;
+        if (this.pChart && this.showPerf) {
+            this.pChart.addData({ec: this.world ? this.world.entities.length : 0, tl: 1 / this.fps});
+        }
+    }
+
+    this.prevMS = new Date().getTime() % 1000;
+
+    if (!this.loaded) {
+        this.context.fillStyle = "#333";
+        this.context.fillRect(0, 0, this.width, this.height);
+        this.context.textAlign = "center";
+        this.setFont(FONT.description);
+        this.drawText("LOADING", this.width / 2, this.height / 2 - this.zoom * 2);
+        this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.width / 2, this.height / 2);
+        this.drawText(this.loadingText, this.width / 2, this.height / 2 + this.zoom * 4);
+
+        return;
+    }
+
+    if (!this.world) {
+        this.mainMenu.draw();
+        return;
+    }
+
+    var boundaryStart = this.toScreen(-this.world.width / 2, -this.world.height / 2);
+    var boundaryEnd = this.toScreen(this.world.width / 2, this.world.height / 2);
+
+    this.drawBackground(boundaryStart, boundaryEnd);
+
+    this.world.draw(this.context);
+
+    this.drawGUI(boundaryStart, boundaryEnd);
+    this.drawMessages(boundaryStart, boundaryEnd);
 
     if (this.world.pause) {
         this.pauseMenu.draw();
