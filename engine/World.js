@@ -289,19 +289,19 @@ World.prototype.splash = function (entity, count, area, time) {
 
 World.prototype.draw = function (context) {
     var drawOrder = [
-        Enemy,
-        Player,
-        Weapon,
-        Bonus,
-        Particle,
-        Projectile,
-        Text
+        "Enemy",
+        "Player",
+        "Weapon",
+        "Bonus",
+        "Particle",
+        "Projectile",
+        "Text"
     ];
     for (var d in drawOrder) {
         for (var p = 0; p < 2; ++p) {
             for (var i in this.entities) {
                 var e = this.entities[i];
-                if (e.priority === p && e instanceof drawOrder[d]) {
+                if (e.priority === p && e.classes[0] === drawOrder[d]) {
                     e.draw(context);
                 }
             }
