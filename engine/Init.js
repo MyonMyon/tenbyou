@@ -111,7 +111,7 @@ function getIcon() {
     };
     var s = document.createElement("link");
     s.rel = "shortcut icon";
-    s.href = ICON;
+    s.href = ICON + "?v=" + ENGINE_VERSION;
     s.type = MIME[ICON.split(".")[1]];
     document.head.appendChild(s);
 }
@@ -119,7 +119,7 @@ function getIcon() {
 function getFont(data) {
     var obj = {
         "font-family": data.name,
-        "src": "url(" + FONT_FOLDER + data.file + ")"
+        "src": "url(" + FONT_FOLDER + data.file + "?v=" + ENGINE_VERSION + ")"
     };
     var s = document.getElementsByTagName("style")[0];
     s.innerHTML += "\n@font-face " + JSON.stringify(obj).replace(/,/g, ";").replace(/\"/g, "");
