@@ -25,6 +25,9 @@ var SPELL = {
                     var p = new Projectile(
                             e.world, x, y, 0, 0, 0, 0, 1.5, true,
                             ["seal.cyan", "seal.yellow", "seal.magenta"][Math.floor(Math.random() * 3)]);
+                    p.behavior = function() {
+                        this.angle = this.world.relTime();
+                    };
                 }
             }, 0.0166, 0.0166, h * w);
         },
