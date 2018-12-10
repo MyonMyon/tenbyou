@@ -33,6 +33,18 @@ function ViewPort() {
     }, 33);
 }
 
+ViewPort.prototype.perfStep = function () {
+    this.ticks++;
+    if (new Date().getTime() % 1000 < this.prevMS) {
+        this.fps = this.ticks;
+        this.ticks = 0;
+        if (this.pChart && this.showPerf) {
+            this.pChart.addData({ec: this.world ? this.world.entities.length : 0, tl: 1 / this.fps});
+        }
+    }
+    this.prevMS = new Date().getTime() % 1000;
+};
+
 ViewPort.prototype.changeZoom = function (delta) {
     this.setZoom(this.zoom + delta);
 };
@@ -411,30 +423,25 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
     this.context.globalAlpha = 1;
 };
 
+ViewPort.prototype.drawLoading = function () {
+    this.context.fillStyle = "#333";
+    this.context.fillRect(0, 0, this.width, this.height);
+    this.context.textAlign = "center";
+    this.setFont(FONT.description);
+    this.drawText("LOADING", this.width / 2, this.height / 2 - this.zoom * 2);
+    this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.width / 2, this.height / 2);
+    this.drawText(this.loadingText, this.width / 2, this.height / 2 + this.zoom * 4);
+};
+
 ViewPort.prototype.draw = function (initFromWorld) {
     if ((!this.world || this.world.pause) === initFromWorld) {
         return;
     }
-    this.ticks++;
-    if (new Date().getTime() % 1000 < this.prevMS) {
-        this.fps = this.ticks;
-        this.ticks = 0;
-        if (this.pChart && this.showPerf) {
-            this.pChart.addData({ec: this.world ? this.world.entities.length : 0, tl: 1 / this.fps});
-        }
-    }
 
-    this.prevMS = new Date().getTime() % 1000;
+    this.perfStep();
 
     if (!this.loaded) {
-        this.context.fillStyle = "#333";
-        this.context.fillRect(0, 0, this.width, this.height);
-        this.context.textAlign = "center";
-        this.setFont(FONT.description);
-        this.drawText("LOADING", this.width / 2, this.height / 2 - this.zoom * 2);
-        this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.width / 2, this.height / 2);
-        this.drawText(this.loadingText, this.width / 2, this.height / 2 + this.zoom * 4);
-
+        this.drawLoading();
         return;
     }
 
