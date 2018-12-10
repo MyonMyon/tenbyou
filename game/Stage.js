@@ -351,6 +351,25 @@ var STAGE = [{
             speed: 60
         },
         events: [{
+                substage: 0,
+                second: 4,
+                repeatInterval: 1,
+                repeatCount: 12,
+                func: function (world, iter) {
+                    var r = (iter % 2) ? -1 : 1;
+                    var fairyTurret = new Enemy(world,
+                            r * (world.width / 2 + 1), -world.height / 2 - 1,
+                            -r * 30, 30,
+                            r * 15, -15,
+                            2, 1, "fairyRed");
+                    fairyTurret.addDrops("power", true, 1);
+                    fairyTurret.eventChain.addEvent(function (e, iter) {
+                        e.arcProjectiles(Util.toAngle(e.x > 0 ? "sw" : "se"), 3 * Math.PI / 2, 25, 5, [25, 30, 40, 30], 0, 2, ["static.red", "static.lime", "static.blue", "static.lime"]);
+                        if (iter === 2) {
+                            e.setVectors(null, null, 0, 0, e.x < 0 ? -15 : 15, -15);
+                        }
+                    }, 1.5, 0.5, 3);
+                }
             }]
     }, {
         extra: 4,
