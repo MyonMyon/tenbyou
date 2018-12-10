@@ -16,7 +16,6 @@ function ViewPort() {
     this.prevMS = 0;
 
     this.inDev = DEV_MODE;
-    this.showPerf = this.inDev;
 
     this.version = "Tenbyou v" + ENGINE_VERSION + " (alpha)";
     if (this.inDev) {
@@ -38,7 +37,7 @@ ViewPort.prototype.perfStep = function () {
     if (new Date().getTime() % 1000 < this.prevMS) {
         this.fps = this.ticks;
         this.ticks = 0;
-        if (this.pChart && this.showPerf) {
+        if (this.pChart && this.pChart.mode !== "off") {
             this.pChart.addData({ec: this.world ? this.world.entities.length : 0, tl: 1 / this.fps});
         }
     }
@@ -86,6 +85,9 @@ ViewPort.prototype.onLoad = function () {
     this.pauseMenu = new PauseMenu(this);
 
     this.pChart = new PerformanceChart(this);
+    if (this.inDev) {
+        this.pChart.nextMode();
+    }
 };
 
 /**
@@ -464,7 +466,5 @@ ViewPort.prototype.draw = function (initFromWorld) {
         this.pauseMenu.draw();
     }
 
-    if (this.showPerf) {
-        this.pChart.draw();
-    }
+    this.pChart.draw();
 };

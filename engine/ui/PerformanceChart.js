@@ -11,7 +11,15 @@ function PerformanceChart(vp) {
     this.data = [];
     this.maxTicks = 100;
     this.maxValue = {ec: 0, tl: 0.05};
+
+    this.modes = ["off", "timed", "point"];
+    this.mode = "off";
 }
+
+PerformanceChart.prototype.nextMode = function () {
+    var index = this.modes.indexOf(this.mode);
+    this.mode = this.modes[(index + 1) % this.modes.length];
+};
 
 PerformanceChart.prototype.addData = function (data) {
     this.data.push(data);
@@ -33,16 +41,44 @@ PerformanceChart.prototype.addData = function (data) {
     };
 };
 
-PerformanceChart.prototype.draw = function () {
-    this.vp.context.fillStyle = "rgba(23, 23, 23, 0.8)";
-    this.vp.context.fillRect(
-            this.vp.zoom * this.position.x,
-            this.vp.zoom * this.position.y,
-            this.vp.zoom * this.size.x,
-            this.vp.zoom * this.size.y);
+PerformanceChart.prototype.getThresholdColor = function (value) {
+    var c;
+    for (var i in this.thresholds) {
+        if (i < value) {
+            c = this.thresholds[i];
+        }
+    }
+    return c;
+};
+
+PerformanceChart.prototype.drawPoint = function () {
+    this.vp.context.strokeStyle = "#fff";
+    for (var i = 0; i < this.maxValue.ec; i += 100) {
+        this.vp.context.lineWidth = this.vp.zoom / (i % 500 ? 4 : 2);
+        this.vp.context.beginPath();
+        this.vp.context.moveTo(
+                this.vp.zoom * this.position.x,
+                this.vp.zoom * (this.position.y + (1 - i / this.maxValue.ec) * this.size.y));
+        this.vp.context.lineTo(
+                this.vp.zoom * (this.position.x + this.size.x),
+                this.vp.zoom * (this.position.y + (1 - i / this.maxValue.ec) * this.size.y));
+        this.vp.context.stroke();
+    }
+    for (var i in this.data) {
+        this.vp.context.fillStyle = this.getThresholdColor(this.data[i].tl);
+        this.vp.context.fillRect(
+                this.vp.zoom * (this.position.x + this.data[i].tl / this.maxValue.tl * this.size.x - 1),
+                this.vp.zoom * (this.position.y + (1 - this.data[i].ec / this.maxValue.ec) * this.size.y - 1),
+                this.vp.zoom * 2,
+                this.vp.zoom * 2);
+    }
+};
+
+PerformanceChart.prototype.drawTimed = function () {
     this.vp.context.strokeStyle = "#ff0";
     this.vp.context.lineWidth = this.vp.zoom / 2;
     for (var i in this.data) {
+        this.vp.context.fillStyle = this.getThresholdColor(this.data[i].tl);
         for (var j in this.thresholds) {
             if (j < this.data[i].tl) {
                 this.vp.context.fillStyle = this.thresholds[j];
@@ -61,4 +97,24 @@ PerformanceChart.prototype.draw = function () {
                 this.vp.zoom * (this.position.y + this.size.y * (1 - this.data[i].ec / this.maxValue.ec)));
     }
     this.vp.context.stroke();
+};
+
+PerformanceChart.prototype.draw = function () {
+    if (this.mode === "off") {
+        return;
+    }
+    this.vp.context.fillStyle = "rgba(23, 23, 23, 0.8)";
+    this.vp.context.fillRect(
+            this.vp.zoom * this.position.x,
+            this.vp.zoom * this.position.y,
+            this.vp.zoom * this.size.x,
+            this.vp.zoom * this.size.y);
+    switch (this.mode) {
+        case "timed":
+            this.drawTimed();
+            return;
+        case "point":
+            this.drawPoint();
+            return;
+    }
 };

@@ -112,7 +112,7 @@ function Input(vp) {
         "substage": {category: "dev", mode: "executeOnce", func: "nextSubstage()"},
         "stage": {category: "dev", mode: "execute", func: "nextStage()"},
         "slow": {category: "dev", mode: "execute", func: "slowMode()"},
-        "perf": {category: "dev", mode: "invert", func: "showPerf", vp: true},
+        "perf": {category: "dev", mode: "executeOnce", func: "pChart.nextMode()", vp: true},
         "zoom_out": {category: "menu", mode: "executeOnce", func: "changeZoom(-1)", vp: true},
         "zoom_in": {category: "menu", mode: "executeOnce", func: "changeZoom(1)", vp: true},
         "pause": {category: "menu", mode: "executeOnce", func: "setPause(true)"}
