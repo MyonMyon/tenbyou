@@ -50,6 +50,25 @@ var IMAGE_LOAD = [{
         itemProp: "background"
     }];
 
+function init() {
+    loadResources(PRIORITY_CODE, "script", "", ".js", "priority code", null, function () {
+        for (var i in FONT_FILES) {
+            getFont(FONT_FILES[i]);
+        }
+        var vp = new ViewPort();
+        loadResources(ENGINE_CODE, "script", "engine/", ".js", "engine code", vp, function () {
+            getIcon(ICON);
+            loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, function () {
+                loadResources(getImages(), "img", SPRITE_FOLDER, "", "game resources", vp, function () {
+                    onLoad();
+                    vp.onLoad();
+                });
+            });
+        });
+    });
+
+}
+
 /**
  * Loads specific scripts.
  *
@@ -163,18 +182,4 @@ function onLoad() {
     document.getElementsByTagName("title")[0].innerHTML = GAME_TITLE;
 }
 
-loadResources(PRIORITY_CODE, "script", "", ".js", "priority code", null, function () {
-    for (var i in FONT_FILES) {
-        getFont(FONT_FILES[i]);
-    }
-    var vp = new ViewPort();
-    loadResources(ENGINE_CODE, "script", "engine/", ".js", "engine code", vp, function () {
-        getIcon(ICON);
-        loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, function () {
-            loadResources(getImages(), "img", SPRITE_FOLDER, "", "game resources", vp, function () {
-                onLoad();
-                vp.onLoad();
-            });
-        });
-    });
-});
+init();
