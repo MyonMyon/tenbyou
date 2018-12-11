@@ -9,12 +9,16 @@ function Util() {
 /**
  * @param {Number} data Value to fill up.
  * @param {Number} length Number of digits to output.
+ * @param {Boolean} overflowSlice If true, cuts resulting string starting with leading digits to the specified length.
  * @return {String} String representation of value with requiered number of digits.
  */
-Util.fillWithLeadingZeros = function (data, length) {
+Util.fillWithLeadingZeros = function (data, length, overflowSlice) {
     var d = data.toString();
     while (d.length < length) {
         d = "0" + d;
+    }
+    if (overflowSlice) {
+        d = d.slice(-length);
     }
     return d;
 };
