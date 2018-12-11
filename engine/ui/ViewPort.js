@@ -172,13 +172,6 @@ ViewPort.prototype.fixedInt = function (value, width) {
     return value;
 };
 
-ViewPort.prototype.starText = function (value, char) {
-    var text = "";
-    for (var i = 0; i < Math.floor(value); ++i)
-        text += char;
-    return text;
-};
-
 ViewPort.prototype.toScreen = function (worldX, worldY) {
     var value = {x: 0, y: 0};
     value.x = this.centerX + (worldX + SHIFT_X) * this.zoom;
