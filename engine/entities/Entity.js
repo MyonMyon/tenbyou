@@ -119,6 +119,14 @@ Entity.prototype.getAngle = function () {
     return Math.atan2(this.y1, this.x1);
 };
 
+Entity.prototype.getSpeed = function () {
+    return this.world.vectorLength(this.x1, this.y1);
+};
+
+Entity.prototype.getAcceleration = function () {
+    return this.world.vectorLength(this.x2, this.y2);
+};
+
 Entity.prototype.draw = function (context) {
 };
 
