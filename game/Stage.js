@@ -365,6 +365,40 @@ var STAGE = [{
                     fairyTurret.addDrops("power", true, 1);
                     fairyTurret.eventChain.addEvent(function (e, iter) {
                         e.setVectors(null, null, 0, 0, 0, 0);
+                        var p = e.shootProjectileAt(e.world.player, 5, 0, 0, 2, "strike.red");
+                        p.approachEntity(e.world.player, 60 + e.world.difficulty * 20);
+                        p.behavior = function() {
+                            if (this.getSpeed() < 1) {
+                                var px = this.shootProjectile(0, 0, 0, 0, 0, "nuclear");
+                                px.setWidthVectors(2, 20, -32 + e.world.difficulty * 6);
+                                px.behavior = function () {
+                                    if (this.width < 0) {
+                                        this.remove();
+                                    }
+                                };
+                                this.remove();
+                            }
+                        };
+                        if (iter === 2) {
+                            e.setVectors(null, null, 0, 0, e.x < 0 ? -15 : 15, -15);
+                        }
+                    }, 1.5, 0.5, 3);
+                }
+            }, {
+                substage: 0,
+                second: 20,
+                repeatInterval: 1,
+                repeatCount: 12,
+                func: function (world, iter) {
+                    var r = (iter % 2) ? -1 : 1;
+                    var fairyTurret = new Enemy(world,
+                            r * (world.width / 2 + 1), -world.height / 2 - 1,
+                            -r * 30, 30,
+                            r * 15, -15,
+                            2, 1, "fairyBlue");
+                    fairyTurret.addDrops("point", false, 1);
+                    fairyTurret.eventChain.addEvent(function (e, iter) {
+                        e.setVectors(null, null, 0, 0, 0, 0);
                         e.arcProjectiles(
                                 Util.toAngle(e.x > 0 ? "sw" : "se"),
                                 3 * Math.PI / 2, 9 + 8 * e.world.difficulty,
