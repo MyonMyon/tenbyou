@@ -33,6 +33,10 @@ function Entity(world, x, y, x1, y1, x2, y2, width) {
         this.width = width;
     }
 
+    //width changing:
+    this.w1 = 0;
+    this.w2 = 0;
+
     this.fixedX = this.x;
     this.fixedY = this.y;
 
@@ -109,6 +113,9 @@ Entity.prototype.step = function () {
         }
     }
 
+    this.w1 += this.w2 / this.world.ticksPS;
+    this.width += this.w1 / this.world.ticksPS;
+
 };
 
 Entity.prototype.relTime = function () {
@@ -184,6 +191,12 @@ Entity.prototype.setPolarVectors = function (posA, posR, speedA, speedR, accA, a
     this.r1 = speedR || speedR === 0 ? speedR : this.r1;
     this.a2 = accA || accA === 0 ? accA : this.a2;
     this.r2 = accR || accR === 0 ? accR : this.r2;
+};
+
+Entity.prototype.setWidthVectors = function (width, speed, acc) {
+    this.width = width || width === 0 ? width : this.width;
+    this.w1 = speed || speed === 0 ? speed : this.w1;
+    this.w2 = acc || acc === 0 ? acc : this.w2;
 };
 
 Entity.prototype.approachEntity = function (target, initSpeed) {
