@@ -78,3 +78,40 @@ Util.sum = function () {
         return acc + val;
     });
 };
+
+/**
+ * Translates UNIX timestamp to datetime string representation.
+ *
+ * @param {Number} timestamp Count of seconds since UNIX epoch.
+ * @param {String} format Desired string format. Example: "MM/DD/YYYY hh:mm:ss". Default is "YYYY-MM-DD".
+ * @return {String} String in defined format.
+ */
+Util.formatAsDateTime = function (timestamp, format) {
+    var strings = {
+        "YYYY": {func: "fullYear"},
+        "YY": {func: "fullYear", fill: 2},
+        "MM": {func: "month", addition: 1, fill: 2},
+        "M": {func: "month", addition: 1},
+        "DD": {func: "date", fill: 2},
+        "D": {func: "date"},
+        "hh": {func: "hours", fill: 2},
+        "h": {func: "hours"},
+        "mm": {func: "minutes", fill: 2},
+        "m": {func: "minutes"},
+        "ss": {func: "seconds", fill: 2},
+        "s": {func: "seconds"}
+    };
+    var date = new Date(timestamp * 1000);
+    var result = format || "YYYY-MM-DD";
+    for (var i in strings) {
+        var replacement = date["get" + strings[i].func.toTitleCase()]();
+        if (strings[i].addition) {
+            replacement += strings[i].addition;
+        }
+        if (strings[i].fill) {
+            replacement = Util.fillWithLeadingZeros(replacement, strings[i].fill, true);
+        }
+        result = result.replace(i, replacement);
+    }
+    return result;
+};
