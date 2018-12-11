@@ -1,5 +1,6 @@
 INDEX_FILE="index.html"
 INIT_FILE="engine/Init.js"
+VERSION_FILE="version"
 REL_DATE=$(date +%Y-%m-%d)
 REV_INNER=$(($(git rev-list  `git rev-list --tags --no-walk --max-count=1`..HEAD --count engine)))
 REV_TOTAL_OLD=$(sed -n "s:.*REVISION_TOTAL = \(.*\);:\1:p" $INIT_FILE)
@@ -23,6 +24,8 @@ sed -i.bak "s/\(REVISION_TOTAL = \).*\(;\)/\1$REV_TOTAL\2/g" $INIT_FILE
 rm $INDEX_FILE.bak
 rm $INIT_FILE.bak
 
+echo $VERSION_NEW > $VERSION_FILE
+
 VERSION_TAG=${VERSION_NEW,,}
 VERSION_TAG=${VERSION_TAG/ /.}
 
@@ -32,6 +35,7 @@ This is an automated commit."
 
 git stage $INIT_FILE
 git stage $INDEX_FILE
+git stage $VERSION_FILE
 git commit -m "$MESSAGE"
 git tag -a "$VERSION_TAG" -m "$MESSAGE"
 git push 5apps master
