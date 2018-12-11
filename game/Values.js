@@ -86,7 +86,7 @@ var FONT = {
     },
     info: {
         font: "Unispace Rg",
-        size:6,
+        size: 6,
         weight: "Bold",
         color: "#fee",
         strokeWidth: 0.75,
