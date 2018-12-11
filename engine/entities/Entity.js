@@ -178,6 +178,16 @@ Entity.prototype.setPolarVectors = function (posA, posR, speedA, speedR, accA, a
     this.r2 = accR || accR === 0 ? accR : this.r2;
 };
 
+Entity.prototype.approachEntity = function (target, initSpeed) {
+    if (target) {
+        this.approachPoint(target.x, target.y, initSpeed);
+    }
+};
+
+Entity.prototype.approachPoint = function (targetX, targetY, initSpeed) {
+    this.headToPoint(targetX, targetY, initSpeed, -initSpeed * initSpeed / 2 / this.world.distanceBetweenPoints(this.x, this.y, targetX, targetY));
+};
+
 Entity.prototype.headToEntity = function (target, speed, acceleration) {
     if (target) {
         this.headToPoint(target.x, target.y, speed, acceleration);
