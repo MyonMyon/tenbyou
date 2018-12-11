@@ -51,6 +51,13 @@ var IMAGE_LOAD = [{
     }];
 
 function init() {
+    if (!localStorage.getItem("reloaded")) {
+        localStorage.setItem("reloaded", true);
+        location.reload(true);
+        return;
+    }
+    localStorage.removeItem("reloaded");
+
     loadResources(PRIORITY_CODE, "script", "", ".js", "priority code", null, function () {
         for (var i in FONT_FILES) {
             getFont(FONT_FILES[i]);
