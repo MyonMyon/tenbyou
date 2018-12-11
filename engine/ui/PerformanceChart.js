@@ -39,6 +39,7 @@ PerformanceChart.prototype.addData = function (data) {
         0.035: "#c00",
         0.05: "#800"
     };
+    this.fpsUnits = [20, 25, 30, 40, 50, 60, 75, 90, 120, 240];
 };
 
 PerformanceChart.prototype.getThresholdColor = function (value) {
@@ -72,6 +73,19 @@ PerformanceChart.prototype.drawPoint = function () {
                 this.vp.zoom * 2,
                 this.vp.zoom * 2);
     }
+
+    this.vp.setFont(FONT.debug);
+    this.vp.context.textBaseline = "alphabetic";
+    this.vp.context.textAlign = "left";
+    this.vp.drawText(this.maxValue.ec, this.vp.zoom * this.position.x, this.vp.zoom * (this.position.y + 2.5));
+    this.vp.context.textAlign = "right";
+    for (var i in this.fpsUnits) {
+        this.vp.context.fillStyle = this.getThresholdColor(1 / this.fpsUnits[i]);
+        this.vp.drawText(
+                this.fpsUnits[i],
+                this.vp.zoom * (this.position.x + this.size.x / this.maxValue.tl / this.fpsUnits[i]),
+                this.vp.zoom * (this.position.y + this.size.y));
+    }
 };
 
 PerformanceChart.prototype.drawTimed = function () {
@@ -92,6 +106,19 @@ PerformanceChart.prototype.drawTimed = function () {
                 this.vp.zoom * (this.position.y + this.size.y * (1 - this.data[i].ec / this.maxValue.ec)));
     }
     this.vp.context.stroke();
+
+    this.vp.setFont(FONT.debug);
+    this.vp.context.textBaseline = "alphabetic";
+    this.vp.context.textAlign = "left";
+    this.vp.drawText(this.maxValue.ec, this.vp.zoom * this.position.x, this.vp.zoom * (this.position.y + 2.5));
+    this.vp.context.textAlign = "right";
+    for (var i in this.fpsUnits) {
+            this.vp.context.fillStyle = this.getThresholdColor(1 / this.fpsUnits[i]);
+            this.vp.drawText(
+                    this.fpsUnits[i],
+                    this.vp.zoom * (this.position.x + this.size.x),
+                    this.vp.zoom * (this.position.y + this.size.y * (1 - 1 / this.maxValue.tl / this.fpsUnits[i]) + 2.5));
+    }
 };
 
 PerformanceChart.prototype.draw = function () {

@@ -163,6 +163,13 @@ var FONT = {
             size: 7,
             strokeWidth: 0.75
         }
+    },
+    debug: {
+        font: "monospace",
+        size: 3,
+        color: "#fff",
+        strokeWidth: 0.5,
+        strokeColor: "#000"
     }
 };
 
