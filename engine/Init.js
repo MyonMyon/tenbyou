@@ -53,7 +53,7 @@ var IMAGE_LOAD = [{
 function init() {
     if (!localStorage.getItem("reloaded")) {
         localStorage.setItem("reloaded", true);
-        location.reload(true);
+        location.reload(false);
         return;
     }
     localStorage.removeItem("reloaded");
