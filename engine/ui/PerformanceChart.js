@@ -79,11 +79,6 @@ PerformanceChart.prototype.drawTimed = function () {
     this.vp.context.lineWidth = this.vp.zoom / 2;
     for (var i in this.data) {
         this.vp.context.fillStyle = this.getThresholdColor(this.data[i].tl);
-        for (var j in this.thresholds) {
-            if (j < this.data[i].tl) {
-                this.vp.context.fillStyle = this.thresholds[j];
-            }
-        }
         this.vp.context.fillRect(
                 this.vp.zoom * (this.position.x + i * this.size.x / this.maxTicks),
                 this.vp.zoom * (this.position.y + this.size.y),
