@@ -96,12 +96,17 @@ ViewPort.prototype.onLoad = function () {
 ViewPort.prototype.takeScreenShot = function () {
     try {
         var dataUrl = this.canvas.toDataURL("image/png");
-        window.open(dataUrl, "_blank");
         if (this.world) {
             this.world.setPause(true);
         }
+        var anchor = document.createElement("a");
+        anchor.href = dataUrl;
+        anchor.download = GAME_ABBR + "_" + Util.formatAsDateTime(Math.floor(new Date().getTime() / 1000), "YYYY-MM-DD_hh-mm-ss") + ".png";
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(document.body.lastChild);
     } catch (ex) {
-        console.log("SCREENSHOT ERROR");
+        console.log("SCREENSHOT ERROR", ex);
     }
 };
 
