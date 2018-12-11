@@ -24,15 +24,31 @@ function ViewPort() {
 }
 
 ViewPort.prototype.perfStep = function () {
-    this.ticks++;
-    if (new Date().getTime() % 1000 < this.prevMS) {
+    this.startTime = new Date().getTime();
+    if (this.startTime % 1000 < this.prevMS) {
         this.fps = this.ticks;
         this.ticks = 0;
         if (this.pChart && this.pChart.mode !== "off") {
             this.pChart.addData({ec: this.world ? this.world.entities.length : 0, tl: 1 / this.fps});
         }
     }
-    this.prevMS = new Date().getTime() % 1000;
+    this.prevMS = this.startTime % 1000;
+
+    if (this.dropNextFrames) {
+        this.dropNextFrames--;
+        return false;
+    } else {
+        this.ticks++;
+    }
+    return true;
+};
+
+ViewPort.prototype.perfStepEnd = function () {
+    var diffMs = new Date().getTime() - this.startTime;
+    var frameMs = 1000 / this.world.ticksPS;
+    if (diffMs > frameMs) {
+        this.dropNextFrames = Math.ceil(diffMs / frameMs);
+    }
 };
 
 ViewPort.prototype.changeZoom = function (delta) {
@@ -432,7 +448,9 @@ ViewPort.prototype.draw = function (initFromWorld) {
         return;
     }
 
-    this.perfStep();
+    if (!this.perfStep()) {
+        return this.perfStepEnd();
+    }
 
     if (!this.loaded) {
         this.drawLoading();
@@ -459,4 +477,6 @@ ViewPort.prototype.draw = function (initFromWorld) {
     }
 
     this.pChart.draw();
+
+    this.perfStepEnd();
 };
