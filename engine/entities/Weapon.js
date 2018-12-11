@@ -30,7 +30,6 @@ Weapon.prototype.step = function () {
             var e = this.world.entities[i];
             if (e instanceof Projectile && !e.playerSide && e.width && this.world.collisionCheck(e, this)) {
                 //collision
-                e.remove();
                 this.hit();
             }
         }
