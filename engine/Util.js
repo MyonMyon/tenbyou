@@ -7,6 +7,19 @@ function Util() {
 }
 
 /**
+ * @param {Number} data Value to fill up.
+ * @param {Number} length Number of digits to output.
+ * @return {String} String representation of value with requiered number of digits.
+ */
+Util.fillWithLeadingZeros = function (data, length) {
+    var d = data.toString();
+    while (d.length < length) {
+        d = "0" + d;
+    }
+    return d;
+};
+
+/**
  * @param {Number|Array|Function} data Value to extract.
  * @param {Number} iteration Iteration #.
  * @return {Number} Processed data.

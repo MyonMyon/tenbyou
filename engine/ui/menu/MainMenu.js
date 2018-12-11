@@ -45,7 +45,7 @@ function MainMenu(vp) {
                     id: "spell_" + spellNumber,
                     diff: +j,
                     spell: SPELL[i],
-                    title: "#" + vp.fixedInt(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
+                    title: "#" + Util.fillWithLeadingZeros(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
                     action: function (vp) {
                         vp.world = new World(vp);
                         vp.world.startSpellPractice(+this.diff, this.spell);
