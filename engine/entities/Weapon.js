@@ -17,6 +17,7 @@ function Weapon(player, name, anchored) {
             this[propImport[i]] = d;
         }
     }
+    this.angle = -Math.PI / 2; //look north by default
     this.sprite.set(SPRITE.player);
     this.sprite.set(player.name);
     this.sprite.set(SPRITE.player[player.name].weapons[name]);
@@ -91,9 +92,7 @@ Weapon.prototype.draw = function (context) {
     var ePos = this.world.vp.toScreen(this.x, this.y);
     ctx.save();
     ctx.translate(ePos.x, ePos.y);
-    if (this.angle !== undefined) {
-        ctx.rotate(Math.PI - this.angle);
-    }
+    ctx.rotate(Math.PI / 2 + this.angle);
     this.sprite.draw(ctx, 0, 0, this.relTime(), this.width * 2 * this.world.vp.zoom, true);
     ctx.restore();
     if (this.world.drawHitboxes) {
