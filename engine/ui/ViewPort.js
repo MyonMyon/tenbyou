@@ -17,15 +17,6 @@ function ViewPort() {
 
     this.inDev = DEV_MODE;
 
-    this.version = "Tenbyou v" + ENGINE_VERSION + " (alpha)";
-    if (this.inDev) {
-        this.version += " dev";
-    }
-    this.version += " revision";
-    if (!this.inDev) {
-        this.version += " " + Util.fillWithLeadingZeros(REVISION_TOTAL, 4);
-    }
-
     var self = this;
     setInterval(function () {
         self.draw(false);
@@ -87,6 +78,15 @@ ViewPort.prototype.onLoad = function () {
     this.pChart = new PerformanceChart(this);
     if (this.inDev) {
         this.pChart.nextMode();
+    }
+
+    this.version = "Tenbyou v" + ENGINE_VERSION + " (alpha)";
+    if (this.inDev) {
+        this.version += " dev";
+    }
+    this.version += " revision";
+    if (!this.inDev) {
+        this.version += " " + Util.fillWithLeadingZeros(REVISION_TOTAL, 4);
     }
 };
 
