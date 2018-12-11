@@ -1,6 +1,6 @@
 INDEX_FILE="index.html"
 INIT_FILE="engine/Init.js"
-VERSION_FILE="version"
+VERSION_FILE="VERSION"
 REL_DATE=$(date +%Y-%m-%d)
 REV_INNER=$(($(git rev-list  `git rev-list --tags --no-walk --max-count=1`..HEAD --count engine)))
 REV_TOTAL_OLD=$(sed -n "s:.*REVISION_TOTAL = \(.*\);:\1:p" $INIT_FILE)
