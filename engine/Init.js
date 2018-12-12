@@ -74,7 +74,7 @@ function init() {
         loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, loadSprites);
     };
     var loadSprites = function () {
-        loadResources(getImages(), "img", SPRITE_FOLDER, "", "game resources", vp, loadEnd);
+        loadResources(getFiles(IMAGE_LOAD), "img", SPRITE_FOLDER, "", "sprites", vp, loadEnd);
     };
     var loadEnd = function () {
         onLoad();
@@ -160,27 +160,28 @@ function getFont(data) {
 }
 
 /**
+ * @param {Array} input Input data array.
  * @returns {Array} Array of image resource files.
  */
-function getImages() {
-    var IMG = [];
-    for (var s in IMAGE_LOAD) {
-        var data = IMAGE_LOAD[s];
+function getFiles(input) {
+    var files = [];
+    for (var s in input) {
+        var data = input[s];
         var o = window[data.object];
         for (var i in o) {
-            getImage(o[i], data, IMG);
+            getFile(o[i], data, files);
             if (data.checkInside) {
                 //and... one level deeper:
                 for (var j in o[i]) {
-                    getImage(o[i][j], data, IMG);
+                    getFile(o[i][j], data, files);
                 }
             }
         }
     }
-    return IMG;
+    return files;
 }
 
-function getImage(item, data, array) {
+function getFile(item, data, array) {
     if (item[data.itemProp]) {
         if (data.push) {
             array.push(item);
