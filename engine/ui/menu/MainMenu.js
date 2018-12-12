@@ -58,7 +58,7 @@ function MainMenu(vp) {
     var inputMenu = [];
     var aliases = this.vp.input.actionsAliases;
     for (var i in aliases) {
-        if (aliases[i].category === "interaction") {
+        if (["interaction", "misc"].indexOf(aliases[i].category) >= 0) {
             inputMenu.push({
                 title: i.toTitleCase() + ": " + this.vp.input.getKeyByAction(i, true)
             });
