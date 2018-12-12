@@ -18,6 +18,7 @@ var ENGINE_CODE = [
     "ui/menu/Menu",
     "ui/menu/MainMenu",
     "ui/menu/PauseMenu",
+    "ui/Dialogue",
     "ui/Input",
     "ui/PerformanceChart",
     "entities/Entity",

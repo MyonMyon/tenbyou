@@ -6,6 +6,14 @@ var HEIGHT = 192;
 var SHIFT_X = -48;
 var SHIFT_Y = 0;
 
+var DIALOGUE_COLOR = "rgba(0, 0, 0, 0.5)";
+var DIALOGUE_X = 10;
+var DIALOGUE_Y = 150;
+var DIALOGUE_W = 140;
+var DIALOGUE_H = 32;
+var DIALOGUE_MX = 5;
+var DIALOGUE_MY = 5;
+
 var RESOURCE_FOLDER = "resources/";
 var SPRITE_FOLDER = RESOURCE_FOLDER + "img/";
 var FONT_FOLDER = RESOURCE_FOLDER + "fonts/";
@@ -75,6 +83,17 @@ var FONT = {
         color: "#c60",
         strokeWidth: 0.75,
         strokeColor: "#ff0"
+    },
+    character: {
+        font: "Unispace Rg",
+        weight: "Bold",
+        size: 4,
+        color: "#c00"
+    },
+    dialogue: {
+        font: "Unispace Rg",
+        size: 4,
+        color: "#fff"
     },
     points: {
         font: "Unispace Rg",

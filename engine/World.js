@@ -16,6 +16,7 @@ function World(vp) {
     this.drawHitboxes = false;
     this.boss = null;
     this.bossLast = false;
+    this.dialogue = null;
 
     this.difficulty = 0;
     this.stages = [];
@@ -98,7 +99,15 @@ World.prototype.initEventChain = function () {
     for (var i in STAGE[this.stage - 1].events) {
         var e = STAGE[this.stage - 1].events[i];
         if (e.substage === this.substage && (!e.player || e.player === this.player.name)) {
-            this.eventChain.addEvent(e.func, e.second, e.repeatInterval, e.repeatCount);
+            var func = e.func;
+            if (e.dialogue) {
+                var self = this;
+                var dialogue = e.dialogue;
+                func = function() {
+                    new Dialogue(self, dialogue);
+                };
+            }
+            this.eventChain.addEvent(func, e.second, e.repeatInterval, e.repeatCount);
         }
     }
 };
@@ -211,6 +220,11 @@ World.prototype.slowMode = function () {
 
 World.prototype.tick = function () {
     if (!this.pause) {
+        if (this.dialogue) {
+            this.dialogue.tick();
+            this.vp.draw(true);
+            return;
+        };
         this.time += this.tickInterval;
 
         //skip frame logic:
@@ -306,5 +320,8 @@ World.prototype.draw = function (context) {
                 }
             }
         }
+    }
+    if (this.dialogue) {
+        this.dialogue.draw();
     }
 };

@@ -86,6 +86,9 @@ function Input(vp) {
         "KeyX": "nav_back",
         "Escape": "nav_back"
     };
+    this.defaultMappingDialogue = {
+        "KeyZ": "next"
+    };
     this.lockMenuInput = false;
     this.pressedBuffer = [];
     this.directions = ["Left", "Right", "Up", "Down"];
@@ -216,6 +219,19 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
             }
             if (!this.lockMenuInput) {
                 menu.action(action);
+                return true;
+            }
+        }
+    }
+    if (this.vp.world && this.vp.world.dialogue) {
+        var action = this.defaultMappingDialogue[keyAbbr];
+        if (action) {
+            if (!keyValue) {
+                this.lockMenuInput = false;
+                return true;
+            }
+            if (!this.lockMenuInput) {
+                this.vp.world.dialogue[action]();
                 return true;
             }
         }
