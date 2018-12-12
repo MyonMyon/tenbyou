@@ -94,7 +94,7 @@ var STAGE = [{
                     eventKedamaMidboss(world, false);
                 }
             }, {
-                player: "barashou",
+                player: "nBarashou",
                 substage: 0,
                 second: 63,
                 dialogue: [{
@@ -103,11 +103,11 @@ var STAGE = [{
                         text: "oДo what is this?"
                     },{
                         position: "left",
-                        char: "rb",
+                        char: "rBarashou",
                         text: "This one is definitely bigger than the others."
                     }, {
                         position: "left",
-                        char: "barashou",
+                        char: "nBarashou",
                         text: "Easy target for us, then!"
                     }]
             }, {
