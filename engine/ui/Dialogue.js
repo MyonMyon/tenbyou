@@ -22,6 +22,7 @@ Dialogue.prototype.next = function () {
     this.time = 0;
     if (++this.index >= this.lines.length) {
         this.world.dialogue = null;
+        this.world.vp.input.stopAll();
         return;
     }
     var keepProps = ["character", "position"];
