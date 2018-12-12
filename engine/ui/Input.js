@@ -86,14 +86,13 @@ function Input(vp) {
         "KeyX": "nav_back",
         "Escape": "nav_back"
     };
-    this.lockMenuInput = false;
-    this.pressedBuffer = [];
+    this.repeatableMenuActions = ["nav_left", "nav_right", "nav_up", "nav_down"];
+    this.lockBuffer = {};
     this.directions = ["Left", "Right", "Up", "Down"];
     //MODES:
     //keyState:     changes value (true on keyDown, false on keyUp)
     //invert:       inverts value on keyUp
-    //execute:      executes function on keyDown, end function on keyUp
-    //executeOnce:  same as above, but ignore keyDown repeat
+    //execute:      executes function on keyDown, end function on keyUp (ignores keyDown repeat)
     //vp:           if true, func is called from the viewport itself, not the word, also available while in menus
     this.actionsAliases = {
         "move_left": {category: "movement", mode: "keyState", func: "player.moveLeft"},
@@ -102,20 +101,20 @@ function Input(vp) {
         "move_down": {category: "movement", mode: "keyState", func: "player.moveDown"},
         "focus": {category: "interaction", mode: "keyState", func: "player.focused"},
         "attack": {category: "interaction", mode: "keyState", func: "player.shooting"},
-        "bomb": {category: "interaction", mode: "executeOnce", func: "player.bomb()"},
-        "special": {category: "interaction", mode: "executeOnce", func: "player.special()"},
-        "screenshot": {category: "misc", mode: "executeOnce", func: "takeScreenShot()", vp: true},
-        "bonus": {category: "dev", mode: "executeOnce", func: "randomBonus()"},
-        "time": {category: "dev", mode: "executeOnce", func: "addTime()"},
+        "bomb": {category: "interaction", mode: "execute", func: "player.bomb()"},
+        "special": {category: "interaction", mode: "execute", func: "player.special()"},
+        "screenshot": {category: "misc", mode: "execute", func: "takeScreenShot()", vp: true},
+        "bonus": {category: "dev", mode: "execute", func: "randomBonus()"},
+        "time": {category: "dev", mode: "execute", func: "addTime()"},
         "hitbox": {category: "dev", mode: "invert", func: "drawHitboxes"},
         "bot": {category: "dev", mode: "invert", func: "player.guided"},
-        "substage": {category: "dev", mode: "executeOnce", func: "nextSubstage()"},
+        "substage": {category: "dev", mode: "execute", func: "nextSubstage()"},
         "stage": {category: "dev", mode: "execute", func: "nextStage()"},
         "slow": {category: "dev", mode: "execute", func: "slowMode()"},
-        "perf": {category: "dev", mode: "executeOnce", func: "pChart.nextMode()", vp: true},
-        "zoom_out": {category: "menu", mode: "executeOnce", func: "changeZoom(-1)", vp: true},
-        "zoom_in": {category: "menu", mode: "executeOnce", func: "changeZoom(1)", vp: true},
-        "pause": {category: "menu", mode: "executeOnce", func: "setPause(true)"}
+        "perf": {category: "dev", mode: "execute", func: "pChart.nextMode()", vp: true},
+        "zoom_out": {category: "menu", mode: "execute", func: "changeZoom(-1)", vp: true},
+        "zoom_in": {category: "menu", mode: "execute", func: "changeZoom(1)", vp: true},
+        "pause": {category: "menu", mode: "execute", func: "setPause(true)"}
     };
     var eventTypes = ["keyDown", "keyUp", "mouseDown", "mouseUp", "mouseMove", "mouseWheel"];
     for (var i in eventTypes) {
@@ -205,21 +204,28 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
     if (!keyAbbr) {
         return false;
     }
-    if (!this.vp.world || this.vp.world.pause) {
+
+    var inMenu = !this.vp.world || this.vp.world.pause;
+
+    if (keyValue) {
+        if (this.lockBuffer[keyAbbr]) {
+            return true;
+        } else if (!inMenu || this.repeatableMenuActions.indexOf(this.defaultMappingMenu[keyAbbr]) === -1) {
+            this.lockBuffer[keyAbbr] = true;
+        }
+    } else if (this.lockBuffer[keyAbbr]) {
+        this.lockBuffer[keyAbbr] = false;
+    }
+
+    if (inMenu) {
         var menu = this.vp.world ? this.vp.pauseMenu : this.vp.mainMenu;
         var action = this.defaultMappingMenu[keyAbbr];
-        if (action) {
-            if (!keyValue) {
-                this.lockMenuInput = false;
-                menu.action("nav_null");
-                return true;
-            }
-            if (!this.lockMenuInput) {
-                menu.action(action);
-                return true;
-            }
+        if (action && keyValue) {
+            menu.action(action);
+            return true;
         }
     }
+
     var action = this.actionsAliases[this.defaultMapping[keyAbbr]];
     var ignoreModality = action && action.vp;
     if (this.vp.world && !this.vp.world.pause || ignoreModality) {
@@ -238,21 +244,10 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
                 case "keyValue":
                     eval(objString + action.func + "=" + +keyValue);
                     break;
-                case "executeOnce":
-                    if (keyValue && !action.lock) {
-                        eval(objString + action.func);
-                        action.lock = true;
-                    } else if (action.funcEnd) {
-                        eval(objString + action.funcEnd);
-                    }
-                    if (!keyValue) {
-                        action.lock = false;
-                    }
-                    break;
                 case "execute":
-                    if (keyValue)
+                    if (keyValue) {
                         eval(objString + action.func);
-                    else if (action.funcEnd) {
+                    } else if (action.funcEnd) {
                         eval(objString + action.funcEnd);
                     }
                     break;
@@ -282,7 +277,6 @@ Input.prototype.stopAll = function () {
             }
         }
     }
-    this.lockMenuInput = true;
 };
 
 /**
