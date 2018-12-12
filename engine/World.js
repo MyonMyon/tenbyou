@@ -97,7 +97,7 @@ World.prototype.initEventChain = function () {
     this.eventChain.clear();
     for (var i in STAGE[this.stage - 1].events) {
         var e = STAGE[this.stage - 1].events[i];
-        if (e.substage === this.substage) {
+        if (e.substage === this.substage && (!e.player || e.player === this.player.name)) {
             this.eventChain.addEvent(e.func, e.second, e.repeatInterval, e.repeatCount);
         }
     }
