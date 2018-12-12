@@ -97,6 +97,7 @@ Menu.prototype.action = function (code) {
                     }
                 }
             }
+            Sound.play(SFX.menuApply);
             break;
         case "nav_enter":
             var item = m.submenu[this.currentIndex];
@@ -110,6 +111,7 @@ Menu.prototype.action = function (code) {
             if (item.action) {
                 item.action(this.vp);
             }
+            Sound.play(SFX.menuApply);
             break;
     }
     this.lastAction = new Date().getTime();
@@ -139,6 +141,7 @@ Menu.prototype.changeIndex = function (delta) {
     this.currentIndex += l;
     this.currentIndex = (this.currentIndex + delta) % l;
     this.rowOffset = Math.min(Math.max(this.rowOffset, this.currentIndex - cap + 1), this.currentIndex);
+    Sound.play(SFX.menuNavigate);
 };
 
 /**

@@ -9,6 +9,7 @@ var SHIFT_Y = 0;
 var RESOURCE_FOLDER = "resources/";
 var SPRITE_FOLDER = RESOURCE_FOLDER + "img/";
 var FONT_FOLDER = RESOURCE_FOLDER + "fonts/";
+var SFX_FOLDER = RESOURCE_FOLDER + "sfx/";
 var ICON = SPRITE_FOLDER + "icon.png";
 
 var SHIELD_COLOR = "rgba(160, 0, 0, 0.3)";
@@ -32,6 +33,15 @@ var BORDER_WIDTH = 0.5;
 var BORDER_COLOR = "#c00";
 
 var BACKGROUND = "#023";
+
+var SFX = {
+    menuNavigate: {
+        file: "pop.mp3"
+    },
+    menuApply: {
+        file: "click.mp3"
+    }
+};
 
 var FONT_FILES = [{
         name: "Unispace Rg",

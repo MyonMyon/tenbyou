@@ -14,6 +14,7 @@ var ENGINE_CODE = [
     "EventChain",
     "Util",
     "SpriteHandler",
+    "Sound",
     "ui/menu/Menu",
     "ui/menu/MainMenu",
     "ui/menu/PauseMenu",
@@ -50,6 +51,13 @@ var IMAGE_LOAD = [{
         itemProp: "background"
     }];
 
+var SFX_LOAD = [{
+        object: "SFX",
+        itemProp: "file",
+        push: true,
+        checkInside: true
+    }];
+
 function init() {
     if (!localStorage.getItem("reloaded")) {
         localStorage.setItem("reloaded", true);
@@ -74,7 +82,10 @@ function init() {
         loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, loadSprites);
     };
     var loadSprites = function () {
-        loadResources(getFiles(IMAGE_LOAD), "img", SPRITE_FOLDER, "", "sprites", vp, loadEnd);
+        loadResources(getFiles(IMAGE_LOAD), "img", SPRITE_FOLDER, "", "sprites", vp, loadSfx);
+    };
+    var loadSfx = function () {
+        loadResources(getFiles(SFX_LOAD), "audio", SFX_FOLDER, "", "SFX", vp, loadEnd);
     };
     var loadEnd = function () {
         onLoad();
@@ -115,7 +126,9 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
             nameArray[i].object = s;
         }
         s.src = prefix + (nameArray[i].file || nameArray[i]) + postfix + "?v=" + ENGINE_VERSION;
-        s.onload = function () {
+
+        var success = elementTag === "audio" ? "oncanplay" : "onload";
+        s[success] = function () {
             loadedRes++;
             document.getElementsByTagName("title")[0].innerHTML = "Loading " + tag + " " + loadedRes + "/" + totalRes;
             if (loadingTextHandler && !fail) {
