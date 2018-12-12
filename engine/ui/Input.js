@@ -104,7 +104,7 @@ function Input(vp) {
         "attack": {category: "interaction", mode: "keyState", func: "player.shooting"},
         "bomb": {category: "interaction", mode: "executeOnce", func: "player.bomb()"},
         "special": {category: "interaction", mode: "executeOnce", func: "player.special()"},
-        "screenshot": {category: "interaction", mode: "executeOnce", func: "takeScreenShot()", vp: true},
+        "screenshot": {category: "misc", mode: "executeOnce", func: "takeScreenShot()", vp: true},
         "bonus": {category: "dev", mode: "executeOnce", func: "randomBonus()"},
         "time": {category: "dev", mode: "executeOnce", func: "addTime()"},
         "hitbox": {category: "dev", mode: "invert", func: "drawHitboxes"},
