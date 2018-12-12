@@ -58,22 +58,30 @@ function init() {
     }
     localStorage.removeItem("reloaded");
 
-    loadResources(PRIORITY_CODE, "script", "", ".js", "priority code", null, function () {
+    var vp;
+    var loadPriority = function () {
+        loadResources(PRIORITY_CODE, "script", "", ".js", "priority code", null, loadEngine);
+    };
+    var loadEngine = function () {
         for (var i in FONT_FILES) {
             getFont(FONT_FILES[i]);
         }
-        var vp = new ViewPort();
-        loadResources(ENGINE_CODE, "script", "engine/", ".js", "engine code", vp, function () {
-            getIcon(ICON);
-            loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, function () {
-                loadResources(getImages(), "img", SPRITE_FOLDER, "", "game resources", vp, function () {
-                    onLoad();
-                    vp.onLoad();
-                });
-            });
-        });
-    });
+        vp = new ViewPort();
+        loadResources(ENGINE_CODE, "script", "engine/", ".js", "engine code", vp, loadGame);
+    };
+    var loadGame = function () {
+        getIcon(ICON);
+        loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, loadSprites);
+    };
+    var loadSprites = function () {
+        loadResources(getImages(), "img", SPRITE_FOLDER, "", "game resources", vp, loadEnd);
+    };
+    var loadEnd = function () {
+        onLoad();
+        vp.onLoad();
+    };
 
+    loadPriority();
 }
 
 /**
