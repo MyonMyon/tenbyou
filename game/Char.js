@@ -1,5 +1,5 @@
 var CHAR = {
-    barashou: {
+    nBarashou: {
         name: "Natsuki Barashou",
         width: 0.5,
         weapons: {
