@@ -5,7 +5,7 @@ function Dialogue(world, lines) {
     this.lines = lines;
     this.time = 0;
     this.index = 0;
-    this.lettersPS = 20;
+    this.lettersPS = 40;
 }
 
 Dialogue.prototype.tick = function () {
