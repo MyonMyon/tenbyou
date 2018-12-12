@@ -127,7 +127,7 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
         }
         s.src = prefix + (nameArray[i].file || nameArray[i]) + postfix + "?v=" + ENGINE_VERSION;
 
-        var success = elementTag === "audio" ? "oncanplay" : "onload";
+        var success = elementTag === "audio" ? "onloadeddata" : "onload";
         s[success] = function () {
             loadedRes++;
             document.getElementsByTagName("title")[0].innerHTML = "Loading " + tag + " " + loadedRes + "/" + totalRes;
