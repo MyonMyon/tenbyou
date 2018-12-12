@@ -1,6 +1,6 @@
 var SPRITE = {
     player: {
-        barashou: {
+        nBarashou: {
             file: "player/nb.png",
             frameWidth: 32,
             frameHeight: 32,
