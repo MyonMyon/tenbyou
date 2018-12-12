@@ -87,7 +87,7 @@ var FONT = {
     character: {
         font: "Unispace Rg",
         weight: "Bold",
-        size: 4,
+        size: 5,
         color: "#c00"
     },
     dialogue: {
