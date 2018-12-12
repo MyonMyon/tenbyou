@@ -1,5 +1,6 @@
 var CHAR = {
     nBarashou: {
+        playable: true,
         name: "Natsuki Barashou",
         width: 0.5,
         weapons: {
