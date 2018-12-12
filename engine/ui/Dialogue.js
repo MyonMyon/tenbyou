@@ -45,12 +45,17 @@ Dialogue.prototype.draw = function () {
 
     var char = this.lines[this.index].char;
     var charName = char;
+    var charColor;
     if (CHAR[char]) {
         charName = CHAR[char].name;
+        charColor = CHAR[char].color;
     }
     vp.context.textAlign = this.lines[this.index].position || "left";
     var x = vp.context.textAlign === "left" ? DIALOGUE_X + DIALOGUE_MX : DIALOGUE_X + DIALOGUE_W - DIALOGUE_MX;
     vp.setFont(FONT.character);
+    if (charColor) {
+        vp.context.fillStyle = charColor;
+    }
     vp.drawText(charName, x * vp.zoom, (DIALOGUE_Y + DIALOGUE_MY) * vp.zoom);
 
     var text = this.lines[this.index].text.slice(0, Math.floor(this.time * this.lettersPS));

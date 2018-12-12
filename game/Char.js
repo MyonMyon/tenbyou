@@ -1,6 +1,7 @@
 var CHAR = {
     nBarashou: {
         name: "Natsuki Barashou",
+        color: "#ff8",
         width: 0.5,
         weapons: {
             turret: {
@@ -93,7 +94,8 @@ var CHAR = {
         }
     },
     rBarashou: {
-        name: "Ryuu Barashou"
+        name: "Ryuu Barashou",
+        color: "#f40"
     },
     freyja: {
         name: "Freyja til Folkvang",
@@ -105,6 +107,7 @@ var CHAR = {
     },
     kedama: {
         name: "The Kedama",
+        color: "#fff",
         width: 12
     },
     orb: {
