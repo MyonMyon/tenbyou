@@ -11,7 +11,14 @@ function World(vp) {
     this.stageInterval = 2.5;
     this.tickInterval = 1;
 
-    this.setPlayer("nBarashou");
+    //set default player:
+    for (var i in CHAR) {
+        if (CHAR[i].playable) {
+            this.setPlayer(i);
+            break
+        }
+    }
+
     this.pause = false;
     this.drawHitboxes = false;
     this.boss = null;
