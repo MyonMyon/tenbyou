@@ -315,7 +315,7 @@ Enemy.prototype.nextAttack = function () {
 Enemy.prototype.setBossData = function (bossName, isLast) {
     this.setVectors(0, -this.world.width / 2 - 40);
 
-    this.width = BOSS[bossName].width;
+    this.width = CHAR[bossName].width;
     this.sprite.set(bossName);
 
     this.eventChain.addEvent(function (b) {
@@ -325,5 +325,5 @@ Enemy.prototype.setBossData = function (bossName, isLast) {
         b.nextAttack();
     }, 3);
 
-    this.world.setBoss(this, BOSS[bossName].name, isLast);
+    this.world.setBoss(this, CHAR[bossName].name, isLast);
 };

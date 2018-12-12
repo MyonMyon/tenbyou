@@ -31,7 +31,6 @@ var ENGINE_CODE = [
 
 var GAME_CODE = [
     "Char",
-    "Boss",
     "Spell",
     "Stage",
     "Sprite"
