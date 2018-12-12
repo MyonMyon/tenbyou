@@ -42,13 +42,15 @@ Dialogue.prototype.draw = function () {
             DIALOGUE_W * vp.zoom,
             DIALOGUE_H * vp.zoom);
 
+    var char = this.lines[this.index].char;
+    var charName = char;
+    if (CHAR[char]) {
+        charName = CHAR[char].name;
+    }
     vp.context.textAlign = this.lines[this.index].position || "left";
     var x = vp.context.textAlign === "left" ? DIALOGUE_X + DIALOGUE_MX : DIALOGUE_X + DIALOGUE_W - DIALOGUE_MX;
     vp.setFont(FONT.character);
-    vp.drawText(
-            this.lines[this.index].char,
-            x * vp.zoom,
-            (DIALOGUE_Y + DIALOGUE_MY) * vp.zoom);
+    vp.drawText(charName, x * vp.zoom, (DIALOGUE_Y + DIALOGUE_MY) * vp.zoom);
 
     var text = this.lines[this.index].text.slice(0, Math.floor(this.time * this.lettersPS));
     vp.context.textAlign = "left";

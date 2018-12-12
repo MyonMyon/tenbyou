@@ -92,6 +92,9 @@ var CHAR = {
             turret.addDrops("power", true, 3);
         }
     },
+    rBarashou: {
+        name: "Ryuu Barashou"
+    },
     freyja: {
         name: "Freyja til Folkvang",
         width: 0.66,
