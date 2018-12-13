@@ -297,13 +297,13 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
         this.infoShow("T+" + this.world.relTime().toFixed(2), 10, 0.5);
         this.infoShow("E=" + this.world.entities.length, 10, 1);
         this.infoShow(this.fps.toFixed(2) + " FPS × " + this.world.tickInterval, 10, 1.5);
+        this.context.textAlign = "center";
+        this.drawText(this.version, (boundaryEnd.x + this.width) / 2, boundaryEnd.y);
     } else {
-        this.infoShow(this.fps.toFixed(2) + " FPS", 10, 2);
+        this.infoShow(this.fps.toFixed(2) + " FPS", 21, 1.4, true);
     }
 
     this.context.textAlign = "center";
-    this.drawText(this.version, (boundaryEnd.x + this.width) / 2, boundaryEnd.y);
-
     var diffO = {};
     diffO["d" + this.world.difficulty] = true;
     this.setFont(FONT.difficulty, diffO);
