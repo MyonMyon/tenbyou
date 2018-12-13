@@ -279,7 +279,7 @@ Entity.prototype.shootProjectileAt = function (target, distance, speed, accelera
     return this.shootProjectile(angle, distance, speed, acceleration, width, sprite);
 };
 
-Entity.prototype.arcProjectiles = function (centerAngle, rangeAngle, count, distance, speed, acceleration, width, sprite) {
+Entity.prototype.arcProjectiles = function (centerAngle, rangeAngle, count, distance, speed, acceleration, width, sprite, anchored) {
     var rCount = count;
     if (rangeAngle === null) {
         rangeAngle = Math.PI * 2;
@@ -295,7 +295,8 @@ Entity.prototype.arcProjectiles = function (centerAngle, rangeAngle, count, dist
                 Util.iterate(speed, i),
                 Util.iterate(acceleration, i),
                 Util.iterate(width, i),
-                Util.iterate(sprite, i)));
+                Util.iterate(sprite, i),
+                Util.iterate(anchored, i)));
     }
     return ps;
 };
