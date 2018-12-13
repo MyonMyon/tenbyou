@@ -93,11 +93,11 @@ Menu.prototype.action = function (code) {
                 for (var i in m.submenu) {
                     if (m.submenu[i].id === id) {
                         this.currentIndex = +i;
+                        Sound.play(SFX.menuOut);
                         break;
                     }
                 }
             }
-            Sound.play(SFX.menuApply);
             break;
         case "nav_enter":
             var item = m.submenu[this.currentIndex];
@@ -111,7 +111,7 @@ Menu.prototype.action = function (code) {
             if (item.action) {
                 item.action(this.vp);
             }
-            Sound.play(SFX.menuApply);
+            Sound.play(SFX.menuIn);
             break;
     }
     this.lastAction = new Date().getTime();

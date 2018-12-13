@@ -44,10 +44,13 @@ var BACKGROUND = "#023";
 
 var SFX = {
     menuNavigate: {
-        file: "pop.mp3"
+        file: "menu_nav.wav"
     },
-    menuApply: {
-        file: "click.mp3"
+    menuIn: {
+        file: "menu_in.wav"
+    },
+    menuOut: {
+        file: "menu_out.wav"
     }
 };
 
