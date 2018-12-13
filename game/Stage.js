@@ -102,7 +102,7 @@ var STAGE = [{
                         char: "kedama",
                         position: "right",
                         text: "oДo what is this?"
-                    },{
+                    }, {
                         position: "left",
                         char: "rBarashou",
                         text: "This one is definitely bigger than the others."
