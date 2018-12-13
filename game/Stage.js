@@ -63,11 +63,11 @@ var STAGE = [{
                             return;
                         }
                         if (i % shootInterval === 0) {
-                            s.targetPos = {
+                            s.targetAngle = s.world.angleBetweenEntities(s, {
                                 x: s.world.player.x,
-                                y: Math.max(s.y, s.world.player.y)};
+                                y: Math.max(s.y, s.world.player.y)});
                         }
-                        s.shootProjectileAt(s.targetPos, s.width, 50 + s.world.difficulty * 10, 0, 1.5, "kunai.blue");
+                        s.shootProjectile(s.targetAngle, s.width, 50 + s.world.difficulty * 10, 0, 1.5, "kunai.blue", true);
                     }, 1.5, 0.1, Infinity);
                     kedama.appearanceTime = 1;
                 }
