@@ -126,7 +126,7 @@ Enemy.prototype.step = function () {
             || this.x < -this.world.width / 2 - this.width * 2
             || this.y > this.world.height / 2 + this.width * 2
             || this.y < -this.world.height / 2 - this.width * 2) && this !== this.world.boss) {//DO NOT DELETE BOSSES
-        this.remove();
+        this.remove(true);
         return;
     }
 
@@ -187,7 +187,7 @@ Enemy.prototype.behaviorFinal = function (ignoreOnDestroy) {
     if (!ignoreOnDestroy) {
         this.onDestroy();
     }
-    this.remove();
+    this.remove(true);
 };
 
 Enemy.prototype.onDamage = function (damage) {
