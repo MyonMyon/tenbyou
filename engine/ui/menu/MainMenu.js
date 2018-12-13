@@ -121,7 +121,7 @@ MainMenu.prototype.draw = function () {
     if (ENGINE_VERSION_SHOW) {
         this.vp.setFont(FONT.info, {minor: true});
         this.vp.drawText(
-                [this.vp.version, "/", RELEASE_DATE, "/", this.vp.fps, "FPS"].join(" "),
+                [this.vp.version, "/", RELEASE_DATE, "/", this.vp.fps.toFixed(2), "FPS"].join(" "),
                 MENU_X * this.vp.zoom,
                 MENU_VER_Y * this.vp.zoom);
     }

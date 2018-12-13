@@ -11,7 +11,7 @@ function ViewPort() {
 
     this.clearMessage();
 
-    this.ticks = 0;
+    this.ticks = [];
     this.fps = 0;
     this.prevMS = 0;
 
@@ -24,15 +24,20 @@ function ViewPort() {
 }
 
 ViewPort.prototype.perfStep = function () {
-    this.ticks++;
-    if (new Date().getTime() % 1000 < this.prevMS) {
-        this.fps = this.ticks;
-        this.ticks = 0;
+    var startTime = new Date().getTime();
+    this.ticks.push(startTime);
+    while (this.ticks.length && this.ticks[0] <= startTime - 2000) {
+        this.ticks.splice(0, 1);
+    }
+    if (startTime % 100 < this.prevMS % 100) {
+        this.fps = (this.ticks[this.ticks.length - 1] - this.ticks[0]) / 2 / 2000 * this.ticks.length;
+    }
+    if (startTime % 1000 < this.prevMS) {
         if (this.pChart && this.pChart.mode !== "off") {
             this.pChart.addData({ec: this.world ? this.world.entities.length : 0, tl: 1 / this.fps});
         }
     }
-    this.prevMS = new Date().getTime() % 1000;
+    this.prevMS = startTime % 1000;
 };
 
 ViewPort.prototype.changeZoom = function (delta) {
@@ -291,9 +296,9 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
         this.infoShow("S#" + this.world.stage + "." + this.world.substage, 10, 0);
         this.infoShow("T+" + this.world.relTime().toFixed(2), 10, 0.5);
         this.infoShow("E=" + this.world.entities.length, 10, 1);
-        this.infoShow(this.fps + " FPS × " + this.world.tickInterval, 10, 1.5);
+        this.infoShow(this.fps.toFixed(2) + " FPS × " + this.world.tickInterval, 10, 1.5);
     } else {
-        this.infoShow(this.fps + " FPS", 10, 2);
+        this.infoShow(this.fps.toFixed(2) + " FPS", 10, 2);
     }
 
     this.context.textAlign = "center";
