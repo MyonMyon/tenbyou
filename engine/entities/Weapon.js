@@ -76,6 +76,7 @@ Weapon.prototype.onDestroy = function () {
 
 //TODO: unite with Enemy method?
 Weapon.prototype.addDrops = function (cat, amount) {
+    amount = amount || 1;
     for (var i = 0; i < amount; ++i) {
         this.drops.push({
             cat: cat

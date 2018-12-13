@@ -229,6 +229,7 @@ Enemy.prototype.initHealth = function (health) {
 };
 
 Enemy.prototype.addDrops = function (cat, amount, reqDamage, afterAttack) {
+    amount = amount || 1;
     for (var i = 0; i < amount; ++i) {
         this.drops.push({
             cat: cat,
