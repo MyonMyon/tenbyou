@@ -52,15 +52,13 @@ var SPELL = {
         init: function (entity) {
             entity.eventChain.addEvent(function (e, iter) {
                 var c = 8;
-                for (var i = 0; i < c; ++i) {
-                    var a = i / c * Math.PI * 2;
-                    var d = e.relTime() * 1.5;
-                    new Projectile(e.world,
-                            e.x + e.width * Math.cos(a),
-                            e.y + e.width * Math.sin(a),
+                var d = e.relTime() * 1.5;
+                var bs = e.arcProjectiles(0, null, c, e.width, 1, 0, 2.5, iter % 2 ? "static.blue" : "static.red");
+                for (var i in bs) {
+                    var a = bs[i].getAngle();
+                    bs[i].setVectors(null, null,
                             Math.cos(a + d) * (20 + e.world.difficulty * 5),
-                            Math.sin(a + d) * (5 + e.world.difficulty * 20),
-                            0, 0, 2.5, false, iter % 2 ? "static.blue" : "static.red");
+                            Math.sin(a + d) * (5 + e.world.difficulty * 20));
                 }
             }, 0.4, 0.1, Infinity);
         }
@@ -83,10 +81,9 @@ var SPELL = {
             entity.eventChain.addEvent(function (e, iter) {
                 var c = 3 + e.world.difficulty * 2;
                 var r = e.world.difficulty * 5;
-                for (var i = 0; i < c; ++i) {
-                    var a = i / c * Math.PI * 2 + Math.PI / 2;
-                    var p = e.shootProjectile(a, e.width + r, 25, 0, 2.5, iter % 2 ? "static.blue" : "static.red");
-                    p.eventChain.addEvent(function (proj) {
+                var bs = e.arcProjectiles(Util.toAngle("s"), null, c, e.width + r, 25, 0, 2.5, iter % 2 ? "static.blue" : "static.red");
+                for (var i in bs) {
+                    bs[i].eventChain.addEvent(function (proj) {
                         proj.headToEntity(proj.world.player, 0, 60);
                     }, 0.1, 2, Infinity);
                 }
@@ -115,15 +112,11 @@ var SPELL = {
             entity.eventChain.addEvent(
                     function (s, iter) {
                         if (iter % 200 < 80) {
-                            for (var i = 0; i < Math.PI * 2; i += Math.PI / 2) {
-                                var p = s.shootProjectile(i, entity.width * 4, 20, -9, 4, "seal.red");
-                                p.nextAngle = i - Math.PI / 2;
-                                p.eventChain.addEvent(function (e) {
-                                    e.setVectors(null, null,
-                                            Math.cos(e.nextAngle) * 20,
-                                            Math.sin(e.nextAngle) * 20,
-                                            Math.cos(e.nextAngle) * 24,
-                                            Math.sin(e.nextAngle) * 24);
+                            var bs = s.arcProjectiles(0, null, 4, s.width * 4, 20, -9, 4, "seal.red");
+                            for (var i in bs) {
+                                bs[i].eventChain.addEvent(function (e) {
+                                    var a = e.getAngle() - Math.PI / 2;
+                                    e.setVectors(null, null, Math.cos(a) * 20, Math.sin(a) * 20, Math.cos(a) * 24, Math.sin(a) * 24);
                                 }, 2);
                             }
                         }
@@ -132,13 +125,12 @@ var SPELL = {
                         }
                         if (iter % 200 < 160 && iter % 200 >= 60) {
                             var c = 3 + s.world.difficulty * 2;
-                            for (var i = 0; i < c; i++) {
-                                var a = i * Math.PI * 2 / c + s.attackAngle;
-                                var p = s.shootProjectile(a, entity.width * 2, 30, 1.8, 2, iter % 200 < 70 ? "seal.purple" : "seal");
+                            var bs = s.arcProjectiles(s.attackAngle, null, c, s.width * 2, 30, 1.8, 2, iter % 200 < 70 ? "seal.purple" : "seal");
+                            for (var i in bs) {
                                 if (iter % 200 < 70) {
-                                    p.priority = 1;
+                                    bs[i].priority = 1;
                                 }
-                                p.behavior = function () {
+                                bs[i].behavior = function () {
                                     if (this.x < -this.world.width / 2 || this.x > this.world.width / 2) {
                                         this.x1 = -this.x1;
                                         this.x2 = 0;
@@ -226,11 +218,11 @@ var SPELL = {
                 var c = 2 + e.world.difficulty;
                 var r = 24;
                 var s = 60;
-                for (var i = 0; i < c; ++i) {
-                    var a = Math.PI / 2 + i / c * Math.PI * 2 - Math.cos(e.relTime() * 0.75);
-                    var p = e.shootProjectile(a, r, s, 0, 2, "orbBlue");
-                    p.reflects = 1;
-                    p.behavior = function () {
+                var a = Math.PI / 2 - Math.cos(e.relTime() * 0.75);
+                var bs = e.arcProjectiles(a, null, c, r, s, 0, 2, "orbBlue");
+                for (var i in bs) {
+                    bs[i].reflects = 1;
+                    bs[i].behavior = function () {
                         if ((this.x > this.world.width / 2 || this.x < -this.world.width / 2) && this.reflects > 0) {
                             this.x1 = -this.x1;
                             --this.reflects;
@@ -277,11 +269,9 @@ var SPELL = {
                     if (iter % 50 > 25) {
                         var s = 90;
                         var r = 2;
-                        var c = 2 + e.world.difficulty;
-                        for (var i = -c; i <= c; ++i) {
-                            var a = e.world.angleBetweenEntities(e, e.world.player) + Math.PI / 20 * i;
-                            e.shootProjectile(a, r, s, 0, 2, "orbBlue");
-                        }
+                        var c = 5 + e.world.difficulty * 2;
+                        var a = e.world.angleBetweenEntities(e, e.world.player);
+                        e.arcProjectiles(a, Math.PI / 20 * c, c, r, s, 0, 2, "orbBlue");
                     } else {
                         var p = e.shootProjectileAt(e.world.player, 0, 100, -36, 6, "orbBlue");
                         p.eventChain.addEvent(function (proj) {

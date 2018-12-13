@@ -113,11 +113,11 @@ var STAGE = [{
                         var mine = new Enemy(world, x, y, 0, 3, 0, 0, 4, 1, "landMine");
                         mine.appearanceTime = 1;
                         mine.onDestroy = function () {
-                            for (var i = 0; i < 8 + this.world.difficulty * 2; i++) {
-                                var sx = (Math.random() - 0.5) * 30;
-                                var sy = (Math.random() - 0.5) * 30;
-                                new Projectile(this.world, this.x, this.y, sx, sy, sx * 1.5, sy * 1.5, 3, false, "strike.purple");
-                            }
+                            this.arcProjectiles(function () {
+                                return Math.random() * Math.PI * 2;
+                            }, null, 8 + this.world.difficulty * 2, 0, function () {
+                                return Math.random() * 15 + 2;
+                            }, 30, 3, "strike.purple");
                         };
                     }
                 }
@@ -254,14 +254,7 @@ var STAGE = [{
                     eye.eventChain.addEvent(function (entity) {
                         var a = entity.shootProjectileAt(entity.world.player, 5, 50, 0, 0);
                         var count = 4 + entity.world.difficulty * 2;
-                        for (var i = 0; i < count; ++i) {
-                            var angle = i / count * Math.PI * 2;
-                            var b = new Projectile(entity.world, 0, 0,
-                                    Math.cos(angle) * 10,
-                                    Math.sin(angle) * 10,
-                                    0, 0, 2, false, i % 2 ? "static.yellow" : "static.red");
-                            b.setAnchor(a);
-                        }
+                        a.arcProjectiles(Util.toAngle("s"), null, count, 0, 10, 0, 2, ["static.yellow", "static.red"], true);
                     }, 0.2, 1, Infinity);
                 }
             }, {
@@ -327,11 +320,10 @@ var STAGE = [{
                     eye.eventChain.addEvent(function (entity, iter) {
                         var a = entity.shootProjectileAt(entity.world.player, 5, 50, 0, 0);
                         var count = 4 + entity.world.difficulty * 2;
-                        for (var i = 0; i < count; ++i) {
+                        var b = a.arcProjectiles(Util.toAngle("s"), null, count, 0, 0, 0, 2, ["static.yellow", "static.red"], true);
+                        for (var i in b) {
                             var angle = i / count * Math.PI * 2;
-                            var b = new Projectile(entity.world, 0, 0, 0, 0, 0, 0, 2, false, i % 2 ? "static.yellow" : "static.red");
-                            b.setPolarVectors(angle, 1, 0, 20, Math.PI / 4 * (iter % 2 ? -1 : 1), -10);
-                            b.setAnchor(a);
+                            b[i].setPolarVectors(angle, 1, 0, 20, Math.PI / 4 * (iter % 2 ? -1 : 1), -10);
                         }
                     }, 0.2, 1, Infinity);
                 }
@@ -438,12 +430,9 @@ eventKedamaMidboss = function (world, power) {
                 if (iter % 16 >= 9) {
                     return;
                 }
-                for (var i = 0; i < c; ++i) {
-                    var v = iter % 32 < 16;
-                    var a = i / c * Math.PI * 2;
-                    var d = (v ? e.relTime() : -e.relTime()) * 1.5;
-                    e.shootProjectile(a + d, e.width, 50, 0, 2.5, d > 0 ? "static.red" : "static.blue");
-                }
+                var v = iter % 32 < 16;
+                var d = (v ? e.relTime() : -e.relTime()) * 1.5;
+                e.arcProjectiles(d, null, c, e.width, 50, 0, 2.5, d > 0 ? "static.red" : "static.blue");
             }, 0.3, 0.1, Infinity);
         },
         health: 800,
@@ -463,11 +452,8 @@ eventOrb = function (world) {
     var nsInit = function (entity) {
         entity.eventChain.addEvent(function (e) {
             var c = 2 * (e.attackGroupCurrent + 3) * (e.world.difficulty + 1);
-            for (var i = 0; i < c; ++i) {
-                var a = i / c * Math.PI * 2;
-                var d = e.relTime() * 3;
-                e.shootProjectile(a + d, 0, 30, 0, 2, i % 2 ? "static.blue" : "static.red");
-            }
+            var d = e.relTime() * 3;
+            e.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
         }, 0, 0.133, Infinity);
     };
     var nsBehavior = function (entity) {
