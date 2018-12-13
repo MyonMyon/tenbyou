@@ -91,7 +91,7 @@ var CHAR = {
             }, this.shotCooldownDefault, this.shotCooldownDefault, Infinity);
             turret.damage = (1 + this.damageInc) / (Math.floor(this.power) + 1 + this.damageInc);
             turret.angle = this.isMaxBonus() ? Math.PI / 2 : -Math.PI / 2;
-            turret.addDrops("power", true, 3);
+            turret.addDrops("power", 3);
         }
     },
     rBarashou: {

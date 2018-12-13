@@ -51,6 +51,8 @@ function Entity(world, x, y, x1, y1, x2, y2, width) {
 
     this.angle = 0;
 
+    this.reflects = 0;
+
     this.anchor = null;
     this.anchored = [];
     this.preserve = false;
@@ -110,6 +112,19 @@ Entity.prototype.step = function () {
         } else {
             this.x += this.x1 / this.world.ticksPS;
             this.y += this.y1 / this.world.ticksPS;
+        }
+    }
+
+    if (this.reflects > 0) {
+        if (this.x > this.world.width / 2 || this.x < -this.world.width / 2) {
+            this.x1 = -this.x1;
+            this.onReflect("x");
+            --this.reflects;
+        }
+        if (this.y > this.world.height / 2 || this.y < -this.world.height / 2) {
+            this.y1 = -this.y1;
+            this.onReflect("y");
+            --this.reflects;
         }
     }
 
@@ -279,16 +294,26 @@ Entity.prototype.shootProjectileAt = function (target, distance, speed, accelera
     return this.shootProjectile(angle, distance, speed, acceleration, width, sprite);
 };
 
-Entity.prototype.arcProjectiles = function (centerAngle, rangeAngle, count, distance, speed, acceleration, width, sprite) {
+Entity.prototype.arcProjectiles = function (centerAngle, rangeAngle, count, distance, speed, acceleration, width, sprite, anchored) {
+    var rCount = count;
+    var dAngle = 0;
+    if (rangeAngle === null) {
+        rangeAngle = Math.PI * 2;
+    }
+    if (rangeAngle < Math.PI * 2) {
+        --rCount;
+        dAngle = -rangeAngle / 2;
+    }
     var ps = [];
     for (var i = 0; i < count; i++) {
-        var a = Util.iterate(centerAngle, i) - rangeAngle / 2 + i * rangeAngle / count;
+        var a = Util.iterate(centerAngle, i) + dAngle + i * rangeAngle / rCount;
         ps.push(this.shootProjectile(a,
                 Util.iterate(distance, i),
                 Util.iterate(speed, i),
                 Util.iterate(acceleration, i),
                 Util.iterate(width, i),
-                Util.iterate(sprite, i)));
+                Util.iterate(sprite, i),
+                Util.iterate(anchored, i)));
     }
     return ps;
 };
@@ -297,13 +322,16 @@ Entity.prototype.isInvulnerable = function () {
     return this.invulnerable;
 };
 
-Entity.prototype.dropBonus = function (angle, distance, cat, small) {
+Entity.prototype.dropBonus = function (angle, distance, cat) {
     var p = cat === "power" && this.world.player.power >= this.world.player.powerMax;
     return new Bonus(
             this.world,
             this.x + Math.cos(angle) * distance,
             this.y + Math.sin(angle) * distance,
             p ? "point" : cat,
-            p ? false : small,
             false);
+};
+
+Entity.prototype.onReflect = function (axis) {
+    //Override with some custom data!
 };

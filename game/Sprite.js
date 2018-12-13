@@ -146,29 +146,49 @@ var SPRITE = {
         file: "bonus.png",
         frameWidth: 48,
         frameHeight: 48,
-        large: {
-            y: 0
-        },
-        small: {
+        powerLarge: {
+            x: 0,
             y: 1
         },
         power: {
-            x: 0
+            x: 0,
+            y: 1
         },
         point: {
-            x: 1
+            x: 1,
+            y: 0
         },
-        bombs: {
-            x: 2
+        pointSmall: {
+            x: 1,
+            y: 1
         },
-        lives: {
-            x: 3
+        bomb: {
+            x: 2,
+            y: 0
+        },
+        bombPart: {
+            x: 2,
+            y: 1
+        },
+        life: {
+            x: 3,
+            y: 0
+        },
+        lifePart: {
+            x: 3,
+            y: 1
         },
         gauge: {
-            x: 4
+            x: 4,
+            y: 0
         },
         debuff: {
-            x: 6
+            x: 6,
+            y: 0
+        },
+        debuffSmall: {
+            x: 6,
+            y: 1
         },
         offScreen: {
             y: 2

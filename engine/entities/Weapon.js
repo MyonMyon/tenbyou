@@ -50,8 +50,7 @@ Weapon.prototype.destroy = function () {
         this.dropBonus(
                 Math.random() * Math.PI * 2,
                 Math.random() * 5,
-                this.drops[i].cat,
-                this.drops[i].small);
+                this.drops[i].cat);
     }
     this.onDestroy();
     this.remove();
@@ -76,12 +75,13 @@ Weapon.prototype.onDestroy = function () {
 };
 
 //TODO: unite with Enemy method?
-Weapon.prototype.addDrops = function (cat, small, amount) {
-    for (var i = 0; i < amount; ++i)
+Weapon.prototype.addDrops = function (cat, amount) {
+    amount = amount || 1;
+    for (var i = 0; i < amount; ++i) {
         this.drops.push({
-            cat: cat,
-            small: small
+            cat: cat
         });
+    }
 };
 
 Weapon.prototype.draw = function (context) {
