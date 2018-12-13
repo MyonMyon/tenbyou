@@ -289,9 +289,9 @@ Entity.prototype.shootProjectile = function (angle, distance, speed, acceleratio
     return p;
 };
 
-Entity.prototype.shootProjectileAt = function (target, distance, speed, acceleration, width, sprite) {
+Entity.prototype.shootProjectileAt = function (target, distance, speed, acceleration, width, sprite, anchored) {
     var angle = this.world.angleBetweenEntities(this, target);
-    return this.shootProjectile(angle, distance, speed, acceleration, width, sprite);
+    return this.shootProjectile(angle, distance, speed, acceleration, width, sprite, anchored);
 };
 
 Entity.prototype.arcProjectiles = function (centerAngle, rangeAngle, count, distance, speed, acceleration, width, sprite, anchored) {
