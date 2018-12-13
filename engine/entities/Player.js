@@ -147,13 +147,13 @@ Player.prototype.step = function () {
     }
     if (this.gatherValueExtremum >= 50 && (this.gatherValueExtremum - this.gatherValue > 20)) {
         if (this.gatherValueExtremum >= 150)
-            new Bonus(this.world, this.x, -this.world.height / 2 + 20, "lives", false, false);
+            new Bonus(this.world, this.x, -this.world.height / 2 + 20, "life", false);
         else if (this.gatherValueExtremum >= 100)
-            new Bonus(this.world, this.x, -this.world.height / 2 + 20, "lives", true, false);
+            new Bonus(this.world, this.x, -this.world.height / 2 + 20, "lifePart", false);
         else if (this.gatherValueExtremum >= 75)
-            new Bonus(this.world, this.x, -this.world.height / 2 + 20, "bombs", false, false);
+            new Bonus(this.world, this.x, -this.world.height / 2 + 20, "bomb", false);
         else
-            new Bonus(this.world, this.x, -this.world.height / 2 + 20, "bombs", true, false);
+            new Bonus(this.world, this.x, -this.world.height / 2 + 20, "bombPart", false);
         this.score += Math.floor(this.gatherValueExtremum / 10) * 1000;
         this.gatherValueExtremum = 0;
         this.gatherValue = 0;
@@ -267,7 +267,7 @@ Player.prototype.addPower = function (power) {
         this.power = this.powerMax;
         if (powerOld < this.powerMax) {
             this.world.clearField(0);
-            this.world.replaceBonus("power", true, "point", false);
+            this.world.replaceBonus("power", "point");
         }
     }
     if (Math.floor(powerOld) !== Math.floor(this.power)) {
@@ -332,9 +332,9 @@ Player.prototype.respawn = function () {
     this.invulnTime = this.invulnTimeRespawn;
     for (var i = 0; i < 9; ++i) {
         if (i === 4 && this.lives < 1)
-            new Bonus(this.world, this.x, this.y, "gauge", false, false);
+            new Bonus(this.world, this.x, this.y, "gauge", false);
         else
-            new Bonus(this.world, this.x + (i - 4) * 10, this.y, "power", true, false);
+            new Bonus(this.world, this.x + (i - 4) * 10, this.y, "power", false);
     }
     this.x = 0;
     this.y = this.world.height / 2 - 5;

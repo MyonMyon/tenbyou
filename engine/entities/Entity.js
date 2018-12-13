@@ -322,14 +322,13 @@ Entity.prototype.isInvulnerable = function () {
     return this.invulnerable;
 };
 
-Entity.prototype.dropBonus = function (angle, distance, cat, small) {
+Entity.prototype.dropBonus = function (angle, distance, cat) {
     var p = cat === "power" && this.world.player.power >= this.world.player.powerMax;
     return new Bonus(
             this.world,
             this.x + Math.cos(angle) * distance,
             this.y + Math.sin(angle) * distance,
             p ? "point" : cat,
-            p ? false : small,
             false);
 };
 

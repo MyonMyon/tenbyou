@@ -173,6 +173,74 @@ var FONT = {
     }
 };
 
+var BONUS = {
+    powerLarge: {
+        itemLinePenalty: true,
+        maxFallback: "point",
+        power: 1,
+        gatherValue: 2
+    },
+    power: {
+        itemLinePenalty: true,
+        maxFallback: "pointSmall",
+        power: 0.1,
+        gatherValue: 1
+    },
+    point: {
+        itemLinePenalty: true,
+        score: 200,
+        points: 1,
+        gatherValue: 2
+    },
+    pointSmall: {
+        itemLinePenalty: true,
+        score: 100,
+        gatherValue: 1
+    },
+    bomb: {
+        maxFallback: "s500",
+        bombs: 1
+    },
+    bombPart: {
+        maxFallback: "s300",
+        bombParts: 1
+    },
+    life: {
+        maxFallback: "s2k",
+        lives: 1
+    },
+    lifePart: {
+        maxFallback: "s2k",
+        lifeParts: 1
+    },
+    gauge: {
+        maxFallback: "point",
+        power: 5,
+        gatherValue: 3
+    },
+    debuff: {
+        power: -1
+    },
+    debuffSmall: {
+        power: -0.1
+    },
+    s300: {
+        tech: true,
+        itemLinePenalty: true,
+        score: 300
+    },
+    s500: {
+        tech: true,
+        itemLinePenalty: true,
+        score: 500
+    },
+    s2k: {
+        tech: true,
+        itemLinePenalty: true,
+        score: 2000
+    }
+};
+
 var INFO_LINE = 8;
 var INFO_TAB = 40;
 

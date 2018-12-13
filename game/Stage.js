@@ -31,9 +31,10 @@ var STAGE = [{
                                 (i === 0 ? -7.5 : 7.5),
                                 0,
                                 2, 1, i ? "fairyBlue" : "fairyRed");
-                        fairy.addDrops(i ? "point" : "power", !i, 1); //type, size (false — big), amount
-                        if (Math.random() < 0.1)
-                            fairy.addDrops("power", false, 1); //10% chance of big power item;
+                        fairy.addDrops(i ? "point" : "power", 1); //type & amount
+                        if (Math.random() < 0.1) {
+                            fairy.addDrops("power", 1); //10% chance of big power item;
+                        }
                         fairy.bulletSprite = i ? "static.blue" : "static.red"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
                         fairy.eventChain.addEvent(function (f) { //and now let's code the fairy's shooting event!
                             var bullet = f.shootProjectileAt(world.player, 0, 0, 100, 2, f.bulletSprite);
@@ -54,7 +55,7 @@ var STAGE = [{
                     var x = world.width * (-1 / 4 + Math.min(iter, 9 - iter) % 5 / 8);
                     var y = -world.height * 0.45;
                     var kedama = new Enemy(world, x, y, 0, 12, 0, 0, 4, 12, "kedamaMinion");
-                    kedama.addDrops("point", false, 2);
+                    kedama.addDrops("point", 2);
                     kedama.eventChain.addEvent(function (s, i) {
                         var shootInterval = 30 - s.world.difficulty * 6;
                         if (i % shootInterval >= 8) {
@@ -81,7 +82,7 @@ var STAGE = [{
                         var y = -world.height / 2 - 5;
                         var x = r * (world.width / 3 + p * 10);
                         var kedamaPaired = new Enemy(world, x, y, -r * 2, 30, -r * 12, 0, 4, 12, "kedamaMinion");
-                        kedamaPaired.addDrops(p ? "point" : "power", !p, 1);
+                        kedamaPaired.addDrops(p ? "point" : "power", 1);
                         kedamaPaired.eventChain.addEvent(function (s, i) {
                             s.shootProjectileAt(s.world.player, s.width, 60, 0, 2, "kunai.purple");
                         }, 0.5, 2 - world.difficulty * 0.2, Infinity);
@@ -104,8 +105,8 @@ var STAGE = [{
                     if (iter % 5 < 3) {
                         var orb = new Enemy(world, x, y, 0, 6, 0, 0, 2, 25, "orbMinion");
                         orb.appearanceTime = 1;
-                        orb.addDrops("power", true, 1);
-                        orb.addDrops("point", false, 1);
+                        orb.addDrops("power", 1);
+                        orb.addDrops("point", 1);
                         orb.eventChain.addEvent(function (s, i) {
                             s.shootProjectileAt(s.world.player, s.width, 50 + s.world.difficulty * 10, 0, 2, "strike.red");
                         }, 1.5, 0.75 - world.difficulty * 0.1, Infinity);
@@ -135,7 +136,7 @@ var STAGE = [{
                             0, 30 + world.difficulty * 6,
                             0, 60,
                             4, 2, "stoneFace");
-                    stone.addDrops("point", false, 1);
+                    stone.addDrops("point", 1);
                 }
             }, {
                 substage: 1,
@@ -150,7 +151,7 @@ var STAGE = [{
                                     world.player.y - 15 + Math.random() * 30));
                     var sideFairy = new Enemy(world, x, y, -r * 15, 0, r * 15, 0, 2, 1, "fairyBlue");
                     sideFairy.appearanceTime = 1;
-                    sideFairy.addDrops("point", false, 2);
+                    sideFairy.addDrops("point", 2);
                     sideFairy.eventChain.addEvent(function (e, i) {
                         new Projectile(e.world,
                                 e.x, e.y,
@@ -171,7 +172,7 @@ var STAGE = [{
                             -r * 30, 30,
                             r * 15, -15,
                             2, 1, "fairyRed");
-                    fairyTurret.addDrops("power", true, 1);
+                    fairyTurret.addDrops("power", 1);
                     fairyTurret.eventChain.addEvent(function (e, i) {
                         e.savedPoint = {x: e.x, y: e.y};
                     }, 1.7, 0, 0);
@@ -212,7 +213,7 @@ var STAGE = [{
                             -r * 30, 30,
                             r * 15, -15,
                             2, 1, "fairyRed");
-                    fairyTurret.addDrops("power", true, 1);
+                    fairyTurret.addDrops("power", 1);
                     fairyTurret.eventChain.addEvent(function (e, i) {
                         e.savedPoint = {x: e.world.player.x, y: e.world.player.y};
                         e.setVectors(null, null, 0, 0, 0, 0);
@@ -249,8 +250,8 @@ var STAGE = [{
                             -r * 40, 20,
                             r * 3, -5,
                             3, 10, "eye");
-                    eye.addDrops("power", true, 1);
-                    eye.addDrops("point", false, 2);
+                    eye.addDrops("power", 1);
+                    eye.addDrops("point", 2);
                     eye.eventChain.addEvent(function (entity) {
                         var a = entity.shootProjectileAt(entity.world.player, 5, 50, 0, 0);
                         var count = 4 + entity.world.difficulty * 2;
@@ -276,9 +277,10 @@ var STAGE = [{
                                 (i === 0 ? -7.5 : 7.5),
                                 0,
                                 2, 1, i ? "fairyBlue" : "fairyRed");
-                        fairy.addDrops(i ? "point" : "power", !i, 1); //type, size (false — big), amount
-                        if (Math.random() < 0.1)
-                            fairy.addDrops("power", false, 1); //10% chance of big power item;
+                        fairy.addDrops(i ? "point" : "power", 1); //type & amount
+                        if (Math.random() < 0.1) {
+                            fairy.addDrops("power", 1); //10% chance of big power item;
+                        }
                         fairy.bulletSprite = i ? "eyeBlue" : "eyeRed"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
                         fairy.eventChain.addEvent(function (f) { //and now let's code the fairy's shooting event!
                             var bullet = f.shootProjectileAt(world.player, 0, 0, 75, 2, f.bulletSprite);
@@ -315,8 +317,8 @@ var STAGE = [{
                             -r * 40, 20,
                             r * 3, -5,
                             3, 10, "eye");
-                    eye.addDrops("power", true, 2);
-                    eye.addDrops("point", false, 3);
+                    eye.addDrops("power", 2);
+                    eye.addDrops("point", 3);
                     eye.eventChain.addEvent(function (entity, iter) {
                         var a = entity.shootProjectileAt(entity.world.player, 5, 50, 0, 0);
                         var count = 4 + entity.world.difficulty * 2;
@@ -354,7 +356,7 @@ var STAGE = [{
                             -r * 30, 30,
                             r * 15, -15,
                             2, 1, "fairyRed");
-                    fairyTurret.addDrops("power", true, 1);
+                    fairyTurret.addDrops("power", 1);
                     fairyTurret.eventChain.addEvent(function (e, iter) {
                         e.setVectors(null, null, 0, 0, 0, 0);
                         var p = e.shootProjectileAt(e.world.player, 5, 0, 0, 2, "strike.red");
@@ -388,7 +390,7 @@ var STAGE = [{
                             -r * 30, 30,
                             r * 15, -15,
                             2, 1, "fairyBlue");
-                    fairyTurret.addDrops("point", false, 1);
+                    fairyTurret.addDrops("point", 1);
                     fairyTurret.eventChain.addEvent(function (e, iter) {
                         e.setVectors(null, null, 0, 0, 0, 0);
                         e.arcProjectiles(

@@ -249,7 +249,14 @@ World.prototype.tick = function () {
 };
 
 World.prototype.randomBonus = function () {
-    new Bonus(this, this.player.x, -this.height / 2 + 20, ["power", "point", "bombs", "lives", "gauge"][Math.floor(Math.random() * 5)], Math.random() > 0.5, false);
+    var bonuses = [];
+    for (var i in BONUS) {
+        if (!BONUS[i].tech) {
+            bonuses.push(i);
+        }
+    }
+    var bonusType = bonuses[Math.floor(Math.random() * bonuses.length)];
+    new Bonus(this, this.player.x, -this.height / 2 + 20, bonusType, false);
 };
 
 World.prototype.clearField = function (damageForEnemies) {
@@ -258,7 +265,7 @@ World.prototype.clearField = function (damageForEnemies) {
         if (e instanceof Projectile && !e.playerSide) {
             //don't turn virtual bullets into bonuses
             if (e.width) {
-                new Bonus(this, e.x, e.y, "point", true, true);
+                new Bonus(this, e.x, e.y, "pointSmall", true);
             }
             e.remove();
         }
@@ -277,12 +284,11 @@ World.prototype.removeEnemies = function () {
     }
 };
 
-World.prototype.replaceBonus = function (catWhat, smallWhat, catWith, smallWith) {
+World.prototype.replaceBonus = function (catWhat, catWith) {
     for (var i in this.entities) {
         var e = this.entities[i];
-        if (e instanceof Bonus && e.cat === catWhat && e.small === smallWhat) {
+        if (e instanceof Bonus && e.cat === catWhat) {
             e.cat = catWith;
-            e.small = smallWith;
             new Particle(this, e.x, e.y, 0.25, 8, true, false, "spark");
         }
     }

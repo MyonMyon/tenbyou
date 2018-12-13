@@ -110,8 +110,7 @@ Enemy.prototype.step = function () {
                 this.dropBonus(
                         Math.random() * Math.PI * 2,
                         Math.random() * this.initialHealth / 5,
-                        this.drops[i].cat,
-                        this.drops[i].small);
+                        this.drops[i].cat);
             }
 
         if (this.attackCurrent === null) {
@@ -209,10 +208,12 @@ Enemy.prototype.hurt = function (damage, position) {
     this.health -= damage;
 
     if (this.health > 0) {
-        for (var i = 0; i < this.drops.length; ++i)
-            if (this.drops[i].reqDamage !== 0 && this.attackCurrent === this.drops[i].attackID && ((((this.initialHealth - this.health) % this.drops[i].reqDamage) < ((this.initialHealth - this.health - damage) % this.drops[i].reqDamage) && damage > 0) || damage > this.drops[i].reqDamage))
-                new Bonus(this.world, this.x + Math.random() * 12 - 6, this.y + Math.random() * 12 - 6,
-                        (this.drops[i].cat === "power" && this.world.player.power >= this.world.player.powerMax) ? "point" : this.drops[i].cat, this.drops[i].small, false);
+        for (var i = 0; i < this.drops.length; ++i) {
+            //To do: fix this atrocity
+            if (this.drops[i].reqDamage !== 0 &&this.attackCurrent === this.drops[i].attackID && ((((this.initialHealth - this.health) % this.drops[i].reqDamage) < ((this.initialHealth - this.health - damage) % this.drops[i].reqDamage) && damage > 0) || damage > this.drops[i].reqDamage)) {
+                new Bonus(this.world, this.x + Math.random() * 12 - 6, this.y + Math.random() * 12 - 6, this.drops[i].cat, false);
+            }
+        }
     } else {
         this.health = 0;
     }
@@ -227,14 +228,14 @@ Enemy.prototype.initHealth = function (health) {
     this.health = health;
 };
 
-Enemy.prototype.addDrops = function (cat, small, amount, reqDamage, afterAttack) {
-    for (var i = 0; i < amount; ++i)
+Enemy.prototype.addDrops = function (cat, amount, reqDamage, afterAttack) {
+    for (var i = 0; i < amount; ++i) {
         this.drops.push({
             cat: cat,
-            small: small,
             reqDamage: reqDamage || 0,
             attackID: afterAttack ? (this.attacks.length - 1) : null
         });
+    }
 };
 
 Enemy.prototype.addAttack = function (spell, title, data, newGroup) {

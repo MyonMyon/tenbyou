@@ -1,15 +1,10 @@
-function Bonus(world, x, y, cat, small, autoGather) {
+function Bonus(world, x, y, cat, autoGather) {
     extend(this, new Entity(world, x, y, Math.random() * 20 - 10, -60, 0, 90, 0));
 
     this.cat = cat;
-    this.small = small;
     this.autoGather = autoGather || false;
     this.sprite.set(SPRITE.bonus);
-    var o = JSON.parse(JSON.stringify(SPRITE.bonus[small ? "small" : "large"]));
-    for (var i in SPRITE.bonus[cat]) {
-        o[i] = SPRITE.bonus[cat][i];
-    }
-    this.sprite.setPosition(o.x, o.y);
+    this.sprite.set(cat);
 }
 
 Bonus.prototype.draw = function (context) {
@@ -61,56 +56,65 @@ Bonus.prototype.step = function () {
         var oldPower = this.world.player.power;
         var max = this.world.player.isMaxBonus();
         var mx = max ? 1 : 0.5;
-        switch (this.cat) {
-            case "point":
-                this.world.player.points += (this.small ? 0 : 1);
-                this.world.player.score += (this.small ? 100 : 200) * mx;
-                this.world.player.gatherValue += (this.small ? 1 : 2);
-                break;
-            case "power":
-                this.world.player.gatherValue += (this.small ? 1 : 2);
-                if (this.world.player.power < this.world.player.powerMax)
-                    this.world.player.addPower((this.small ? 0.1 : 1) * mx);
-                else
-                    this.world.player.score += (this.small ? 100 : 200) * mx;
-                break;
-            case "debuff":
-                this.world.player.addPower(this.small ? -0.1 : -1);
-                break;
-            case "gauge":
-                this.world.player.addPower(this.small ? 1 : this.world.player.powerMax);
-                break;
-            case "bombs":
-                if (((this.world.player.bombs === 8 && this.world.player.bombParts === 0) || this.world.player.bombs < 8) && !this.small)
-                    ++this.world.player.bombs;
-                else if (this.world.player.bombs <= 8 && this.small)
-                    ++this.world.player.bombParts;
-                else {
-                    this.world.player.score += (this.small ? 300 : 500) * mx;
-                    this.world.player.bombs = 9;
-                    this.world.player.bombParts = 0;
+
+        var ref = BONUS[this.cat];
+        if (ref.points) {
+            this.world.player.points += ref.points;
+        }
+        if (ref.gatherValue) {
+            this.world.player.gatherValue += ref.gatherValue;
+        }
+        if (ref.power) {
+            if (ref.power > 0 && this.world.player.power >= this.world.player.powerMax) {
+                ref = BONUS[ref.maxFallback];
+            } else {
+                var p = ref.power;
+                if (ref.itemLinePenalty) {
+                    p *= mx;
                 }
+                this.world.player.addPower(p);
+            }
+        }
+        if (ref.bombs || ref.bombParts) {
+            if (this.world.player.bombs >= 9) {
+                ref = BONUS[ref.maxFallback];
+            } else {
+                this.world.player.bombs += ref.bombs || 0;
+                this.world.player.bombParts += ref.bombParts || 0;
                 if (this.world.player.bombParts >= 4) {
                     this.world.player.bombParts -= 4;
                     ++this.world.player.bombs;
                 }
-                break;
-            case "lives":
-                if (((this.world.player.lives === 8 && this.world.player.lifeParts === 0) || this.world.player.lives < 8) && !this.small)
-                    ++this.world.player.lives;
-                else if (this.world.player.lives <= 8 && this.small)
-                    ++this.world.player.lifeParts;
-                else {
-                    this.world.player.score += (this.small ? 500 : 2000) * mx;
-                    this.world.player.lives = 9;
-                    this.world.player.lifeParts = 0;
+                if (this.world.player.bombs >= 9) {
+                    this.world.player.bombs = 9;
+                    this.world.player.bombParts = 0;
                 }
+            }
+        }
+        if (ref.lives || ref.lifeParts) {
+            if (this.world.player.lives >= 9) {
+                ref = BONUS[ref.maxFallback];
+            } else {
+                this.world.player.lives += ref.lives || 0;
+                this.world.player.lifeParts += ref.lifeParts || 0;
                 if (this.world.player.lifeParts >= 3) {
                     this.world.player.lifeParts -= 3;
                     ++this.world.player.lives;
                 }
-                break;
+                if (this.world.player.lives >= 9) {
+                    this.world.player.lives = 9;
+                    this.world.player.lifeParts = 0;
+                }
+            }
         }
+        if (ref.score) {
+            var s = ref.score;
+            if (ref.itemLinePenalty) {
+                s *= mx;
+            }
+            this.world.player.score += s;
+        }
+
         var score = this.world.player.score - oldScore;
         var power = this.world.player.power - oldPower;
         var cat = score ? "point" : "power";
