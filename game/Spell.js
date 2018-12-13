@@ -130,15 +130,9 @@ var SPELL = {
                                 if (iter % 200 < 70) {
                                     bs[i].priority = 1;
                                 }
-                                bs[i].behavior = function () {
-                                    if (this.x < -this.world.width / 2 || this.x > this.world.width / 2) {
-                                        this.x1 = -this.x1;
-                                        this.x2 = 0;
-                                    }
-                                    if (this.y < -this.world.height / 2 || this.y > this.world.height / 2) {
-                                        this.y1 = -this.y1;
-                                        this.y2 = 0;
-                                    }
+                                bs[i].reflects = 5;
+                                bs[i].onReflect = function(type) {
+                                    this[type + "2"] = 0;
                                 };
                             }
                         }
@@ -222,16 +216,6 @@ var SPELL = {
                 var bs = e.arcProjectiles(a, null, c, r, s, 0, 2, "orbBlue");
                 for (var i in bs) {
                     bs[i].reflects = 1;
-                    bs[i].behavior = function () {
-                        if ((this.x > this.world.width / 2 || this.x < -this.world.width / 2) && this.reflects > 0) {
-                            this.x1 = -this.x1;
-                            --this.reflects;
-                        }
-                        if ((this.y > this.world.height / 2 || this.y < -this.world.height / 2) && this.reflects > 0) {
-                            this.y1 = -this.y1;
-                            --this.reflects;
-                        }
-                    };
                 }
             }, 0.8, 0.133, Infinity);
         }

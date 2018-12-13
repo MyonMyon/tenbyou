@@ -51,6 +51,8 @@ function Entity(world, x, y, x1, y1, x2, y2, width) {
 
     this.angle = 0;
 
+    this.reflects = 0;
+
     this.anchor = null;
     this.anchored = [];
     this.preserve = false;
@@ -110,6 +112,19 @@ Entity.prototype.step = function () {
         } else {
             this.x += this.x1 / this.world.ticksPS;
             this.y += this.y1 / this.world.ticksPS;
+        }
+    }
+
+    if (this.reflects > 0) {
+        if (this.x > this.world.width / 2 || this.x < -this.world.width / 2) {
+            this.x1 = -this.x1;
+            this.onReflect("x");
+            --this.reflects;
+        }
+        if (this.y > this.world.height / 2 || this.y < -this.world.height / 2) {
+            this.y1 = -this.y1;
+            this.onReflect("y");
+            --this.reflects;
         }
     }
 
@@ -316,4 +331,8 @@ Entity.prototype.dropBonus = function (angle, distance, cat, small) {
             p ? "point" : cat,
             p ? false : small,
             false);
+};
+
+Entity.prototype.onReflect = function (axis) {
+    //Override with some custom data!
 };
