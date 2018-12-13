@@ -281,15 +281,17 @@ Entity.prototype.shootProjectileAt = function (target, distance, speed, accelera
 
 Entity.prototype.arcProjectiles = function (centerAngle, rangeAngle, count, distance, speed, acceleration, width, sprite, anchored) {
     var rCount = count;
+    var dAngle = 0;
     if (rangeAngle === null) {
         rangeAngle = Math.PI * 2;
     }
     if (rangeAngle < Math.PI * 2) {
         --rCount;
+        dAngle = -rangeAngle / 2;
     }
     var ps = [];
     for (var i = 0; i < count; i++) {
-        var a = Util.iterate(centerAngle, i) - rangeAngle / 2 + i * rangeAngle / rCount;
+        var a = Util.iterate(centerAngle, i) + dAngle + i * rangeAngle / rCount;
         ps.push(this.shootProjectile(a,
                 Util.iterate(distance, i),
                 Util.iterate(speed, i),
