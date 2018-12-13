@@ -33,7 +33,7 @@ var STAGE = [{
                                 2, 1, i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i ? "point" : "power"); //type, amount (optional)
                         if (Math.random() < 0.1) {
-                            fairy.addDrops("power"); //10% chance of big power item;
+                            fairy.addDrops("powerLarge"); //10% chance of big power item;
                         }
                         fairy.bulletSprite = i ? "static.blue" : "static.red"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
                         fairy.eventChain.addEvent(function (f) { //and now let's code the fairy's shooting event!
@@ -279,7 +279,7 @@ var STAGE = [{
                                 2, 1, i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i ? "point" : "power"); //type, amount (optional)
                         if (Math.random() < 0.1) {
-                            fairy.addDrops("power"); //10% chance of big power item;
+                            fairy.addDrops("powerLarge"); //10% chance of big power item;
                         }
                         fairy.bulletSprite = i ? "eyeBlue" : "eyeRed"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
                         fairy.eventChain.addEvent(function (f) { //and now let's code the fairy's shooting event!
