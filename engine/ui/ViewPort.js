@@ -302,9 +302,7 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
     }
 
     this.context.textAlign = "center";
-    if (ENGINE_VERSION_SHOW) {
-        this.drawText(this.version, (boundaryEnd.x + this.width) / 2, boundaryEnd.y);
-    }
+    this.drawText(this.version, (boundaryEnd.x + this.width) / 2, boundaryEnd.y);
 
     var diffO = {};
     diffO["d" + this.world.difficulty] = true;
