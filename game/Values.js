@@ -193,6 +193,7 @@ var BONUS = {
         gatherValue: 2
     },
     pointSmall: {
+        still: true,
         itemLinePenalty: true,
         score: 100,
         gatherValue: 1

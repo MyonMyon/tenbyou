@@ -15,7 +15,7 @@ Bonus.prototype.draw = function (context) {
 
     context.save();
     context.translate(ePos.x, ePos.y);
-    if (!offScreen && this.y1 < 0) {
+    if (!offScreen && this.y1 < 0 && !BONUS[this.cat].still) {
         context.rotate(this.relTime() * (this.id % 2 ? 10 : -10));
     }
     this.sprite.draw(context, 0, 0, 0, 6 * this.world.vp.zoom);
