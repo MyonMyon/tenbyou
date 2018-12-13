@@ -367,7 +367,7 @@ var STAGE = [{
                         e.setVectors(null, null, 0, 0, 0, 0);
                         var p = e.shootProjectileAt(e.world.player, 5, 0, 0, 2, "strike.red");
                         p.approachEntity(e.world.player, 60 + e.world.difficulty * 20);
-                        p.behavior = function() {
+                        p.behavior = function () {
                             if (this.getSpeed() < 1) {
                                 var px = this.shootProjectile(0, 0, 0, 0, 0, "nuclear");
                                 px.setWidthVectors(2, 20, -32 + e.world.difficulty * 6);
