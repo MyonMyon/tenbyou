@@ -85,7 +85,7 @@ Weapon.prototype.addDrops = function (cat, amount) {
 };
 
 Weapon.prototype.draw = function (context) {
-    if (this.removalMark) {
+    if (this.removalMark || this.anchor === this.player && this.player.respawnTime !== null) {
         return; //bye-bye!
     }
     var ctx = this.world.vp.context;
