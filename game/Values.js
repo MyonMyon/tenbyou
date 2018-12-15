@@ -16,6 +16,7 @@ var DIALOGUE_MY = 5;
 
 var RESOURCE_FOLDER = "resources/";
 var SPRITE_FOLDER = RESOURCE_FOLDER + "img/";
+var CUT_IN_FOLDER = SPRITE_FOLDER + "cutin/";
 var FONT_FOLDER = RESOURCE_FOLDER + "fonts/";
 var SFX_FOLDER = RESOURCE_FOLDER + "sfx/";
 var ICON = SPRITE_FOLDER + "icon.png";

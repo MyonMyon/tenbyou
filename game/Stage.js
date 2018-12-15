@@ -99,16 +99,19 @@ var STAGE = [{
                 substage: 0,
                 second: 63,
                 dialogue: [{
-                        char: "kedama",
                         position: "right",
+                        char: "kedama",
+                        sprite: "loltest.png",
                         text: "oДo what is this?"
                     }, {
                         position: "left",
                         char: "rBarashou",
+                        sprite: "idle.png",
                         text: "This one is definitely bigger than the others."
                     }, {
                         position: "left",
                         char: "nBarashou",
+                        sprite: "idle.png",
                         text: "Easy target for us, then!"
                     }]
             }, {
