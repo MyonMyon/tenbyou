@@ -7,7 +7,9 @@
 function Menu(vp) {
     this.vp = vp;
 
+    this.lastAction = new Date().getTime();
     this.actionDelay = 100;
+    this.animationLength = 250;
     this.rowOffset = 0;
 
     this.resetLocation();
@@ -161,7 +163,7 @@ Menu.prototype.draw = function () {
         if (row >= 0 && row < cap) {
             this.vp.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact, disabled: items[i].isEnabled && !items[i].isEnabled()});
             this.vp.drawText(items[i].title,
-                    this.vp.zoom * (MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X),
+                    this.vp.zoom * (MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X * Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay)),
                     this.vp.zoom * MENU_Y + height * row);
         }
     }
