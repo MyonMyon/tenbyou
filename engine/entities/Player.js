@@ -307,24 +307,30 @@ Player.prototype.isInvulnerable = function () {
     return this.invulnTime > 0;
 };
 
-Player.prototype.respawn = function () {
+Player.prototype.useContinue = function () {
+    this.world.continueMode = false;
     this.respawnTime = null;
+    this.lives = this.livesDefault;
+    this.bombs = this.bombsDefault;
+    this.score = this.score % 10 + 1;
+    this.power = 0;
+    this.onPowerChange(0);
+    this.graze = 0;
+    this.points = 0;
+};
+
+Player.prototype.respawn = function () {
     this.spellCompleteTerms = false;
 
     if (this.lives < 1) {
         this.world.setPause(true);
+        this.world.continueMode = true;
         this.world.continuable = this.world.stage > 0 && this.score % 10 < 9;
         if (!this.world.continuable) {
             return;
         }
-        this.lives = this.livesDefault;
-        this.bombs = this.bombsDefault;
-        this.score = this.score % 10 + 1;
-        this.power = 0;
-        this.onPowerChange(0);
-        this.graze = 0;
-        this.points = 0;
     } else {
+        this.respawnTime = null;
         this.lives--;
     }
 

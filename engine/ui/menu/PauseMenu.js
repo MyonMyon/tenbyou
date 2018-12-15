@@ -10,7 +10,18 @@ function PauseMenu(vp) {
     this.tree = [
         {
             isVisible: function (vp) {
-                return vp.world && vp.world.continuable;
+                return vp.world && vp.world.continueMode && vp.world.continuable;
+            },
+            title: "Continue",
+            action: function (vp) {
+                vp.world.setPause(false);
+                vp.world.player.useContinue();
+                vp.pauseMenu.resetLocation();
+            }
+        },
+        {
+            isVisible: function (vp) {
+                return vp.world && !vp.world.continueMode;
             },
             title: "Resume",
             action: function (vp) {
