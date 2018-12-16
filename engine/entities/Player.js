@@ -4,9 +4,13 @@ function Player(world, charName) {
     this.hiscoreDisplayed = this.hiscore = 1000000;
     this.scoreDisplayed = this.score = 0;
 
+    this.livesMax = 9;
     this.lives = this.livesDefault = 2;
+    this.lifePartsMax = 3;
     this.lifeParts = 0;
+    this.bombsMax = 9;
     this.bombs = this.bombsDefault = 3;
+    this.bombPartsMax = 4;
     this.bombParts = 0;
 
     this.spellCompleteTerms = true;
@@ -258,6 +262,9 @@ Player.prototype.special = function () {
 };
 
 Player.prototype.addPower = function (power) {
+    if (power > 0 && this.power >= this.powerMax) {
+        return false;
+    }
     var powerOld = this.power;
     this.power += power;
     if (this.power < 0) {
@@ -273,6 +280,32 @@ Player.prototype.addPower = function (power) {
     if (Math.floor(powerOld) !== Math.floor(this.power)) {
         this.onPowerChange(Math.floor(this.power));
     }
+    return true;
+};
+
+Player.prototype.addItems = function (itemName, itemCount, partName, partCount) {
+    if (this[itemName] >= this[itemName + "Max"]) {
+        return false;
+    }
+    this[itemName] += itemCount;
+    this[partName] += partCount;
+    if (this[partName] >= this[partName + "Max"]) {
+        this[partName] -= this[partName + "Max"];
+        ++this[itemName];
+    }
+    if (this[itemName] >= this[itemName + "Max"]) {
+        this[itemName] = this[itemName + "Max"];
+        this[partName] = 0;
+    }
+    return true;
+};
+
+Player.prototype.addBombs = function (bombs, parts) {
+    return this.addItems("bombs", bombs, "bombParts", parts);
+};
+
+Player.prototype.addLives = function (lives, parts) {
+    return this.addItems("lives", lives, "lifeParts", parts);
 };
 
 Player.prototype.onShoot = function () {
@@ -307,24 +340,30 @@ Player.prototype.isInvulnerable = function () {
     return this.invulnTime > 0;
 };
 
-Player.prototype.respawn = function () {
+Player.prototype.useContinue = function () {
+    this.world.continueMode = false;
     this.respawnTime = null;
+    this.lives = this.livesDefault;
+    this.bombs = this.bombsDefault;
+    this.score = this.score % 10 + 1;
+    this.power = 0;
+    this.onPowerChange(0);
+    this.graze = 0;
+    this.points = 0;
+};
+
+Player.prototype.respawn = function () {
     this.spellCompleteTerms = false;
 
     if (this.lives < 1) {
         this.world.setPause(true);
+        this.world.continueMode = true;
         this.world.continuable = this.world.stage > 0 && this.score % 10 < 9;
         if (!this.world.continuable) {
             return;
         }
-        this.lives = this.livesDefault;
-        this.bombs = this.bombsDefault;
-        this.score = this.score % 10 + 1;
-        this.power = 0;
-        this.onPowerChange(0);
-        this.graze = 0;
-        this.points = 0;
     } else {
+        this.respawnTime = null;
         this.lives--;
     }
 
