@@ -65,46 +65,22 @@ Bonus.prototype.step = function () {
             this.world.player.gatherValue += ref.gatherValue;
         }
         if (ref.power) {
-            if (ref.power > 0 && this.world.player.power >= this.world.player.powerMax) {
+            var p = ref.power;
+            if (ref.itemLinePenalty) {
+                p *= mx;
+            }
+            if (!this.world.player.addPower(p)) {
                 ref = BONUS[ref.maxFallback];
-            } else {
-                var p = ref.power;
-                if (ref.itemLinePenalty) {
-                    p *= mx;
-                }
-                this.world.player.addPower(p);
             }
         }
         if (ref.bombs || ref.bombParts) {
-            if (this.world.player.bombs >= 9) {
+            if (!this.world.player.addBombs(ref.bombs || 0, ref.bombParts || 0)) {
                 ref = BONUS[ref.maxFallback];
-            } else {
-                this.world.player.bombs += ref.bombs || 0;
-                this.world.player.bombParts += ref.bombParts || 0;
-                if (this.world.player.bombParts >= 4) {
-                    this.world.player.bombParts -= 4;
-                    ++this.world.player.bombs;
-                }
-                if (this.world.player.bombs >= 9) {
-                    this.world.player.bombs = 9;
-                    this.world.player.bombParts = 0;
-                }
             }
         }
         if (ref.lives || ref.lifeParts) {
-            if (this.world.player.lives >= 9) {
+            if (!this.world.player.addLives(ref.lives || 0, ref.lifeParts || 0)) {
                 ref = BONUS[ref.maxFallback];
-            } else {
-                this.world.player.lives += ref.lives || 0;
-                this.world.player.lifeParts += ref.lifeParts || 0;
-                if (this.world.player.lifeParts >= 3) {
-                    this.world.player.lifeParts -= 3;
-                    ++this.world.player.lives;
-                }
-                if (this.world.player.lives >= 9) {
-                    this.world.player.lives = 9;
-                    this.world.player.lifeParts = 0;
-                }
             }
         }
         if (ref.score) {

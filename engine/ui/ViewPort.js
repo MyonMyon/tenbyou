@@ -194,9 +194,9 @@ ViewPort.prototype.infoShow = function (info, line, tab, reverse) {
             boundaryRight.y + this.zoom * (7.5 + (line + 1) * INFO_LINE));
 };
 
-ViewPort.prototype.starShow = function (sprite, line, tab, count, parts) {
+ViewPort.prototype.starShow = function (sprite, line, tab, count, parts, max) {
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
-    for (var i = 0; i < 9; ++i) {
+    for (var i = 0; i < max; ++i) {
         this.context.drawImage(
                 SPRITE.gui.object,
                 sprite * SPRITE.gui.frameWidth,
@@ -276,9 +276,9 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
     this.infoShow(Util.fillWithLeadingZeros(this.world.player.scoreDisplayed, 11), 1, 1);
 
     this.infoShow("Lives", 3, 0, true);
-    this.starShow(0, 3, 1, this.world.player.lives, this.world.player.lifeParts);
+    this.starShow(0, 3, 1, this.world.player.lives, this.world.player.lifeParts, this.world.player.livesMax);
     this.infoShow("Bombs", 4, 0, true);
-    this.starShow(1, 4, 1, this.world.player.bombs, this.world.player.bombParts);
+    this.starShow(1, 4, 1, this.world.player.bombs, this.world.player.bombParts, this.world.player.bombsMax);
 
     this.iconShow(1, 0, 7, 0);
     this.infoShow("Points", 7, 0, true);
