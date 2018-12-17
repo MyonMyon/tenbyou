@@ -101,17 +101,17 @@ var STAGE = [{
                 dialogue: [{
                         position: "right",
                         char: "kedama",
-                        sprite: "loltest.png",
+                        sprite: "kedamalol.png",
                         text: "oДo what is this?"
                     }, {
                         position: "left",
                         char: "rBarashou",
-                        sprite: "idle.png",
+                        sprite: "rb/proto.png",
                         text: "This one is definitely bigger than the others."
                     }, {
                         position: "left",
                         char: "nBarashou",
-                        sprite: "idle.png",
+                        sprite: "nb/proto.png",
                         text: "Easy target for us, then!"
                     }]
             }, {

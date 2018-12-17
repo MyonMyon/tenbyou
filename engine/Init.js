@@ -38,6 +38,8 @@ var GAME_CODE = [
     "Sprite"
 ];
 
+var CUT_IN = {};
+
 var IMAGE_LOAD = [{
         object: "SPRITE",
         itemProp: "file",
@@ -49,6 +51,11 @@ var IMAGE_LOAD = [{
     }, {
         object: "SPELL",
         itemProp: "background"
+    }, {
+        object: "CUT_IN",
+        itemProp: "file",
+        push: true,
+        checkInside: true
     }];
 
 var SFX_LOAD = [{
@@ -82,6 +89,7 @@ function init() {
         loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, loadSprites);
     };
     var loadSprites = function () {
+        getCutIns();
         loadResources(getFiles(IMAGE_LOAD), "img", SPRITE_FOLDER, "", "sprites", vp, loadSfx);
     };
     var loadSfx = function () {
@@ -161,6 +169,26 @@ function getIcon() {
     s.href = ICON + "?v=" + ENGINE_VERSION;
     s.type = MIME[ICON.split(".")[1]];
     document.head.appendChild(s);
+}
+
+function getCutIns() {
+    CUT_IN = {};
+    for (var i in STAGE) {
+        for (var j in STAGE[i].events) {
+            var e = STAGE[i].events[j];
+            if (e.dialogue) {
+                for (var k in e.dialogue) {
+                    var s = e.dialogue[k].sprite;
+                    if (s && !CUT_IN[s]) {
+                        CUT_IN[s] = {
+                            file: CUT_IN_FOLDER_NAME + s
+                        };
+                    }
+                }
+            }
+        }
+    }
+    console.log(CUT_IN);
 }
 
 function getFont(data) {
