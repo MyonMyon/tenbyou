@@ -6,12 +6,17 @@ function Dialogue(world, lines) {
     this.charStates = {};
     this.activeChar = null;
     for (var i in this.lines) {
-        if (this.lines[i].char && !this.charStates[this.lines[i].char]) {
-            this.charStates[this.lines[i].char] = {};
+        var char = this.lines[i].char;
+        if (char && !this.charStates[char]) {
+            this.charStates[char] = {};
         }
-        if (this.lines[i].position) {
-            this.charStates[this.lines[i].char].position = this.lines[i].position;
+        if (this.lines[i].position && !this.charStates[char].position) {
+            this.charStates[char].position = this.lines[i].position;
         }
+        if (this.lines[i].sprite && !this.charStates[char].sprite) {
+            this.charStates[char].sprite = CUT_IN[this.lines[i].sprite].object;
+        }
+        ;
     }
     this.updateCharStates();
     this.time = 0;
@@ -28,6 +33,9 @@ Dialogue.prototype.updateCharStates = function () {
         for (var i in this.charStates) {
             this.charStates[i].active = this.activeChar === i;
         }
+    }
+    if (this.lines[this.index].sprite) {
+        this.charStates[this.activeChar].sprite = CUT_IN[this.lines[this.index].sprite].object;
     }
 };
 
@@ -49,6 +57,22 @@ Dialogue.prototype.next = function () {
 
 Dialogue.prototype.draw = function () {
     var vp = this.world.vp;
+
+    var index = 0;
+    vp.context.save();
+    for (var i in this.charStates) {
+        var s = this.charStates[i].sprite;
+        var r = s.width / s.height;
+        vp.context.globalAlpha = this.charStates[i].active ? 1 : 0.4;
+        vp.context.drawImage(s, 0, 0, s.width, s.height,
+                vp.zoom * index * 50,
+                vp.height / 2,
+                vp.height / 2 * r,
+                vp.height / 2);
+        ++index;
+    }
+    vp.context.restore();
+
     vp.context.textBaseline = "top";
     vp.context.fillStyle = DIALOGUE_COLOR;
     vp.context.fillRect(

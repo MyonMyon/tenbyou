@@ -188,7 +188,6 @@ function getCutIns() {
             }
         }
     }
-    console.log(CUT_IN);
 }
 
 function getFont(data) {
