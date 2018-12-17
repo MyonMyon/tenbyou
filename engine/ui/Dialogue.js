@@ -16,7 +16,12 @@ function Dialogue(world, lines) {
         if (this.lines[i].sprite && !this.charStates[char].sprite) {
             this.charStates[char].sprite = CUT_IN[this.lines[i].sprite].object;
         }
-        ;
+    }
+    var lIndex = 0;
+    var rIndex = 0;
+    for (var i in this.charStates) {
+        var l = this.charStates[i].position === "left";
+        this.charStates[i].posIndex = l ? lIndex++ : rIndex++;
     }
     this.updateCharStates();
     this.time = 0;
@@ -58,20 +63,28 @@ Dialogue.prototype.next = function () {
 Dialogue.prototype.draw = function () {
     var vp = this.world.vp;
 
-    var index = 0;
-    vp.context.save();
-    for (var i in this.charStates) {
-        var s = this.charStates[i].sprite;
-        var r = s.width / s.height;
-        vp.context.globalAlpha = this.charStates[i].active ? 1 : 0.4;
-        vp.context.drawImage(s, 0, 0, s.width, s.height,
-                vp.zoom * index * 50,
-                vp.height / 2,
-                vp.height / 2 * r,
-                vp.height / 2);
-        ++index;
+    for (var a = 0; a <= 1; a++) {
+        for (var i in this.charStates) {
+            vp.context.save();
+            if (this.charStates[i].active === !!a) {
+                var s = this.charStates[i].sprite;
+                var r = s.width / s.height;
+                var l = this.charStates[i].position === "left";
+                var v = vp.toScreen(this.world.width / 2 * (l ? -1 : 1), this.world.height / 2);
+                vp.context.translate(v.x, v.y);
+                if (!l) {
+                    vp.context.scale(-1, 1);
+                }
+                vp.context.globalAlpha = this.charStates[i].active ? 1 : 0.4;
+                vp.context.drawImage(s, 0, 0, s.width, s.height,
+                        vp.zoom * (this.charStates[i].posIndex - 0.5) * 30,
+                        0,
+                        vp.height / 2 * r,
+                        -vp.height / 2);
+            }
+            vp.context.restore();
+        }
     }
-    vp.context.restore();
 
     vp.context.textBaseline = "top";
     vp.context.fillStyle = DIALOGUE_COLOR;
