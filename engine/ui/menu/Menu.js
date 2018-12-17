@@ -128,6 +128,7 @@ Menu.prototype.changeIndex = function (delta) {
     var m = this.getCurrentMenu();
     var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
     var l = m.submenu.length;
+    Sound.play(SFX.menuNavigate);
     if (Math.abs(delta) > 1) {
         var n = this.currentIndex + delta;
         this.rowOffset = Math.max(0, Math.min(this.rowOffset + delta, l - cap));
@@ -143,7 +144,6 @@ Menu.prototype.changeIndex = function (delta) {
     this.currentIndex += l;
     this.currentIndex = (this.currentIndex + delta) % l;
     this.rowOffset = Math.min(Math.max(this.rowOffset, this.currentIndex - cap + 1), this.currentIndex);
-    Sound.play(SFX.menuNavigate);
 };
 
 /**
