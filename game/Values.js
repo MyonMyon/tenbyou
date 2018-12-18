@@ -39,6 +39,9 @@ var FONT_FILES = [{
     }, {
         name: "Revue Normal",
         file: "revuen.ttf"
+    }, {
+        name: "Accuratist",
+        file: "accuratist.ttf"
     }];
 
 var FONT = {
@@ -60,8 +63,8 @@ var FONT = {
         }
     },
     itemLine: {
-        font: "Unispace Rg",
-        size: 4,
+        font: "Accuratist",
+        size: 6,
         color: "#c60",
         strokeWidth: 0.75,
         strokeColor: "#ff0"
@@ -123,14 +126,14 @@ var FONT = {
         }
     },
     title: {
-        font: "Unispace Rg",
-        size: 7,
+        font: "Accuratist",
+        size: 9,
         weight: "Bold",
         color: "#0fc",
         strokeWidth: 1,
         strokeColor: "#066",
         name: {
-            size: 5
+            size: 8
         },
         menu: {
             size: 12,
@@ -143,9 +146,17 @@ var FONT = {
             weight: "Bold"
         }
     },
+    subtitle: {
+        font: "Accuratist",
+        size: 7,
+        weight: "Bold",
+        color: "#fee",
+        strokeWidth: 0.75,
+        strokeColor: "#630"
+    },
     menu: {
-        font: "Unispace Rg",
-        size: 10,
+        font: "Accuratist",
+        size: 12,
         style: "Italic",
         color: "#c99",
         strokeWidth: 1,
