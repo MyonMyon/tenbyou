@@ -143,7 +143,12 @@ ViewPort.prototype.setFont = function (data, options) {
     font.size *= this.zoom;
     font.strokeWidth *= this.zoom;
     this.context.font = (font.weight ? font.weight + " " : "") + (font.style ? font.style + " " : "") + font.size + "px " + font.font;
-    this.context.fillStyle = font.color;
+    if (typeof font.color === "object") {
+        this.gradientBuffer = font.color;
+    } else {
+        this.gradientBuffer = null;
+        this.context.fillStyle = font.color;
+    }
     this.context.strokeStyle = font.strokeColor;
     this.context.lineWidth = font.strokeWidth;
     this.context.lineJoin = "bevel";
@@ -152,6 +157,24 @@ ViewPort.prototype.setFont = function (data, options) {
 ViewPort.prototype.drawText = function (text, x, y) {
     if (this.context.lineWidth) {
         this.context.strokeText(text, x, y);
+    }
+    if (this.gradientBuffer) {
+        var re = /(^|\s)(\d+)px/i;
+        var h = +this.context.font.match(re)[2];
+        var t = this.context.textBaseline;
+        var d = 0.5;
+        if (["top", "hanging"].indexOf(t) >= 0) {
+            d = 1;
+        } else if (["alphabetic", "ideographic", "bottom"].indexOf(t) >= 0) {
+            d = 0;
+        }
+        var y1 = y + h * (d - 1);
+        var y2 = y + h * d;
+
+        var grd = this.context.createLinearGradient(0, y1, 0, y2);
+        grd.addColorStop(0, this.gradientBuffer[0]);
+        grd.addColorStop(1, this.gradientBuffer[1]);
+        this.context.fillStyle = grd;
     }
     this.context.fillText(text, x, y);
 };
