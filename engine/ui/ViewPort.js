@@ -150,7 +150,9 @@ ViewPort.prototype.setFont = function (data, options) {
 };
 
 ViewPort.prototype.drawText = function (text, x, y) {
-    this.context.strokeText(text, x, y);
+    if (this.context.lineWidth) {
+        this.context.strokeText(text, x, y);
+    }
     this.context.fillText(text, x, y);
 };
 
