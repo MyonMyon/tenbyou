@@ -446,7 +446,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
 };
 
 ViewPort.prototype.drawLoading = function () {
-    this.context.fillStyle = "#333";
+    this.context.fillStyle = "#000";
     this.context.fillRect(0, 0, this.width, this.height);
     this.context.textAlign = "center";
     this.setFont(FONT.description);
