@@ -143,14 +143,39 @@ ViewPort.prototype.setFont = function (data, options) {
     font.size *= this.zoom;
     font.strokeWidth *= this.zoom;
     this.context.font = (font.weight ? font.weight + " " : "") + (font.style ? font.style + " " : "") + font.size + "px " + font.font;
-    this.context.fillStyle = font.color;
+    if (typeof font.color === "object") {
+        this.gradientBuffer = font.color;
+    } else {
+        this.gradientBuffer = null;
+        this.context.fillStyle = font.color;
+    }
     this.context.strokeStyle = font.strokeColor;
     this.context.lineWidth = font.strokeWidth;
     this.context.lineJoin = "bevel";
 };
 
 ViewPort.prototype.drawText = function (text, x, y) {
-    this.context.strokeText(text, x, y);
+    if (this.context.lineWidth) {
+        this.context.strokeText(text, x, y);
+    }
+    if (this.gradientBuffer) {
+        var re = /(^|\s)(\d+)px/i;
+        var h = +this.context.font.match(re)[2];
+        var t = this.context.textBaseline;
+        var d = 0.5;
+        if (["top", "hanging"].indexOf(t) >= 0) {
+            d = 1;
+        } else if (["alphabetic", "ideographic", "bottom"].indexOf(t) >= 0) {
+            d = 0;
+        }
+        var y1 = y + h * (d - 1);
+        var y2 = y + h * d;
+
+        var grd = this.context.createLinearGradient(0, y1, 0, y2);
+        grd.addColorStop(0, this.gradientBuffer[0]);
+        grd.addColorStop(1, this.gradientBuffer[1]);
+        this.context.fillStyle = grd;
+    }
     this.context.fillText(text, x, y);
 };
 
@@ -421,7 +446,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
 };
 
 ViewPort.prototype.drawLoading = function () {
-    this.context.fillStyle = "#333";
+    this.context.fillStyle = "#000";
     this.context.fillRect(0, 0, this.width, this.height);
     this.context.textAlign = "center";
     this.setFont(FONT.description);
@@ -436,6 +461,8 @@ ViewPort.prototype.draw = function (initFromWorld) {
     }
 
     this.perfStep();
+
+    this.context.globalAlpha = 1;
 
     if (!this.loaded) {
         this.drawLoading();
@@ -457,9 +484,13 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.drawGUI(boundaryStart, boundaryEnd);
     this.drawMessages(boundaryStart, boundaryEnd);
 
-    if (this.world.pause) {
+    if (this.world.pause || this.pauseMenu.getFade() > 0) {
         this.pauseMenu.draw();
     }
 
     this.pChart.draw();
+
+    this.context.globalAlpha = this.mainMenu.getFade();
+    this.context.fillStyle = "#000";
+    this.context.fillRect(0, 0, this.width, this.height);
 };

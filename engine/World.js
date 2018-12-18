@@ -51,6 +51,11 @@ World.prototype.setPause = function (value) {
     }
     this.pause = value;
     this.vp.input.stopAll();
+    if (value) {
+        this.vp.pauseMenu.fadeIn = new Date().getTime();
+    } else {
+        this.vp.pauseMenu.fadeOut = new Date().getTime();
+    }
 };
 
 World.prototype.setPlayer = function (charName) {

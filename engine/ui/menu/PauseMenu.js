@@ -36,6 +36,7 @@ function PauseMenu(vp) {
             action: function (vp) {
                 var diff = vp.world.difficulty;
                 var spell = vp.world.spell;
+                vp.mainMenu.fadeOut = new Date().getTime();
                 vp.world = new World(vp);
                 if (spell) {
                     vp.world.startSpellPractice(diff, spell);
@@ -52,6 +53,7 @@ function PauseMenu(vp) {
             action: function (vp) {
                 vp.world.destroy();
                 vp.pauseMenu.resetLocation();
+                vp.mainMenu.fadeIn = new Date().getTime();
             }
         }
     ];
@@ -70,8 +72,11 @@ PauseMenu.prototype.getCurrentTitle = function () {
  * @override
  */
 PauseMenu.prototype.draw = function () {
+    this.vp.context.globalAlpha = this.getFade();
+
     this.vp.context.fillStyle = "rgba(0, 0, 0, 0.5)";
     this.vp.context.fillRect(0, 0, this.vp.width, this.vp.height);
 
     this.$draw();
+    this.vp.context.globalAlpha = 1;
 };

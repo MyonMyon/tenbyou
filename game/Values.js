@@ -119,27 +119,26 @@ var FONT = {
     },
     points: {
         font: "Unispace Rg",
-        size: 3,
-        strokeWidth: 0.5,
-        strokeColor: "#999",
+        weight: "Bold",
+        size: 3.5,
         point: {
-            color: "#fee"
+            color: ["#fee", "#988"]
         },
         pointMax: {
-            color: "#ff0"
+            color: ["#ff0", "#990"]
         },
         power: {
-            color: "#f66"
+            color: ["#f66", "#944"]
         },
         powerMax: {
-            color: "#f60"
+            color: ["#f60", "#940"]
         }
     },
     info: {
         font: "Unispace Rg",
         size: 6,
         weight: "Bold",
-        color: "#fee",
+        color: ["#fff", "#cba"],
         strokeWidth: 0.75,
         strokeColor: "#630",
         minor: {
@@ -177,7 +176,7 @@ var FONT = {
         font: "Accuratist",
         size: 9,
         weight: "Bold",
-        color: "#0fc",
+        color: ["#0fc", "#0a9"],
         strokeWidth: 1,
         strokeColor: "#066",
         name: {
@@ -185,7 +184,7 @@ var FONT = {
         },
         menu: {
             size: 12,
-            color: "#fff",
+            color: ["#fff", "#fcc"],
             strokeWidth: 2,
             strokeColor: "#600"
         },
@@ -206,12 +205,12 @@ var FONT = {
         font: "Accuratist",
         size: 12,
         style: "Italic",
-        color: "#c99",
+        color: ["#c99", "#c66"],
         strokeWidth: 1,
         strokeColor: "#633",
         selected: {
             weight: "Bold",
-            color: "#fff",
+            color: ["#fff", "#fcc"],
             strokeColor: "#c00"
         },
         disabled: {
