@@ -52,6 +52,21 @@ var SFX = {
     },
     menuOut: {
         file: "menu_out.wav"
+    },
+    menuPause: {
+        file: "menu_pause.wav"
+    },
+    menuPauseNavigate: {
+        file: "menu_nav2.wav"
+    },
+    itemCollect: {
+        file: "item_collect.wav"
+    },
+    playerShot: {
+        file: "player_shot.wav"
+    },
+    enemyDestroy: {
+        file: "enemy_destroy.wav"
     }
 };
 

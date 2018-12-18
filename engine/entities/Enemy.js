@@ -188,6 +188,7 @@ Enemy.prototype.behaviorFinal = function (ignoreOnDestroy) {
         this.onDestroy();
     }
     this.remove(true);
+    Sound.play(SFX.enemyDestroy);
 };
 
 Enemy.prototype.onDamage = function (damage) {

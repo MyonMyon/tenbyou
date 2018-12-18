@@ -46,6 +46,9 @@ function World(vp) {
 }
 
 World.prototype.setPause = function (value) {
+    if (value) {
+        Sound.play(SFX.menuPause);
+    }
     this.pause = value;
     this.vp.input.stopAll();
 };

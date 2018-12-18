@@ -7,6 +7,8 @@
 function PauseMenu(vp) {
     extend(this, new Menu(vp));
 
+    this.navSound = SFX.menuPauseNavigate;
+
     this.tree = [
         {
             isVisible: function (vp) {

@@ -237,6 +237,7 @@ Player.prototype.draw = function (context) {
 
 Player.prototype.shoot = function () {
     if (this.shotCooldown <= 0) {
+        Sound.play(SFX.playerShot);
         this.onShoot();
         this.shotCooldown = this.shotCooldownDefault;
     }

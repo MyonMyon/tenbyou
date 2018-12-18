@@ -128,7 +128,7 @@ Menu.prototype.changeIndex = function (delta) {
     var m = this.getCurrentMenu();
     var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
     var l = m.submenu.length;
-    Sound.play(SFX.menuNavigate);
+    Sound.play(this.navSound);
     if (Math.abs(delta) > 1) {
         var n = this.currentIndex + delta;
         this.rowOffset = Math.max(0, Math.min(this.rowOffset + delta, l - cap));

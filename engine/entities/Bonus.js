@@ -51,6 +51,7 @@ Bonus.prototype.step = function () {
     }
 
     if (d < this.world.player.gatherWidthFinal) {
+        Sound.play(SFX.itemCollect);
         this.remove();
         var oldScore = this.world.player.score;
         var oldPower = this.world.player.power;

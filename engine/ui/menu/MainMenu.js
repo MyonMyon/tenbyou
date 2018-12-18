@@ -7,6 +7,8 @@
 function MainMenu(vp) {
     extend(this, new Menu(vp));
 
+    this.navSound = SFX.menuNavigate;
+
     var stageMenu = [];
     for (var i in STAGE) {
         if (!STAGE[i].extra) {
