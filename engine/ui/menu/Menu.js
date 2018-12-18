@@ -8,12 +8,26 @@ function Menu(vp) {
     this.vp = vp;
 
     this.lastAction = new Date().getTime();
+    this.fadeIn = null;
+    this.fadeOut = null;
     this.actionDelay = 100;
     this.animationLength = 250;
+    this.fadeLength = 150;
     this.rowOffset = 0;
 
     this.resetLocation();
 }
+
+/**
+ * @return {Number} Fade value from 0 to 1.
+ */
+Menu.prototype.getFade = function () {
+    var t = new Date().getTime();
+    if (!this.fadeIn || this.fadeOut && (this.fadeOut + this.fadeLength) < t && (this.fadeOut + this.fadeLength) > this.fadeIn) {
+        return 0;
+    }
+    return Math.min(1, (t - this.fadeIn || t) / this.fadeLength, Math.abs(1 - (t - this.fadeOut || t) / this.fadeLength));
+};
 
 /**
  * @param {Number} parent Level offset, 1 for parent menu.

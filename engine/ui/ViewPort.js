@@ -462,6 +462,8 @@ ViewPort.prototype.draw = function (initFromWorld) {
 
     this.perfStep();
 
+    this.context.globalAlpha = 1;
+
     if (!this.loaded) {
         this.drawLoading();
         return;
@@ -482,9 +484,13 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.drawGUI(boundaryStart, boundaryEnd);
     this.drawMessages(boundaryStart, boundaryEnd);
 
-    if (this.world.pause) {
+    if (this.world.pause || this.pauseMenu.getFade() > 0) {
         this.pauseMenu.draw();
     }
 
     this.pChart.draw();
+
+    this.context.globalAlpha = this.mainMenu.getFade();
+    this.context.fillStyle = "#000";
+    this.context.fillRect(0, 0, this.width, this.height);
 };

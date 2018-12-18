@@ -6,6 +6,7 @@
  */
 function MainMenu(vp) {
     extend(this, new Menu(vp));
+    this.fadeIn = new Date().getTime();
 
     var stageMenu = [];
     for (var i in STAGE) {
@@ -15,6 +16,8 @@ function MainMenu(vp) {
                 stage: +i + 1,
                 title: "Stage " + (+i + 1),
                 action: function (vp) {
+                    vp.pauseMenu.fadeIn = null;
+                    vp.mainMenu.fadeOut = new Date().getTime();
                     vp.world = new World(vp);
                     vp.world.startStage(this.stage, vp.mainMenu.getCurrentMenu().diff);
                     vp.mainMenu.resetLocation();
@@ -47,6 +50,8 @@ function MainMenu(vp) {
                     spell: SPELL[i],
                     title: "#" + Util.fillWithLeadingZeros(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
                     action: function (vp) {
+                        vp.pauseMenu.fadeIn = null;
+                        vp.mainMenu.fadeOut = new Date().getTime();
                         vp.world = new World(vp);
                         vp.world.startSpellPractice(+this.diff, this.spell);
                     }
@@ -78,6 +83,8 @@ function MainMenu(vp) {
                 return false;
             },
             action: function (vp) {
+                vp.pauseMenu.fadeIn = null;
+                vp.mainMenu.fadeOut = new Date().getTime();
                 vp.world = new World(vp);
                 vp.world.startExtra(4);
                 vp.mainMenu.resetLocation();
@@ -109,6 +116,8 @@ function MainMenu(vp) {
  * @override
  */
 MainMenu.prototype.draw = function () {
+    this.vp.context.globalAlpha = this.getFade();
+
     var o = SPRITE.menuBackground.object;
     this.vp.context.drawImage(o, 0, 0, o.width, o.height, 0, 0, WIDTH * this.vp.zoom, HEIGHT * this.vp.zoom);
 
@@ -123,4 +132,5 @@ MainMenu.prototype.draw = function () {
             [this.vp.version, "/", RELEASE_DATE, "/", this.vp.fps.toFixed(2), "FPS"].join(" "),
             MENU_X * this.vp.zoom,
             MENU_VER_Y * this.vp.zoom);
+    this.vp.context.globalAlpha = 1;
 };
