@@ -1,6 +1,6 @@
 var STAGE = [{
         title: "Wonderland Inbound",
-        description: "Low entropy and so much microstates.",
+        description: "Low entropy and large quantity of microstates.",
         appearanceSecond: 0.2,
         background: {
             file: "bg/stage/1.jpg",

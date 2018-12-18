@@ -258,7 +258,7 @@ World.prototype.tick = function () {
             } else {
                 t = "Stage " + this.stage;
             }
-            this.vp.showMessage([t + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 4, [FONT.title, FONT.info]);
+            this.vp.showMessage([t + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 4, [FONT.title, FONT.subtitle]);
         }
         this.eventChain.tick();
         this.vp.draw(true);
