@@ -216,7 +216,7 @@ Enemy.prototype.hurt = function (damage, position) {
     var healthOld = this.health;
     this.health -= damage;
 
-    if (this.health < this.initHealth / 10) {
+    if (this.health < this.initialHealth / 5) {
         Sound.play(SFX.enemyHitLow);
     } else {
         Sound.play(SFX.enemyHit);
