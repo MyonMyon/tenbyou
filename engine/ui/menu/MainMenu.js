@@ -109,6 +109,7 @@ function MainMenu(vp) {
             }
         }
     ];
+    this.updateStates();
 }
 
 /**

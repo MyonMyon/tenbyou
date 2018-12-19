@@ -356,9 +356,9 @@ Player.prototype.respawn = function () {
     this.spellCompleteTerms = false;
 
     if (this.lives < 1) {
-        this.world.setPause(true);
         this.world.continueMode = true;
         this.world.continuable = this.world.stage > 0 && this.score % 10 < 9;
+        this.world.setPause(true);
         if (!this.world.continuable) {
             return;
         }

@@ -48,6 +48,7 @@ World.prototype.setPause = function (value) {
     this.pause = value;
     this.vp.input.stopAll();
     if (value) {
+        this.vp.pauseMenu.updateStates();
         this.vp.pauseMenu.fadeIn = new Date().getTime();
     } else {
         this.vp.pauseMenu.fadeOut = new Date().getTime();
@@ -149,8 +150,8 @@ World.prototype.nextStage = function () {
     this.substageStart = 0;
 
     if (this.stage >= this.stages.length) {
-        this.setPause(true);
         this.continuable = false;
+        this.setPause(true);
         return;
     }
 
