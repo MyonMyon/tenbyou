@@ -236,7 +236,7 @@ Player.prototype.draw = function (context) {
 };
 
 Player.prototype.shoot = function () {
-    if (this.shotCooldown <= 0) {
+    if (this.shotCooldown <= 0 && this.respawnTime === null) {
         this.onShoot();
         this.shotCooldown = this.shotCooldownDefault;
     }
@@ -254,7 +254,7 @@ Player.prototype.bomb = function () {
 };
 
 Player.prototype.special = function () {
-    if (this.specialCooldown <= 0 && this.power >= 1) {
+    if (this.specialCooldown <= 0 && this.power >= 1 && this.respawnTime === null) {
         this.onSpecial();
         this.specialCooldown = this.specialCooldownDefault;
         this.addPower(-1);
