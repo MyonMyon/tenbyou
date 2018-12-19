@@ -145,6 +145,7 @@ ViewPort.prototype.setFont = function (data, options) {
     this.context.font = (font.weight ? font.weight + " " : "") + (font.style ? font.style + " " : "") + font.size + "px " + font.font;
     if (typeof font.color === "object") {
         this.gradientBuffer = font.color;
+        this.context.fillStyle = font.color[0];
     } else {
         this.gradientBuffer = null;
         this.context.fillStyle = font.color;
@@ -158,7 +159,7 @@ ViewPort.prototype.drawText = function (text, x, y) {
     if (this.context.lineWidth) {
         this.context.strokeText(text, x, y);
     }
-    if (this.gradientBuffer) {
+    if (false && this.gradientBuffer) {
         var re = /(^|\s)(\d+)px/i;
         var h = +this.context.font.match(re)[2];
         var t = this.context.textBaseline;

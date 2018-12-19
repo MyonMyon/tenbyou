@@ -236,7 +236,7 @@ Player.prototype.draw = function (context) {
 };
 
 Player.prototype.shoot = function () {
-    if (this.shotCooldown <= 0) {
+    if (this.shotCooldown <= 0 && this.respawnTime === null) {
         Sound.play(SFX.playerShot);
         this.onShoot();
         this.shotCooldown = this.shotCooldownDefault;
@@ -255,7 +255,7 @@ Player.prototype.bomb = function () {
 };
 
 Player.prototype.special = function () {
-    if (this.specialCooldown <= 0 && this.power >= 1) {
+    if (this.specialCooldown <= 0 && this.power >= 1 && this.respawnTime === null) {
         this.onSpecial();
         this.specialCooldown = this.specialCooldownDefault;
         this.addPower(-1);
@@ -358,9 +358,9 @@ Player.prototype.respawn = function () {
     this.spellCompleteTerms = false;
 
     if (this.lives < 1) {
-        this.world.setPause(true);
         this.world.continueMode = true;
         this.world.continuable = this.world.stage > 0 && this.score % 10 < 9;
+        this.world.setPause(true);
         if (!this.world.continuable) {
             return;
         }

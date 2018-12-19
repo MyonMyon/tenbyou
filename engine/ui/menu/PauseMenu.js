@@ -36,7 +36,7 @@ function PauseMenu(vp) {
             action: function (vp) {
                 var diff = vp.world.difficulty;
                 var spell = vp.world.spell;
-                vp.mainMenu.fadeOut = new Date().getTime();
+                vp.pauseMenu.fadeOut = new Date().getTime();
                 vp.world = new World(vp);
                 if (spell) {
                     vp.world.startSpellPractice(diff, spell);

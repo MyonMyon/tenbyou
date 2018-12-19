@@ -47,11 +47,25 @@ Menu.prototype.getCurrentMenu = function (parent) {
             menu = null;
         }
     }
-    var vp = this.vp;
     menu.submenu = menu.submenu.filter(function (item) {
-        return !item.isVisible || item.isVisible(vp);
+        return item.visible;
     });
     return menu;
+};
+
+/**
+ * @param {Array} menu Object to recursively process.
+ */
+Menu.prototype.updateStates = function (menu) {
+    if (!menu) {
+        menu = this.tree;
+    }
+    for (var i in menu) {
+        menu[i].visible = (!menu[i].isVisible || menu[i].isVisible(this.vp));
+        if (menu[i].submenu) {
+            this.updateStates(menu[i].submenu);
+        }
+    }
 };
 
 /**
