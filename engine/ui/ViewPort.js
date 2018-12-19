@@ -17,10 +17,7 @@ function ViewPort() {
 
     this.inDev = DEV_MODE;
 
-    var self = this;
-    setInterval(function () {
-        self.draw(false);
-    }, 33);
+    this.draw();
 }
 
 ViewPort.prototype.perfStep = function () {
@@ -456,23 +453,22 @@ ViewPort.prototype.drawLoading = function () {
     this.drawText(this.loadingText || "", this.width / 2, this.height / 2 + this.zoom * 4);
 };
 
-ViewPort.prototype.draw = function (initFromWorld) {
-    if ((!this.world || this.world.pause) === initFromWorld) {
-        return;
+ViewPort.prototype.draw = function () {
+    if (!this.perfStep) {
+        return this.requestDraw();
     }
-
     this.perfStep();
 
     this.context.globalAlpha = 1;
 
     if (!this.loaded) {
         this.drawLoading();
-        return;
+        return this.requestDraw();
     }
 
     if (!this.world) {
         this.mainMenu.draw();
-        return;
+        return this.requestDraw();
     }
 
     var boundaryStart = this.toScreen(-this.world.width / 2, -this.world.height / 2);
@@ -494,4 +490,13 @@ ViewPort.prototype.draw = function (initFromWorld) {
     this.context.globalAlpha = this.mainMenu.getFade();
     this.context.fillStyle = "#000";
     this.context.fillRect(0, 0, this.width, this.height);
+
+    this.requestDraw();
+};
+
+ViewPort.prototype.requestDraw = function () {
+    var self = this;
+    requestAnimationFrame(function() {
+        self.draw();
+    }, this.canvas);
 };
