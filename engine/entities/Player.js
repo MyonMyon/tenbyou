@@ -28,6 +28,7 @@ function Player(world, charName) {
     this.gatherValue = 0;
     this.gatherValueExtremum = 0;
 
+    this.focusMx = 0.4;
     this.focused = false;
     this.moveLeft = false;
     this.moveRight = false;
@@ -81,32 +82,24 @@ Player.prototype.stepBot = function () {
 };
 
 Player.prototype.step = function () {
+    var dir = (this.moveLeft ? "w" : "") +
+            (this.moveRight ? "e" : "") +
+            (this.moveUp ? "n" : "") +
+            (this.moveDown ? "s" : "");
+    var a = Util.toMeanAngle(dir);
+    var r = 100 * (this.moveLeft || this.moveRight || this.moveDown || this.moveUp);
+    if (this.focused) {
+        r *= this.focusMx;
+    }
+    this.x1 = Math.cos(a) * r;
+    this.y1 = Math.sin(a) * r;
+
     this.$step();
-    if (this.guided)
+    if (this.guided) {
         this.stepBot();
-    else
-        this.setVectors(null, null, 0, 0, 0, 0);
-
-    var d = 100;
-    if ((this.moveLeft || this.moveRight)
-            && (this.moveDown || this.moveUp)
-            && !(this.moveLeft && this.moveRight)
-            && !(this.moveDown && this.moveUp))
-        d = 70;
-
-    if (this.focused)
-        d /= 2;
-
-    d /= this.world.ticksPS;
-
-    if (this.moveLeft)
-        this.x -= d;
-    if (this.moveRight)
-        this.x += d;
-    if (this.moveUp)
-        this.y -= d;
-    if (this.moveDown)
-        this.y += d;
+    } else {
+        this.setVectors(null, null, null, null, 0, 0);
+    }
 
     if (this.x > this.world.width / 2 - this.width * 2)
         this.x = this.world.width / 2 - this.width * 2;

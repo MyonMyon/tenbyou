@@ -39,7 +39,7 @@ Util.iterate = function (data, iteration) {
 };
 
 /**
- * @param {String} compass "nnw", "se", "n" etc. Allows any length, however last 2 letters shouldn't be same, since the parsing comes from the end;
+ * @param {String} compass "nnw", "se", "n" etc. Allows any length, however last 2 letters shouldn't be same, since the parsing comes from the end.
  * @return {Number} Angle in radians.
  */
 Util.toAngle = function (compass) {
@@ -49,6 +49,21 @@ Util.toAngle = function (compass) {
         return angles.indexOf(compass) * Math.PI / 2;
     }
     return Util.meanAngle(Util.toAngle(compass[0]), Util.toAngle(compass.slice(1)));
+};
+
+/**
+ * @param {String} compass Throw any shit in here!
+ * @return {Number} Angle in radians.
+ */
+Util.toMeanAngle = function (compass) {
+    if (!compass) {
+        return 0;
+    }
+    var a = [];
+    for (var i in compass) {
+        a.push(Util.toAngle(compass[i]));
+    }
+    return Util.meanAngle.apply(null, a);
 };
 
 /**

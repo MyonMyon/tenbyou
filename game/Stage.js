@@ -197,7 +197,7 @@ var STAGE = [{
                         e.savedPoint = {x: e.x, y: e.y};
                     }, 1.7, 0, 0);
                     fairyTurret.eventChain.addEvent(function (e, i) {
-                        var a = Math.PI / 2 * -r * ((i - 2) / 12);
+                        var a = Util.toAngle((iter % 2) ? "e" : "w") + Math.PI / 2 * -r * ((i - 2) / 12);
                         var p = new Projectile(e.world,
                                 e.savedPoint.x, e.savedPoint.y,
                                 Math.cos(a) * 10, Math.sin(a) * 10,
