@@ -16,6 +16,7 @@ function Enemy(world, x, y, x1, y1, x2, y2, width, health, spriteName) {
     this.attackGroups = [];
     this.attackGroupCurrent = 0;
     this.bonus = 0;
+    this.lastAttackTimer = 0;
 }
 
 Enemy.prototype.draw = function (context) {
@@ -167,6 +168,13 @@ Enemy.prototype.step = function () {
         var at = this.attacks[this.attackCurrent].time;
         var dt = this.attacks[this.attackCurrent].decrTime;
         var bb = this.attacks[this.attackCurrent].bonusBound;
+
+        var attackTimer = Math.ceil(at - rt);
+        if (attackTimer < 10 && attackTimer < this.lastAttackTimer) {
+            Sound.play(SFX.timer);
+        }
+        this.lastAttackTimer = attackTimer;
+
         var b = this.attacks[this.attackCurrent].bonus;
         this.bonus = parseInt(Math.min(b, bb + (b - bb) * (at - rt) / (at - dt)) / 10, 10) * 10;
         if (this.attacks[this.attackCurrent].func) {
@@ -207,6 +215,12 @@ Enemy.prototype.hurt = function (damage, position) {
 
     var healthOld = this.health;
     this.health -= damage;
+
+    if (this.health < this.initHealth / 10) {
+        Sound.play(SFX.enemyHitLow);
+    } else {
+        Sound.play(SFX.enemyHit);
+    }
 
     if (this.health > 0) {
         for (var i = 0; i < this.drops.length; ++i) {

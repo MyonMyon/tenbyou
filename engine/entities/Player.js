@@ -331,6 +331,7 @@ Player.prototype.kill = function () {
 
     new Particle(this.world, this.x, this.y, 1, 12, false, false, "splash");
     this.world.splash(this, 20, 10, 0.5);
+    Sound.play(SFX.playerHit);
 };
 
 Player.prototype.isMaxBonus = function () {

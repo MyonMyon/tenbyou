@@ -10,6 +10,7 @@ function Projectile(world, x, y, x1, y1, x2, y2, width, playerSide, spriteName) 
         this.rotate = SPRITE.projectile[s[0]].rotate;
     }
     this.playerSide = playerSide || false;
+    this.soundPlayed = false;
     this.grazed = 0;
     this.damage = 1;
 }
@@ -53,6 +54,10 @@ Projectile.prototype.draw = function (context) {
 Projectile.prototype.step = function () {
     this.$step();
 
+    if (!this.soundPlayed && !this.playerSide) {
+        Sound.play(SFX.enemyShot);
+        this.soundPlayed = true;
+    }
     if (!this.preserve) {
         var div = this.playerSide ? 1.8 : 2;
         //remove from world
