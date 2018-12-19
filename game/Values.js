@@ -66,6 +66,7 @@ var SFX = {
         file: "item_collect.wav"
     },
     playerShot: {
+        noSeek: true,
         file: "player_shot.wav"
     },
     playerHit: {
@@ -75,9 +76,11 @@ var SFX = {
         file: "enemy_shot.wav"
     },
     enemyHit: {
+        noSeek: true,
         file: "enemy_hit.wav"
     },
     enemyHitLow: {
+        noSeek: true,
         file: "enemy_hit_low.wav"
     },
     enemyDestroy: {
