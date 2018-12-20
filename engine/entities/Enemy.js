@@ -98,10 +98,6 @@ Enemy.prototype.drawBossWheel = function (context, r, from, to, color, lineWidth
 };
 
 Enemy.prototype.step = function () {
-    if (this.removalMark) {
-        return;
-    }
-
     var l = this.relTime();
     this.$step();
     if (l < this.appearanceTime && this.relTime() >= this.appearanceTime) {

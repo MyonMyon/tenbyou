@@ -235,7 +235,9 @@ World.prototype.tick = function () {
         }
 
         for (var i in this.entities) {
-            this.entities[i].step();
+            if (!this.entities[i].removalMark) {
+                this.entities[i].step();
+            }
         }
         for (var i in this.entities) {
             this.entities[i].flush(); //refreshing fixed coords
