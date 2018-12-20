@@ -107,11 +107,12 @@ Enemy.prototype.step = function () {
 
     if (this.health <= 0) {
         for (var i = 0; i < this.drops.length; ++i)
-            if (this.drops[i].reqDamage === 0 && this.attackCurrent === this.drops[i].attackID) {
+            if (this.drops[i].reqDamage === 0 && this.attackCurrent === this.drops[i].attackID && !this.drops[i].removed) {
                 this.dropBonus(
                         Math.random() * Math.PI * 2,
                         Math.random() * this.initialHealth / 5,
                         this.drops[i].cat);
+                this.drops[i].removed = true;
             }
 
         if (this.attackCurrent === null) {
@@ -120,6 +121,7 @@ Enemy.prototype.step = function () {
         } else {
             this.nextAttack();
         }
+        return;
     }
 
     //remove from world

@@ -87,7 +87,7 @@ Menu.prototype.resetLocation = function () {
 };
 
 /**
- * Menu interface draw function.
+ * Menu interface interaction function.
  *
  * @param {String} code Action code.
  */
@@ -145,6 +145,22 @@ Menu.prototype.action = function (code) {
             break;
     }
     this.lastAction = new Date().getTime();
+};
+
+/**
+ * Menu interface interaction function.
+ *
+ * @param {String} keyCode Key code.
+ */
+Menu.prototype.shortcut = function (keyCode) {
+    var m = this.getCurrentMenu();
+    for (var i in m.submenu) {
+        if (m.submenu[i].shortcut === keyCode) {
+            m.submenu[i].action(this.vp);
+            return true;
+        }
+    }
+    return false;
 };
 
 /**

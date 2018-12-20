@@ -222,6 +222,9 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
 
     if (inMenu) {
         var menu = this.vp.world ? this.vp.pauseMenu : this.vp.mainMenu;
+        if (keyValue && menu.shortcut(keyAbbr)) {
+            return true;
+        }
         var action = this.defaultMappingMenu[keyAbbr];
         if (action && keyValue) {
             menu.action(action);
