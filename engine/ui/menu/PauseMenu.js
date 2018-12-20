@@ -24,6 +24,7 @@ function PauseMenu(vp) {
                 return vp.world && !vp.world.continueMode;
             },
             title: "Resume",
+            shortcut: "Escape",
             action: function (vp) {
                 vp.world.setPause(false);
                 vp.pauseMenu.resetLocation();
@@ -31,6 +32,7 @@ function PauseMenu(vp) {
         },
         {
             title: "Restart",
+            shortcut: "KeyR",
             action: function (vp) {
                 var diff = vp.world.difficulty;
                 var spell = vp.world.spell;
@@ -48,6 +50,7 @@ function PauseMenu(vp) {
         },
         {
             title: "To Main Menu",
+            shortcut: "KeyQ",
             action: function (vp) {
                 vp.world.destroy();
                 vp.pauseMenu.resetLocation();

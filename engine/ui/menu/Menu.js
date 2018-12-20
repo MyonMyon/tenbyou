@@ -146,6 +146,22 @@ Menu.prototype.action = function (code) {
 };
 
 /**
+ * Menu interface interaction function.
+ *
+ * @param {String} keyCode Key code.
+ */
+Menu.prototype.shortcut = function (keyCode) {
+    var m = this.getCurrentMenu();
+    for (var i in m.submenu) {
+        if (m.submenu[i].shortcut === keyCode) {
+            m.submenu[i].action(this.vp);
+            return true;
+        }
+    }
+    return false;
+};
+
+/**
  * Function to navigate through menu.
  *
  * @param {Number} delta Row selection difference.
