@@ -87,7 +87,7 @@ Menu.prototype.resetLocation = function () {
 };
 
 /**
- * Menu interface draw function.
+ * Menu interface interaction function.
  *
  * @param {String} code Action code.
  */
