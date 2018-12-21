@@ -117,4 +117,9 @@ Dialogue.prototype.draw = function () {
     vp.drawText(text,
             (DIALOGUE_X + DIALOGUE_MX) * vp.zoom,
             (DIALOGUE_Y + DIALOGUE_MY * 2 + FONT.character.size) * vp.zoom);
+    if (this.lines[this.index].time < this.time) {
+        vp.drawText("▶",
+                (DIALOGUE_X + DIALOGUE_W - DIALOGUE_MX * 2) * vp.zoom,
+                (DIALOGUE_Y + DIALOGUE_MY * 4 + FONT.character.size) * vp.zoom);
+    }
 };
