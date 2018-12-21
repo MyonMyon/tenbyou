@@ -238,7 +238,6 @@ World.prototype.tick = function () {
     if (!this.pause) {
         if (this.dialogue) {
             this.dialogue.tick();
-            this.vp.draw(true);
             return;
         };
         this.time += this.tickInterval;
