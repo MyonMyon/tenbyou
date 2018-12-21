@@ -5,6 +5,7 @@ function Dialogue(world, lines) {
     this.index = 0;
     this.charStates = {};
     this.activeChar = null;
+    this.lettersPS = 40;
     for (var i in this.lines) {
         var char = this.lines[i].char;
         if (char && !this.charStates[char]) {
@@ -16,6 +17,9 @@ function Dialogue(world, lines) {
         if (this.lines[i].sprite && !this.charStates[char].sprite) {
             this.charStates[char].sprite = CUT_IN[this.lines[i].sprite].object;
         }
+        if (!this.lines[i].time) {
+            this.lines[i].time = this.lines[i].text.length / this.lettersPS * 1.5;
+        }
     }
     var lIndex = 0;
     var rIndex = 0;
@@ -25,7 +29,6 @@ function Dialogue(world, lines) {
     }
     this.updateCharStates();
     this.time = 0;
-    this.lettersPS = 40;
 }
 
 Dialogue.prototype.tick = function () {
@@ -46,7 +49,7 @@ Dialogue.prototype.updateCharStates = function () {
 
 Dialogue.prototype.next = function () {
     if (this.lines[this.index].text) {
-        var reqTime = this.lines[this.index].time || this.lines[this.index].text.length / this.lettersPS;
+        var reqTime = this.lines[this.index].time;
         if (this.time < reqTime) {
             this.time = reqTime;
             return;
