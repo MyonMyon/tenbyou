@@ -95,7 +95,7 @@ var CHAR = {
         }
     },
     rBarashou: {
-        name: "Ryuu Barashou",
+        name: "Ryou Barashou",
         color: "#f40"
     },
     freyja: {
