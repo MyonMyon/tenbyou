@@ -212,6 +212,21 @@ var STAGE = [{
                 func: function (world) {
                     eventOrb(world);
                 }
+            }, {
+                player: "nBarashou",
+                substage: 0,
+                second: 89,
+                dialogue: [{
+                        position: "left",
+                        char: "nBarashou",
+                        sprite: "nb/proto.png",
+                        text: "Another big version. Didn't you say this location has low levels of mundanity?"
+                    }, {
+                        position: "left",
+                        char: "rBarashou",
+                        sprite: "rb/proto.png",
+                        text: "..."
+                    }]
             }]
     }, {
         title: "Misty Lake",
