@@ -85,6 +85,10 @@ var SFX = {
     },
     enemyDestroy: {
         file: "enemy_destroy.wav"
+    },
+    dialogueType: {
+        noSeek: true,
+        file: "diag_type.wav"
     }
 };
 

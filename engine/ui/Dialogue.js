@@ -33,6 +33,9 @@ function Dialogue(world, lines) {
 
 Dialogue.prototype.tick = function () {
     this.time += 1 / this.world.ticksPS;
+    if (this.time < this.lines[this.index].time) {
+        Sound.play(SFX.dialogueType);
+    }
 };
 
 Dialogue.prototype.updateCharStates = function () {
@@ -55,6 +58,7 @@ Dialogue.prototype.next = function () {
             return;
         }
     }
+    Sound.play(SFX.menuIn);
     this.time = 0;
     if (++this.index >= this.lines.length) {
         this.world.dialogue = null;
