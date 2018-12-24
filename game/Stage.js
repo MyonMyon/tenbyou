@@ -214,7 +214,7 @@ var STAGE = [{
                 }
             }, {
                 player: "nBarashou",
-                substage: 0,
+                substage: 1,
                 second: 89,
                 dialogue: [{
                         position: "left",
