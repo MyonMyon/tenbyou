@@ -239,7 +239,7 @@ World.prototype.tick = function () {
         if (this.dialogue) {
             this.dialogue.tick();
             return;
-        };
+        }
         this.time += this.tickInterval;
 
         //skip frame logic:
