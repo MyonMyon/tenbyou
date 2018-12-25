@@ -69,6 +69,9 @@ var SFX = {
         noSeek: true,
         file: "player_shot.wav"
     },
+    playerGraze: {
+        file: "player_graze.wav"
+    },
     playerHit: {
         file: "player_hit.wav"
     },

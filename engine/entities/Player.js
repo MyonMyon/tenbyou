@@ -179,6 +179,7 @@ Player.prototype.step = function () {
                         break;
                     }
                 } else if (e.grazed < e.damage && !this.isInvulnerable()) {
+                    Sound.play(SFX.playerGraze);
                     ++this.graze;
                     var xD = this.x - e.x;
                     var yD = this.y - e.y;
