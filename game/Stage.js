@@ -425,21 +425,7 @@ var STAGE = [{
 eventKedamaMidboss = function (world, power) {
     var kedama = new Enemy(world);
 
-    kedama.addNonSpell({
-        init: function (entity) {
-            entity.eventChain.addEvent(function (e, iter) {
-                var c = (power ? 8 : 6) * (e.world.difficulty + 1);
-                if (iter % 16 >= 9) {
-                    return;
-                }
-                var v = iter % 32 < 16;
-                var d = (v ? e.relTime() : -e.relTime()) * 1.5;
-                e.arcProjectiles(d, null, c, e.width, 50, 0, 2.5, d > 0 ? "static.red" : "static.blue");
-            }, 0.3, 0.1, Infinity);
-        },
-        health: 800,
-        time: 15
-    }, world.difficulty);
+    kedama.addNonSpell(NON_SPELL.kedamaSpam, false, [power]);
     if (world.difficulty > 0) {
         if (power)
             kedama.addSpell(SPELL.kedamaBeta);
@@ -451,23 +437,11 @@ eventKedamaMidboss = function (world, power) {
 };
 
 eventOrb = function (world) {
-    var nsInit = function (entity) {
-        entity.eventChain.addEvent(function (e) {
-            var c = 2 * (e.attackGroupCurrent + 3) * (e.world.difficulty + 1);
-            var d = e.relTime() * 3;
-            e.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
-        }, 0, 0.133, Infinity);
-    };
-    var nsBehavior = function (entity) {
-        //~wiggling left and right~
-        entity.x1 = Math.cos(entity.relTime() * 1.5) * 30;
-    };
-
     var orb = new Enemy(world);
 
-    orb.addNonSpell({init: nsInit, func: nsBehavior, health: 300, time: 15});
+    orb.addNonSpell(NON_SPELL.orbSpam);
     orb.addSpell(SPELL.orbAlpha);
-    orb.addNonSpell({init: nsInit, func: nsBehavior, health: 500, time: 25});
+    orb.addNonSpell(NON_SPELL.orbSpamCopyPasta);
     orb.addSpell(SPELL.orbBeta);
 
     orb.setBossData("orb", true);

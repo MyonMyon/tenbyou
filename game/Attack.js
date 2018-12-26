@@ -297,3 +297,51 @@ var SPELL = {
     }
 };
 
+var NON_SPELL = {
+    kedamaSpam: {
+        init: function (power) {
+            this.eventChain.addEvent(function (e, iter) {
+                var c = (power ? 8 : 6) * (e.world.difficulty + 1);
+                if (iter % 16 >= 9) {
+                    return;
+                }
+                var v = iter % 32 < 16;
+                var d = (v ? e.relTime() : -e.relTime()) * 1.5;
+                e.arcProjectiles(d, null, c, e.width, 50, 0, 2.5, d > 0 ? "static.red" : "static.blue");
+            }, 0.3, 0.1, Infinity);
+        },
+        health: 800,
+        time: 15
+    },
+    orbSpam: {
+        init: function () {
+            this.eventChain.addEvent(function (e) {
+                var c = 2 * (e.attackGroupCurrent + 3) * (e.world.difficulty + 1);
+                var d = e.relTime() * 3;
+                e.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
+            }, 0, 0.133, Infinity);
+        },
+        behavior: function () {
+            //~wiggling left and right~
+            this.x1 = Math.cos(this.relTime() * 1.5) * 30;
+        },
+        health: 300,
+        time: 15
+    },
+    //TODO: remove by allowing dynamic health/time:
+    orbSpamCopyPasta: {
+        init: function () {
+            this.eventChain.addEvent(function (e) {
+                var c = 2 * (e.attackGroupCurrent + 3) * (e.world.difficulty + 1);
+                var d = e.relTime() * 3;
+                e.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
+            }, 0, 0.133, Infinity);
+        },
+        behavior: function () {
+            //~wiggling left and right~
+            this.x1 = Math.cos(this.relTime() * 1.5) * 30;
+        },
+        health: 500,
+        time: 25
+    }
+};
