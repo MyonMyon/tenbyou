@@ -172,7 +172,7 @@ Enemy.prototype.step = function () {
         var b = this.attacks[this.attackCurrent].bonus;
         this.bonus = parseInt(Math.min(b, bb + (b - bb) * (at - rt) / (at - dt)) / 10, 10) * 10;
         if (this.attacks[this.attackCurrent].func) {
-            this.attacks[this.attackCurrent].func(this);
+            this.attacks[this.attackCurrent].func.apply(this, this.attacks[this.attackCurrent].params);
         }
         if (rt >= at) {
             this.nextAttack();
@@ -241,7 +241,7 @@ Enemy.prototype.addDrops = function (cat, amount, reqDamage, afterAttack) {
     }
 };
 
-Enemy.prototype.addAttack = function (spell, title, data, newGroup) {
+Enemy.prototype.addAttack = function (spell, title, data, newGroup, params) {
     //decrTime - time when bonus counter start to decrease
     //bonusBound - bonus gotten in the last moment
     //newGroup - forced start of a new group of attacks
@@ -255,17 +255,21 @@ Enemy.prototype.addAttack = function (spell, title, data, newGroup) {
     else
         ++this.attackGroups[m].nonspells;
 
-    this.attacks[n] = data;
+    this.attacks[n] = {};
+    for (var i in data) {
+        this.attacks[n][i] = data[i];
+    }
     this.attacks[n].spell = spell;
     this.attacks[n].title = title;
+    this.attacks[n].params = params;
 };
 
-Enemy.prototype.addNonSpell = function (nonSpell, newGroup) {
-    this.addAttack(false, null, nonSpell, newGroup);
+Enemy.prototype.addNonSpell = function (nonSpell, newGroup, params) {
+    this.addAttack(false, null, nonSpell, newGroup, params);
 };
 
-Enemy.prototype.addSpell = function (spell, newGroup) {
-    this.addAttack(true, spell.names[this.world.difficulty], spell, newGroup);
+Enemy.prototype.addSpell = function (spell, newGroup, params) {
+    this.addAttack(true, spell.names[this.world.difficulty], spell, newGroup, params);
 };
 
 Enemy.prototype.nextAttack = function () {
@@ -279,7 +283,7 @@ Enemy.prototype.nextAttack = function () {
         } else
             this.world.vp.showMessage(["Bonus failed"], 1.5);
         if (this.attacks[this.attackCurrent].finish) {
-            this.attacks[this.attackCurrent].finish(this);
+            this.attacks[this.attackCurrent].finish.apply(this, this.attacks[this.attackCurrent].apply);
         }
     }
 
@@ -305,7 +309,7 @@ Enemy.prototype.nextAttack = function () {
         this.world.player.spellCompleteTerms = true;
         this.initHealth(this.attacks[this.attackCurrent].health);
         if (this.attacks[this.attackCurrent].init) {
-            this.attacks[this.attackCurrent].init(this);
+            this.attacks[this.attackCurrent].init.apply(this, this.attacks[this.attackCurrent].params);
         }
     }
 
