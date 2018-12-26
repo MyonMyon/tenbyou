@@ -423,6 +423,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
     var time = this.world.stageTime();
     //Show message:
     if (time < (this.messageStart + this.messageTime) && time > this.messageStart) {
+        this.context.textAlign = "center";
         this.context.globalAlpha = Math.min(Math.min((time - this.messageStart) * 3, (this.messageStart + this.messageTime - time) * 1.5), 1);
         for (var i in this.messageTextArray) {
             this.setFont(this.messageStyleArray[i % this.messageStyleArray.length]);
