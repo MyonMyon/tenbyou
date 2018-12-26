@@ -91,7 +91,7 @@ var STAGE = [{
                 }
             }, {
                 substage: 0,
-                second: 4,
+                second: 60,
                 boss: {
                     char: "kedama",
                     attacks: [
