@@ -45,7 +45,7 @@ EventChain.prototype.tick = function () {
             } else {
                 this.events[i].done = true;
             }
-            this.events[i].fire(this.parent, this.events[i].iteration++);
+            this.events[i].fire.apply(this.parent, [this.events[i].iteration++]);
         }
     }
 };

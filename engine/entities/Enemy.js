@@ -299,8 +299,8 @@ Enemy.prototype.nextAttack = function () {
         this.behaviorFinal();
         this.world.boss = null;
         if (this.world.bossLast) {
-            this.world.eventChain.addEventNow(function (world) {
-                world.stageBonus();
+            this.world.eventChain.addEventNow(function () {
+                this.stageBonus();
             }, 2);
         } else {
             this.world.nextSubstage();
@@ -326,11 +326,11 @@ Enemy.prototype.setBossData = function (bossName, isLast) {
     this.width = CHAR[bossName].width;
     this.sprite.set(bossName);
 
-    this.eventChain.addEvent(function (b) {
-        b.headToPointSmoothly(0, -b.world.height / 4, 3);
+    this.eventChain.addEvent(function () {
+        this.headToPointSmoothly(0, -this.world.height / 4, 3);
     }, 0);
-    this.eventChain.addEvent(function (b) {
-        b.nextAttack();
+    this.eventChain.addEvent(function () {
+        this.nextAttack();
     }, 3);
 
     this.world.setBoss(this, CHAR[bossName].name, isLast);
