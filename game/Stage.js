@@ -9,9 +9,7 @@ var STAGE = [{
         events: [{
                 substage: 0,
                 second: 4,
-                func: function () {
-                    this.vp.showItemLine();
-                }
+                itemLine: true
             }, {
                 substage: 0,
                 second: 4,

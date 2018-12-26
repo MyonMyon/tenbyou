@@ -114,6 +114,11 @@ World.prototype.initEventChain = function () {
             if (e.boss) {
                 e.func = this.processBoss(e.boss);
             }
+            if (e.itemLine) {
+                e.func = function() {
+                    this.vp.showItemLine();
+                };
+            }
             this.eventChain.addEvent(e.func, e.second, e.repeatInterval, e.repeatCount);
         }
     }
