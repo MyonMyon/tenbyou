@@ -26,7 +26,7 @@ function World(vp) {
 
     this.difficulty = 0;
     this.stages = [];
-    this.stages[0] = {title: "", desc: "", titleAppears: 0, background: null}; //used for the spell spractice
+    this.stages[0] = {title: "", desc: "", background: null}; //used for the spell spractice
     this.stage = 0;
     this.substage = 0;
     this.substageStart = 0;
@@ -66,7 +66,6 @@ World.prototype.startStage = function (stage, difficulty) {
             this.stages.push({
                 title: STAGE[i].title,
                 desc: STAGE[i].description || "",
-                titleAppears: Math.floor(STAGE[i].appearanceSecond * this.ticksPS),
                 background: STAGE[i].background
             });
         }
@@ -83,7 +82,6 @@ World.prototype.startExtra = function (difficulty) {
                 extra: STAGE[i].extra,
                 title: STAGE[i].title,
                 desc: STAGE[i].description || "",
-                titleAppears: Math.floor(STAGE[i].appearanceSecond * this.ticksPS),
                 background: STAGE[i].background
             };
             break;
@@ -117,6 +115,17 @@ World.prototype.initEventChain = function () {
             if (e.itemLine) {
                 e.func = function () {
                     this.vp.showItemLine();
+                };
+            }
+            if (e.title) {
+                e.func = function () {
+                    var t;
+                    if (this.stages[this.stage].extra) {
+                        t = DIFF[this.difficulty].name + " Stage";
+                    } else {
+                        t = "Stage " + this.stage;
+                    }
+                    this.vp.showMessage([t + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 4, [FONT.title, FONT.subtitle]);
                 };
             }
             this.eventChain.addEvent(e.func, e.second, e.repeatInterval, e.repeatCount);
@@ -269,15 +278,6 @@ World.prototype.tick = function () {
         }
         for (var i in this.entities) {
             this.entities[i].flush(); //refreshing fixed coords
-        }
-        if (this.time === this.stages[this.stage].titleAppears) {
-            var t;
-            if (this.stages[this.stage].extra) {
-                t = DIFF[this.difficulty].name + " Stage";
-            } else {
-                t = "Stage " + this.stage;
-            }
-            this.vp.showMessage([t + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 4, [FONT.title, FONT.subtitle]);
         }
         this.eventChain.tick();
     }

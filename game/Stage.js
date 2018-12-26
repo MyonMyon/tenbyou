@@ -1,12 +1,15 @@
 var STAGE = [{
         title: "Wonderland Inbound",
         description: "Low entropy and large quantity of microstates.",
-        appearanceSecond: 0.2,
         background: {
             file: "bg/stage/1.jpg",
             speed: 300
         },
         events: [{
+                substage: 0,
+                second: 0.2,
+                title: true
+            }, {
                 substage: 0,
                 second: 4,
                 itemLine: true
@@ -88,7 +91,7 @@ var STAGE = [{
                 }
             }, {
                 substage: 0,
-                second: 60,
+                second: 4,
                 boss: {
                     char: "kedama",
                     attacks: [
@@ -204,12 +207,15 @@ var STAGE = [{
     }, {
         title: "Misty Lake",
         description: "Refreshing, cool and good.",
-        appearanceSecond: 4,
         background: {
             file: "bg/stage/2.jpg",
             speed: 60
         },
         events: [{
+                substage: 0,
+                second: 4,
+                title: true
+            }, {
                 substage: 0,
                 second: 4,
                 repeatInterval: 1,
@@ -355,12 +361,15 @@ var STAGE = [{
     }, {
         title: "TEST",
         description: "There is nothing here. Be patient.",
-        appearanceSecond: 4,
         background: {
             file: "bg/stage/2.jpg",
             speed: 60
         },
         events: [{
+                substage: 0,
+                second: 4,
+                title: true
+            }, {
                 substage: 0,
                 second: 4,
                 repeatInterval: 1,
@@ -432,12 +441,15 @@ var STAGE = [{
         extra: 4,
         title: "Test",
         description: "You're not gonna see something here.",
-        appearanceSecond: 4,
         background: {
             file: "bg/stage/2.jpg",
             speed: 2
         },
         events: [{
+                substage: 0,
+                second: 0.2,
+                title: true
+            }, {
                 substage: 1,
                 second: 4,
                 boss: {
