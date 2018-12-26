@@ -110,10 +110,10 @@ World.prototype.initEventChain = function () {
     this.eventChain.clear();
     for (var i in STAGE[this.stage - 1].events) {
         var e = STAGE[this.stage - 1].events[i];
-        if (e.boss) {
-            e.func = this.processBoss(e.boss);
-        }
         if (e.substage === this.substage) {
+            if (e.boss) {
+                e.func = this.processBoss(e.boss);
+            }
             this.eventChain.addEvent(e.func, e.second, e.repeatInterval, e.repeatCount);
         }
     }
