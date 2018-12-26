@@ -33,7 +33,7 @@ var ENGINE_CODE = [
 
 var GAME_CODE = [
     "Char",
-    "Spell",
+    "Attack",
     "Stage",
     "Sprite"
 ];

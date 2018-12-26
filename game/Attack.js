@@ -15,10 +15,10 @@ var SPELL = {
         decrTime: 99,
         bonus: 99999,
         bonusBound: 5000,
-        init: function (entity) {
+        init: function () {
             var w = 61;
             var h = 76;
-            entity.eventChain.addEvent(function (e, iter) {
+            this.eventChain.addEvent(function (e, iter) {
                 for (var i = iter * 5; i < (iter + 1) * 5; i++) {
                     var x = (i % w) * e.world.width / (w - 1) - e.world.width / 2;
                     var y = Math.floor(i / w) * e.world.height / (h - 1) - e.world.height / 2;
@@ -31,8 +31,8 @@ var SPELL = {
                 }
             }, 0.0166, 0.0166, h * w);
         },
-        func: function (entity) {
-            entity.y1 = 0.02;
+        func: function () {
+            this.y1 = 0.02;
         }
     },
     kedamaAlpha: {
@@ -49,8 +49,8 @@ var SPELL = {
         decrTime: 5,
         bonus: 30000,
         bonusBound: 5000,
-        init: function (entity) {
-            entity.eventChain.addEvent(function (e, iter) {
+        init: function () {
+            this.eventChain.addEvent(function (e, iter) {
                 var c = 8;
                 var d = e.relTime() * 1.5;
                 var bs = e.arcProjectiles(0, null, c, e.width, 1, 0, 2.5, iter % 2 ? "static.blue" : "static.red");
@@ -77,8 +77,8 @@ var SPELL = {
         decrTime: 5,
         bonus: 30000,
         bonusBound: 5000,
-        init: function (entity) {
-            entity.eventChain.addEvent(function (e, iter) {
+        init: function () {
+            this.eventChain.addEvent(function (e, iter) {
                 var c = 3 + e.world.difficulty * 2;
                 var r = e.world.difficulty * 5;
                 var bs = e.arcProjectiles(Util.toAngle("s"), null, c, e.width + r, 25, 0, 2.5, iter % 2 ? "static.blue" : "static.red");
@@ -108,8 +108,8 @@ var SPELL = {
         decrTime: 16,
         bonus: 40000,
         bonusBound: 5000,
-        init: function (entity) {
-            entity.eventChain.addEvent(
+        init: function () {
+            this.eventChain.addEvent(
                     function (s, iter) {
                         if (iter % 200 < 80) {
                             var bs = s.arcProjectiles(0, null, 4, s.width * 4, 20, -9, 4, "seal.red");
@@ -131,7 +131,7 @@ var SPELL = {
                                     bs[i].priority = 1;
                                 }
                                 bs[i].reflects = 5;
-                                bs[i].onReflect = function(type) {
+                                bs[i].onReflect = function (type) {
                                     this[type + "2"] = 0;
                                 };
                             }
@@ -154,14 +154,14 @@ var SPELL = {
         decrTime: 10,
         bonus: 40000,
         bonusBound: 5000,
-        init: function (entity) {
-            var count = entity.world.difficulty + 2;
-            entity.satellites = [];
+        init: function () {
+            var count = this.world.difficulty + 2;
+            this.satellites = [];
             for (var i = 0; i < count; ++i) {
-                var satellite = new Enemy(entity.world, entity.x, entity.y, 0, 0, 0, 0, 2, 160, "orbMinion");
+                var satellite = new Enemy(this.world, this.x, this.y, 0, 0, 0, 0, 2, 160, "orbMinion");
                 satellite.relAngle = Math.PI * 2 * i / count;
-                satellite.parent = entity;
-                satellite.headToPointSmoothly(entity.x + 20 * Math.cos(satellite.relAngle), entity.y + 20 * Math.sin(satellite.relAngle), 1);
+                satellite.parent = this;
+                satellite.headToPointSmoothly(this.x + 20 * Math.cos(satellite.relAngle), this.y + 20 * Math.sin(satellite.relAngle), 1);
                 satellite.eventChain.addEvent(function (s) {
                     s.behavior = function () {
                         this.relAngle += Math.PI / this.world.ticksPS / 2;
@@ -177,12 +177,12 @@ var SPELL = {
                         s.shootProjectile(s.relAngle, s.width, 25, 0, 4, "static.blue");
                     }
                 }, 1, 0.1, Infinity);
-                entity.satellites.push(satellite);
+                this.satellites.push(satellite);
             }
         },
-        finish: function (entity) {
-            for (var i in entity.satellites) {
-                entity.satellites[i].remove();
+        finish: function () {
+            for (var i in this.satellites) {
+                this.satellites[i].remove();
             }
         }
     },
@@ -204,9 +204,9 @@ var SPELL = {
         decrTime: 15,
         bonus: 30000,
         bonusBound: 5000,
-        init: function (entity) {
-            entity.headToPointSmoothly(0, -entity.world.height / 4, 0.5);
-            entity.eventChain.addEvent(function (e) {
+        init: function () {
+            this.headToPointSmoothly(0, -this.world.height / 4, 0.5);
+            this.eventChain.addEvent(function (e) {
                 e.x = 0;
                 e.x1 = 0;
                 var c = 2 + e.world.difficulty;
@@ -238,9 +238,9 @@ var SPELL = {
         decrTime: 20,
         bonus: 40000,
         bonusBound: 5000,
-        init: function (entity) {
-            entity.headToPointSmoothly(0, -entity.world.height / 4, 0.5);
-            entity.eventChain.addEvent(function (e, iter) {
+        init: function () {
+            this.headToPointSmoothly(0, -this.world.height / 4, 0.5);
+            this.eventChain.addEvent(function (e, iter) {
                 e.x = 0;
                 e.x1 = 0;
                 var r = 2;
@@ -248,7 +248,7 @@ var SPELL = {
                 e.angle = e.relTime() * 2 - Math.PI / 2;
                 e.shootProjectile(e.angle, r, s, 0, 4, iter % 2 ? "static.blue" : "static.red");
             }, 0.7, 0.033, Infinity);
-            entity.eventChain.addEvent(function (e, iter) {
+            this.eventChain.addEvent(function (e, iter) {
                 if (iter % 25 > 20) {
                     if (iter % 50 > 25) {
                         var s = 90;
@@ -280,8 +280,8 @@ var SPELL = {
         decrTime: 10,
         bonus: 600000,
         bonusBound: 5000,
-        init: function (entity) {
-            entity.eventChain.addEvent(function (e) {
+        init: function () {
+            this.eventChain.addEvent(function (e) {
                 var nuclearBall = new Projectile(e.world,
                         (Math.random() - 0.5) * e.world.width,
                         -e.world.height / 2 - 5,
@@ -292,8 +292,56 @@ var SPELL = {
                     else
                         this.width = 20 - Math.pow(this.relTime(), 2) * 5;
                 };
-            }, 0, 0.4 / (entity.world.difficulty + 1), Infinity);
+            }, 0, 0.4 / (this.world.difficulty + 1), Infinity);
         }
     }
 };
 
+var NON_SPELL = {
+    kedamaSpam: {
+        init: function (power) {
+            this.eventChain.addEvent(function (e, iter) {
+                var c = (power ? 8 : 6) * (e.world.difficulty + 1);
+                if (iter % 16 >= 9) {
+                    return;
+                }
+                var v = iter % 32 < 16;
+                var d = (v ? e.relTime() : -e.relTime()) * 1.5;
+                e.arcProjectiles(d, null, c, e.width, 50, 0, 2.5, d > 0 ? "static.red" : "static.blue");
+            }, 0.3, 0.1, Infinity);
+        },
+        health: 800,
+        time: 15
+    },
+    orbSpam: {
+        init: function () {
+            this.eventChain.addEvent(function (e) {
+                var c = 2 * (e.attackGroupCurrent + 3) * (e.world.difficulty + 1);
+                var d = e.relTime() * 3;
+                e.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
+            }, 0, 0.133, Infinity);
+        },
+        behavior: function () {
+            //~wiggling left and right~
+            this.x1 = Math.cos(this.relTime() * 1.5) * 30;
+        },
+        health: 300,
+        time: 15
+    },
+    //TODO: remove by allowing dynamic health/time:
+    orbSpamCopyPasta: {
+        init: function () {
+            this.eventChain.addEvent(function (e) {
+                var c = 2 * (e.attackGroupCurrent + 3) * (e.world.difficulty + 1);
+                var d = e.relTime() * 3;
+                e.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
+            }, 0, 0.133, Infinity);
+        },
+        behavior: function () {
+            //~wiggling left and right~
+            this.x1 = Math.cos(this.relTime() * 1.5) * 30;
+        },
+        health: 500,
+        time: 25
+    }
+};
