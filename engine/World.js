@@ -27,7 +27,7 @@ function World(vp) {
 
     this.difficulty = 0;
     this.stages = [];
-    this.stages[0] = {title: "", desc: "", titleAppears: 0, background: null}; //used for the spell spractice
+    this.stages[0] = {title: "", desc: "", background: null}; //used for the spell spractice
     this.stage = 0;
     this.substage = 0;
     this.substageStart = 0;
@@ -70,7 +70,6 @@ World.prototype.startStage = function (stage, difficulty) {
             this.stages.push({
                 title: STAGE[i].title,
                 desc: STAGE[i].description || "",
-                titleAppears: Math.floor(STAGE[i].appearanceSecond * this.ticksPS),
                 background: STAGE[i].background
             });
         }
@@ -87,7 +86,6 @@ World.prototype.startExtra = function (difficulty) {
                 extra: STAGE[i].extra,
                 title: STAGE[i].title,
                 desc: STAGE[i].description || "",
-                titleAppears: Math.floor(STAGE[i].appearanceSecond * this.ticksPS),
                 background: STAGE[i].background
             };
             break;
@@ -106,7 +104,7 @@ World.prototype.startSpellPractice = function (difficulty, spell) {
     this.difficulty = difficulty;
     this.spell = spell;
     var boss = new Enemy(this);
-    boss.addSpell(spell);
+    boss.addAttack(true, spell.names[difficulty], spell);
     boss.setBossData(spell.boss, true);
 };
 
@@ -115,17 +113,48 @@ World.prototype.initEventChain = function () {
     for (var i in STAGE[this.stage - 1].events) {
         var e = STAGE[this.stage - 1].events[i];
         if (e.substage === this.substage && (!e.player || e.player === this.player.name)) {
-            var func = e.func;
-            if (e.dialogue) {
-                var self = this;
-                var dialogue = e.dialogue;
-                func = function() {
-                    new Dialogue(self, dialogue);
+            if (e.boss) {
+                e.func = this.processBoss(e.boss);
+            }
+            if (e.itemLine) {
+                e.func = function () {
+                    this.vp.showItemLine();
                 };
             }
-            this.eventChain.addEvent(func, e.second, e.repeatInterval, e.repeatCount);
+            if (e.title) {
+                e.func = function () {
+                    var t;
+                    if (this.stages[this.stage].extra) {
+                        t = DIFF[this.difficulty].name + " Stage";
+                    } else {
+                        t = "Stage " + this.stage;
+                    }
+                    this.vp.showMessage([t + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 4, [FONT.title, FONT.subtitle]);
+                };
+            }
+            this.eventChain.addEvent(e.func, e.second, e.repeatInterval, e.repeatCount);
         }
     }
+};
+
+World.prototype.processBoss = function (data) {
+    return function () {
+        var boss = new Enemy(this);
+        var newGroup = false;
+        for (var i in data.attacks) {
+            var a = data.attacks[i][0];
+            if (!a) {
+                newGroup = true;
+                continue;
+            }
+            if (!a.names || a.names[this.difficulty]) {
+                var spell = !!a.names;
+                boss.addAttack(spell, spell ? a.names[this.difficulty] : null, a, newGroup, data.attacks[i].slice(1));
+            }
+            newGroup = false;
+        }
+        boss.setBossData(data.char, data.last);
+    };
 };
 
 World.prototype.destroy = function () {
@@ -257,15 +286,6 @@ World.prototype.tick = function () {
         }
         for (var i in this.entities) {
             this.entities[i].flush(); //refreshing fixed coords
-        }
-        if (this.time === this.stages[this.stage].titleAppears) {
-            var t;
-            if (this.stages[this.stage].extra) {
-                t = DIFF[this.difficulty].name + " Stage";
-            } else {
-                t = "Stage " + this.stage;
-            }
-            this.vp.showMessage([t + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 4, [FONT.title, FONT.subtitle]);
         }
         this.eventChain.tick();
     }

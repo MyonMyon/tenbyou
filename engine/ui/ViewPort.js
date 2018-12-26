@@ -423,6 +423,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
     var time = this.world.stageTime();
     //Show message:
     if (time < (this.messageStart + this.messageTime) && time > this.messageStart) {
+        this.context.textAlign = "center";
         this.context.globalAlpha = Math.min(Math.min((time - this.messageStart) * 3, (this.messageStart + this.messageTime - time) * 1.5), 1);
         for (var i in this.messageTextArray) {
             this.setFont(this.messageStyleArray[i % this.messageStyleArray.length]);
@@ -431,6 +432,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
     }
     if (time < (this.itemLineStart + this.itemLineTime) && time > this.itemLineStart) {
         this.context.textBaseline = "middle";
+        this.context.textAlign = "center";
         var boundaryItemLine = this.toScreen(0, this.world.maxBonusY);
         this.context.globalAlpha = Math.min(1, (time - this.itemLineStart) / 0.5, (this.itemLineStart + this.itemLineTime - time) / 0.5);
         this.context.fillStyle = FONT.itemLine.strokeColor;
