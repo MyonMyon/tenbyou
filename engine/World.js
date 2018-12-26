@@ -115,7 +115,7 @@ World.prototype.initEventChain = function () {
                 e.func = this.processBoss(e.boss);
             }
             if (e.itemLine) {
-                e.func = function() {
+                e.func = function () {
                     this.vp.showItemLine();
                 };
             }
