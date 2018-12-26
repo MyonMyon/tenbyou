@@ -86,7 +86,7 @@ function init() {
     };
     var loadGame = function () {
         getIcon(ICON);
-        loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, loadSprites);
+        loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, loadSprites, true);
     };
     var loadSprites = function () {
         getCutIns();
@@ -114,11 +114,14 @@ function init() {
  * @param {String} tag Tag to display in tab title during loading.
  * @param {Object} loadingTextHandler Object with loadingText property to be set from here.
  * @param {Function} onFinish Function to execute after every script is loaded.
+ * @param {Boolean} sync Load every element in the given order.
+ * @param {Number} resAdd Number added to loaded and total count of resources.
  */
-function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextHandler, onFinish) {
+function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextHandler, onFinish, sync, resAdd) {
+    resAdd = resAdd || 0;
     document.getElementsByTagName("title")[0].innerHTML = "Loading";
-    var totalRes = nameArray.length;
-    var loadedRes = 0;
+    var totalRes = nameArray.length + resAdd;
+    var loadedRes = resAdd;
     var fail = false;
     mainLoop: for (var i in nameArray) {
         var s = document.createElement(elementTag);
@@ -144,6 +147,10 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
             }
             if (loadedRes === totalRes) {
                 onFinish();
+                return;
+            }
+            if (sync) {
+                loadResources(nameArray.slice(1), elementTag, prefix, postfix, tag, loadingTextHandler, onFinish, sync, resAdd + 1);
             }
         };
         s.onerror = function () {
@@ -153,6 +160,9 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
             }
         };
         document.head.appendChild(s);
+        if (sync) {
+            break;
+        }
     }
 }
 
