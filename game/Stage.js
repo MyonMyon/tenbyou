@@ -91,8 +91,12 @@ var STAGE = [{
             }, {
                 substage: 0,
                 second: 60,
-                func: function () {
-                    eventKedamaMidboss(this, false);
+                boss: {
+                    char: "kedama",
+                    attacks: [
+                        [NON_SPELL.kedamaSpam, false],
+                        [SPELL.kedamaBeta]
+                    ]
                 }
             }, {
                 substage: 1,
@@ -188,8 +192,15 @@ var STAGE = [{
             }, {
                 substage: 1,
                 second: 86,
-                func: function () {
-                    eventOrb(this);
+                boss: {
+                    char: "orb",
+                    attacks: [
+                        [NON_SPELL.orbSpam],
+                        [SPELL.orbAlpha],
+                        [NON_SPELL.orbSpamCopyPasta],
+                        [SPELL.orbBeta]
+                    ],
+                    last: true
                 }
             }]
     }, {
@@ -301,8 +312,12 @@ var STAGE = [{
             }, {
                 substage: 0,
                 second: 55,
-                func: function () {
-                    eventKedamaMidboss(this, true);
+                boss: {
+                    char: "kedama",
+                    attacks: [
+                        [NON_SPELL.kedamaSpam, true],
+                        [SPELL.kedamaAlpha]
+                    ]
                 }
             }, {
                 substage: 1,
@@ -331,8 +346,12 @@ var STAGE = [{
             }, {
                 substage: 1,
                 second: 18,
-                func: function () {
-                    eventOkuu(this);
+                boss: {
+                    char: "okuu",
+                    attacks: [
+                        [SPELL.okuuAlpha]
+                    ],
+                    last: true
                 }
             }]
     }, {
@@ -402,6 +421,14 @@ var STAGE = [{
                         }
                     }, 1.5, 0.3, 3);
                 }
+            }, {
+                substage: 0,
+                second: 24,
+                boss: {
+                    char: "lily",
+                    attacks: [],
+                    last: true
+                }
             }]
     }, {
         extra: 4,
@@ -415,41 +442,12 @@ var STAGE = [{
         events: [{
                 substage: 1,
                 second: 4,
-                func: function () {
-                    eventOkuu(this.world);
+                boss: {
+                    char: "okuu",
+                    attacks: [
+                        [SPELL.okuuAlpha]
+                    ],
+                    last: true
                 }
             }]
     }];
-
-eventKedamaMidboss = function (world, power) {
-    var kedama = new Enemy(world);
-
-    kedama.addNonSpell(NON_SPELL.kedamaSpam, false, [power]);
-    if (world.difficulty > 0) {
-        if (power)
-            kedama.addSpell(SPELL.kedamaBeta);
-        else
-            kedama.addSpell(SPELL.kedamaAlpha);
-    }
-
-    kedama.setBossData("kedama", false);
-};
-
-eventOrb = function (world) {
-    var orb = new Enemy(world);
-
-    orb.addNonSpell(NON_SPELL.orbSpam);
-    orb.addSpell(SPELL.orbAlpha);
-    orb.addNonSpell(NON_SPELL.orbSpamCopyPasta);
-    orb.addSpell(SPELL.orbBeta);
-
-    orb.setBossData("orb", true);
-};
-
-eventOkuu = function (world) {
-    var okuu = new Enemy(world);
-
-    okuu.addSpell(SPELL.okuuAlpha);
-
-    okuu.setBossData("okuu", true);
-};

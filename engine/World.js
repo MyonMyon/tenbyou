@@ -102,7 +102,7 @@ World.prototype.startSpellPractice = function (difficulty, spell) {
     this.difficulty = difficulty;
     this.spell = spell;
     var boss = new Enemy(this);
-    boss.addSpell(spell);
+    boss.addAttack(true, spell.names[difficulty], spell);
     boss.setBossData(spell.boss, true);
 };
 
@@ -110,10 +110,33 @@ World.prototype.initEventChain = function () {
     this.eventChain.clear();
     for (var i in STAGE[this.stage - 1].events) {
         var e = STAGE[this.stage - 1].events[i];
+        if (e.boss) {
+            e.func = this.processBoss(e.boss);
+        }
         if (e.substage === this.substage) {
             this.eventChain.addEvent(e.func, e.second, e.repeatInterval, e.repeatCount);
         }
     }
+};
+
+World.prototype.processBoss = function (data) {
+    return function () {
+        var boss = new Enemy(this);
+        var newGroup = false;
+        for (var i in data.attacks) {
+            var a = data.attacks[i][0];
+            if (!a) {
+                newGroup = true;
+                continue;
+            }
+            if (!a.names || a.names[this.difficulty]) {
+                var spell = !!a.names;
+                boss.addAttack(spell, spell ? a.names[this.difficulty] : null, a, newGroup, data.attacks[i].slice(1));
+            }
+            newGroup = false;
+        }
+        boss.setBossData(data.char, data.last);
+    };
 };
 
 World.prototype.destroy = function () {

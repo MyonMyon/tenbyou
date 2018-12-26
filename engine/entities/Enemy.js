@@ -264,14 +264,6 @@ Enemy.prototype.addAttack = function (spell, title, data, newGroup, params) {
     this.attacks[n].params = params;
 };
 
-Enemy.prototype.addNonSpell = function (nonSpell, newGroup, params) {
-    this.addAttack(false, null, nonSpell, newGroup, params);
-};
-
-Enemy.prototype.addSpell = function (spell, newGroup, params) {
-    this.addAttack(true, spell.names[this.world.difficulty], spell, newGroup, params);
-};
-
 Enemy.prototype.nextAttack = function () {
     this.world.clearField(0);
     this.world.removeEnemies();
