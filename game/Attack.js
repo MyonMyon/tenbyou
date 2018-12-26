@@ -321,7 +321,7 @@ var NON_SPELL = {
                 this.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
             }, 0, 0.133, Infinity);
         },
-        behavior: function () {
+        func: function () {
             //~wiggling left and right~
             this.x1 = Math.cos(this.relTime() * 1.5) * 30;
         },
@@ -337,7 +337,7 @@ var NON_SPELL = {
                 this.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
             }, 0, 0.133, Infinity);
         },
-        behavior: function () {
+        func: function () {
             //~wiggling left and right~
             this.x1 = Math.cos(this.relTime() * 1.5) * 30;
         },
