@@ -431,6 +431,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
     }
     if (time < (this.itemLineStart + this.itemLineTime) && time > this.itemLineStart) {
         this.context.textBaseline = "middle";
+        this.context.textAlign = "center";
         var boundaryItemLine = this.toScreen(0, this.world.maxBonusY);
         this.context.globalAlpha = Math.min(1, (time - this.itemLineStart) / 0.5, (this.itemLineStart + this.itemLineTime - time) / 0.5);
         this.context.fillStyle = FONT.itemLine.strokeColor;
