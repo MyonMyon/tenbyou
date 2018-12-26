@@ -337,7 +337,7 @@ var STAGE = [{
                             3, 10, "eye");
                     eye.addDrops("power", 2);
                     eye.addDrops("point", 3);
-                    eye.eventChain.addEvent(function ( iter) {
+                    eye.eventChain.addEvent(function (iter) {
                         var a = this.shootProjectileAt(this.world.player, 5, 50, 0, 0);
                         var count = 4 + this.world.difficulty * 2;
                         var b = a.arcProjectiles(Util.toAngle("s"), null, count, 0, 0, 0, 2, ["static.yellow", "static.red"], true);
