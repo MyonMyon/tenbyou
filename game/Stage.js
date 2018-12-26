@@ -290,7 +290,7 @@ var STAGE = [{
                             bullet.eventChain.addEvent(function (iter) {
                                 if (iter < 2) {
                                     this.headToEntity(this.world.player, 0, 60); //stop and refresh directions
-                                    this.sprite.set((b.sprite.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
+                                    this.sprite.set((this.sprite.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
                                 } else if (iter === 2) {
                                     this.sprite.set("orbBlue");
                                 }
