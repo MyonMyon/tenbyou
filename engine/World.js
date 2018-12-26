@@ -182,8 +182,8 @@ World.prototype.stageBonus = function () {
         bonus = Math.floor(bonus / 10) * 10;
         this.player.score += bonus;
         this.vp.showMessage(["Stage Clear!", "Bonus: " + bonus], this.stageInterval);
-        this.eventChain.addEventNow(function (world) {
-            world.nextStage();
+        this.eventChain.addEventNow(function () {
+            this.nextStage();
         }, 2);
     } else {
         //Spell Practice Stop
