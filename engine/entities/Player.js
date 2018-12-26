@@ -256,7 +256,7 @@ Player.prototype.special = function () {
     }
 };
 
-Player.prototype.addPower = function (power) {
+Player.prototype.addPower = function (power, silent) {
     if (power > 0 && this.power >= this.powerMax) {
         return false;
     }
@@ -274,6 +274,9 @@ Player.prototype.addPower = function (power) {
     }
     if (Math.floor(powerOld) !== Math.floor(this.power)) {
         this.onPowerChange(Math.floor(this.power));
+        if (!silent && tthis.power > powerOld) {
+            Sound.play(SFX.playerPower);
+        }
     }
     return true;
 };
@@ -300,7 +303,12 @@ Player.prototype.addBombs = function (bombs, parts) {
 };
 
 Player.prototype.addLives = function (lives, parts) {
-    return this.addItems("lives", lives, "lifeParts", parts);
+    var old = this.lives;
+    var succ = this.addItems("lives", lives, "lifeParts", parts);
+    if (this.lives > old) {
+        Sound.play(SFX.playerExtend);
+    }
+    return succ;
 };
 
 Player.prototype.onShoot = function () {

@@ -65,6 +65,12 @@ var SFX = {
     itemCollect: {
         file: "item_collect.wav"
     },
+    playerPower: {
+        file: "player_power.wav"
+    },
+    playerExtend: {
+        file: "player_extend.wav"
+    },
     playerShot: {
         noSeek: true,
         file: "player_shot.wav"

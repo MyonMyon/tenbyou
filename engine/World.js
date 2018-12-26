@@ -100,7 +100,7 @@ World.prototype.startExtra = function (difficulty) {
 World.prototype.startSpellPractice = function (difficulty, spell) {
     this.eventChain.clear();
     this.stage = 0;
-    this.player.addPower(this.player.powerMax);
+    this.player.addPower(this.player.powerMax, true);
     this.player.lives = 0;
     this.player.bombs = 0;
     this.difficulty = difficulty;
