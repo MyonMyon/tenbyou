@@ -141,6 +141,11 @@ World.prototype.processBoss = function (data) {
     return function () {
         var boss = new Enemy(this);
         var newGroup = false;
+        if (data.startDialogue) {
+            boss.beforeAttack = function () {
+                new Dialogue(this.world, data.startDialogue);
+            };
+        }
         for (var i in data.attacks) {
             var a = data.attacks[i][0];
             if (!a) {

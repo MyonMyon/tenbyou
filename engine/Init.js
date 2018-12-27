@@ -189,13 +189,18 @@ function getCutIns() {
     for (var i in STAGE) {
         for (var j in STAGE[i].events) {
             var e = STAGE[i].events[j];
-            if (e.dialogue) {
-                for (var k in e.dialogue) {
-                    var s = e.dialogue[k].sprite;
-                    if (s && !CUT_IN[s]) {
-                        CUT_IN[s] = {
-                            file: CUT_IN_FOLDER_NAME + s
-                        };
+            if (e.boss) {
+                for (var k in e.boss) {
+                    if (k.indexOf("Dialogue") >= 0) {
+                        for (var l in e.boss[k]) {
+                            //deepest loop I ever created...
+                            var s = e.boss[k][l].sprite;
+                            if (s && !CUT_IN[s]) {
+                                CUT_IN[s] = {
+                                    file: CUT_IN_FOLDER_NAME + s
+                                };
+                            }
+                        }
                     }
                 }
             }

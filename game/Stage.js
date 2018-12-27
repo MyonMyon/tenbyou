@@ -92,33 +92,30 @@ var STAGE = [{
             }, {
                 substage: 0,
                 second: 60,
+                player: "nBarashou",
                 boss: {
                     char: "kedama",
                     attacks: [
                         [NON_SPELL.kedamaSpam, false],
                         [SPELL.kedamaBeta]
-                    ]
+                    ],
+                    startDialogue: [{
+                            position: "right",
+                            char: "kedama",
+                            sprite: "kedamalol.png",
+                            text: "oДo what is this?"
+                        }, {
+                            position: "left",
+                            char: "rBarashou",
+                            sprite: "rb/proto.png",
+                            text: "This one is definitely bigger than the others."
+                        }, {
+                            position: "left",
+                            char: "nBarashou",
+                            sprite: "nb/proto.png",
+                            text: "Easy target for us, then!"
+                        }]
                 }
-            }, {
-                player: "nBarashou",
-                substage: 0,
-                second: 63,
-                dialogue: [{
-                        position: "right",
-                        char: "kedama",
-                        sprite: "kedamalol.png",
-                        text: "oДo what is this?"
-                    }, {
-                        position: "left",
-                        char: "rBarashou",
-                        sprite: "rb/proto.png",
-                        text: "This one is definitely bigger than the others."
-                    }, {
-                        position: "left",
-                        char: "nBarashou",
-                        sprite: "nb/proto.png",
-                        text: "Easy target for us, then!"
-                    }]
             }, {
                 substage: 1,
                 second: 4,
@@ -213,6 +210,7 @@ var STAGE = [{
             }, {
                 substage: 1,
                 second: 86,
+                player: "nBarashou",
                 boss: {
                     char: "orb",
                     attacks: [
@@ -221,23 +219,19 @@ var STAGE = [{
                         [NON_SPELL.orbSpamCopyPasta],
                         [SPELL.orbBeta]
                     ],
+                    startDialogue: [{
+                            position: "left",
+                            char: "nBarashou",
+                            sprite: "nb/proto.png",
+                            text: "Another big version. Didn't you say this location has low levels of mundanity?"
+                        }, {
+                            position: "left",
+                            char: "rBarashou",
+                            sprite: "rb/proto.png",
+                            text: "..."
+                        }],
                     last: true
                 }
-            }, {
-                player: "nBarashou",
-                substage: 1,
-                second: 89,
-                dialogue: [{
-                        position: "left",
-                        char: "nBarashou",
-                        sprite: "nb/proto.png",
-                        text: "Another big version. Didn't you say this location has low levels of mundanity?"
-                    }, {
-                        position: "left",
-                        char: "rBarashou",
-                        sprite: "rb/proto.png",
-                        text: "..."
-                    }]
             }]
     }, {
         title: "Misty Lake",

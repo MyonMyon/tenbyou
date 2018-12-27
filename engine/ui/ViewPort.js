@@ -392,7 +392,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
                 boundaryStart.x + this.zoom * 2.5,
                 boundaryStart.y + this.zoom * 5);
 
-        if (this.world.boss.attackCurrent !== null) {
+        if (this.world.boss.attackCurrent !== null && !this.world.dialogue) {
             for (var i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
                 this.context.drawImage(SPRITE.gui.object, 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
                         boundaryStart.x + this.zoom * 2 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4,

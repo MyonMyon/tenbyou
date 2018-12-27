@@ -47,7 +47,7 @@ Enemy.prototype.draw = function (context) {
         context.closePath();
     }
 
-    if (this === this.world.boss && this.attackCurrent !== null && this.attackCurrent < this.attacks.length) {
+    if (this === this.world.boss && this.attackCurrent !== null && this.attackCurrent < this.attacks.length && !this.world.dialogue) {
         context.lineJoin = "square";
         context.lineCap = "butt";
 
@@ -201,6 +201,8 @@ Enemy.prototype.behaviorFinal = function (ignoreOnDestroy) {
     Sound.play(SFX.enemyDestroy);
 };
 
+Enemy.prototype.beforeAttack = function () {
+};
 Enemy.prototype.onDamage = function (damage) {
 };
 Enemy.prototype.onDestroy = function () {
@@ -297,6 +299,7 @@ Enemy.prototype.nextAttack = function () {
     var g = this.attackGroups[this.attackGroupCurrent];
     if (this.attackCurrent === null) {
         this.attackCurrent = 0;
+        this.beforeAttack();
     } else {
         ++this.attackCurrent;
     }
