@@ -42,6 +42,9 @@ ViewPort.prototype.changeZoom = function (delta) {
 };
 
 ViewPort.prototype.setZoom = function (zoom) {
+    if (zoom <= 0 || zoom > 20) {
+        return;
+    }
     var dpr = window.devicePixelRatio || 1;
     var bspr =
             this.context.webkitBackingStorePixelRatio ||
