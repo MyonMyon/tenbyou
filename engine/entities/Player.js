@@ -82,12 +82,10 @@ Player.prototype.stepBot = function () {
 };
 
 Player.prototype.step = function () {
-    var dir = (this.moveLeft ? "w" : "") +
-            (this.moveRight ? "e" : "") +
-            (this.moveUp ? "n" : "") +
-            (this.moveDown ? "s" : "");
+    var dir = (this.moveLeft !== this.moveRight ? this.moveRight ? "e" : "w" : "") +
+            (this.moveUp !== this.moveDown ? this.moveDown ? "s" : "n" : "");
     var a = Util.toMeanAngle(dir);
-    var r = 100 * (this.moveLeft || this.moveRight || this.moveDown || this.moveUp);
+    var r = 100 * (a !== null);
     if (this.focused) {
         r *= this.focusMx;
     }

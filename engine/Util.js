@@ -57,7 +57,7 @@ Util.toAngle = function (compass) {
  */
 Util.toMeanAngle = function (compass) {
     if (!compass) {
-        return 0;
+        return null;
     }
     var a = [];
     for (var i in compass) {
