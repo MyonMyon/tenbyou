@@ -50,13 +50,16 @@ var IMAGE_LOAD = [{
     }];
 
 function init() {
-    if (!localStorage.getItem("reloaded")) {
-        localStorage.setItem("reloaded", true);
-        location.reload(false);
-        return;
+    try {
+        if (!localStorage.getItem("reloaded")) {
+            localStorage.setItem("reloaded", true);
+            location.reload(false);
+            return;
+        }
+        localStorage.removeItem("reloaded");
+    } catch (ex) {
+        console.error(ex);
     }
-    localStorage.removeItem("reloaded");
-
     var vp;
     var loadPriority = function () {
         loadResources(PRIORITY_CODE, "script", "", ".js", "priority code", null, loadEngine);
