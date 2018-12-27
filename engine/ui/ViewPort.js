@@ -53,17 +53,15 @@ ViewPort.prototype.setZoom = function (zoom) {
 
     this.width = WIDTH * zoom;
     this.height = HEIGHT * zoom;
-    this.canvas.width = WIDTH * zoom * ratio;
-    this.canvas.height = HEIGHT * zoom * ratio;
-    this.canvas.style.width = WIDTH * zoom + "px";
-    this.canvas.style.height = HEIGHT * zoom + "px";
+    this.canvas.width = WIDTH * zoom;
+    this.canvas.height = HEIGHT * zoom;
+    this.canvas.style.width = WIDTH * zoom / ratio + "px";
+    this.canvas.style.height = HEIGHT * zoom / ratio + "px";
 
     this.zoom = zoom;
 
     this.centerX = this.width / 2;
     this.centerY = this.height / 2;
-
-    this.context.scale(ratio, ratio);
 };
 
 ViewPort.prototype.onResize = function () {
