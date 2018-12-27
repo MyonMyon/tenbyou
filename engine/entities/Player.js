@@ -274,7 +274,7 @@ Player.prototype.addPower = function (power, silent) {
     }
     if (Math.floor(powerOld) !== Math.floor(this.power)) {
         this.onPowerChange(Math.floor(this.power));
-        if (!silent && tthis.power > powerOld) {
+        if (!silent && this.power > powerOld) {
             Sound.play(SFX.playerPower);
         }
     }
