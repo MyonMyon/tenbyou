@@ -62,7 +62,7 @@ SpriteHandler.prototype.setPositionShift = function (x, y) {
 SpriteHandler.prototype.animate = function (frames, interval, frameReverse) {
     this.list = [];
     this.animationFrames = [];
-    this.animationLength = interval;
+    this.animationLength = 0;
 
     var i = 0;
     for (i = 0; i < frames * this.height; i += this.height) {
