@@ -226,7 +226,7 @@ var SPRITE = {
             x: 1,
             y: 0,
             frames: 3,
-            interval: 0.2,
+            interval: 0.08,
             hitbox: 0.5
         },
         landMine: {
