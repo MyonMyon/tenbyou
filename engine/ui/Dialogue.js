@@ -36,6 +36,9 @@ Dialogue.prototype.tick = function () {
     if (this.time < this.lines[this.index].time) {
         Sound.play(SFX.dialogueType);
     }
+    if (this.time > this.lines[this.index].time * 2) {
+        this.next();
+    }
 };
 
 Dialogue.prototype.updateCharStates = function () {
