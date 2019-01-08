@@ -344,6 +344,7 @@ var MENU_X = 12;
 var MENU_Y = 88;
 var MENU_H = 10;
 var MENU_H_COMPACT = 7;
+var MENU_OPTION_OFFSET_X = 80;
 var MENU_SELECTION_OFFSET_X = 4;
 var MENU_VER_Y = 178;
 var MENU_TEXT_ALIGN = "left";

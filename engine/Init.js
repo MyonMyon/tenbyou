@@ -13,6 +13,7 @@ var ENGINE_CODE = [
     "World",
     "EventChain",
     "Util",
+    "Settings",
     "SpriteHandler",
     "Sound",
     "ui/menu/Menu",

@@ -99,6 +99,16 @@ function MainMenu(vp) {
             submenu: spellMenu
         },
         {
+            id: "options",
+            title: "Options",
+            submenu: [{
+                    id: "sound_on",
+                    title: "Sound",
+                    control: "toggle",
+                    statePath: "sound.enabled"
+                }]
+        },
+        {
             id: "controls",
             title: "Controls",
             submenu: inputMenu
@@ -112,6 +122,7 @@ function MainMenu(vp) {
         }
     ];
     this.updateStates();
+    this.loadSettingsStates();
 }
 
 /**

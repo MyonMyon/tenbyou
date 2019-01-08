@@ -30,6 +30,30 @@ Menu.prototype.getFade = function () {
 };
 
 /**
+ * Recursively updates states of controls in Settings menu.
+ *
+ * @param {Array} tree Array of menu items. Main tree by default.
+ */
+Menu.prototype.loadSettingsStates = function (tree) {
+    if (!tree) {
+        tree = this.tree;
+    }
+    for (var i in tree) {
+        if (tree[i].statePath) {
+            var settingValue = Settings.get(tree[i].statePath);
+            if (tree[i].control === "radio") {
+                tree[i].state = settingValue === tree[i].stateVar;
+            } else {
+                tree[i].state = settingValue;
+            }
+        }
+        if (tree[i].submenu) {
+            this.loadSettingsStates(tree[i].submenu);
+        }
+    }
+};
+
+/**
  * @param {Number} parent Level offset, 1 for parent menu.
  * @return {Object} Current menu item object.
  */
@@ -130,21 +154,47 @@ Menu.prototype.action = function (code) {
             }
             break;
         case "nav_enter":
-            var item = m.submenu[this.currentIndex];
-            if (item.isEnabled && !item.isEnabled()) {
-                break;
-            }
-            if (item.submenu) {
-                this.location.push(item.id);
-                this.rowOffset = this.currentIndex = 0;
-            }
-            if (item.action) {
-                item.action(this.vp);
-            }
-            Sound.play(SFX.menuIn);
+            this.selectItem(m.submenu[this.currentIndex], true);
             break;
     }
     this.lastAction = new Date().getTime();
+};
+
+/**
+ * Selects menu item.
+ *
+ * @param {Object} menuItem Menu item object.
+ * @param {Boolean} manual Is this user-initiated call (play sound).
+ * @return {Menu} This menu object.
+ */
+Menu.prototype.selectItem = function (menuItem, manual) {
+    if (menuItem) {
+        if (menuItem.control) {
+            switch (menuItem.control) {
+                case "toggle":
+                    menuItem.state = !menuItem.state;
+                    break;
+                case "toggleThree":
+                    if (menuItem.state === false)
+                        menuItem.state = null;
+                    else
+                        menuItem.state = !menuItem.state;
+                    break;
+            }
+            this.applySettingsFor(menuItem);
+        }
+        if (menuItem.action) {
+            menuItem.action(this.vp);
+        }
+        if (manual) {
+            Sound.play(SFX.menuIn);
+        }
+        if (menuItem.submenu) {
+            this.location.push(menuItem.id);
+            this.rowOffset = this.currentIndex = 0;
+        }
+    }
+    return this;
 };
 
 /**
@@ -191,6 +241,20 @@ Menu.prototype.changeIndex = function (delta) {
 };
 
 /**
+ * Applies settings for certain menu item (control).
+ *
+ * @param {Object} menuItem Menu item object.
+ */
+Menu.prototype.applySettingsFor = function (menuItem) {
+    if (!menuItem.control) {
+        console.log("Trying to apply settings to non-control menu item!");
+        return;
+    }
+    var settingValue = menuItem.control === "radio" ? menuItem.stateVar : menuItem.state;
+    Settings.set(menuItem.statePath, settingValue);
+};
+
+/**
  * Menu interface draw function.
  */
 Menu.prototype.draw = function () {
@@ -212,6 +276,19 @@ Menu.prototype.draw = function () {
             this.vp.drawText(items[i].title,
                     this.vp.zoom * (MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X * Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay)),
                     this.vp.zoom * MENU_Y + height * row);
+            switch (items[i].control) {
+                case "toggle":
+                case "toggleThree":
+                    var stateName = items[i].state === null ? "Partial" : items[i].state ? "On" : "Off";
+                    if (items[i].stateNames) {
+                        stateName = items[i].stateNames[stateName] || stateName;
+                    }
+                    this.vp.drawText(
+                            stateName,
+                            this.vp.zoom * (MENU_X + MENU_OPTION_OFFSET_X),
+                            this.vp.zoom * MENU_Y + height * row);
+                    break;
+            }
         }
     }
 
