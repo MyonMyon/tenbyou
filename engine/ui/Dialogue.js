@@ -118,9 +118,12 @@ Dialogue.prototype.draw = function () {
     var text = this.lines[this.index].text.slice(0, Math.floor(this.time * this.lettersPS));
     vp.context.textAlign = "left";
     vp.setFont(FONT.dialogue);
-    vp.drawText(text,
-            (DIALOGUE_X + DIALOGUE_MX) * vp.zoom,
-            (DIALOGUE_Y + DIALOGUE_MY * 2 + FONT.character.size) * vp.zoom);
+    text = text.split("\n");
+    for (var i in text) {
+        vp.drawText(text[i],
+                (DIALOGUE_X + DIALOGUE_MX) * vp.zoom,
+                (DIALOGUE_Y + DIALOGUE_MY * (+i + 2) + FONT.character.size) * vp.zoom);
+    }
     if (this.lines[this.index].time < this.time) {
         vp.drawText("▶",
                 (DIALOGUE_X + DIALOGUE_W - DIALOGUE_MX * 2) * vp.zoom,
