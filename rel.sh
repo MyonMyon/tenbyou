@@ -11,7 +11,12 @@ if [ "$1" ]; then
 else
     VERSION_OLD=$(sed -n "s:.*ENGINE_VERSION = \"\(.*\)\";:\1:p" $INIT_FILE)
     IFS=\. read -a numbers <<<"$VERSION_OLD"
-    VERSION_NEW=${numbers[0]}.${numbers[1]}.$((${numbers[2]} + 1))
+    VM=$((${numbers[2]} + 1))
+    echo $VM;
+    if [ "$VM" -lt 10 ]; then
+        VM=0$VM;
+    fi
+    VERSION_NEW=${numbers[0]}.${numbers[1]}.$VM;
 fi
 
 sed -i.bak "s/\(\?v=\).*\(\"\)/\1$VERSION_NEW\2/g" $INDEX_FILE
