@@ -8,9 +8,8 @@ function Sound() {
 
 Sound.play = function(data) {
     if (Settings.get("sound.enabled")) {
-        if (!data.noSeek) {
-            data.object.pause();
-            data.object.currentTime = 0;
+        if (!data.noSeek && !data.object.ended) {
+            data.object = new Audio(data.object.src);
         }
         data.object.play();
     }
