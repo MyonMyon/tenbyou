@@ -166,6 +166,7 @@ World.prototype.destroy = function () {
     clearInterval(this.tickerId);
     this.vp.clearMessage();
     this.vp.world = null;
+    this.vp.mainMenu.fadeIn = new Date().getTime();
 };
 
 World.prototype.addTime = function () {

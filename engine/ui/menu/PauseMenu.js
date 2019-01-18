@@ -56,7 +56,6 @@ function PauseMenu(vp) {
             action: function (vp) {
                 vp.world.destroy();
                 vp.pauseMenu.resetLocation();
-                vp.mainMenu.fadeIn = new Date().getTime();
             }
         }
     ];
