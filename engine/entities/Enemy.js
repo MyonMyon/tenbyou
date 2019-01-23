@@ -17,6 +17,7 @@ function Enemy(world, x, y, x1, y1, x2, y2, width, health, spriteName) {
     this.attackGroupCurrent = 0;
     this.bonus = 0;
     this.lastAttackTimer = 0;
+    this.lastSplash = 0;
 }
 
 Enemy.prototype.draw = function (context) {
@@ -236,7 +237,10 @@ Enemy.prototype.hurt = function (damage, position) {
     } else {
         this.health = 0;
     }
-    this.world.splash(position || this, damage, this.width * 2, this.width * 0.07);
+    if (this.relTime() - this.lastSplash > 0.1) {
+        this.world.splash(position || this, damage, this.width * 2, this.width * 0.07);
+        this.lastSplash = this.relTime();
+    }
     this.world.player.score += Math.round(healthOld - this.health) * 10;
 
     this.onDamage(damage);
