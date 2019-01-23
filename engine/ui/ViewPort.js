@@ -166,7 +166,7 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
             }
             var wi = this.context.measureText(t[i]).width;
             w += wi;
-            if (t[i] === "\n" || w > maxWidth) {
+            if (t[i].match(/\n/) || w > maxWidth) {
                 if (t[i].match(/\s+/)) {
                     t[i] = t[i].replace(/\s/g, "\u200b");
                     wi = 0;
