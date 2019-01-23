@@ -1,5 +1,3 @@
-var DEV_MODE = false;
-
 var ZOOM = 4;
 var WIDTH = 256;
 var HEIGHT = 192;

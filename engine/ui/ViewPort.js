@@ -15,8 +15,6 @@ function ViewPort() {
     this.fps = 0;
     this.prevMS = 0;
 
-    this.inDev = DEV_MODE;
-
     this.draw();
 }
 
@@ -72,6 +70,8 @@ ViewPort.prototype.onResize = function () {
 };
 
 ViewPort.prototype.onLoad = function () {
+    this.inDev = Settings.get("dev.mode");
+
     this.loaded = true;
 
     this.input = new Input(this);
