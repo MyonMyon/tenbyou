@@ -223,7 +223,7 @@ var STAGE = [{
                             position: "left",
                             char: "nBarashou",
                             sprite: "nb/proto.png",
-                            text: "Another big version. Didn't you say this location\nhas low levels of mundanity?"
+                            text: "Another big version. Didn't you say this location has low levels of mundanity?"
                         }, {
                             position: "left",
                             char: "rBarashou",

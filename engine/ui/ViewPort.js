@@ -115,7 +115,7 @@ ViewPort.prototype.takeScreenShot = function () {
 
 ViewPort.prototype.setFont = function (data, options) {
     var attr = ["font", "size", "weight", "style", "color", "strokeWidth", "strokeColor"];
-    var font = {
+    this.fontData = {
         font: "sans-serif",
         size: 5,
         color: "blue",
@@ -124,7 +124,7 @@ ViewPort.prototype.setFont = function (data, options) {
     };
     for (var i in attr) {
         if (data[attr[i]]) {
-            font[attr[i]] = data[attr[i]];
+            this.fontData[attr[i]] = data[attr[i]];
         }
     }
     if (options) {
@@ -132,50 +132,87 @@ ViewPort.prototype.setFont = function (data, options) {
             if (options[i] && data[i]) {
                 for (var j in attr) {
                     if (data[i][attr[j]]) {
-                        font[attr[j]] = data[i][attr[j]];
+                        this.fontData[attr[j]] = data[i][attr[j]];
                     }
                 }
             }
         }
     }
-    font.size *= this.zoom;
-    font.strokeWidth *= this.zoom;
-    this.context.font = (font.weight ? font.weight + " " : "") + (font.style ? font.style + " " : "") + font.size + "px " + font.font;
-    if (typeof font.color === "object") {
-        this.gradientBuffer = font.color;
-        this.context.fillStyle = font.color[0];
+    this.fontData.size *= this.zoom;
+    this.fontData.strokeWidth *= this.zoom;
+    this.context.font = (this.fontData.weight ? this.fontData.weight + " " : "") + (this.fontData.style ? this.fontData.style + " " : "") + this.fontData.size + "px " + this.fontData.font;
+    if (typeof this.fontData.color === "object") {
+        this.gradientBuffer = this.fontData.color;
+        this.context.fillStyle = this.fontData.color[0];
     } else {
         this.gradientBuffer = null;
-        this.context.fillStyle = font.color;
+        this.context.fillStyle = this.fontData.color;
     }
-    this.context.strokeStyle = font.strokeColor;
-    this.context.lineWidth = font.strokeWidth;
+    this.context.strokeStyle = this.fontData.strokeColor;
+    this.context.lineWidth = this.fontData.strokeWidth;
     this.context.lineJoin = "bevel";
 };
 
-ViewPort.prototype.drawText = function (text, x, y) {
-    if (this.context.lineWidth) {
-        this.context.strokeText(text, x, y);
-    }
-    if (false && this.gradientBuffer) {
-        var re = /(^|\s)(\d+)px/i;
-        var h = +this.context.font.match(re)[2];
-        var t = this.context.textBaseline;
-        var d = 0.5;
-        if (["top", "hanging"].indexOf(t) >= 0) {
-            d = 1;
-        } else if (["alphabetic", "ideographic", "bottom"].indexOf(t) >= 0) {
-            d = 0;
+ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
+    text += "";
+    var textArray = text.split("\n");
+    if (maxWidth) {
+        var t = text.split(/([\s\n]+)/);
+        textArray = [""];
+        var w = 0;
+        for (var i in t) {
+            if (w === 0) {
+                t[i] = t[i].replace(/\s/g, "\u200b");
+            }
+            var wi = this.context.measureText(t[i]).width;
+            w += wi;
+            if (t[i] === "\n" || w > maxWidth) {
+                if (t[i].match(/\s+/)) {
+                    t[i] = t[i].replace(/\s/g, "\u200b");
+                    wi = 0;
+                }
+                w = wi;
+                textArray.push(t[i]);
+            } else {
+                textArray[textArray.length - 1] += t[i];
+            }
         }
-        var y1 = y + h * (d - 1);
-        var y2 = y + h * d;
-
-        var grd = this.context.createLinearGradient(0, y1, 0, y2);
-        grd.addColorStop(0, this.gradientBuffer[0]);
-        grd.addColorStop(1, this.gradientBuffer[1]);
-        this.context.fillStyle = grd;
     }
-    this.context.fillText(text, x, y);
+    if (maxChars !== null && maxChars !== undefined) {
+        var c = 0;
+        for (var i in textArray) {
+            c += textArray[i].length;
+            if (c > maxChars) {
+                textArray[i] = textArray[i].slice(0, maxChars - c);
+                textArray = textArray.slice(0, +i + 1);
+                break;
+            }
+        }
+    }
+    for (var i in textArray) {
+        if (this.context.lineWidth) {
+            this.context.strokeText(textArray[i], x, y + i * this.fontData.size);
+        }
+        if (false && this.gradientBuffer) {
+            var re = /(^|\s)(\d+)px/i;
+            var h = +this.context.font.match(re)[2];
+            var t = this.context.textBaseline;
+            var d = 0.5;
+            if (["top", "hanging"].indexOf(t) >= 0) {
+                d = 1;
+            } else if (["alphabetic", "ideographic", "bottom"].indexOf(t) >= 0) {
+                d = 0;
+            }
+            var y1 = y + h * (d - 1);
+            var y2 = y + h * d;
+
+            var grd = this.context.createLinearGradient(0, y1, 0, y2);
+            grd.addColorStop(0, this.gradientBuffer[0]);
+            grd.addColorStop(1, this.gradientBuffer[1]);
+            this.context.fillStyle = grd;
+        }
+        this.context.fillText(textArray[i], x, y + i * this.fontData.size);
+    }
 };
 
 ViewPort.prototype.showMessage = function (textArray, time, styleArray) {
