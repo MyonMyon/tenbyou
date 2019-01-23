@@ -46,6 +46,9 @@ Menu.prototype.loadSettingsStates = function (tree) {
             } else {
                 tree[i].state = settingValue;
             }
+            if (tree[i].vpField) {
+                eval("this.vp." + tree[i].vpField + " = settingValue;");
+            }
         }
         if (tree[i].submenu) {
             this.loadSettingsStates(tree[i].submenu);
@@ -252,6 +255,9 @@ Menu.prototype.applySettingsFor = function (menuItem) {
     }
     var settingValue = menuItem.control === "radio" ? menuItem.stateVar : menuItem.state;
     Settings.set(menuItem.statePath, settingValue);
+    if (menuItem.vpField) {
+        eval("this.vp." + menuItem.vpField + " = settingValue;");
+    }
 };
 
 /**

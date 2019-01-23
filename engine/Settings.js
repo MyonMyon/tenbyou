@@ -13,7 +13,8 @@ function Settings() {
 Settings.getDefault = function (key) {
     var m = {
         "dev.mode": "false",
-        "sound.enabled": "true"
+        "sound.enabled": "true",
+        "video.gradients": "true"
     };
     return m[key];
 };
@@ -25,7 +26,8 @@ Settings.getDefault = function (key) {
 Settings.getType = function (key) {
     var m = {
         "dev.mode": "boolean",
-        "sound.enabled": "boolean"
+        "sound.enabled": "boolean",
+        "video.gradients": "boolean"
     };
     return m[key];
 };

@@ -106,6 +106,12 @@ function MainMenu(vp) {
                     title: "Sound",
                     control: "toggle",
                     statePath: "sound.enabled"
+                }, {
+                    id: "video_gradients",
+                    title: "Gradients",
+                    control: "toggle",
+                    statePath: "video.gradients",
+                    vpField: "gradients"
                 }]
         },
         {

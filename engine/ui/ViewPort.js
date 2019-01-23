@@ -190,12 +190,11 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
         }
     }
     for (var i in textArray) {
+        var yr = y + i * this.fontData.size;
         if (this.context.lineWidth) {
-            this.context.strokeText(textArray[i], x, y + i * this.fontData.size);
+            this.context.strokeText(textArray[i], x, yr);
         }
-        if (false && this.gradientBuffer) {
-            var re = /(^|\s)(\d+)px/i;
-            var h = +this.context.font.match(re)[2];
+        if (this.gradients && this.gradientBuffer) {
             var t = this.context.textBaseline;
             var d = 0.5;
             if (["top", "hanging"].indexOf(t) >= 0) {
@@ -203,15 +202,15 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
             } else if (["alphabetic", "ideographic", "bottom"].indexOf(t) >= 0) {
                 d = 0;
             }
-            var y1 = y + h * (d - 1);
-            var y2 = y + h * d;
+            var y1 = yr + this.fontData.size * (d - 1);
+            var y2 = yr + this.fontData.size * d;
 
             var grd = this.context.createLinearGradient(0, y1, 0, y2);
             grd.addColorStop(0, this.gradientBuffer[0]);
             grd.addColorStop(1, this.gradientBuffer[1]);
             this.context.fillStyle = grd;
         }
-        this.context.fillText(textArray[i], x, y + i * this.fontData.size);
+        this.context.fillText(textArray[i], x, yr);
     }
 };
 
