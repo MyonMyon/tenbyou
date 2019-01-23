@@ -536,7 +536,7 @@ ViewPort.prototype.draw = function () {
 
 ViewPort.prototype.requestDraw = function () {
     var self = this;
-    requestAnimationFrame(function() {
+    requestAnimationFrame(function () {
         self.draw();
     }, this.canvas);
 };
