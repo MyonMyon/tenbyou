@@ -14,7 +14,7 @@ EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCo
     if (typeof repeatCount === "function") {
         repeatCount = repeatCount(this.parent);
     }
-    this.events.push({
+    var e = {
         repeatInterval: repeatInterval,
         repeatCount: repeatCount || 1,
         iteration: 0,
@@ -23,8 +23,14 @@ EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCo
                 second,
         done: false,
         useWorldTimeGrid: useWorldTimeGrid,
-        fire: func
-    });
+        fire: func,
+        repeat: function(interval, times) {
+            this.repeatInterval = interval;
+            this.repeatCount = times || Infinity;
+        }
+    };
+    this.events.push(e);
+    return e;
 };
 
 EventChain.prototype.addEventNow = function (func, secondTimeout, repeatInterval, repeatCount) {

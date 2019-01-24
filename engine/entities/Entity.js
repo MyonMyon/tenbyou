@@ -332,6 +332,14 @@ Entity.prototype.dropBonus = function (angle, distance, cat) {
             false);
 };
 
+Entity.prototype.on = function (second, func) {
+    return this.eventChain.addEvent(func, second);
+};
+
+Entity.prototype.onSync = function (second, func, times) {
+    return this.eventChain.addEvent(func, null, second, times, true);
+};
+
 Entity.prototype.onReflect = function (axis) {
     //Override with some custom data!
 };

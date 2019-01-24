@@ -18,7 +18,7 @@ var SPELL = {
         init: function () {
             var w = 61;
             var h = 76;
-            this.eventChain.addEvent(function (iter) {
+            this.on(0.0166, function (iter) {
                 for (var i = iter * 5; i < (iter + 1) * 5; i++) {
                     var x = (i % w) * this.world.width / (w - 1) - this.world.width / 2;
                     var y = Math.floor(i / w) * this.world.height / (h - 1) - this.world.height / 2;
@@ -29,7 +29,7 @@ var SPELL = {
                         this.angle = this.world.relTime();
                     };
                 }
-            }, 0.0166, 0.0166, h * w);
+            }).repeat(0.0166, h * w);
         },
         func: function () {
             this.y1 = 0.02;
@@ -50,7 +50,7 @@ var SPELL = {
         bonus: 30000,
         bonusBound: 5000,
         init: function () {
-            this.eventChain.addEvent(function (iter) {
+            this.on(0.4, function (iter) {
                 var c = 8;
                 var d = this.relTime() * 1.5;
                 var bs = this.arcProjectiles(0, null, c, this.width, 1, 0, 2.5, iter % 2 ? "static.blue" : "static.red");
@@ -60,7 +60,7 @@ var SPELL = {
                             Math.cos(a + d) * (20 + this.world.difficulty * 5),
                             Math.sin(a + d) * (5 + this.world.difficulty * 20));
                 }
-            }, 0.4, 0.1, Infinity);
+            }).repeat(0.1);
         }
     },
     kedamaBeta: {
@@ -78,16 +78,16 @@ var SPELL = {
         bonus: 30000,
         bonusBound: 5000,
         init: function () {
-            this.eventChain.addEvent(function (iter) {
+            this.on(0.4, function (iter) {
                 var c = 3 + this.world.difficulty * 2;
                 var r = this.world.difficulty * 5;
                 var bs = this.arcProjectiles(Util.toAngle("s"), null, c, this.width + r, 25, 0, 2.5, iter % 2 ? "static.blue" : "static.red");
                 for (var i in bs) {
-                    bs[i].eventChain.addEvent(function () {
+                    bs[i].on(0.1, function () {
                         this.headToEntity(this.world.player, 0, 60);
-                    }, 0.1, 2, Infinity);
+                    }).repeat(2);
                 }
-            }, 0.4, 0.2, Infinity);
+            }).repeat(0.2);
         }
     },
     lilyAlpha: {
@@ -109,35 +109,33 @@ var SPELL = {
         bonus: 40000,
         bonusBound: 5000,
         init: function () {
-            this.eventChain.addEvent(
-                    function (iter) {
-                        if (iter % 200 < 80) {
-                            var bs = this.arcProjectiles(0, null, 4, this.width * 4, 20, -9, 4, "seal.red");
-                            for (var i in bs) {
-                                bs[i].eventChain.addEvent(function () {
-                                    var a = this.getAngle() - Math.PI / 2;
-                                    this.setVectors(null, null, Math.cos(a) * 20, Math.sin(a) * 20, Math.cos(a) * 24, Math.sin(a) * 24);
-                                }, 2);
-                            }
+            this.on(1, function (iter) {
+                if (iter % 200 < 80) {
+                    var bs = this.arcProjectiles(0, null, 4, this.width * 4, 20, -9, 4, "seal.red");
+                    for (var i in bs) {
+                        bs[i].on(2, function () {
+                            var a = this.getAngle() - Math.PI / 2;
+                            this.setVectors(null, null, Math.cos(a) * 20, Math.sin(a) * 20, Math.cos(a) * 24, Math.sin(a) * 24);
+                        });
+                    }
+                }
+                if (iter % 200 === 60) {
+                    this.attackAngle = this.world.angleBetweenEntities(this, this.world.player);
+                }
+                if (iter % 200 < 160 && iter % 200 >= 60) {
+                    var c = 3 + this.world.difficulty * 2;
+                    var bs = this.arcProjectiles(this.attackAngle, null, c, this.width * 2, 30, 1.8, 2, iter % 200 < 70 ? "seal.purple" : "seal");
+                    for (var i in bs) {
+                        if (iter % 200 < 70) {
+                            bs[i].priority = 1;
                         }
-                        if (iter % 200 === 60) {
-                            this.attackAngle = this.world.angleBetweenEntities(this, this.world.player);
-                        }
-                        if (iter % 200 < 160 && iter % 200 >= 60) {
-                            var c = 3 + this.world.difficulty * 2;
-                            var bs = this.arcProjectiles(this.attackAngle, null, c, this.width * 2, 30, 1.8, 2, iter % 200 < 70 ? "seal.purple" : "seal");
-                            for (var i in bs) {
-                                if (iter % 200 < 70) {
-                                    bs[i].priority = 1;
-                                }
-                                bs[i].reflects = 5;
-                                bs[i].onReflect = function (type) {
-                                    this[type + "2"] = 0;
-                                };
-                            }
-                        }
-                    },
-                    1, 0.1, Infinity);
+                        bs[i].reflects = 5;
+                        bs[i].onReflect = function (type) {
+                            this[type + "2"] = 0;
+                        };
+                    }
+                }
+            }).repeat(0.1);
         }
     },
     orbGamma: {
@@ -162,21 +160,21 @@ var SPELL = {
                 satellite.relAngle = Math.PI * 2 * i / count;
                 satellite.parent = this;
                 satellite.headToPointSmoothly(this.x + 20 * Math.cos(satellite.relAngle), this.y + 20 * Math.sin(satellite.relAngle), 1);
-                satellite.eventChain.addEvent(function () {
+                satellite.on(1, function () {
                     this.behavior = function () {
                         this.relAngle += Math.PI / this.world.ticksPS / 2;
                         this.x = this.parent.x + 20 * Math.cos(this.relAngle);
                         this.y = this.parent.y + 20 * Math.sin(this.relAngle);
                     };
-                }, 1);
-                satellite.eventChain.addEvent(function (iter) {
+                });
+                satellite.on(1, function (iter) {
                     var alt = iter % 60 < 30;
                     if (alt) {
                         this.shootProjectileAt(this.world.player, this.width, 50, -10.5, 2.5, "static.red");
                     } else {
                         this.shootProjectile(this.relAngle, this.width, 25, 0, 4, "static.blue");
                     }
-                }, 1, 0.1, Infinity);
+                }).repeat(0.1);
                 this.satellites.push(satellite);
             }
         },
@@ -206,7 +204,7 @@ var SPELL = {
         bonusBound: 5000,
         init: function () {
             this.headToPointSmoothly(0, -this.world.height / 4, 0.5);
-            this.eventChain.addEvent(function () {
+            this.on(0.8, function () {
                 this.x = 0;
                 this.x1 = 0;
                 var c = 2 + this.world.difficulty;
@@ -217,7 +215,7 @@ var SPELL = {
                 for (var i in bs) {
                     bs[i].reflects = 1;
                 }
-            }, 0.8, 0.133, Infinity);
+            }).repeat(0.133);
         }
     },
     orbBeta: {
@@ -240,15 +238,15 @@ var SPELL = {
         bonusBound: 5000,
         init: function () {
             this.headToPointSmoothly(0, -this.world.height / 4, 0.5);
-            this.eventChain.addEvent(function (iter) {
+            this.on(0.7, function (iter) {
                 this.x = 0;
                 this.x1 = 0;
                 var r = 2;
                 var s = 60;
                 this.angle = this.relTime() * 2 - Math.PI / 2;
                 this.shootProjectile(this.angle, r, s, 0, 4, iter % 2 ? "static.blue" : "static.red");
-            }, 0.7, 0.033, Infinity);
-            this.eventChain.addEvent(function (iter) {
+            }).repeat(0.033);
+            this.on(0, function (iter) {
                 if (iter % 25 > 20) {
                     if (iter % 50 > 25) {
                         var s = 90;
@@ -258,12 +256,12 @@ var SPELL = {
                         this.arcProjectiles(a, Math.PI / 20 * c, c, r, s, 0, 2, "orbBlue");
                     } else {
                         var p = this.shootProjectileAt(this.world.player, 0, 100, -36, 6, "orbBlue");
-                        p.eventChain.addEvent(function () {
+                        p.on(0, function () {
                             this.headToEntity(this.world.player, 80, -36);
-                        }, 0, 1 / (this.world.difficulty + 1), Infinity);
+                        }).repeat(1 / (this.world.difficulty + 1));
                     }
                 }
-            }, 0, 0.133, Infinity);
+            }).repeat(0.133);
         }
     },
     okuuAlpha: {
@@ -281,7 +279,7 @@ var SPELL = {
         bonus: 600000,
         bonusBound: 5000,
         init: function () {
-            this.eventChain.addEvent(function () {
+            this.on(0, function () {
                 var nuclearBall = new Projectile(this.world,
                         (Math.random() - 0.5) * this.world.width,
                         -this.world.height / 2 - 5,
@@ -292,7 +290,7 @@ var SPELL = {
                     else
                         this.width = 20 - Math.pow(this.relTime(), 2) * 5;
                 };
-            }, 0, 0.4 / (this.world.difficulty + 1), Infinity);
+            }).repeat(0.4 / (this.world.difficulty + 1));
         }
     }
 };
@@ -300,7 +298,7 @@ var SPELL = {
 var NON_SPELL = {
     kedamaSpam: {
         init: function (power) {
-            this.eventChain.addEvent(function (iter) {
+            this.on(0.3, function (iter) {
                 var c = (power ? 8 : 6) * (this.world.difficulty + 1);
                 if (iter % 16 >= 9) {
                     return;
@@ -308,18 +306,18 @@ var NON_SPELL = {
                 var v = iter % 32 < 16;
                 var d = (v ? this.relTime() : -this.relTime()) * 1.5;
                 this.arcProjectiles(d, null, c, this.width, 50, 0, 2.5, d > 0 ? "static.red" : "static.blue");
-            }, 0.3, 0.1, Infinity);
+            }).repeat(0.1);
         },
         health: 800,
         time: 15
     },
     orbSpam: {
         init: function () {
-            this.eventChain.addEvent(function () {
+            this.on(0, function () {
                 var c = 2 * (this.attackGroupCurrent + 3) * (this.world.difficulty + 1);
                 var d = this.relTime() * 3;
                 this.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
-            }, 0, 0.133, Infinity);
+            }).repeat(0.133);
         },
         func: function () {
             //~wiggling left and right~
@@ -331,11 +329,11 @@ var NON_SPELL = {
     //TODO: remove by allowing dynamic health/time:
     orbSpamCopyPasta: {
         init: function () {
-            this.eventChain.addEvent(function () {
+            this.on(0, function () {
                 var c = 2 * (this.attackGroupCurrent + 3) * (this.world.difficulty + 1);
                 var d = this.relTime() * 3;
                 this.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
-            }, 0, 0.133, Infinity);
+            }).repeat(0.133);
         },
         func: function () {
             //~wiggling left and right~

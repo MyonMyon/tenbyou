@@ -34,9 +34,9 @@ var CHAR = {
                     } else {
                         bullet.rangeForAim = 100;
                     }
-                    bullet.eventChain.addEvent(function () {
+                    bullet.on(0, function () {
                         this.headToEntity(this.nearestEntity(Enemy, this.rangeForAim, Math.PI / 4, {isInvulnerable: false}), 480, 0);
-                    }, 0, this.player.focused ? 0.05 : 0.2, Infinity);
+                    }).repeat(this.player.focused ? 0.05 : 0.2);
                 }
             },
             turretAuto: {
@@ -86,9 +86,9 @@ var CHAR = {
         },
         onSpecial: function () {
             var turret = new Weapon(this, "turretAuto", false);
-            turret.eventChain.addEvent(function () {
+            turret.on(this.shotCooldownDefault, function () {
                 this.onShoot();
-            }, this.shotCooldownDefault, this.shotCooldownDefault, Infinity);
+            }).repeat(this.shotCooldownDefault);
             turret.damage = (1 + this.damageInc) / (Math.floor(this.power) + 1 + this.damageInc);
             turret.angle = this.isMaxBonus() ? Math.PI / 2 : -Math.PI / 2;
             turret.addDrops("power", 3);

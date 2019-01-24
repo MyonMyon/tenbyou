@@ -37,14 +37,14 @@ var STAGE = [{
                             fairy.addDrops("powerLarge"); //10% chance of big power item;
                         }
                         fairy.bulletSprite = i ? "static.blue" : "static.red"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
-                        fairy.eventChain.addEvent(function () { //and now let's code the fairy's shooting event!
+                        fairy.on(0.7, function () { //and now let's code the fairy's shooting event!
                             var bullet = this.shootProjectileAt(this.world.player, 0, 0, 100, 2, this.bulletSprite);
                             bullet.behavior = function () {
                                 if (this.world.vectorLength(this.x1, this.y1) > 60) {
                                     this.setVectors(null, null, null, null, 0, 0);
                                 }
                             };
-                        }, 0.7, 1 - this.difficulty * 0.15, Infinity);
+                        }).repeat(1 - this.difficulty * 0.15);
                     }
                 }
             }, {
@@ -57,7 +57,7 @@ var STAGE = [{
                     var y = -this.height * 0.45;
                     var kedama = new Enemy(this, x, y, 0, 12, 0, 0, 4, 12, "kedamaMinion");
                     kedama.addDrops("point", 2);
-                    kedama.eventChain.addEvent(function (i) {
+                    kedama.on(1.5, function (i) {
                         var shootInterval = 30 - this.world.difficulty * 6;
                         if (i % shootInterval >= 8) {
                             //pause every 8 shots
@@ -69,7 +69,7 @@ var STAGE = [{
                                 y: Math.max(this.y, this.world.player.y)});
                         }
                         this.shootProjectile(this.targetAngle, this.width, 50 + this.world.difficulty * 10, 0, 1.5, "kunai.blue", true);
-                    }, 1.5, 0.1, Infinity);
+                    }).repeat(0.1);
                     kedama.appearanceTime = 1;
                 }
             }, {
@@ -84,9 +84,9 @@ var STAGE = [{
                         var x = r * (this.width / 3 + p * 10);
                         var kedamaPaired = new Enemy(this, x, y, -r * 2, 30, -r * 12, 0, 4, 12, "kedamaMinion");
                         kedamaPaired.addDrops(p ? "point" : "power");
-                        kedamaPaired.eventChain.addEvent(function (i) {
+                        kedamaPaired.on(0.5, function (i) {
                             this.shootProjectileAt(this.world.player, this.width, 60, 0, 2, "kunai.purple");
-                        }, 0.5, 2 - this.difficulty * 0.2, Infinity);
+                        }).repeat(2 - this.difficulty * 0.2);
                     }
                 }
             }, {
@@ -129,9 +129,9 @@ var STAGE = [{
                         orb.appearanceTime = 1;
                         orb.addDrops("power");
                         orb.addDrops("point");
-                        orb.eventChain.addEvent(function (i) {
+                        orb.on(1.5, function (i) {
                             this.shootProjectileAt(this.world.player, this.width, 50 + this.world.difficulty * 10, 0, 2, "strike.red");
-                        }, 1.5, 0.75 - this.difficulty * 0.1, Infinity);
+                        }).repeat(0.75 - this.difficulty * 0.1);
                     } else {
                         var mine = new Enemy(this, x, y, 0, 3, 0, 0, 4, 1, "landMine");
                         mine.appearanceTime = 1;
@@ -174,13 +174,13 @@ var STAGE = [{
                     var sideFairy = new Enemy(this, x, y, -r * 15, 0, r * 15, 0, 2, 1, "fairyBlue");
                     sideFairy.appearanceTime = 1;
                     sideFairy.addDrops("point", 2);
-                    sideFairy.eventChain.addEvent(function (i) {
+                    sideFairy.on(1.2, function (i) {
                         new Projectile(this.world,
                                 this.x, this.y,
                                 -r * 30, 0,
                                 0, 0,
                                 2 + this.world.difficulty * 0.25, false, "strike.blue");
-                    }, 1.2, 0.2, Infinity);
+                    }).repeat(0.2);
                 }
             }, {
                 substage: 1,
@@ -195,17 +195,17 @@ var STAGE = [{
                             r * 15, -15,
                             2, 1, "fairyRed");
                     fairyTurret.addDrops("power");
-                    fairyTurret.eventChain.addEvent(function (i) {
+                    fairyTurret.on(1.7, function (i) {
                         this.savedPoint = {x: this.x, y: this.y};
-                    }, 1.7, 0, 0);
-                    fairyTurret.eventChain.addEvent(function (i) {
+                    });
+                    fairyTurret.on(1.8, function (i) {
                         var a = Util.toAngle((iter % 2) ? "e" : "w") + Math.PI / 2 * -r * ((i - 2) / 12);
                         var p = new Projectile(this.world,
                                 this.savedPoint.x, this.savedPoint.y,
                                 Math.cos(a) * 10, Math.sin(a) * 10,
                                 Math.cos(a) * 15, Math.sin(a) * 15,
                                 3 + this.world.difficulty * 0.5, false, "strike.red");
-                    }, 1.8, 0.1, 17);
+                    }).repeat(0.1, 17);
                 }
             }, {
                 substage: 1,
@@ -257,11 +257,11 @@ var STAGE = [{
                             r * 15, -15,
                             2, 1, "fairyRed");
                     fairyTurret.addDrops("power");
-                    fairyTurret.eventChain.addEvent(function (i) {
+                    fairyTurret.on(0.5, function (i) {
                         this.savedPoint = {x: this.world.player.x, y: this.world.player.y};
                         this.setVectors(null, null, 0, 0, 0, 0);
-                    }, 0.5, 0, 0);
-                    fairyTurret.eventChain.addEvent(function () {
+                    });
+                    fairyTurret.on(0.6, function () {
                         var a = this.shootProjectileAt(this.savedPoint, 4, 50, 0, 0);
                         for (var i = 0; i < 2; ++i) {
                             var b = new Projectile(this.world, 0, 0, 0, 0, 0, 0, 2, false, i ? "strike.blue" : "strike.red");
@@ -276,10 +276,10 @@ var STAGE = [{
                                 }
                             };
                         }
-                    }, 0.6, 0.0666, 15 + this.difficulty * 5);
-                    fairyTurret.eventChain.addEvent(function (i) {
+                    }).repeat(0.0666, 15 + this.difficulty * 5);
+                    fairyTurret.on(2.7, function (i) {
                         this.setVectors(null, null, 0, 0, this.x < 0 ? -15 : 15, -15);
-                    }, 2.7, 0, 0);
+                    });
                 }
             }, {
                 substage: 0,
@@ -295,11 +295,11 @@ var STAGE = [{
                             3, 10, "eye");
                     eye.addDrops("power");
                     eye.addDrops("point", 2);
-                    eye.eventChain.addEvent(function () {
+                    eye.on(0.2, function () {
                         var a = this.shootProjectileAt(this.world.player, 5, 50, 0, 0);
                         var count = 4 + this.world.difficulty * 2;
                         a.arcProjectiles(Util.toAngle("s"), null, count, 0, 10, 0, 2, ["static.yellow", "static.red"], true);
-                    }, 0.2, 1, Infinity);
+                    }).repeat(1);
                 }
             }, {
                 substage: 0,
@@ -325,21 +325,21 @@ var STAGE = [{
                             fairy.addDrops("powerLarge"); //10% chance of big power item;
                         }
                         fairy.bulletSprite = i ? "eyeBlue" : "eyeRed"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
-                        fairy.eventChain.addEvent(function () { //and now let's code the fairy's shooting event!
+                        fairy.on(0.7, function () { //and now let's code the fairy's shooting event!
                             var bullet = this.shootProjectileAt(this.world.player, 0, 0, 75, 2, this.bulletSprite);
                             bullet.behavior = function () { //and bullet's behavior (executes every tick)!
                                 if (this.world.vectorLength(this.x1, this.y1) > 45) //if speed > 45 unit/s
                                     this.setVectors(null, null, null, null, 0, 0); //stop accelerating
                             };
-                            bullet.eventChain.addEvent(function (iter) {
+                            bullet.onSync(1.7, function (iter) {
                                 if (iter < 2) {
                                     this.headToEntity(this.world.player, 0, 60); //stop and refresh directions
                                     this.sprite.set((this.sprite.name === "eyeBlue") ? "eyeRed" : "eyeBlue"); //swap sprites for bullets
                                 } else if (iter === 2) {
                                     this.sprite.set("orbBlue");
                                 }
-                            }, null, 1.7, 3, true);
-                        }, 0.7, 1 - this.difficulty * 0.15, Infinity);
+                            }, 3);
+                        }).repeat(1 - this.difficulty * 0.15);
                     }
                 }
             }, {
@@ -366,7 +366,7 @@ var STAGE = [{
                             3, 10, "eye");
                     eye.addDrops("power", 2);
                     eye.addDrops("point", 3);
-                    eye.eventChain.addEvent(function (iter) {
+                    eye.on(0.2, function (iter) {
                         var a = this.shootProjectileAt(this.world.player, 5, 50, 0, 0);
                         var count = 4 + this.world.difficulty * 2;
                         var b = a.arcProjectiles(Util.toAngle("s"), null, count, 0, 0, 0, 2, ["static.yellow", "static.red"], true);
@@ -374,7 +374,7 @@ var STAGE = [{
                             var angle = i / count * Math.PI * 2;
                             b[i].setPolarVectors(angle, 1, 0, 20, Math.PI / 4 * (iter % 2 ? -1 : 1), -10);
                         }
-                    }, 0.2, 1, Infinity);
+                    }).repeat(1);
                 }
             }, {
                 substage: 1,
@@ -411,7 +411,7 @@ var STAGE = [{
                             r * 15, -15,
                             2, 1, "fairyRed");
                     fairyTurret.addDrops("power");
-                    fairyTurret.eventChain.addEvent(function (iter) {
+                    fairyTurret.on(1.5, function (iter) {
                         this.setVectors(null, null, 0, 0, 0, 0);
                         var p = this.shootProjectileAt(this.world.player, 5, 0, 0, 2, "strike.red");
                         p.approachEntity(this.world.player, 60 + this.world.difficulty * 20);
@@ -430,7 +430,7 @@ var STAGE = [{
                         if (iter === 2) {
                             e.setVectors(null, null, 0, 0, e.x < 0 ? -15 : 15, -15);
                         }
-                    }, 1.5, 0.5, 3);
+                    }).repeat(0.5, 3);
                 }
             }, {
                 substage: 0,
@@ -445,7 +445,7 @@ var STAGE = [{
                             r * 15, -15,
                             2, 1, "fairyBlue");
                     fairyTurret.addDrops("point");
-                    fairyTurret.eventChain.addEvent(function (iter) {
+                    fairyTurret.on(1.5, function (iter) {
                         this.setVectors(null, null, 0, 0, 0, 0);
                         this.arcProjectiles(
                                 Util.toAngle(this.x > 0 ? "sw" : "se"),
@@ -455,7 +455,7 @@ var STAGE = [{
                         if (iter === 2) {
                             this.setVectors(null, null, 0, 0, this.x < 0 ? -15 : 15, -15);
                         }
-                    }, 1.5, 0.3, 3);
+                    }).repeat(0.3, 3);
                 }
             }, {
                 substage: 0,
