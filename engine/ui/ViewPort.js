@@ -28,8 +28,8 @@ ViewPort.prototype.perfStep = function () {
         this.fps = (this.ticks[this.ticks.length - 1] - this.ticks[0]) / 2 / 2000 * this.ticks.length;
     }
     if (startTime % 1000 < this.prevMS) {
-        if (this.pChart && this.pChart.mode !== "off") {
-            this.pChart.addData({ec: this.world ? this.world.entities.length : 0, tl: 1 / this.fps});
+        if (this.pChart && this.pChart.mode !== "off" && this.world && !this.world.pause) {
+            this.pChart.addData({ec: this.world.entities.length, tl: 1 / this.fps});
         }
     }
     this.prevMS = startTime % 1000;
