@@ -76,8 +76,6 @@ Entity.prototype.flush = function () {
 };
 
 Entity.prototype.step = function () {
-    ++this.lifetime;
-
     this.eventChain.tick();
 
     if (this.targetTime > 0) {
@@ -131,6 +129,7 @@ Entity.prototype.step = function () {
     this.w1 += this.w2 / this.world.ticksPS;
     this.width += this.w1 / this.world.ticksPS;
 
+    ++this.lifetime;
 };
 
 Entity.prototype.relTime = function () {

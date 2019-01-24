@@ -331,7 +331,7 @@ Enemy.prototype.nextAttack = function () {
         ++this.attackGroupCurrent;
     }
 
-    this.lifetime = 0;
+    this.lifetime = -1;
 };
 
 Enemy.prototype.setBossData = function (bossName, isLast) {
