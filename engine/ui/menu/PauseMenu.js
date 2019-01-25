@@ -11,51 +11,51 @@ function PauseMenu(vp) {
 
     this.tree = [
         {
-            isVisible: function (vp) {
-                return vp.world && vp.world.continueMode && vp.world.continuable;
+            isVisible: function () {
+                return this.vp.world && this.vp.world.continueMode && this.vp.world.continuable;
             },
             title: "Continue",
-            action: function (vp) {
-                vp.world.setPause(false);
-                vp.world.player.useContinue();
-                vp.pauseMenu.resetLocation();
+            action: function () {
+                this.vp.world.setPause(false);
+                this.vp.world.player.useContinue();
+                this.resetLocation();
             }
         },
         {
-            isVisible: function (vp) {
-                return vp.world && !vp.world.continueMode;
+            isVisible: function () {
+                return this.vp.world && !this.vp.world.continueMode;
             },
             title: "Resume",
             shortcut: "Escape",
-            action: function (vp) {
-                vp.world.setPause(false);
-                vp.pauseMenu.resetLocation();
+            action: function () {
+                this.vp.world.setPause(false);
+                this.resetLocation();
             }
         },
         {
             title: "Restart",
             shortcut: "KeyR",
-            action: function (vp) {
-                var diff = vp.world.difficulty;
-                var spell = vp.world.spell;
-                vp.pauseMenu.fadeOut = new Date().getTime();
-                vp.world = new World(vp);
+            action: function () {
+                var diff = this.vp.world.difficulty;
+                var spell = this.vp.world.spell;
+                this.fadeOut = new Date().getTime();
+                this.vp.world = new World(this.vp);
                 if (spell) {
-                    vp.world.startSpellPractice(diff, spell);
+                    this.vp.world.startSpellPractice(diff, spell);
                 } else if (DIFF[diff].hidden) {
-                    vp.world.startExtra(diff);
+                    this.vp.world.startExtra(diff);
                 } else {
-                    vp.world.startStage(1, diff);
+                    this.vp.world.startStage(1, diff);
                 }
-                vp.pauseMenu.resetLocation();
+                this.resetLocation();
             }
         },
         {
             title: "To Main Menu",
             shortcut: "KeyQ",
-            action: function (vp) {
-                vp.world.destroy();
-                vp.pauseMenu.resetLocation();
+            action: function () {
+                this.vp.world.destroy();
+                this.resetLocation();
             }
         }
     ];

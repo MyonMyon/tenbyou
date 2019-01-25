@@ -15,6 +15,8 @@ function Menu(vp) {
     this.fadeLength = 150;
     this.rowOffset = 0;
 
+    this.states = {};
+
     this.resetLocation();
 }
 
@@ -88,7 +90,7 @@ Menu.prototype.updateStates = function (menu) {
         menu = this.tree;
     }
     for (var i in menu) {
-        menu[i].visible = (!menu[i].isVisible || menu[i].isVisible(this.vp));
+        menu[i].visible = (!menu[i].isVisible || menu[i].isVisible.apply(this));
         if (menu[i].submenu) {
             this.updateStates(menu[i].submenu);
         }
@@ -186,8 +188,13 @@ Menu.prototype.selectItem = function (menuItem, manual) {
             }
             this.applySettingsFor(menuItem);
         }
+        if (menuItem.states) {
+            for (var i in menuItem.states) {
+                this.states[i] = menuItem.states[i];
+            }
+        }
         if (menuItem.action) {
-            menuItem.action(this.vp);
+            menuItem.action.apply(this);
         }
         if (manual) {
             Sound.play(SFX.menuIn);
@@ -278,7 +285,7 @@ Menu.prototype.draw = function () {
     for (var i in items) {
         var row = +i - this.rowOffset;
         if (row >= 0 && row < cap) {
-            this.vp.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact, disabled: items[i].isEnabled && !items[i].isEnabled()});
+            this.vp.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact, disabled: items[i].isEnabled && !items[i].isEnabled.apply(this)});
             this.vp.drawText(items[i].title,
                     this.vp.zoom * (MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X * Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay)),
                     this.vp.zoom * MENU_Y + height * row);

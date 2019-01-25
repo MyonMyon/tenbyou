@@ -15,14 +15,14 @@ function MainMenu(vp) {
         if (!STAGE[i].extra) {
             stageMenu.push({
                 id: "stg_" + (+i + 1),
-                stage: +i + 1,
+                states: {stage: +i + 1},
                 title: "Stage " + (+i + 1),
-                action: function (vp) {
-                    vp.pauseMenu.fadeIn = null;
-                    vp.mainMenu.fadeOut = new Date().getTime();
-                    vp.world = new World(vp);
-                    vp.world.startStage(this.stage, vp.mainMenu.getCurrentMenu().diff);
-                    vp.mainMenu.resetLocation();
+                action: function () {
+                    this.vp.pauseMenu.fadeIn = null;
+                    this.fadeOut = new Date().getTime();
+                    this.vp.world = new World(this.vp);
+                    this.vp.world.startStage(this.states.stage, this.states.difficulty);
+                    this.resetLocation();
                 }
             });
         }
@@ -33,7 +33,7 @@ function MainMenu(vp) {
         if (!DIFF[i].hidden) {
             diffMenu.push({
                 id: "diff_" + i,
-                diff: +i,
+                states: {difficulty: +i},
                 title: DIFF[i].name,
                 submenu: stageMenu
             });
@@ -48,14 +48,14 @@ function MainMenu(vp) {
             if (SPELL[i].names[j]) {
                 spellMenu.push({
                     id: "spell_" + spellNumber,
-                    diff: +j,
+                    states: {difficulty: +j, spell: SPELL[i]},
                     spell: SPELL[i],
                     title: "#" + Util.fillWithLeadingZeros(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
-                    action: function (vp) {
-                        vp.pauseMenu.fadeIn = null;
-                        vp.mainMenu.fadeOut = new Date().getTime();
-                        vp.world = new World(vp);
-                        vp.world.startSpellPractice(+this.diff, this.spell);
+                    action: function () {
+                        this.vp.pauseMenu.fadeIn = null;
+                        this.fadeOut = new Date().getTime();
+                        this.vp.world = new World(this.vp);
+                        this.vp.world.startSpellPractice(this.states.difficulty, this.states.spell);
                     }
                 });
                 ++spellNumber;
@@ -76,27 +76,29 @@ function MainMenu(vp) {
         {
             id: "start",
             title: "Game Start",
-            submenu: diffMenu
+            submenu: diffMenu,
+            states: {gameType: "standard"}
         },
         {
             id: "extra",
             title: "Extra Start",
-            isEnabled: function (vp) {
+            isEnabled: function () {
                 return false;
             },
-            action: function (vp) {
-                vp.pauseMenu.fadeIn = null;
-                vp.mainMenu.fadeOut = new Date().getTime();
-                vp.world = new World(vp);
-                vp.world.startExtra(4);
-                vp.mainMenu.resetLocation();
+            action: function () {
+                this.vp.pauseMenu.fadeIn = null;
+                this.fadeOut = new Date().getTime();
+                this.vp.world = new World(this.vp);
+                this.vp.world.startExtra(4);
+                this.resetLocation();
             }
         },
         {
             id: "spell",
             title: "Spell Practice",
             compact: true,
-            submenu: spellMenu
+            submenu: spellMenu,
+            states: {gameType: "spell"}
         },
         {
             id: "options",
