@@ -1,7 +1,7 @@
-var ENGINE_VERSION = "0.5.04";
-var RELEASE_DATE = "2019-01-24";
+var ENGINE_VERSION = "0.5.05";
+var RELEASE_DATE = "2019-01-25";
 var REVISION_INNER = 2;
-var REVISION_TOTAL = 571;
+var REVISION_TOTAL = 573;
 
 var PRIORITY_CODE = [
     "engine/Ext",
