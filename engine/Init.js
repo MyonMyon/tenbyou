@@ -27,6 +27,7 @@ var ENGINE_CODE = [
     "entities/Weapon",
     "entities/Enemy",
     "entities/Projectile",
+    "entities/ProjectileLine",
     "entities/Bonus",
     "entities/Particle",
     "entities/Text"
