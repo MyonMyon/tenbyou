@@ -1,6 +1,7 @@
 function ViewPort() {
     this.canvas = document.createElement("canvas");
     document.body.appendChild(this.canvas);
+    this.canvas.focus();
 
     this.context = this.canvas.getContext("2d");
 
