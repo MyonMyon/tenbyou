@@ -15,6 +15,16 @@ function ViewPort() {
     this.fps = 0;
     this.prevMS = 0;
 
+    this.splash = new Image();
+    this.splash.src = SPLASH;
+    this.splashMs = 1500;
+    this.splashFadeMs = 200;
+    var self = this;
+    this.splash.onload = function () {
+        self.splashStart = new Date().getTime();
+        self.splashComplete = false;
+    };
+
     this.draw();
 }
 
@@ -487,9 +497,19 @@ ViewPort.prototype.drawLoading = function () {
     this.context.fillRect(0, 0, this.width, this.height);
     this.context.textAlign = "center";
     this.setFont(FONT.description);
-    this.drawText("LOADING", this.width / 2, this.height / 2 - this.zoom * 2);
-    this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.width / 2, this.height / 2);
-    this.drawText(this.loadingText || "", this.width / 2, this.height / 2 + this.zoom * 4);
+    this.drawText("LOADING", this.width / 2, 3 * this.height / 4 - this.zoom * 2);
+    this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.width / 2, 3 * this.height / 4);
+    this.drawText(this.loadingText || "", this.width / 2, 3 * this.height / 4 + this.zoom * 4);
+    var t = new Date().getTime();
+    if (this.splashStart && t < this.splashStart + this.splashMs) {
+        this.context.globalAlpha = Math.min((t - this.splashStart) / this.splashFadeMs, (this.splashStart + this.splashMs - t) / this.splashFadeMs);
+        this.context.drawImage(
+            this.splash,
+            (this.width - this.splash.width * SPLASH_ZOOM * this.zoom) / 2,
+            (this.height - this.splash.height * SPLASH_ZOOM * this.zoom) / 2,
+            this.splash.width * SPLASH_ZOOM * this.zoom,
+            this.splash.height * SPLASH_ZOOM * this.zoom);
+    }
 };
 
 ViewPort.prototype.draw = function () {

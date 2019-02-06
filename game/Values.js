@@ -14,6 +14,8 @@ var DIALOGUE_MY = 5;
 
 var RESOURCE_FOLDER = "resources/";
 var SPRITE_FOLDER = RESOURCE_FOLDER + "img/";
+var SPLASH = SPRITE_FOLDER + "splash.png";
+var SPLASH_ZOOM = 0.25;
 var CUT_IN_FOLDER_NAME = "cutin/";
 var FONT_FOLDER = RESOURCE_FOLDER + "fonts/";
 var SFX_FOLDER = RESOURCE_FOLDER + "sfx/";
