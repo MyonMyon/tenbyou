@@ -204,6 +204,12 @@ Input.prototype.getKeyAlias = function (code) {
  * @return {Boolean} Is action performed.
  */
 Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
+    if (!this.vp.splashComplete) {
+        if (this.vp.loaded) {
+            this.vp.initMenu();
+        }
+        return;
+    }
     if (!keyAbbr) {
         return false;
     }

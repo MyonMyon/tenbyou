@@ -16,6 +16,8 @@ function ViewPort() {
     this.fps = 0;
     this.prevMS = 0;
 
+    this.loaded = false;
+
     this.splash = new Image();
     this.splash.src = SPLASH;
     this.splashMs = 1500;
@@ -24,6 +26,9 @@ function ViewPort() {
     this.splash.onload = function () {
         self.splashStart = new Date().getTime();
         self.splashComplete = false;
+        self.startTimer = setTimeout(function () {
+            self.initMenu();
+        }, self.splashMs + self.splashFadeMs);
     };
 
     this.draw();
@@ -81,11 +86,18 @@ ViewPort.prototype.onResize = function () {
 };
 
 ViewPort.prototype.onLoad = function () {
+    this.loaded = true;
+    this.input = new Input(this);
+};
+
+ViewPort.prototype.initMenu = function () {
+    if (!this.loaded || this.splashComplete) {
+        return;
+    }
     this.inDev = Settings.get("dev.mode");
 
-    this.loaded = true;
+    this.splashComplete = true;
 
-    this.input = new Input(this);
     this.mainMenu = new MainMenu(this);
     this.pauseMenu = new PauseMenu(this);
 
@@ -493,23 +505,25 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
     this.context.globalAlpha = 1;
 };
 
-ViewPort.prototype.drawLoading = function () {
+ViewPort.prototype.drawSplash = function () {
     this.context.fillStyle = "#000";
     this.context.fillRect(0, 0, this.width, this.height);
     this.context.textAlign = "center";
     this.setFont(FONT.description);
-    this.drawText("LOADING", this.width / 2, 3 * this.height / 4 - this.zoom * 2);
-    this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.width / 2, 3 * this.height / 4);
-    this.drawText(this.loadingText || "", this.width / 2, 3 * this.height / 4 + this.zoom * 4);
+    this.drawText(this.loaded ? "Press any key!" : "LOADING", this.width / 2, 3 * this.height / 4 - this.zoom * 2);
+    if (!this.loaded) {
+        this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.width / 2, 3 * this.height / 4);
+        this.drawText(this.loadingText || "", this.width / 2, 3 * this.height / 4 + this.zoom * 4);
+    }
     var t = new Date().getTime();
     if (this.splashStart && t < this.splashStart + this.splashMs) {
         this.context.globalAlpha = Math.min((t - this.splashStart) / this.splashFadeMs, (this.splashStart + this.splashMs - t) / this.splashFadeMs);
         this.context.drawImage(
-            this.splash,
-            (this.width - this.splash.width * SPLASH_ZOOM * this.zoom) / 2,
-            (this.height - this.splash.height * SPLASH_ZOOM * this.zoom) / 2,
-            this.splash.width * SPLASH_ZOOM * this.zoom,
-            this.splash.height * SPLASH_ZOOM * this.zoom);
+                this.splash,
+                (this.width - this.splash.width * SPLASH_ZOOM * this.zoom) / 2,
+                (this.height - this.splash.height * SPLASH_ZOOM * this.zoom) / 2,
+                this.splash.width * SPLASH_ZOOM * this.zoom,
+                this.splash.height * SPLASH_ZOOM * this.zoom);
     }
 };
 
@@ -521,8 +535,8 @@ ViewPort.prototype.draw = function () {
 
     this.context.globalAlpha = 1;
 
-    if (!this.loaded) {
-        this.drawLoading();
+    if (!this.splashComplete) {
+        this.drawSplash();
         return this.requestDraw();
     }
 
