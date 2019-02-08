@@ -99,11 +99,21 @@ var CHAR = {
         color: "#f40"
     },
     freyja: {
+        playable: true,
         name: "Freyja til Folkvang",
         width: 0.66,
-        onShoot: function () {
+        onShootStart: function () {
+            this.projectile = new Beam(this.world, 0, 0, 150, Util.toAngle("n"), 0, 0.1, 0, 0, 0, 10, true);
+            this.projectile.setAnchor(this);
+        },
+        onShootEnd: function () {
+            if (this.projectile) {
+                this.projectile.remove();
+                this.projectile = null;
+            }
         },
         onBomb: function () {
+            this.world.clearField(20);
         }
     },
     kedama: {

@@ -46,6 +46,33 @@ var SPRITE = {
                     height: 0.5
                 }
             }
+        },
+        freyja: {
+            file: "player/ff.png",
+            frameWidth: 32,
+            frameHeight: 32,
+            x: 0,
+            y: 0,
+            frames: 1,
+            interval: 0.05,
+            states: {
+                idle: {
+                    x: 0,
+                    y: 0
+                },
+                focused: {
+                    x: 0,
+                    y: 0
+                },
+                moveLeft: {
+                    x: 0,
+                    y: 0
+                },
+                moveRight: {
+                    x: 0,
+                    y: 0
+                }
+            }
         }
     },
     projectile: {
