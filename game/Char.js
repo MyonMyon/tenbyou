@@ -1,6 +1,5 @@
 var CHAR = {
     nBarashou: {
-        playable: true,
         name: "Natsuki Barashou",
         color: "#ff8",
         width: 0.5,
