@@ -35,6 +35,7 @@ function Player(world, charName) {
     this.moveUp = false;
     this.moveDown = false;
     this.shooting = false;
+    this.shootingPrev = false;
     this.invulnTime = 0;
     this.invulnTimeMin = 0.33;
     this.invulnTimeBomb = 3.33;
@@ -50,7 +51,7 @@ function Player(world, charName) {
     this.name = charName;
     this.sprite.set(SPRITE.player);
     this.sprite.set(charName);
-    var propImport = ["width", "onShoot", "onBomb", "onSpecial", "onPowerChange"];
+    var propImport = ["width", "onShoot", "onShootStart", "onShootEnd", "onBomb", "onSpecial", "onPowerChange"];
     for (var i in propImport) {
         var d = CHAR[charName][propImport[i]];
         if (d) {
@@ -108,8 +109,12 @@ Player.prototype.step = function () {
     if (this.y < -this.world.height / 2 + this.width * 2)
         this.y = -this.world.height / 2 + this.width * 2;
 
-    if (this.shooting)
-        this.shoot();
+    if (this.shooting) {
+        this.shoot(this.shootingPrev ? "continue" : "start");
+    } else if (this.shootingPrev) {
+        this.shoot("end");
+    }
+    this.shootingPrev = this.shooting;
 
     if (this.invulnTime > 0) {
         this.invulnTime -= 1 / this.world.ticksPS;
@@ -227,9 +232,16 @@ Player.prototype.draw = function (context) {
     }
 };
 
-Player.prototype.shoot = function () {
+Player.prototype.shoot = function (state) {
+    if (state === "end") {
+        this.onShootEnd();
+        return;
+    }
     if (this.shotCooldown <= 0 && this.respawnTime === null) {
         Sound.play(SFX.playerShot);
+        if (state === "start") {
+            this.onShootStart();
+        }
         this.onShoot();
         this.shotCooldown = this.shotCooldownDefault;
     }
@@ -310,6 +322,14 @@ Player.prototype.addLives = function (lives, parts) {
 };
 
 Player.prototype.onShoot = function () {
+    //Override with CHAR data!
+};
+
+Player.prototype.onShootStart = function () {
+    //Override with CHAR data!
+};
+
+Player.prototype.onShootEnd = function () {
     //Override with CHAR data!
 };
 
