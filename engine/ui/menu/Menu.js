@@ -216,7 +216,7 @@ Menu.prototype.shortcut = function (keyCode) {
     var m = this.getCurrentMenu();
     for (var i in m.submenu) {
         if (m.submenu[i].shortcut === keyCode) {
-            m.submenu[i].action(this.vp);
+            m.submenu[i].action.apply(this);
             return true;
         }
     }
