@@ -1,4 +1,4 @@
-function ProjectileLine(world, x, y, length, a, r, a1, r1, a2, r2, width, playerSide, spriteName) {
+function Beam(world, x, y, length, a, r, a1, r1, a2, r2, width, playerSide, spriteName) {
     extend(this, new Projectile(world, x, y, 0, 0, 0, 0, width, playerSide, spriteName));
 
     this.angle = this.a0 = a;
@@ -13,7 +13,7 @@ function ProjectileLine(world, x, y, length, a, r, a1, r1, a2, r2, width, player
     this.grazeTime = 0;
 }
 
-ProjectileLine.prototype.draw = function (context) {
+Beam.prototype.draw = function (context) {
     if (!this.width) {
         return;
     }
@@ -51,9 +51,9 @@ ProjectileLine.prototype.draw = function (context) {
     context.globalAlpha = 1;
 };
 
-ProjectileLine.prototype.step = function () {
+Beam.prototype.step = function () {
     //this.$step();
 };
 
-ProjectileLine.prototype.behavior = function () {
+Beam.prototype.behavior = function () {
 };
