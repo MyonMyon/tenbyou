@@ -142,6 +142,12 @@ var SPRITE = {
             frameHeight: 128
         }
     },
+    beam: {
+        file: "projectile/beam.png",
+        frameWidth: 32,
+        frameHeight: 32,
+        frameMargin: 1
+    },
     bonus: {
         file: "bonus.png",
         frameWidth: 48,

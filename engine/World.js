@@ -356,6 +356,7 @@ World.prototype.draw = function (context) {
         "Weapon",
         "Bonus",
         "Particle",
+        "Beam",
         "Projectile",
         "Text"
     ];
