@@ -383,6 +383,9 @@ Player.prototype.respawn = function () {
     if (this.lives < 1) {
         this.world.continueMode = true;
         this.world.continuable = this.world.stage > 0 && this.score % 10 < 9;
+        for (var i in this.anchored) {
+            this.anchored[i].remove();
+        }
         this.world.setPause(true);
         if (!this.world.continuable) {
             return;
