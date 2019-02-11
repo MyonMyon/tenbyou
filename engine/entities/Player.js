@@ -348,6 +348,9 @@ Player.prototype.onPowerChange = function () {
 Player.prototype.kill = function () {
     this.respawnTime = this.respawnTimeDefault;
     this.invulnTime = this.respawnTimeDefault;
+    for (var i in this.anchored) {
+        this.anchored[i].remove();
+    }
 
     new Particle(this.world, this.x, this.y, 1, 12, false, false, "splash");
     this.world.splash(this, 20, 10, 0.5);
@@ -401,4 +404,7 @@ Player.prototype.respawn = function () {
     this.y = this.world.height / 2 - 5;
     this.bombs = Math.max(this.bombsDefault, this.bombs);
     this.addPower(-Math.min(this.power, 1));
+    if (this.shooting) {
+        this.shoot("start");
+    }
 };
