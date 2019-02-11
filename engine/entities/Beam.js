@@ -61,7 +61,14 @@ Beam.prototype.draw = function (context) {
 };
 
 Beam.prototype.step = function () {
-    //this.$step();
+    this.$step();
+
+    if (!this.soundPlayed && !this.playerSide) {
+        Sound.play(SFX.enemyShot);
+        this.soundPlayed = true;
+    }
+
+    this.behavior();
 };
 
 Beam.prototype.behavior = function () {
