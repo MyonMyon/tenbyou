@@ -453,7 +453,7 @@ var STAGE = [{
                             }
                         };
                         if (iter === 2) {
-                            e.setVectors(null, null, 0, 0, e.x < 0 ? -15 : 15, -15);
+                            this.setVectors(null, null, 0, 0, e.x < 0 ? -15 : 15, -15);
                         }
                     }).repeat(0.5, 3);
                 }
