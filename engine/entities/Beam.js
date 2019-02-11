@@ -48,7 +48,8 @@ Beam.prototype.draw = function (context) {
     //if (this.world.drawHitboxes) {
     var ePos2 = this.world.vp.toScreen(this.x + Math.cos(this.a0) * this.length, this.y + Math.sin(this.a0) * this.length);
     context.strokeStyle = "white";
-    context.lineWidth = this.width;
+    context.lineCap = "round";
+    context.lineWidth = this.world.vp.zoom * this.width * 2;
 
     context.beginPath();
     context.moveTo(ePos.x, ePos.y);
