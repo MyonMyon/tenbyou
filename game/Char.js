@@ -102,8 +102,25 @@ var CHAR = {
         name: "Freyja til Folkvang",
         width: 0.66,
         onShootStart: function () {
-            this.projectile = new Beam(this.world, 0, 0, 150, Util.toAngle("n"), 0, 0.1, 0, 0, 0, 10, true);
+            this.projectile = new Beam(this.world, 0, -10, 200, Util.toAngle("n"), 0, 0, 0, 0, 0, 2 + Math.floor(this.power) / 2, true);
+            this.projectile.damagePs = 20 + Math.floor(this.power) * 5;
             this.projectile.setAnchor(this);
+            this.projectile.behavior = function() {
+                if (Math.abs(this.anchor.x1) > 0.1) {
+                    this.aTarget = Util.toAngle(this.anchor.x1 > 0 ? "nnw" : "nne");
+                } else {
+                    this.aTarget = Util.toAngle("n");
+                }
+                if (Math.abs(this.aTarget - this.a0) > 0.02) {
+                    this.a1 = this.aTarget > this.a0 ? 3 : -3;
+                    if (this.anchor.focused) {
+                        this.a1 *= 0.5;
+                    }
+                } else {
+                    this.a1 = 0;
+                    this.a0 = this.aTarget;
+                }
+            };
         },
         onShootEnd: function () {
             if (this.projectile) {
@@ -113,6 +130,12 @@ var CHAR = {
         },
         onBomb: function () {
             this.world.clearField(20);
+        },
+        onPowerChange: function (power) {
+            if (this.projectile) {
+                this.onShootEnd();
+                this.onShootStart();
+            }
         }
     },
     kedama: {
