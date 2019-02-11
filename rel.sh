@@ -19,6 +19,8 @@ else
     VERSION_NEW=${numbers[0]}.${numbers[1]}.$VM;
 fi
 
+echo updating $VERSION_OLD to $VERSION_NEW
+
 sed -i.bak "s/\(\?v=\).*\(\"\)/\1$VERSION_NEW\2/g" $INDEX_FILE
 
 sed -i.bak "s/\(ENGINE_VERSION = \"\).*\(\";\)/\1$VERSION_NEW\2/g" $INIT_FILE
