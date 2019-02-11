@@ -29,11 +29,11 @@ Beam.prototype.draw = function (context) {
 
     var ePos = this.world.vp.toScreen(this.x, this.y);
 
-    /*
     if (this.playerSide) {
         context.globalAlpha = 0.4;
     }
 
+    /*
     context.save();
     context.translate(ePos.x, ePos.y);
     if (this.rotate || this.angle) {
