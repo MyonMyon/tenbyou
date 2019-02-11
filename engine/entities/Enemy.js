@@ -155,10 +155,18 @@ Enemy.prototype.step = function () {
             this.relTime() >= this.appearanceTime) {
         for (var i in  this.world.entities) {
             var e = this.world.entities[i];
-            if (e instanceof Projectile && e.playerSide) {
-                if (this.world.collisionCheck(this, e)) {
-                    this.hurt(e.damage, {x: e.x, y: e.y});
-                    e.remove();
+            if (e.playerSide) {
+                if (e instanceof Projectile) {
+                    if (this.world.collisionCheck(this, e)) {
+                        this.hurt(e.damage, {x: e.x, y: e.y});
+                        e.remove();
+                    }
+                    continue;
+                }
+                if (e instanceof Beam) {
+                    if (this.world.collisionCheckBeam(this, e)) {
+                        this.hurt(e.damagePS / this.world.ticksPS, {x: this.x, y: this.y});
+                    }
                 }
             }
         }

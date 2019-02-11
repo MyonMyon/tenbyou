@@ -250,12 +250,32 @@ World.prototype.collisionCheck = function (entity1, entity2, distance) {
     return this.distanceBetweenEntities(entity1, entity2) < distance;
 };
 
+World.prototype.collisionCheckBeam = function (entityPoint, entityBeam, distance) {
+    var x1 = entityBeam.x;
+    var y1 = entityBeam.y;
+    var x2 = x1 + Math.cos(entityBeam.a0) * entityBeam.length;
+    var y2 = y1 + Math.sin(entityBeam.a0) * entityBeam.length;
+    distance = (distance || 0) + entityPoint.width + entityBeam.width;
+    if (entityPoint.x > x1 + distance && entityPoint.x > x2 + distance ||
+            entityPoint.x < x1 - distance && entityPoint.x < x2 - distance ||
+            entityPoint.y > y1 + distance && entityPoint.y > y2 + distance ||
+            entityPoint.y < y1 - distance && entityPoint.y < y2 - distance) {
+        return false;
+    }
+    return this.distanceBetweenPointAndSegment(entityPoint.x, entityPoint.y, x1, y1, x2, y2) < distance;
+};
+
 World.prototype.distanceBetweenEntities = function (entity1, entity2) {
     return Math.sqrt(Math.pow(entity1.x - entity2.x, 2) + Math.pow(entity1.y - entity2.y, 2));
 };
 
 World.prototype.distanceBetweenPoints = function (point1x, point1y, point2x, point2y) {
     return Math.sqrt(Math.pow(point1x - point2x, 2) + Math.pow(point1y - point2y, 2));
+};
+
+World.prototype.distanceBetweenPointAndSegment = function (pointX, pointY, segment1x, segment1y, segment2x, segment2y) {
+    return Math.abs((segment2y - segment1y) * pointX - (segment2x - segment1x) * pointY + segment2x * segment1y - segment2y * segment1x) /
+            Math.sqrt(Math.pow(segment2x - segment1x, 2) + Math.pow(segment2y - segment1y, 2));
 };
 
 World.prototype.setBoss = function (enemy, title, isLast) {
