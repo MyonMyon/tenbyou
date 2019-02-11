@@ -103,7 +103,7 @@ var CHAR = {
         width: 0.66,
         onShootStart: function () {
             this.projectile = new Beam(this.world, 0, -10, 200, Util.toAngle("n"), 0, 0, 0, 0, 0, 2 + Math.floor(this.power) / 2, true);
-            this.projectile.damagePS = 75 + Math.floor(this.power) * 15;
+            this.projectile.damagePS = 72 + Math.floor(this.power) * 12;
             this.projectile.setAnchor(this);
             this.projectile.behavior = function() {
                 if (Math.abs(this.anchor.x1) > 0.1) {
