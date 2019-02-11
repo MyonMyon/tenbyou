@@ -117,6 +117,17 @@ var STAGE = [{
                         }]
                 }
             }, {
+                substage: 0,
+                second: 60,
+                player: "freyja",
+                boss: {
+                    char: "kedama",
+                    attacks: [
+                        [NON_SPELL.kedamaSpam, false],
+                        [SPELL.kedamaBeta]
+                    ]
+                }
+            }, {
                 substage: 1,
                 second: 4,
                 repeatInterval: 1.5,
@@ -230,6 +241,20 @@ var STAGE = [{
                             sprite: "rb/proto.png",
                             text: "..."
                         }],
+                    last: true
+                }
+            }, {
+                substage: 1,
+                second: 86,
+                player: "freyja",
+                boss: {
+                    char: "orb",
+                    attacks: [
+                        [NON_SPELL.orbSpam],
+                        [SPELL.orbAlpha],
+                        [NON_SPELL.orbSpamCopyPasta],
+                        [SPELL.orbBeta]
+                    ],
                     last: true
                 }
             }]
