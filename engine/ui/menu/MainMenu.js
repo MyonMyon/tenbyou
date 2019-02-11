@@ -21,9 +21,22 @@ function MainMenu(vp) {
                     this.vp.pauseMenu.fadeIn = null;
                     this.fadeOut = new Date().getTime();
                     this.vp.world = new World(this.vp);
+                    this.vp.world.setPlayer(this.states.char);
                     this.vp.world.startStage(this.states.stage, this.states.difficulty);
                     this.resetLocation();
                 }
+            });
+        }
+    }
+
+    var charMenu = [];
+    for (var i in CHAR) {
+        if (CHAR[i].playable) {
+            charMenu.push({
+                id: "char_" + i,
+                states: {char: i},
+                title: CHAR[i].name,
+                submenu: stageMenu
             });
         }
     }
@@ -35,7 +48,7 @@ function MainMenu(vp) {
                 id: "diff_" + i,
                 states: {difficulty: +i},
                 title: DIFF[i].name,
-                submenu: stageMenu
+                submenu: charMenu
             });
         }
     }
@@ -55,6 +68,7 @@ function MainMenu(vp) {
                         this.vp.pauseMenu.fadeIn = null;
                         this.fadeOut = new Date().getTime();
                         this.vp.world = new World(this.vp);
+                        this.vp.world.setPlayer(this.states.char);
                         this.vp.world.startSpellPractice(this.states.difficulty, this.states.spell);
                     }
                 });
@@ -89,6 +103,7 @@ function MainMenu(vp) {
                 this.vp.pauseMenu.fadeIn = null;
                 this.fadeOut = new Date().getTime();
                 this.vp.world = new World(this.vp);
+                this.vp.world.setPlayer(this.states.char);
                 this.vp.world.startExtra(4);
                 this.resetLocation();
             }
