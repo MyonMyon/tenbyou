@@ -230,7 +230,7 @@ Enemy.prototype.hurt = function (damage, position) {
     if (this.health > 0) {
         for (var i = 0; i < this.drops.length; ++i) {
             //To do: fix this atrocity
-            if (this.drops[i].reqDamage !== 0 &&this.attackCurrent === this.drops[i].attackID && ((((this.initialHealth - this.health) % this.drops[i].reqDamage) < ((this.initialHealth - this.health - damage) % this.drops[i].reqDamage) && damage > 0) || damage > this.drops[i].reqDamage)) {
+            if (this.drops[i].reqDamage !== 0 && this.attackCurrent === this.drops[i].attackID && ((((this.initialHealth - this.health) % this.drops[i].reqDamage) < ((this.initialHealth - this.health - damage) % this.drops[i].reqDamage) && damage > 0) || damage > this.drops[i].reqDamage)) {
                 new Bonus(this.world, this.x + Math.random() * 12 - 6, this.y + Math.random() * 12 - 6, this.drops[i].cat, false);
             }
         }
