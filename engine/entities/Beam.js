@@ -17,9 +17,9 @@ function Beam(world, x, y, length, a, r, a1, r1, a2, r2, width, playerSide, spri
     this.setPolarVectors(a, r, a1, r1, a2, r2);
     this.length = length;
     this.grazed = 0;
-    this.grazePerSecond = 10;
+    this.grazePS = 10;
     this.grazeTime = 0;
-    this.damage = 1;
+    this.damagePS = 10;
 }
 
 Beam.prototype.draw = function (context) {
