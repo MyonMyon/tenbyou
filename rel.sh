@@ -11,7 +11,7 @@ if [ "$1" ]; then
 else
     VERSION_OLD=$(sed -n "s:.*ENGINE_VERSION = \"\(.*\)\";:\1:p" $INIT_FILE)
     IFS=\. read -a numbers <<<"$VERSION_OLD"
-    VM=$((${numbers[2]} + 1))
+    VM=$((10#${numbers[2]} + 1))
     echo $VM;
     if [ "$VM" -lt 10 ]; then
         VM=0$VM;
