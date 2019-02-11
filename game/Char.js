@@ -4,6 +4,9 @@ var CHAR = {
         name: "Freyja til Folkvang",
         width: 0.66,
         onShootStart: function () {
+            if (this.projectile) {
+                this.projectile.remove();
+            }
             this.projectile = new Beam(this.world, 0, -10, 200, Util.toAngle("n"), 0, 0, 0, 0, 0, 2 + Math.floor(this.power) / 2, true);
             this.projectile.damagePS = 40 + Math.floor(this.power) * 8;
             this.projectile.setAnchor(this);
