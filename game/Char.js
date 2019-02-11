@@ -111,11 +111,10 @@ var CHAR = {
                 } else {
                     this.aTarget = Util.toAngle("n");
                 }
-                if (Math.abs(this.aTarget - this.a0) > 0.02) {
+                if (this.anchor.focused) {
+                    this.a1 = 0;
+                } else if (Math.abs(this.aTarget - this.a0) > 0.02) {
                     this.a1 = this.aTarget > this.a0 ? 3 : -3;
-                    if (this.anchor.focused) {
-                        this.a1 *= 0.5;
-                    }
                 } else {
                     this.a1 = 0;
                     this.a0 = this.aTarget;
