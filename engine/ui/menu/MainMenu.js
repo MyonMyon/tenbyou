@@ -61,7 +61,7 @@ function MainMenu(vp) {
             if (SPELL[i].names[j]) {
                 spellMenu.tree.push({
                     id: "spell_" + spellNumber,
-                    states: {difficulty: +j, spell: SPELL[i]},
+                    states: {difficulty: +j, spell: SPELL[i], char: "nBarashou"},
                     spell: SPELL[i],
                     title: "#" + Util.fillWithLeadingZeros(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
                     action: function () {
