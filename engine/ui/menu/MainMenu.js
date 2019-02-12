@@ -10,10 +10,10 @@ function MainMenu(vp) {
 
     this.navSound = SFX.menuNavigate;
 
-    var stageMenu = [];
+    var stageMenu = {tree: []};
     for (var i in STAGE) {
         if (!STAGE[i].extra) {
-            stageMenu.push({
+            stageMenu.tree.push({
                 id: "stg_" + (+i + 1),
                 states: {stage: +i + 1},
                 title: "Stage " + (+i + 1),
@@ -29,10 +29,10 @@ function MainMenu(vp) {
         }
     }
 
-    var charMenu = [];
+    var charMenu = {tree: []};
     for (var i in CHAR) {
         if (CHAR[i].playable) {
-            charMenu.push({
+            charMenu.tree.push({
                 id: "char_" + i,
                 states: {char: i},
                 title: CHAR[i].name,
@@ -41,10 +41,10 @@ function MainMenu(vp) {
         }
     }
 
-    var diffMenu = [];
+    var diffMenu = {tree: []};
     for (var i in DIFF) {
         if (!DIFF[i].hidden) {
-            diffMenu.push({
+            diffMenu.tree.push({
                 id: "diff_" + i,
                 states: {difficulty: +i},
                 title: DIFF[i].name,
@@ -53,13 +53,13 @@ function MainMenu(vp) {
         }
     }
 
-    var spellMenu = [];
+    var spellMenu = {tree: []};
     var spellNumber = 0;
     for (var i in SPELL) {
         spellNumber = SPELL[i].number || spellNumber;
         for (var j in SPELL[i].names) {
             if (SPELL[i].names[j]) {
-                spellMenu.push({
+                spellMenu.tree.push({
                     id: "spell_" + spellNumber,
                     states: {difficulty: +j, spell: SPELL[i]},
                     spell: SPELL[i],
@@ -76,11 +76,11 @@ function MainMenu(vp) {
             }
         }
     }
-    var inputMenu = [];
+    var inputMenu = {tree: []};
     var aliases = this.vp.input.actionsAliases;
     for (var i in aliases) {
         if (["interaction", "misc"].indexOf(aliases[i].category) >= 0) {
-            inputMenu.push({
+            inputMenu.tree.push({
                 title: i.toTitleCase() + ": " + this.vp.input.getKeyByAction(i, true)
             });
         }
@@ -118,18 +118,18 @@ function MainMenu(vp) {
         {
             id: "options",
             title: "Options",
-            submenu: [{
-                    id: "sound_on",
-                    title: "Sound",
-                    control: "toggle",
-                    statePath: "sound.enabled"
-                }, {
-                    id: "video_gradients",
-                    title: "Gradients",
-                    control: "toggle",
-                    statePath: "video.gradients",
-                    vpField: "gradients"
-                }]
+            submenu: {tree: [{
+                        id: "sound_on",
+                        title: "Sound",
+                        control: "toggle",
+                        statePath: "sound.enabled"
+                    }, {
+                        id: "video_gradients",
+                        title: "Gradients",
+                        control: "toggle",
+                        statePath: "video.gradients",
+                        vpField: "gradients"
+                    }]}
         },
         {
             id: "controls",

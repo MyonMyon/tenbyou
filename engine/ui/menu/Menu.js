@@ -53,7 +53,7 @@ Menu.prototype.loadSettingsStates = function (tree) {
             }
         }
         if (tree[i].submenu) {
-            this.loadSettingsStates(tree[i].submenu);
+            this.loadSettingsStates(tree[i].submenu.tree);
         }
     }
 };
@@ -63,11 +63,11 @@ Menu.prototype.loadSettingsStates = function (tree) {
  * @return {Object} Current menu item object.
  */
 Menu.prototype.getCurrentMenu = function (parent) {
-    var menu = {submenu: this.tree}; //AKA Pause Menu and Main Menu
+    var menu = {submenu: {tree: this.tree}}; //AKA Pause Menu and Main Menu
     var items;
 
     for (var level = 0; level < this.location.length - (parent || 0); level++) {
-        items = menu.submenu;
+        items = menu.submenu.tree;
         for (var i in items) {
             if (items[i].id === this.location[level]) {
                 menu = items[i];
@@ -76,7 +76,7 @@ Menu.prototype.getCurrentMenu = function (parent) {
             menu = null;
         }
     }
-    menu.submenu = menu.submenu.filter(function (item) {
+    menu.submenu.tree = menu.submenu.tree.filter(function (item) {
         return item.visible;
     });
     return menu;
@@ -92,7 +92,7 @@ Menu.prototype.updateStates = function (menu) {
     for (var i in menu) {
         menu[i].visible = (!menu[i].isVisible || menu[i].isVisible.apply(this));
         if (menu[i].submenu) {
-            this.updateStates(menu[i].submenu);
+            this.updateStates(menu[i].submenu.tree);
         }
     }
 };
@@ -149,8 +149,8 @@ Menu.prototype.action = function (code) {
                 this.location.splice(last, 1);
                 this.rowOffset = this.currentIndex = 0;
                 var m = this.getCurrentMenu();
-                for (var i in m.submenu) {
-                    if (m.submenu[i].id === id) {
+                for (var i in m.submenu.tree) {
+                    if (m.submenu.tree[i].id === id) {
                         this.currentIndex = +i;
                         Sound.play(SFX.menuOut);
                         break;
@@ -159,7 +159,7 @@ Menu.prototype.action = function (code) {
             }
             break;
         case "nav_enter":
-            this.selectItem(m.submenu[this.currentIndex], true);
+            this.selectItem(m.submenu.tree[this.currentIndex], true);
             break;
     }
     this.lastAction = new Date().getTime();
@@ -214,9 +214,9 @@ Menu.prototype.selectItem = function (menuItem, manual) {
  */
 Menu.prototype.shortcut = function (keyCode) {
     var m = this.getCurrentMenu();
-    for (var i in m.submenu) {
-        if (m.submenu[i].shortcut === keyCode) {
-            m.submenu[i].action.apply(this);
+    for (var i in m.submenu.tree) {
+        if (m.submenu.tree[i].shortcut === keyCode) {
+            m.submenu.tree[i].action.apply(this);
             return true;
         }
     }
@@ -231,7 +231,7 @@ Menu.prototype.shortcut = function (keyCode) {
 Menu.prototype.changeIndex = function (delta) {
     var m = this.getCurrentMenu();
     var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
-    var l = m.submenu.length;
+    var l = m.submenu.tree.length;
     Sound.play(this.navSound);
     if (Math.abs(delta) > 1) {
         var n = this.currentIndex + delta;
@@ -274,7 +274,7 @@ Menu.prototype.draw = function () {
     var context = this.vp.context;
 
     var m = this.getCurrentMenu();
-    var items = m.submenu;
+    var items = m.submenu.tree;
 
     context.textAlign = MENU_TEXT_ALIGN;
     context.textBaseline = "top";
