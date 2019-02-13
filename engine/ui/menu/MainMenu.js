@@ -10,13 +10,13 @@ function MainMenu(vp) {
 
     this.navSound = SFX.menuNavigate;
 
-    var stageMenu = {
+    this.stageMenu = {
         title: "Select Stage",
         tree: []
     };
     for (var i in STAGE) {
         if (!STAGE[i].extra) {
-            stageMenu.tree.push({
+            this.stageMenu.tree.push({
                 id: "stg_" + (+i + 1),
                 states: {stage: +i + 1},
                 title: "Stage " + (+i + 1),
@@ -25,37 +25,37 @@ function MainMenu(vp) {
         }
     }
 
-    var charMenu = {
+    this.charMenu = {
         title: "Select Character",
         tree: []
     };
     for (var i in CHAR) {
         if (CHAR[i].playable) {
-            charMenu.tree.push({
+            this.charMenu.tree.push({
                 id: "char_" + i,
                 states: {char: i},
                 title: CHAR[i].name,
-                submenu: stageMenu
+                submenu: this.stageMenu
             });
         }
     }
 
-    var diffMenu = {
+    this.diffMenu = {
         title: "Select Difficulty",
         tree: []
     };
     for (var i in DIFF) {
         if (!DIFF[i].hidden) {
-            diffMenu.tree.push({
+            this.diffMenu.tree.push({
                 id: "diff_" + i,
                 states: {difficulty: +i},
                 title: DIFF[i].name,
-                submenu: charMenu
+                submenu: this.charMenu
             });
         }
     }
 
-    var spellMenu = {
+    this.spellMenu = {
         compact: true,
         title: "Select Spell",
         tree: []
@@ -65,7 +65,7 @@ function MainMenu(vp) {
         spellNumber = SPELL[i].number || spellNumber;
         for (var j in SPELL[i].names) {
             if (SPELL[i].names[j]) {
-                spellMenu.tree.push({
+                this.spellMenu.tree.push({
                     id: "spell_" + spellNumber,
                     states: {difficulty: +j, spell: SPELL[i], char: "nBarashou"},
                     spell: SPELL[i],
@@ -76,11 +76,11 @@ function MainMenu(vp) {
             }
         }
     }
-    var inputMenu = {tree: []};
+    this.inputMenu = {tree: []};
     var aliases = this.vp.input.actionsAliases;
     for (var i in aliases) {
         if (["interaction", "misc"].indexOf(aliases[i].category) >= 0) {
-            inputMenu.tree.push({
+            this.inputMenu.tree.push({
                 title: i.toTitleCase() + ": " + this.vp.input.getKeyByAction(i, true)
             });
         }
@@ -90,7 +90,7 @@ function MainMenu(vp) {
         {
             id: "start",
             title: "Game Start",
-            submenu: diffMenu,
+            submenu: this.diffMenu,
             states: {gameType: "standard"}
         },
         {
@@ -105,7 +105,7 @@ function MainMenu(vp) {
         {
             id: "spell",
             title: "Spell Practice",
-            submenu: spellMenu,
+            submenu: this.spellMenu,
             states: {gameType: "spell"}
         },
         {
@@ -127,7 +127,7 @@ function MainMenu(vp) {
         {
             id: "controls",
             title: "Controls",
-            submenu: inputMenu
+            submenu: this.inputMenu
         },
         {
             id: "quit",
