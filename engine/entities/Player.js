@@ -348,9 +348,6 @@ Player.prototype.onPowerChange = function () {
 Player.prototype.kill = function () {
     this.respawnTime = this.respawnTimeDefault;
     this.invulnTime = this.respawnTimeDefault;
-    for (var i in this.anchored) {
-        this.anchored[i].remove();
-    }
 
     new Particle(this.world, this.x, this.y, 1, 12, false, false, "splash");
     this.world.splash(this, 20, 10, 0.5);
