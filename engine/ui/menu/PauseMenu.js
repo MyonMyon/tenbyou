@@ -38,8 +38,10 @@ function PauseMenu(vp) {
             action: function () {
                 var diff = this.vp.world.difficulty;
                 var spell = this.vp.world.spell;
+                var char = this.vp.world.player.name;
                 this.fadeOut = new Date().getTime();
                 this.vp.world = new World(this.vp);
+                this.vp.world.setPlayer(char);
                 if (spell) {
                     this.vp.world.startSpellPractice(diff, spell);
                 } else if (DIFF[diff].hidden) {
