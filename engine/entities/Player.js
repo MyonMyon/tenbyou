@@ -110,11 +110,11 @@ Player.prototype.step = function () {
         this.y = -this.world.height / 2 + this.width * 2;
 
     if (this.shooting) {
-        this.shoot(this.shootingPrev ? "continue" : "start");
-    } else if (this.shootingPrev) {
-        this.shoot("end");
+        this.shoot();
+    } else {
+        this.shootingPrev = false;
+        this.onShootEnd();
     }
-    this.shootingPrev = this.shooting;
 
     if (this.invulnTime > 0) {
         this.invulnTime -= 1 / this.world.ticksPS;
@@ -232,18 +232,19 @@ Player.prototype.draw = function (context) {
     }
 };
 
-Player.prototype.shoot = function (state) {
-    if (state === "end") {
-        this.onShootEnd();
-        return;
-    }
-    if (this.shotCooldown <= 0 && this.respawnTime === null) {
-        Sound.play(SFX.playerShot);
-        if (state === "start") {
-            this.onShootStart();
+Player.prototype.shoot = function () {
+    if (this.respawnTime === null) {
+        if (this.shotCooldown <= 0) {
+            Sound.play(SFX.playerShot);
+            if (!this.shootingPrev) {
+                this.onShootStart();
+            }
+            this.onShoot();
+            this.shotCooldown = this.shotCooldownDefault;
         }
-        this.onShoot();
-        this.shotCooldown = this.shotCooldownDefault;
+        this.shootingPrev = true;
+    } else {
+        this.shootingPrev = false;
     }
 };
 
@@ -348,6 +349,7 @@ Player.prototype.onPowerChange = function () {
 Player.prototype.kill = function () {
     this.respawnTime = this.respawnTimeDefault;
     this.invulnTime = this.respawnTimeDefault;
+    this.shootingPrev = false;
 
     new Particle(this.world, this.x, this.y, 1, 12, false, false, "splash");
     this.world.splash(this, 20, 10, 0.5);
@@ -405,7 +407,4 @@ Player.prototype.respawn = function () {
     this.y = this.world.height / 2 - 5;
     this.bombs = Math.max(this.bombsDefault, this.bombs);
     this.addPower(-Math.min(this.power, 1));
-    if (this.shooting) {
-        this.shoot("start");
-    }
 };
