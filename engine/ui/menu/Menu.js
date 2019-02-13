@@ -91,7 +91,7 @@ Menu.prototype.updateStates = function (menu) {
  */
 Menu.prototype.getCurrentTitle = function () {
     var menu = this.getCurrentMenu();
-    return menu.title || menu.parent ? menu.parent.tree[menu.indexInParent].title : GAME_TITLE;
+    return menu.title || (menu.parent ? menu.parent.tree[menu.indexInParent].title : GAME_TITLE);
 };
 
 /**
