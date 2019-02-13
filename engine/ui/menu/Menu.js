@@ -137,10 +137,10 @@ Menu.prototype.action = function (code) {
             this.changeIndex(-1);
             break;
         case "nav_right":
-            this.changeIndex(m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY);
+            this.changeIndex(m.submenu.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY);
             break;
         case "nav_left":
-            this.changeIndex(m.compact ? -MENU_CAPACITY_COMPACT : -MENU_CAPACITY);
+            this.changeIndex(m.submenu.compact ? -MENU_CAPACITY_COMPACT : -MENU_CAPACITY);
             break;
         case "nav_back":
             if (this.location.length) {
@@ -233,7 +233,7 @@ Menu.prototype.shortcut = function (keyCode) {
  */
 Menu.prototype.changeIndex = function (delta) {
     var m = this.getCurrentMenu();
-    var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
+    var cap = m.submenu.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
     var l = m.submenu.tree.length;
     Sound.play(this.navSound);
     if (Math.abs(delta) > 1) {
@@ -282,13 +282,13 @@ Menu.prototype.draw = function () {
     context.textAlign = MENU_TEXT_ALIGN;
     context.textBaseline = "top";
 
-    var height = this.vp.zoom * (m.compact ? MENU_H_COMPACT : MENU_H);
-    var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
+    var height = this.vp.zoom * (m.submenu.compact ? MENU_H_COMPACT : MENU_H);
+    var cap = m.submenu.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
 
     for (var i in items) {
         var row = +i - this.rowOffset;
         if (row >= 0 && row < cap) {
-            this.vp.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact, disabled: items[i].isEnabled && !items[i].isEnabled.apply(this)});
+            this.vp.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.submenu.compact, disabled: items[i].isEnabled && !items[i].isEnabled.apply(this)});
             this.vp.drawText(items[i].title,
                     this.vp.zoom * (MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X * Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay)),
                     this.vp.zoom * MENU_Y + height * row);

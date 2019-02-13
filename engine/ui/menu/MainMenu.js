@@ -63,6 +63,7 @@ function MainMenu(vp) {
     }
 
     var spellMenu = {
+        compact: true,
         title: "Select Spell",
         tree: []
     };
@@ -123,7 +124,6 @@ function MainMenu(vp) {
         {
             id: "spell",
             title: "Spell Practice",
-            compact: true,
             submenu: spellMenu,
             states: {gameType: "spell"}
         },
