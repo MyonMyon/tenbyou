@@ -262,8 +262,8 @@ ViewPort.prototype.clearMessage = function () {
 
 ViewPort.prototype.toScreen = function (worldX, worldY) {
     var value = {x: 0, y: 0};
-    value.x = this.centerX + (worldX + SHIFT_X) * this.zoom;
-    value.y = this.centerY + (worldY + SHIFT_Y) * this.zoom;
+    value.x = Math.round(this.centerX + (worldX + SHIFT_X) * this.zoom);
+    value.y = Math.round(this.centerY + (worldY + SHIFT_Y) * this.zoom);
     return value;
 };
 
