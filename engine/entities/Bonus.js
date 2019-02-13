@@ -44,7 +44,7 @@ Bonus.prototype.step = function () {
     }
 
     //collision
-    var d = this.world.distanceBetweenEntities(this, this.world.player);
+    var d = Util.distanceBetweenEntities(this, this.world.player);
 
     if (this.autoGather)
         this.headToEntity(this.world.player, 120, 0);

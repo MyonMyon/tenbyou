@@ -120,7 +120,7 @@ var SPELL = {
                     }
                 }
                 if (iter % 200 === 60) {
-                    this.attackAngle = this.world.angleBetweenEntities(this, this.world.player);
+                    this.attackAngle = Util.angleBetweenEntities(this, this.world.player);
                 }
                 if (iter % 200 < 160 && iter % 200 >= 60) {
                     var c = 3 + this.world.difficulty * 2;
@@ -252,7 +252,7 @@ var SPELL = {
                         var s = 90;
                         var r = 2;
                         var c = 5 + this.world.difficulty * 2;
-                        var a = this.world.angleBetweenEntities(this, this.world.player);
+                        var a = Util.angleBetweenEntities(this, this.world.player);
                         this.arcProjectiles(a, Math.PI / 20 * c, c, r, s, 0, 2, "orbBlue");
                     } else {
                         var p = this.shootProjectileAt(this.world.player, 0, 100, -36, 6, "orbBlue");

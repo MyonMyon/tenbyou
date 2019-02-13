@@ -29,7 +29,7 @@ Weapon.prototype.step = function () {
     if (!this.isInvulnerable()) {
         for (var i in this.world.entities) {
             var e = this.world.entities[i];
-            if (e instanceof Projectile && !e.playerSide && e.width && this.world.collisionCheck(e, this)) {
+            if (e instanceof Projectile && !e.playerSide && e.width && Util.collisionCheck(e, this)) {
                 //collision
                 this.hit();
             }

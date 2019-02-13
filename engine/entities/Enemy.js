@@ -137,7 +137,7 @@ Enemy.prototype.step = function () {
     //collision with player
     if (this.relTime() >= this.appearanceTime &&
             !this.world.player.isInvulnerable() &&
-            this.world.distanceBetweenEntities(this, this.world.player) <
+            Util.distanceBetweenEntities(this, this.world.player) <
             (this.width + this.world.player.width)) {
         this.world.player.kill();
     }
@@ -145,7 +145,7 @@ Enemy.prototype.step = function () {
     //collision with placed player weapons
     for (var i in this.world.entities) {
         var w = this.world.entities[i];
-        if (w instanceof Weapon && !w.isInvulnerable() && this.world.collisionCheck(this, w)) {
+        if (w instanceof Weapon && !w.isInvulnerable() && Util.collisionCheck(this, w)) {
             w.hit();
         }
     }
@@ -157,14 +157,14 @@ Enemy.prototype.step = function () {
             var e = this.world.entities[i];
             if (e.playerSide) {
                 if (e instanceof Projectile) {
-                    if (this.world.collisionCheck(this, e)) {
+                    if (Util.collisionCheck(this, e)) {
                         this.hurt(e.damage, {x: e.x, y: e.y});
                         e.remove();
                     }
                     continue;
                 }
                 if (e instanceof Beam) {
-                    if (this.world.collisionCheckBeam(this, e)) {
+                    if (Util.collisionCheckBeam(this, e)) {
                         this.hurt(e.damagePS / this.world.ticksPS, {x: this.x, y: this.y});
                     }
                 }

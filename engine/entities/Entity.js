@@ -141,11 +141,11 @@ Entity.prototype.getAngle = function () {
 };
 
 Entity.prototype.getSpeed = function () {
-    return this.world.vectorLength(this.x1, this.y1);
+    return Util.vectorLength(this.x1, this.y1);
 };
 
 Entity.prototype.getAcceleration = function () {
-    return this.world.vectorLength(this.x2, this.y2);
+    return Util.vectorLength(this.x2, this.y2);
 };
 
 Entity.prototype.draw = function (context) {
@@ -220,7 +220,7 @@ Entity.prototype.approachEntity = function (target, initSpeed) {
 };
 
 Entity.prototype.approachPoint = function (targetX, targetY, initSpeed) {
-    this.headToPoint(targetX, targetY, initSpeed, -initSpeed * initSpeed / 2 / this.world.distanceBetweenPoints(this.x, this.y, targetX, targetY));
+    this.headToPoint(targetX, targetY, initSpeed, -initSpeed * initSpeed / 2 / Util.distanceBetweenPoints(this.x, this.y, targetX, targetY));
 };
 
 Entity.prototype.headToEntity = function (target, speed, acceleration) {
@@ -230,7 +230,7 @@ Entity.prototype.headToEntity = function (target, speed, acceleration) {
 };
 
 Entity.prototype.headToPoint = function (targetX, targetY, speed, acceleration) {
-    var d = this.world.distanceBetweenPoints(this.x, this.y, targetX, targetY);
+    var d = Util.distanceBetweenPoints(this.x, this.y, targetX, targetY);
     if (d !== 0)
         this.setVectors(null, null,
                 (targetX - this.x) / d * speed,
@@ -253,8 +253,8 @@ Entity.prototype.nearestEntity = function (type, range, angleRange, filters) {
         var e = this.world.entities[i];
         if ((e instanceof type && ((type === Projectile && !e.playerSide) || type !== Projectile)) || type === null) {
             if (e !== this &&
-                    this.world.distanceBetweenEntities(this, e) < nearestDistance &&
-                    Math.abs(this.world.angleBetweenEntities(this, e) - this.getAngle()) <= angleRange) {
+                    Util.distanceBetweenEntities(this, e) < nearestDistance &&
+                    Math.abs(Util.angleBetweenEntities(this, e) - this.getAngle()) <= angleRange) {
                 var complete = true;
                 if (filters) {
                     for (var j in filters) {
@@ -265,7 +265,7 @@ Entity.prototype.nearestEntity = function (type, range, angleRange, filters) {
                 }
                 if (complete) {
                     nearest = e;
-                    nearestDistance = this.world.distanceBetweenEntities(this, e);
+                    nearestDistance = Util.distanceBetweenEntities(this, e);
                 }
             }
         }
@@ -289,7 +289,7 @@ Entity.prototype.shootProjectile = function (angle, distance, speed, acceleratio
 };
 
 Entity.prototype.shootProjectileAt = function (target, distance, speed, acceleration, width, sprite, anchored) {
-    var angle = this.world.angleBetweenEntities(this, target);
+    var angle = Util.angleBetweenEntities(this, target);
     return this.shootProjectile(angle, distance, speed, acceleration, width, sprite, anchored);
 };
 

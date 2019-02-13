@@ -94,6 +94,50 @@ Util.sum = function () {
     });
 };
 
+Util.vectorLength = function (x, y) {
+    return Math.sqrt(x * x + y * y);
+};
+
+Util.angleBetweenEntities = function (entity1, entity2) {
+    return Math.atan2(entity2.y - entity1.y, entity2.x - entity1.x);
+};
+
+Util.collisionCheck = function (entity1, entity2, distance) {
+    distance = (distance || 0) + entity1.width + entity2.width;
+    if (Math.abs(entity1.x - entity2.x) > distance || Math.abs(entity1.y - entity2.y) > distance) {
+        return false;
+    }
+    return Util.distanceBetweenEntities(entity1, entity2) < distance;
+};
+
+Util.collisionCheckBeam = function (entityPoint, entityBeam, distance) {
+    var x1 = entityBeam.x;
+    var y1 = entityBeam.y;
+    var x2 = x1 + Math.cos(entityBeam.a0) * entityBeam.length;
+    var y2 = y1 + Math.sin(entityBeam.a0) * entityBeam.length;
+    distance = (distance || 0) + entityPoint.width + entityBeam.width;
+    if (entityPoint.x > x1 + distance && entityPoint.x > x2 + distance ||
+            entityPoint.x < x1 - distance && entityPoint.x < x2 - distance ||
+            entityPoint.y > y1 + distance && entityPoint.y > y2 + distance ||
+            entityPoint.y < y1 - distance && entityPoint.y < y2 - distance) {
+        return false;
+    }
+    return Util.distanceBetweenPointAndSegment(entityPoint.x, entityPoint.y, x1, y1, x2, y2) < distance;
+};
+
+Util.distanceBetweenEntities = function (entity1, entity2) {
+    return Math.sqrt(Math.pow(entity1.x - entity2.x, 2) + Math.pow(entity1.y - entity2.y, 2));
+};
+
+Util.distanceBetweenPoints = function (point1x, point1y, point2x, point2y) {
+    return Math.sqrt(Math.pow(point1x - point2x, 2) + Math.pow(point1y - point2y, 2));
+};
+
+Util.distanceBetweenPointAndSegment = function (pointX, pointY, segment1x, segment1y, segment2x, segment2y) {
+    return Math.abs((segment2y - segment1y) * pointX - (segment2x - segment1x) * pointY + segment2x * segment1y - segment2y * segment1x) /
+            Math.sqrt(Math.pow(segment2x - segment1x, 2) + Math.pow(segment2y - segment1y, 2));
+};
+
 /**
  * Translates UNIX timestamp to datetime string representation.
  *

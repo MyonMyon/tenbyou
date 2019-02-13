@@ -40,7 +40,7 @@ var STAGE = [{
                         fairy.on(0.7, function () { //and now let's code the fairy's shooting event!
                             var bullet = this.shootProjectileAt(this.world.player, 0, 0, 100, 2, this.bulletSprite);
                             bullet.behavior = function () {
-                                if (this.world.vectorLength(this.x1, this.y1) > 60) {
+                                if (Util.vectorLength(this.x1, this.y1) > 60) {
                                     this.setVectors(null, null, null, null, 0, 0);
                                 }
                             };
@@ -64,7 +64,7 @@ var STAGE = [{
                             return;
                         }
                         if (i % shootInterval === 0) {
-                            this.targetAngle = this.world.angleBetweenEntities(this, {
+                            this.targetAngle = Util.angleBetweenEntities(this, {
                                 x: this.world.player.x,
                                 y: Math.max(this.y, this.world.player.y)});
                         }
@@ -353,7 +353,7 @@ var STAGE = [{
                         fairy.on(0.7, function () { //and now let's code the fairy's shooting event!
                             var bullet = this.shootProjectileAt(this.world.player, 0, 0, 75, 2, this.bulletSprite);
                             bullet.behavior = function () { //and bullet's behavior (executes every tick)!
-                                if (this.world.vectorLength(this.x1, this.y1) > 45) //if speed > 45 unit/s
+                                if (Util.vectorLength(this.x1, this.y1) > 45) //if speed > 45 unit/s
                                     this.setVectors(null, null, null, null, 0, 0); //stop accelerating
                             };
                             bullet.onSync(1.7, function (iter) {

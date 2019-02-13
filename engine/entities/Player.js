@@ -174,8 +174,8 @@ Player.prototype.step = function () {
         var e = this.world.entities[i];
         if (e instanceof Projectile && !e.playerSide && e.width) {
             //collision
-            if (this.world.collisionCheck(e, this, this.grazeWidth)) {
-                if (this.world.collisionCheck(e, this)) {
+            if (Util.collisionCheck(e, this, this.grazeWidth)) {
+                if (Util.collisionCheck(e, this)) {
                     e.remove();
                     if (!this.isInvulnerable()) {
                         this.kill();
