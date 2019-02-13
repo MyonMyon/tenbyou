@@ -174,6 +174,9 @@ Menu.prototype.action = function (code) {
  */
 Menu.prototype.selectItem = function (menuItem, manual) {
     if (menuItem) {
+        if (menuItem.isEnabled && !menuItem.isEnabled()) {
+            return;
+        }
         if (menuItem.control) {
             switch (menuItem.control) {
                 case "toggle":
