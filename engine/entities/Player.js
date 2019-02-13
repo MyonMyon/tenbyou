@@ -51,7 +51,7 @@ function Player(world, charName) {
     this.name = charName;
     this.sprite.set(SPRITE.player);
     this.sprite.set(charName);
-    var propImport = ["width", "onShoot", "onShootStart", "onShootEnd", "onBomb", "onSpecial", "onPowerChange"];
+    var propImport = ["width", "onDeath", "onShoot", "onShootStart", "onShootEnd", "onBomb", "onSpecial", "onPowerChange"];
     for (var i in propImport) {
         var d = CHAR[charName][propImport[i]];
         if (d) {
@@ -322,6 +322,10 @@ Player.prototype.addLives = function (lives, parts) {
     return succ;
 };
 
+Player.prototype.onDeath = function () {
+    //Override with CHAR data!
+};
+
 Player.prototype.onShoot = function () {
     //Override with CHAR data!
 };
@@ -350,6 +354,7 @@ Player.prototype.kill = function () {
     this.respawnTime = this.respawnTimeDefault;
     this.invulnTime = this.respawnTimeDefault;
     this.shootingPrev = false;
+    this.onDeath();
 
     new Particle(this.world, this.x, this.y, 1, 12, false, false, "splash");
     this.world.splash(this, 20, 10, 0.5);
