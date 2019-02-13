@@ -132,6 +132,7 @@ Menu.prototype.action = function (code) {
         case "nav_back":
             if (m.parent) {
                 this.currentMenu = m.parent;
+                this.rowOffset = 0;
                 this.currentIndex = m.indexInParent;
                 Sound.play(SFX.menuOut);
             }
