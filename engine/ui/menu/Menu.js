@@ -104,7 +104,7 @@ Menu.prototype.getCurrentTitle = function () {
     var menu = this.getCurrentMenu();
     if (!menu.title)
         return GAME_TITLE;
-    return menu.titleInner || menu.title;
+    return menu.submenu.title || menu.title;
 };
 
 /**

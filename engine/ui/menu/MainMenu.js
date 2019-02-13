@@ -10,7 +10,10 @@ function MainMenu(vp) {
 
     this.navSound = SFX.menuNavigate;
 
-    var stageMenu = {tree: []};
+    var stageMenu = {
+        title: "Select Stage",
+        tree: []
+    };
     for (var i in STAGE) {
         if (!STAGE[i].extra) {
             stageMenu.tree.push({
@@ -29,7 +32,10 @@ function MainMenu(vp) {
         }
     }
 
-    var charMenu = {tree: []};
+    var charMenu = {
+        title: "Select Character",
+        tree: []
+    };
     for (var i in CHAR) {
         if (CHAR[i].playable) {
             charMenu.tree.push({
@@ -41,7 +47,10 @@ function MainMenu(vp) {
         }
     }
 
-    var diffMenu = {tree: []};
+    var diffMenu = {
+        title: "Select Difficulty",
+        tree: []
+    };
     for (var i in DIFF) {
         if (!DIFF[i].hidden) {
             diffMenu.tree.push({
@@ -53,7 +62,10 @@ function MainMenu(vp) {
         }
     }
 
-    var spellMenu = {tree: []};
+    var spellMenu = {
+        title: "Select Spell",
+        tree: []
+    };
     var spellNumber = 0;
     for (var i in SPELL) {
         spellNumber = SPELL[i].number || spellNumber;
