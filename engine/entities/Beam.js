@@ -20,6 +20,8 @@ function Beam(world, x, y, length, a, r, a1, r1, a2, r2, width, playerSide, spri
     this.grazePS = 10;
     this.grazeTime = 0;
     this.damagePS = 10;
+
+    this.removeAt = Infinity;
 }
 
 Beam.prototype.draw = function (context) {
@@ -70,6 +72,10 @@ Beam.prototype.step = function () {
     }
 
     this.behavior();
+
+    //remove from world
+    if (this.relTime() > this.removeAt)
+        this.remove();
 };
 
 Beam.prototype.behavior = function () {
