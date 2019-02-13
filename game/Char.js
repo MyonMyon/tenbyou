@@ -32,6 +32,12 @@ var CHAR = {
                 this.projectile = null;
             }
         },
+        onSpecial: function () {
+            this.projectileSpecial = new Beam(this.world, 0, -10, 200, Util.toAngle("s"), 0, Math.PI * (Math.random() >= 0.5 ? 2 : -2), 0, 0, 0, 10, true);
+            this.projectileSpecial.damagePS = 500;
+            this.projectileSpecial.removeAt = 1;
+            this.projectileSpecial.setAnchor(this);
+        },
         onBomb: function () {
             this.world.clearField(20);
         },
