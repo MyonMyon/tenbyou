@@ -391,6 +391,7 @@ Player.prototype.respawn = function () {
             return;
         }
     } else {
+        this.onPowerChange(0);
         this.respawnTime = null;
         this.lives--;
     }
