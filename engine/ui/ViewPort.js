@@ -12,6 +12,8 @@ function ViewPort() {
 
     this.clearMessage();
 
+    this.debugString = "";
+
     this.ticks = [];
     this.fps = 0;
     this.prevMS = 0;
@@ -376,6 +378,7 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
 
     this.setFont(FONT.info, {minor: true});
     if (this.inDev) {
+        this.infoShow(this.debugString, 9, 0);
         this.infoShow("S#" + this.world.stage + "." + this.world.substage, 10, 0);
         this.infoShow("T+" + this.world.relTime().toFixed(2), 10, 0.5);
         this.infoShow("E=" + this.world.entities.length, 10, 1);
