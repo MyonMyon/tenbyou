@@ -63,20 +63,9 @@ Menu.prototype.loadSettingsStates = function (tree) {
  * @return {Object} Current menu item object.
  */
 Menu.prototype.getCurrentMenu = function (parent) {
-    var menu = {submenu: {tree: this.tree}}; //AKA Pause Menu and Main Menu
-    var items;
+    var menu = this.currentMenu || {tree: this.tree}; //AKA Pause Menu and Main Menu
 
-    for (var level = 0; level < this.location.length - (parent || 0); level++) {
-        items = menu.submenu.tree;
-        for (var i in items) {
-            if (items[i].id === this.location[level]) {
-                menu = items[i];
-                break;
-            }
-            menu = null;
-        }
-    }
-    menu.submenu.tree = menu.submenu.tree.filter(function (item) {
+    menu.tree = menu.tree.filter(function (item) {
         return item.visible;
     });
     return menu;
@@ -102,16 +91,14 @@ Menu.prototype.updateStates = function (menu) {
  */
 Menu.prototype.getCurrentTitle = function () {
     var menu = this.getCurrentMenu();
-    if (!menu.title)
-        return GAME_TITLE;
-    return menu.submenu.title || menu.title;
+    return menu.title || menu.parent ? menu.parent.tree[menu.indexInParent].title : GAME_TITLE;
 };
 
 /**
  * Navigates to main menu.
  */
 Menu.prototype.resetLocation = function () {
-    this.location = [];
+    this.currentMenu = null;
     this.rowOffset = this.currentIndex = 0;
 };
 
@@ -137,29 +124,20 @@ Menu.prototype.action = function (code) {
             this.changeIndex(-1);
             break;
         case "nav_right":
-            this.changeIndex(m.submenu.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY);
+            this.changeIndex(m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY);
             break;
         case "nav_left":
-            this.changeIndex(m.submenu.compact ? -MENU_CAPACITY_COMPACT : -MENU_CAPACITY);
+            this.changeIndex(m.compact ? -MENU_CAPACITY_COMPACT : -MENU_CAPACITY);
             break;
         case "nav_back":
-            if (this.location.length) {
-                var last = this.location.length - 1;
-                var id = this.location[last];
-                this.location.splice(last, 1);
-                this.rowOffset = this.currentIndex = 0;
-                var m = this.getCurrentMenu();
-                for (var i in m.submenu.tree) {
-                    if (m.submenu.tree[i].id === id) {
-                        this.currentIndex = +i;
-                        Sound.play(SFX.menuOut);
-                        break;
-                    }
-                }
+            if (m.parent) {
+                this.currentMenu = m.parent;
+                this.currentIndex = m.indexInParent;
+                Sound.play(SFX.menuOut);
             }
             break;
         case "nav_enter":
-            this.selectItem(m.submenu.tree[this.currentIndex], true);
+            this.selectItem(m.tree[this.currentIndex], true);
             break;
     }
     this.lastAction = new Date().getTime();
@@ -196,15 +174,16 @@ Menu.prototype.selectItem = function (menuItem, manual) {
                 this.states[i] = menuItem.states[i];
             }
         }
-        if (menuItem.action) {
-            menuItem.action.apply(this);
+        if (menuItem.submenu) {
+            menuItem.submenu.parent = this.getCurrentMenu();
+            menuItem.submenu.indexInParent = this.currentIndex;
+            this.currentMenu = menuItem.submenu;
+            this.rowOffset = this.currentIndex = 0;
+        } else if (menuItem.action) {
+            menuItem.action.apply(this, [menuItem]);
         }
         if (manual) {
             Sound.play(SFX.menuIn);
-        }
-        if (menuItem.submenu) {
-            this.location.push(menuItem.id);
-            this.rowOffset = this.currentIndex = 0;
         }
     }
     return this;
@@ -217,9 +196,9 @@ Menu.prototype.selectItem = function (menuItem, manual) {
  */
 Menu.prototype.shortcut = function (keyCode) {
     var m = this.getCurrentMenu();
-    for (var i in m.submenu.tree) {
-        if (m.submenu.tree[i].shortcut === keyCode) {
-            m.submenu.tree[i].action.apply(this);
+    for (var i in m.tree) {
+        if (m.tree[i].shortcut === keyCode) {
+            m.tree[i].action.apply(this);
             return true;
         }
     }
@@ -233,8 +212,8 @@ Menu.prototype.shortcut = function (keyCode) {
  */
 Menu.prototype.changeIndex = function (delta) {
     var m = this.getCurrentMenu();
-    var cap = m.submenu.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
-    var l = m.submenu.tree.length;
+    var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
+    var l = m.tree.length;
     Sound.play(this.navSound);
     if (Math.abs(delta) > 1) {
         var n = this.currentIndex + delta;
@@ -277,18 +256,18 @@ Menu.prototype.draw = function () {
     var context = this.vp.context;
 
     var m = this.getCurrentMenu();
-    var items = m.submenu.tree;
+    var items = m.tree;
 
     context.textAlign = MENU_TEXT_ALIGN;
     context.textBaseline = "top";
 
-    var height = this.vp.zoom * (m.submenu.compact ? MENU_H_COMPACT : MENU_H);
-    var cap = m.submenu.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
+    var height = this.vp.zoom * (m.compact ? MENU_H_COMPACT : MENU_H);
+    var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
 
     for (var i in items) {
         var row = +i - this.rowOffset;
         if (row >= 0 && row < cap) {
-            this.vp.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.submenu.compact, disabled: items[i].isEnabled && !items[i].isEnabled.apply(this)});
+            this.vp.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact, disabled: items[i].isEnabled && !items[i].isEnabled.apply(this)});
             this.vp.drawText(items[i].title,
                     this.vp.zoom * (MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X * Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay)),
                     this.vp.zoom * MENU_Y + height * row);

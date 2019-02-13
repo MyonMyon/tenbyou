@@ -175,7 +175,7 @@ MainMenu.prototype.draw = function () {
     this.vp.context.drawImage(o, 0, 0, o.width, o.height, 0, 0, WIDTH * this.vp.zoom, HEIGHT * this.vp.zoom);
 
     this.$draw();
-    if (!this.getCurrentMenu().title) {
+    if (!this.getCurrentMenu().parent) {
         this.vp.setFont(FONT.title, {menu: true, fr: true});
         this.vp.drawText(FRANCHISE_TITLE, MENU_X * this.vp.zoom, MENU_TITLE_Y * this.vp.zoom);
     }
