@@ -20,14 +20,7 @@ function MainMenu(vp) {
                 id: "stg_" + (+i + 1),
                 states: {stage: +i + 1},
                 title: "Stage " + (+i + 1),
-                action: function () {
-                    this.vp.pauseMenu.fadeIn = null;
-                    this.fadeOut = new Date().getTime();
-                    this.vp.world = new World(this.vp);
-                    this.vp.world.setPlayer(this.states.char);
-                    this.vp.world.startStage(this.states.stage, this.states.difficulty);
-                    this.resetLocation();
-                }
+                action: this.startGame
             });
         }
     }
@@ -77,13 +70,7 @@ function MainMenu(vp) {
                     states: {difficulty: +j, spell: SPELL[i], char: "nBarashou"},
                     spell: SPELL[i],
                     title: "#" + Util.fillWithLeadingZeros(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
-                    action: function () {
-                        this.vp.pauseMenu.fadeIn = null;
-                        this.fadeOut = new Date().getTime();
-                        this.vp.world = new World(this.vp);
-                        this.vp.world.setPlayer(this.states.char);
-                        this.vp.world.startSpellPractice(this.states.difficulty, this.states.spell);
-                    }
+                    action: this.startGame
                 });
                 ++spellNumber;
             }
@@ -112,14 +99,8 @@ function MainMenu(vp) {
             isEnabled: function () {
                 return false;
             },
-            action: function () {
-                this.vp.pauseMenu.fadeIn = null;
-                this.fadeOut = new Date().getTime();
-                this.vp.world = new World(this.vp);
-                this.vp.world.setPlayer(this.states.char);
-                this.vp.world.startExtra(4);
-                this.resetLocation();
-            }
+            action: this.startGame,
+            states: {gameType: "extra", char: "nBarashou"}
         },
         {
             id: "spell",
@@ -159,6 +140,29 @@ function MainMenu(vp) {
     this.updateStates();
     this.loadSettingsStates();
 }
+
+/**
+ * Ultimate function to start the game.
+ */
+MainMenu.prototype.startGame = function () {
+    this.vp.pauseMenu.fadeIn = null;
+    this.fadeOut = new Date().getTime();
+    this.vp.world = new World(this.vp);
+    this.vp.world.setPlayer(this.states.char);
+    switch (this.states.gameType) {
+        case "standard":
+            this.vp.world.startStage(this.states.stage, this.states.difficulty);
+            this.resetLocation();
+            break;
+        case "extra":
+            this.vp.world.setPlayer(this.states.char);
+            this.vp.world.startExtra(4);
+            break;
+        case "spell":
+            this.vp.world.startSpellPractice(this.states.difficulty, this.states.spell);
+            break;
+    }
+};
 
 /**
  * Main menu interface draw function.
