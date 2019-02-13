@@ -40,6 +40,12 @@ var CHAR = {
                 this.onShootEnd();
                 this.onShootStart();
             }
+        },
+        onDeath: function () {
+            if (this.projectile) {
+                this.projectile.remove();
+                this.projectile = null;
+            }
         }
     },
     nBarashou: {
