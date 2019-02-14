@@ -30,6 +30,7 @@ function ViewPort() {
         self.splashComplete = false;
         self.startTimer = setTimeout(function () {
             self.initMenu();
+            self.splashComplete = true;
         }, self.splashMs + self.splashFadeMs);
     };
 
@@ -90,15 +91,16 @@ ViewPort.prototype.onResize = function () {
 ViewPort.prototype.onLoad = function () {
     this.loaded = true;
     this.input = new Input(this);
+    if (this.splashComplete) {
+        this.initMenu();
+    }
 };
 
 ViewPort.prototype.initMenu = function () {
-    if (!this.loaded || this.splashComplete) {
+    if (!this.loaded || this.mainMenu) {
         return;
     }
     this.inDev = Settings.get("dev.mode");
-
-    this.splashComplete = true;
 
     this.mainMenu = new MainMenu(this);
     this.pauseMenu = new PauseMenu(this);
@@ -538,7 +540,7 @@ ViewPort.prototype.draw = function () {
 
     this.context.globalAlpha = 1;
 
-    if (!this.splashComplete) {
+    if (!this.mainMenu) {
         this.drawSplash();
         return this.requestDraw();
     }
