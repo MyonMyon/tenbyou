@@ -166,7 +166,7 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
         s.onerror = function () {
             if (this.tagName === "AUDIO") {
                 console.warn("Failed loading audio: " + this.src);
-                loadedRes++;
+                this.onloadeddata();
                 return;
             }
             fail = true;
