@@ -60,6 +60,9 @@ var IMAGE_LOAD = [{
         itemProp: "file",
         push: true,
         checkInside: true
+    }, {
+        object: "EVENTS",
+        itemProp: "res"
     }];
 
 var SFX_LOAD = [{
