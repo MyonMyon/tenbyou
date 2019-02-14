@@ -174,3 +174,13 @@ Util.formatAsDateTime = function (timestamp, format) {
     }
     return result;
 };
+
+/**
+ * @param {Date} date Desired date.
+ * @return {Number} Moon phase from 0 incusively (new moon) to 2 exclusively (next new moon). 1 is full moon.
+ */
+Util.toMoonPhase = function (date) {
+    var timestamp = Math.floor(date.valueOf() / 1000);
+    timestamp -= Util.LUNATION_1_TIMESTAMP;
+    return (timestamp % Util.SYNODIC_MONTH_SECONDS) / Util.SYNODIC_MONTH_SECONDS * 2;
+};

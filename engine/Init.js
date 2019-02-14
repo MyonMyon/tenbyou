@@ -16,6 +16,7 @@ var ENGINE_CODE = [
     "Settings",
     "SpriteHandler",
     "Sound",
+    "GameEvent",
     "ui/menu/Menu",
     "ui/menu/MainMenu",
     "ui/menu/PauseMenu",
@@ -37,7 +38,8 @@ var GAME_CODE = [
     "Char",
     "Attack",
     "Stage",
-    "Sprite"
+    "Sprite",
+    "Events"
 ];
 
 var CUT_IN = {};
