@@ -256,6 +256,22 @@ Menu.prototype.applySettingsFor = function (menuItem) {
 Menu.prototype.draw = function () {
     var context = this.vp.context;
 
+    if (GameEvent.checkEvent("valentine")) {
+        var obj = EVENTS.valentine.res.object;
+        var z = EVENTS.valentine.res.zoom * this.vp.zoom;
+        var c = 42;
+        for (var i = 0; i < c; i++) {
+            var xD = this.vp.zoom * Math.sin(new Date().getTime() / 200 + Math.sin(i) * 42) * 5;
+            var y = (new Date().getTime() + Math.pow(Math.sin(i) * 420, 2)) % 4000 / 4000;
+            context.drawImage(
+                    obj,
+                    this.vp.width * (i + 0.5) / c + xD - obj.width / 2 * z,
+                    this.vp.height * (y - 0.1) * 1.2 - obj.height / 2 * z,
+                    obj.width * z,
+                    obj.height * z);
+            }
+    }
+
     var m = this.getCurrentMenu();
     var items = m.tree;
 
