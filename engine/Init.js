@@ -164,6 +164,11 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
             }
         };
         s.onerror = function () {
+            if (this.tagName === "AUDIO") {
+                console.warn("Failed loading audio: " + this.src);
+                loadedRes++;
+                return;
+            }
             fail = true;
             if (loadingTextHandler) {
                 loadingTextHandler.loadingText = "Resource missing: " + this.src;
