@@ -96,7 +96,7 @@ Player.prototype.step = function () {
     var dir = (this.moveLeft !== this.moveRight ? this.moveRight ? "e" : "w" : "") +
             (this.moveUp !== this.moveDown ? this.moveDown ? "s" : "n" : "");
     var a = Util.toMeanAngle(dir);
-    var r = this.focused ? this.speedFocused : this.speed * (a !== null);
+    var r = (this.focused ? this.speedFocused : this.speed) * (a !== null);
 
     this.x1 = Math.cos(a) * r;
     this.y1 = Math.sin(a) * r;
