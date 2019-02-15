@@ -27,7 +27,7 @@ var STAGE = [{
                                 25,
                                 (i === 0 ? -7.5 : 7.5),
                                 0,
-                                2, 1, i ? "fairyBlue" : "fairyRed");
+                                2, [1, 2, 5, 10], i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i ? "point" : "power"); //type, amount (optional)
                         if (Math.random() < 0.1) {
                             fairy.addDrops("powerLarge"); //10% chance of big power item;
@@ -178,7 +178,7 @@ var STAGE = [{
                     var y = Math.min(this.height / 2 - 2,
                             Math.max(-this.height / 2 + 2,
                                     this.player.y - 15 + Math.random() * 30));
-                    var sideFairy = new Enemy(this, x, y, -r * 15, 0, r * 15, 0, 2, 1, "fairyBlue");
+                    var sideFairy = new Enemy(this, x, y, -r * 15, 0, r * 15, 0, 2, [1, 2, 5, 10], "fairyBlue");
                     sideFairy.appearanceTime = 1;
                     sideFairy.addDrops("point", 2);
                     sideFairy.on(1.2, function (i) {
@@ -200,7 +200,7 @@ var STAGE = [{
                             r * (this.width / 2 + 1), -this.height / 2 - 1,
                             -r * 30, 30,
                             r * 15, -15,
-                            2, 1, "fairyRed");
+                            2, [1, 2, 5, 10], "fairyRed");
                     fairyTurret.addDrops("power");
                     fairyTurret.on(1.7, function (i) {
                         this.savedPoint = {x: this.x, y: this.y};
@@ -276,7 +276,7 @@ var STAGE = [{
                             r * (this.width / 2 + 1), -this.height / 2 - 1,
                             -r * 30, 30,
                             r * 15, -15,
-                            2, 1, "fairyRed");
+                            2, [1, 2, 5, 10], "fairyRed");
                     fairyTurret.addDrops("power");
                     fairyTurret.on(0.5, function (i) {
                         this.savedPoint = {x: this.world.player.x, y: this.world.player.y};
@@ -340,7 +340,7 @@ var STAGE = [{
                                 25,
                                 (i === 0 ? -7.5 : 7.5),
                                 0,
-                                2, 1, i ? "fairyBlue" : "fairyRed");
+                                2, [1, 2, 5, 10], i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i ? "point" : "power"); //type, amount (optional)
                         if (Math.random() < 0.1) {
                             fairy.addDrops("powerLarge"); //10% chance of big power item;
