@@ -16,12 +16,8 @@ var STAGE = [{
             }, {
                 substage: 0,
                 second: 4,
-                repeatInterval: function (world) {
-                    return 2 - (world.difficulty) * 0.4;
-                },
-                repeatCount: function (world) {
-                    return 3 + 2 * (world.difficulty + 1);
-                },
+                repeatInterval: [2, 1.6, 1.2, 0.8],
+                repeatCount: [5, 7, 9, 11],
                 func: function () {
                     for (var i = 0; i < 2; i++) { //two sides
                         var fairy = new Enemy(this,
