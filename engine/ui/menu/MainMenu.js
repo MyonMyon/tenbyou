@@ -35,7 +35,7 @@ function MainMenu(vp) {
                 id: "char_" + i,
                 states: {char: i},
                 title: CHAR[i].name,
-                submenu: this.stageMenu
+                action: this.onCharSelect
             });
         }
     }
@@ -67,7 +67,7 @@ function MainMenu(vp) {
             if (SPELL[i].names[j]) {
                 this.spellMenu.tree.push({
                     id: "spell_" + spellNumber,
-                    states: {difficulty: +j, spell: SPELL[i], char: "nBarashou"},
+                    states: {difficulty: +j, spell: SPELL[i]},
                     spell: SPELL[i],
                     title: "#" + Util.fillWithLeadingZeros(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
                     action: this.startGame
@@ -105,7 +105,7 @@ function MainMenu(vp) {
         {
             id: "spell",
             title: "Spell Practice",
-            submenu: this.spellMenu,
+            submenu: this.charMenu,
             states: {gameType: "spell"}
         },
         {
@@ -162,6 +162,23 @@ MainMenu.prototype.startGame = function () {
             this.vp.world.startSpellPractice(this.states.difficulty, this.states.spell);
             break;
     }
+};
+
+/**
+ * Ultimate function after character selection.
+ *
+ * @param {Object} charItem Selected menu item representing character.
+ */
+MainMenu.prototype.onCharSelect = function (charItem) {
+    switch (this.states.gameType) {
+        case "standard":
+            charItem.submenu = this.stageMenu;
+            break;
+        case "spell":
+            charItem.submenu = this.spellMenu;
+            break;
+    }
+    this.updateStates(charItem.submenu.tree);
 };
 
 /**

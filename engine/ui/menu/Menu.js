@@ -175,13 +175,14 @@ Menu.prototype.selectItem = function (menuItem, manual) {
                 this.states[i] = menuItem.states[i];
             }
         }
+        if (menuItem.action) {
+            menuItem.action.apply(this, [menuItem]);
+        }
         if (menuItem.submenu) {
             menuItem.submenu.parent = this.getCurrentMenu();
             menuItem.submenu.indexInParent = this.currentIndex;
             this.currentMenu = menuItem.submenu;
             this.rowOffset = this.currentIndex = 0;
-        } else if (menuItem.action) {
-            menuItem.action.apply(this, [menuItem]);
         }
         if (manual) {
             Sound.play(SFX.menuIn);
