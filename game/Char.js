@@ -3,6 +3,8 @@ var CHAR = {
         playable: true,
         name: "Freyja til Folkvang",
         width: 0.66,
+        speed: 100,
+        speedFocused: 40,
         onShootStart: function () {
             if (this.projectile) {
                 this.projectile.remove();
@@ -59,6 +61,8 @@ var CHAR = {
         name: "Natsuki Barashou",
         color: "#ff8",
         width: 0.5,
+        speed: 100,
+        speedFocused: 40,
         weapons: {
             turret: {
                 width: 2,

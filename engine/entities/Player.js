@@ -28,7 +28,6 @@ function Player(world, charName) {
     this.gatherValue = 0;
     this.gatherValueExtremum = 0;
 
-    this.focusMx = 0.4;
     this.focused = false;
     this.moveLeft = false;
     this.moveRight = false;
@@ -51,7 +50,18 @@ function Player(world, charName) {
     this.name = charName;
     this.sprite.set(SPRITE.player);
     this.sprite.set(charName);
-    var propImport = ["width", "onDeath", "onShoot", "onShootStart", "onShootEnd", "onBomb", "onSpecial", "onPowerChange"];
+    var propImport = [
+        "width",
+        "speed",
+        "speedFocused",
+        "onDeath",
+        "onShoot",
+        "onShootStart",
+        "onShootEnd",
+        "onBomb",
+        "onSpecial",
+        "onPowerChange"
+    ];
     for (var i in propImport) {
         var d = CHAR[charName][propImport[i]];
         if (d) {
@@ -86,10 +96,8 @@ Player.prototype.step = function () {
     var dir = (this.moveLeft !== this.moveRight ? this.moveRight ? "e" : "w" : "") +
             (this.moveUp !== this.moveDown ? this.moveDown ? "s" : "n" : "");
     var a = Util.toMeanAngle(dir);
-    var r = 100 * (a !== null);
-    if (this.focused) {
-        r *= this.focusMx;
-    }
+    var r = this.focused ? this.speedFocused : this.speed * (a !== null);
+
     this.x1 = Math.cos(a) * r;
     this.y1 = Math.sin(a) * r;
 
