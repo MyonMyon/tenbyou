@@ -10,9 +10,13 @@ EventChain.prototype.clear = function () {
 EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCount, useWorldTimeGrid) {
     if (typeof repeatInterval === "function") {
         repeatInterval = repeatInterval(this.parent);
+    } else if (typeof repeatInterval === "object") {
+        repeatInterval = repeatInterval[this.parent.world ? this.parent.world.difficulty : this.parent.difficulty];
     }
     if (typeof repeatCount === "function") {
         repeatCount = repeatCount(this.parent);
+    } else if (typeof repeatCount === "object") {
+        repeatCount = repeatCount[this.parent.world ? this.parent.world.difficulty : this.parent.difficulty];
     }
     var e = {
         repeatInterval: repeatInterval,
