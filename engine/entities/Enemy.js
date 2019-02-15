@@ -6,6 +6,9 @@ function Enemy(world, x, y, x1, y1, x2, y2, width, health, spriteName) {
         this.mirror = SPRITE.enemy[spriteName].mirror;
     }
     this.appearanceTime = 0;
+    if (typeof health === "object") {
+        health = health[world.difficulty];
+    }
     this.initialHealth = health || 20;
     this.health = this.initialHealth;
     this.cost = this.initialHealth * 100;
