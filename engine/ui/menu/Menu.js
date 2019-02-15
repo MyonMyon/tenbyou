@@ -108,8 +108,7 @@ Menu.prototype.resetLocation = function () {
  * @param {String} code Action code.
  */
 Menu.prototype.action = function (code) {
-    if (code === "nav_null") {
-        this.lastAction = 0;
+    if (this.lockInput) {
         return;
     }
     if (new Date().getTime() < this.lastAction + this.actionDelay) {

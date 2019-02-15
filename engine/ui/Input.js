@@ -207,6 +207,8 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
     if (!this.vp.splashComplete) {
         if (this.vp.loaded) {
             this.vp.initMenu();
+            this.vp.mainMenu.lockInput = true;
+            this.vp.splashComplete = true;
         }
         return;
     }
@@ -235,6 +237,9 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
         if (action && keyValue) {
             menu.action(action);
             return true;
+        }
+        if (!keyValue) {
+            menu.lockInput = false;
         }
     }
 
