@@ -3,8 +3,8 @@ var CHAR = {
         playable: true,
         name: "Freyja til Folkvang",
         width: 0.66,
-        speed: 100,
-        speedFocused: 40,
+        speed: 150,
+        speedFocused: 36,
         onShootStart: function () {
             if (this.projectile) {
                 this.projectile.remove();
