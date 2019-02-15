@@ -24,8 +24,8 @@ Enemy.prototype.draw = function (context) {
     var ePos = this.world.vp.toScreen(this.x, this.y);
 
     context.save();
-    if (this.relTime() < this.appearanceTime) {
-        context.globalAlpha = this.relTime() / (this.appearanceTime * 2);
+    if (this.lifetime < this.appearanceTime) {
+        context.globalAlpha = this.lifetime / (this.appearanceTime * 2);
     }
     context.translate(ePos.x, ePos.y);
     if (this.mirror && this.x1 < 0)
@@ -33,7 +33,7 @@ Enemy.prototype.draw = function (context) {
     if (this.angle)
         context.rotate(this.angle);
 
-    this.sprite.draw(context, 0, 0, this.relTime(), this.world.vp.zoom * this.width * 2);
+    this.sprite.draw(context, 0, 0, this.lifetime, this.world.vp.zoom * this.width * 2);
 
     context.restore();
 
@@ -73,7 +73,7 @@ Enemy.prototype.draw = function (context) {
                     (i + 1) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
                     (i % 2 === 0) ? BOSS_HEALTH_SPELL_COLOR : BOSS_HEALTH_SPELL_ALT_COLOR, BOSS_HEALTH_WIDTH);
 
-        var rt = this.relTime();
+        var rt = this.lifetime;
         var at = this.attacks[this.attackCurrent].time;
         var dt = this.attacks[this.attackCurrent].decrTime;
         if (this.attacks[this.attackCurrent].spell && this.world.player.spellCompleteTerms) { //for spells 
@@ -100,9 +100,9 @@ Enemy.prototype.drawBossWheel = function (context, r, from, to, color, lineWidth
 };
 
 Enemy.prototype.step = function () {
-    var l = this.relTime();
+    var l = this.lifetime;
     this.$step();
-    if (l < this.appearanceTime && this.relTime() >= this.appearanceTime) {
+    if (l < this.appearanceTime && this.lifetime >= this.appearanceTime) {
         this.world.splash(this, this.initialHealth / 5, 8, 0.33);
     }
 
@@ -135,7 +135,7 @@ Enemy.prototype.step = function () {
     }
 
     //collision with player
-    if (this.relTime() >= this.appearanceTime &&
+    if (this.lifetime >= this.appearanceTime &&
             !this.world.player.isInvulnerable() &&
             Util.distanceBetweenEntities(this, this.world.player) <
             (this.width + this.world.player.width)) {
@@ -152,7 +152,7 @@ Enemy.prototype.step = function () {
 
     //collision with bullets
     if ((this.world.boss !== this || (this.attackCurrent !== null && this.attackCurrent < this.attacks.length)) &&
-            this.relTime() >= this.appearanceTime) {
+            this.lifetime >= this.appearanceTime) {
         for (var i in  this.world.entities) {
             var e = this.world.entities[i];
             if (e.playerSide) {
@@ -175,7 +175,7 @@ Enemy.prototype.step = function () {
     if (this.attackCurrent === null)
         this.behavior();
     else if (this.attackCurrent < this.attacks.length) {
-        var rt = this.relTime();
+        var rt = this.lifetime;
         var at = this.attacks[this.attackCurrent].time;
         var dt = this.attacks[this.attackCurrent].decrTime;
         var bb = this.attacks[this.attackCurrent].bonusBound;
@@ -218,7 +218,7 @@ Enemy.prototype.onDestroy = function () {
 };
 
 Enemy.prototype.isInvulnerable = function () {
-    return this === this.world.boss && this.attackCurrent === null || this.relTime() < this.appearanceTime;
+    return this === this.world.boss && this.attackCurrent === null || this.lifetime < this.appearanceTime;
 };
 
 Enemy.prototype.hurt = function (damage, position) {
@@ -245,9 +245,9 @@ Enemy.prototype.hurt = function (damage, position) {
     } else {
         this.health = 0;
     }
-    if (this.relTime() - this.lastSplash > 0.1) {
+    if (this.lifetime - this.lastSplash > 0.1) {
         this.world.splash(position || this, damage, this.width * 2, this.width * 0.07);
-        this.lastSplash = this.relTime();
+        this.lastSplash = this.lifetime;
     }
     this.world.player.score += Math.round(healthOld - this.health) * 10;
 
@@ -339,7 +339,7 @@ Enemy.prototype.nextAttack = function () {
         ++this.attackGroupCurrent;
     }
 
-    this.lifetime = -1;
+    this.lifetime = -1 / this.world.ticksPS;
 };
 
 Enemy.prototype.setBossData = function (bossName, isLast) {

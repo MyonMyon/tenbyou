@@ -101,7 +101,7 @@ var CHAR = {
             turretAuto: {
                 width: 2,
                 onHit: function () {
-                    var t = this.relTime();
+                    var t = this.lifetime;
                     if (this.restoreAt && this.restoreAt > t && this.vulnerableAt < t) {
                         this.destroy();
                     }
@@ -109,7 +109,7 @@ var CHAR = {
                     this.restoreAt = t + 5;
                 },
                 onShoot: function () {
-                    if (this.restoreAt && this.restoreAt > this.relTime()) {
+                    if (this.restoreAt && this.restoreAt > this.lifetime) {
                         return;
                     }
                     var bullet = this.shootProjectile(this.angle, 4, 480, 0, 2, "strike.yellow");

@@ -295,7 +295,7 @@ var STAGE = [{
                             b.behavior = function () {
                                 if (this.anchor) {
                                     var angle = this.anchor.getAngle();
-                                    var d = Math.sin(this.relTime() * 4) * this.maxDistance;
+                                    var d = Math.sin(this.lifetime * 4) * this.maxDistance;
                                     this.x0 = Math.cos(angle - Math.PI / 2) * d;
                                     this.y0 = Math.sin(angle - Math.PI / 2) * d;
                                 }

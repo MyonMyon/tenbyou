@@ -52,7 +52,7 @@ var SPELL = {
         init: function () {
             this.on(0.4, function (iter) {
                 var c = 8;
-                var d = this.relTime() * 1.5;
+                var d = this.lifetime * 1.5;
                 var bs = this.arcProjectiles(0, null, c, this.width, 1, 0, 2.5, iter % 2 ? "static.blue" : "static.red");
                 for (var i in bs) {
                     var a = bs[i].getAngle();
@@ -210,7 +210,7 @@ var SPELL = {
                 var c = 2 + this.world.difficulty;
                 var r = 24;
                 var s = 60;
-                var a = Math.PI / 2 - Math.cos(this.relTime() * 0.75);
+                var a = Math.PI / 2 - Math.cos(this.lifetime * 0.75);
                 var bs = this.arcProjectiles(a, null, c, r, s, 0, 2, "orbBlue");
                 for (var i in bs) {
                     bs[i].reflects = 1;
@@ -243,7 +243,7 @@ var SPELL = {
                 this.x1 = 0;
                 var r = 2;
                 var s = 60;
-                this.angle = this.relTime() * 2 - Math.PI / 2;
+                this.angle = this.lifetime * 2 - Math.PI / 2;
                 this.shootProjectile(this.angle, r, s, 0, 4, iter % 2 ? "static.blue" : "static.red");
             }).repeat(0.033);
             this.on(0, function (iter) {
@@ -288,7 +288,7 @@ var SPELL = {
                     if (this.width <= 0.2)
                         this.remove();
                     else
-                        this.width = 20 - Math.pow(this.relTime(), 2) * 5;
+                        this.width = 20 - Math.pow(this.lifetime, 2) * 5;
                 };
             }).repeat(0.4 / (this.world.difficulty + 1));
         }
@@ -304,7 +304,7 @@ var NON_SPELL = {
                     return;
                 }
                 var v = iter % 32 < 16;
-                var d = (v ? this.relTime() : -this.relTime()) * 1.5;
+                var d = (v ? this.lifetime : -this.lifetime) * 1.5;
                 this.arcProjectiles(d, null, c, this.width, 50, 0, 2.5, d > 0 ? "static.red" : "static.blue");
             }).repeat(0.1);
         },
@@ -315,13 +315,13 @@ var NON_SPELL = {
         init: function () {
             this.on(0, function () {
                 var c = 2 * (this.attackGroupCurrent + 3) * (this.world.difficulty + 1);
-                var d = this.relTime() * 3;
+                var d = this.lifetime * 3;
                 this.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
             }).repeat(0.133);
         },
         func: function () {
             //~wiggling left and right~
-            this.x1 = Math.cos(this.relTime() * 1.5) * 30;
+            this.x1 = Math.cos(this.lifetime * 1.5) * 30;
         },
         health: 300,
         time: 15
@@ -331,13 +331,13 @@ var NON_SPELL = {
         init: function () {
             this.on(0, function () {
                 var c = 2 * (this.attackGroupCurrent + 3) * (this.world.difficulty + 1);
-                var d = this.relTime() * 3;
+                var d = this.lifetime * 3;
                 this.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
             }).repeat(0.133);
         },
         func: function () {
             //~wiggling left and right~
-            this.x1 = Math.cos(this.relTime() * 1.5) * 30;
+            this.x1 = Math.cos(this.lifetime * 1.5) * 30;
         },
         health: 500,
         time: 25

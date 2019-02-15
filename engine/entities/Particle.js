@@ -14,13 +14,13 @@ function Particle(world, x, y, removeAt, width, randomFrame, moving, spriteName)
 
 Particle.prototype.draw = function (context) {
     var ePos = this.world.vp.toScreen(this.x, this.y);
-    this.sprite.draw(context, ePos.x, ePos.y, this.relTime(), this.world.vp.zoom * this.width);
+    this.sprite.draw(context, ePos.x, ePos.y, this.lifetime, this.world.vp.zoom * this.width);
 };
 
 Particle.prototype.step = function () {
     this.$step();
 
     //remove from world
-    if (this.relTime() > this.removeAt)
+    if (this.lifetime > this.removeAt)
         this.remove();
 };

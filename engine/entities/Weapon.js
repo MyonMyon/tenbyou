@@ -93,7 +93,7 @@ Weapon.prototype.draw = function (context) {
     ctx.save();
     ctx.translate(ePos.x, ePos.y);
     ctx.rotate(Math.PI / 2 + this.angle);
-    this.sprite.draw(ctx, 0, 0, this.relTime(), this.width * 2 * this.world.vp.zoom, true);
+    this.sprite.draw(ctx, 0, 0, this.lifetime, this.width * 2 * this.world.vp.zoom, true);
     ctx.restore();
     if (this.world.drawHitboxes) {
         context.fillStyle = "white";

@@ -477,8 +477,8 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
                                 boundaryStart.y + this.zoom * 10);
                     }
                 }
-                this.setFont(FONT.timer, {fullBonus: this.world.boss.relTime() < attack.decrTime});
-                this.drawText(Util.fillWithLeadingZeros(Math.ceil(attack.time - this.world.boss.relTime()), 2),
+                this.setFont(FONT.timer, {fullBonus: this.world.boss.lifetime < attack.decrTime});
+                this.drawText(Util.fillWithLeadingZeros(Math.ceil(attack.time - this.world.boss.lifetime), 2),
                         boundaryEnd.x - this.zoom * 2.5,
                         boundaryStart.y + this.zoom * 10);
             }

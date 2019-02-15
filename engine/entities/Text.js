@@ -10,7 +10,7 @@ function Text(world, x, y, content, max, cat) {
 Text.prototype.draw = function (context) {
     var ePos = this.world.vp.toScreen(this.x, this.y);
     context.textAlign = "center";
-    context.globalAlpha = Math.max(0, Math.min(1, (this.removeAt - this.relTime()) * 6));
+    context.globalAlpha = Math.max(0, Math.min(1, (this.removeAt - this.lifetime) * 6));
     var d = {};
     if (this.max) {
         d[this.cat + "Max"] = true;
@@ -26,6 +26,6 @@ Text.prototype.step = function () {
     this.$step();
 
     //remove from world
-    if (this.relTime() > this.removeAt)
+    if (this.lifetime > this.removeAt)
         this.remove();
 };

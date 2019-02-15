@@ -129,11 +129,7 @@ Entity.prototype.step = function () {
     this.w1 += this.w2 / this.world.ticksPS;
     this.width += this.w1 / this.world.ticksPS;
 
-    ++this.lifetime;
-};
-
-Entity.prototype.relTime = function () {
-    return this.lifetime / this.world.ticksPS;
+    this.lifetime += 1 / this.world.ticksPS;
 };
 
 Entity.prototype.getAngle = function () {

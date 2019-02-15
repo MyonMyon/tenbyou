@@ -19,7 +19,7 @@ Bonus.prototype.draw = function (context) {
     }
     context.translate(ePos.x, ePos.y);
     if (!offScreen && this.y1 < 0 && !BONUS[this.cat].still) {
-        context.rotate(this.relTime() * (this.id % 2 ? 10 : -10));
+        context.rotate(this.lifetime * (this.id % 2 ? 10 : -10));
     }
     this.sprite.draw(context, 0, 0, 0, 6 * this.world.vp.zoom);
     context.restore();
@@ -100,7 +100,7 @@ Bonus.prototype.step = function () {
         var cat = score ? "point" : "power";
         if (score || power) {
             var t = this.world.lastText;
-            if (t && t.relTime() <= 0.04 && t.max === max && t.cat === cat) {
+            if (t && t.lifetime <= 0.04 && t.max === max && t.cat === cat) {
                 t.content = +t.content + (score || power);
                 if (power) {
                     t.content = (t.content + 0.001).toFixed(2);

@@ -225,7 +225,7 @@ Player.prototype.draw = function (context) {
         } else {
             this.sprite.setState("idle");
         }
-        this.sprite.draw(context, ePos.x, ePos.y, this.relTime(), 8 * this.world.vp.zoom);
+        this.sprite.draw(context, ePos.x, ePos.y, this.lifetime, 8 * this.world.vp.zoom);
 
         if (this.focused) {
             context.strokeStyle = HITBOX_STROKE_COLOR;

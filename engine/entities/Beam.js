@@ -43,7 +43,7 @@ Beam.prototype.draw = function (context) {
         context.rotate(a - Math.PI / 2 + this.angle);
     }
 
-    this.sprite.draw(context, 0, 0, this.playerSide ? this.world.relTime() : this.relTime(), this.world.vp.zoom * this.width * 2);
+    this.sprite.draw(context, 0, 0, this.playerSide ? this.world.relTime() : this.lifetime, this.world.vp.zoom * this.width * 2);
 
     context.restore();
     */
@@ -74,7 +74,7 @@ Beam.prototype.step = function () {
     this.behavior();
 
     //remove from world
-    if (this.relTime() > this.removeAt)
+    if (this.lifetime > this.removeAt)
         this.remove();
 };
 

@@ -34,7 +34,7 @@ EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCo
 };
 
 EventChain.prototype.addEventNow = function (func, secondTimeout, repeatInterval, repeatCount) {
-    this.addEvent(func, this.parent.relTime() + secondTimeout, repeatInterval, repeatCount);
+    this.addEvent(func, (this.parent.relTime ? this.parent.relTime() : this.parent.lifetime) + secondTimeout, repeatInterval, repeatCount);
 };
 
 EventChain.prototype.tick = function () {
@@ -42,6 +42,8 @@ EventChain.prototype.tick = function () {
     for (var i in this.events) {
         if (this.events[i].useWorldTimeGrid) {
             t = this.parent.world.relTime();
+        } else if (!this.parent.relTime) {
+            t = this.parent.lifetime;
         } else {
             t = this.parent.relTime();
         }
