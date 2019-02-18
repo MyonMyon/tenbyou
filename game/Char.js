@@ -2,6 +2,7 @@ var CHAR = {
     freyja: {
         playable: true,
         name: "Freyja til Folkvang",
+        description: "Posseses a huge light beam emitter",
         width: 0.66,
         speed: 150,
         speedFocused: 36,
@@ -59,6 +60,7 @@ var CHAR = {
     nBarashou: {
         playable: true,
         name: "Natsuki Barashou",
+        description: "Equiped with an arsenal of sentry turrets",
         color: "#ff8",
         width: 0.5,
         speed: 100,

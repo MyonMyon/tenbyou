@@ -20,6 +20,7 @@ function MainMenu(vp) {
                 id: "stg_" + (+i + 1),
                 states: {stage: +i + 1},
                 title: "Stage " + (+i + 1),
+                description: STAGE[i].title,
                 action: this.startGame
             });
         }
@@ -35,6 +36,7 @@ function MainMenu(vp) {
                 id: "char_" + i,
                 states: {char: i},
                 title: CHAR[i].name,
+                description: CHAR[i].description,
                 action: this.onCharSelect
             });
         }
@@ -50,6 +52,7 @@ function MainMenu(vp) {
                 id: "diff_" + i,
                 states: {difficulty: +i},
                 title: DIFF[i].name,
+                description: DIFF[i].description,
                 submenu: this.charMenu
             });
         }
@@ -90,12 +93,14 @@ function MainMenu(vp) {
         {
             id: "start",
             title: "Game Start",
+            description: "Start playing the main game",
             submenu: this.diffMenu,
             states: {gameType: "standard"}
         },
         {
             id: "extra",
             title: "Extra Start",
+            description: "Not yet",
             isEnabled: function () {
                 return false;
             },
@@ -105,12 +110,14 @@ function MainMenu(vp) {
         {
             id: "spell",
             title: "Spell Practice",
+            description: "Start practicing spell attacks",
             submenu: this.charMenu,
             states: {gameType: "spell"}
         },
         {
             id: "options",
             title: "Options",
+            description: "Just a couple of tweaks",
             submenu: {tree: [{
                         id: "sound_on",
                         title: "Sound",
@@ -127,11 +134,13 @@ function MainMenu(vp) {
         {
             id: "controls",
             title: "Controls",
+            description: "See key bindings",
             submenu: this.inputMenu
         },
         {
             id: "quit",
             title: "Quit",
+            description: "Back to the reality",
             action: function () {
                 window.location = document.referrer || "about:blank";
             }

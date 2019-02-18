@@ -251,6 +251,12 @@ var FONT = {
         compact: {
             size: 7,
             strokeWidth: 0.75
+        },
+        description: {
+            color: ["#fff", "#fcc"],
+            strokeColor: "#c00",
+            strokeWidth: 0.75,
+            size: 8
         }
     },
     debug: {
@@ -346,6 +352,7 @@ var MENU_H = 10;
 var MENU_H_COMPACT = 7;
 var MENU_OPTION_OFFSET_X = 80;
 var MENU_SELECTION_OFFSET_X = 4;
+var MENU_DESC_Y = 160;
 var MENU_VER_Y = 178;
 var MENU_TEXT_ALIGN = "left";
 var MENU_CAPACITY = 7;
@@ -355,16 +362,20 @@ var MENU_SCROLL_W = 1;
 
 var DIFF = [{
         name: "Easy",
-        letter: "E"
+        letter: "E",
+        description: "For the casual gamers"
     }, {
         name: "Normal",
-        letter: "N"
+        letter: "N",
+        description: "For the normies (REEEEEEEEEEEEEEE)"
     }, {
         name: "Hard",
-        letter: "H"
+        letter: "H",
+        description: "For the challengers"
     }, {
         name: "Lunatic",
-        letter: "L"
+        letter: "L",
+        description: "This thing is CURSED"
     }, {
         name: "Extra",
         letter: "X",

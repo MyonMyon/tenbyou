@@ -315,6 +315,16 @@ Menu.prototype.draw = function () {
                 this.vp.zoom * MENU_SCROLL_W, height * cap / (l - cap + 2));
     }
 
+    var description = items[this.currentIndex].description;
+    if (description) {
+        this.vp.setFont(FONT.menu, {description: true});
+        this.vp.context.globalAlpha = Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay);
+        this.vp.drawText(description,
+                    this.vp.zoom * MENU_X,
+                    this.vp.zoom * MENU_DESC_Y);
+        this.vp.context.globalAlpha = 1;
+    }
+
     var title = this.getCurrentTitle();
     this.vp.setFont(FONT.title, {menu: true});
     this.vp.drawText(title, this.vp.zoom * MENU_X, this.vp.zoom * MENU_SUBTITLE_Y);
