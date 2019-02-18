@@ -478,14 +478,6 @@ var STAGE = [{
                         }
                     }).repeat(0.3, 3);
                 }
-            }, {
-                substage: 0,
-                second: 24,
-                boss: {
-                    char: "lily",
-                    attacks: [],
-                    last: true
-                }
             }]
     }, {
         extra: 4,
