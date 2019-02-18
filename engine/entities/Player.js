@@ -373,6 +373,10 @@ Player.prototype.isMaxBonus = function () {
     return this.y < this.world.maxBonusY;
 };
 
+Player.prototype.setGodMode = function () {
+    this.invulnTime = this.invulnTime ? 0 : Infinity;
+};
+
 Player.prototype.isInvulnerable = function () {
     return this.invulnTime > 0;
 };
