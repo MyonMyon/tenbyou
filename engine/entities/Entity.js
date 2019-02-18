@@ -281,6 +281,13 @@ Entity.prototype.shootProjectile = function (angle, distance, speed, acceleratio
     if (anchored) {
         p.setAnchor(this);
     }
+    if ((this.x > this.world.width / 2
+            || this.x < -this.world.width / 2
+            || this.y > this.world.height / 2
+            || this.y < -this.world.height / 2)) {
+        //don't shoot from offscreen
+        p.remove();
+    }
     return p;
 };
 
