@@ -8,7 +8,6 @@ function World(vp) {
 
     this.time = 0;
     this.ticksPS = 60;
-    this.stageInterval = 2.5;
     this.tickInterval = 1;
 
     this.pause = false;
@@ -23,6 +22,8 @@ function World(vp) {
     this.stage = 0;
     this.substage = 0;
     this.substageStart = 0;
+    this.stageEnd = null;
+    this.stageInterval = 2.5;
     this.continuable = true;
 
     this.vp = vp;
@@ -187,6 +188,7 @@ World.prototype.nextStage = function () {
     ++this.stage;
     this.substage = 0;
     this.substageStart = 0;
+    this.stageEnd = null;
 
     if (this.stage >= this.stages.length) {
         this.continuable = false;
@@ -208,10 +210,11 @@ World.prototype.stageBonus = function () {
         bonus *= this.player.points;
         bonus = Math.floor(bonus / 10) * 10;
         this.player.score += bonus;
+        this.stageEnd = this.stageTime();
         this.vp.showMessage(["Stage Clear!", "Bonus: " + bonus], this.stageInterval);
         this.eventChain.addEventNow(function () {
             this.nextStage();
-        }, 2);
+        }, this.stageInterval);
     } else {
         //Spell Practice Stop
         this.destroy();
@@ -224,6 +227,10 @@ World.prototype.relTime = function () {
 
 World.prototype.stageTime = function () {
     return this.time / this.ticksPS;
+};
+
+World.prototype.stageEndTime = function () {
+    return this.stageInterval + this.stageEnd - this.stageTime();
 };
 
 World.prototype.setBoss = function (enemy, title, isLast) {

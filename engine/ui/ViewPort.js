@@ -407,10 +407,10 @@ ViewPort.prototype.drawBackground = function (boundaryStart, boundaryEnd) {
     var boundaryEnd = this.toScreen(this.world.width / 2, this.world.height / 2);
     this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
 
-    var stg = (this.world.stageTime() < this.world.stageInterval / 2) ? (this.world.stage - 1) : this.world.stage;
+    var stage = this.world.stages[this.world.stage];
     var spell = (this.world.boss && this.world.boss.attackCurrent !== null && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
-    if (this.world.stages[stg]) {
-        var bg = spell ? (this.world.boss.attacks[this.world.boss.attackCurrent].background || SPRITE.spellBackground) : this.world.stages[stg].background;
+    if (stage) {
+        var bg = spell ? (this.world.boss.attacks[this.world.boss.attackCurrent].background || SPRITE.spellBackground) : stage.background;
         if (bg) {
             var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.stageTime() * bg.speed) % bg.object.height;
             this.context.drawImage(bg.object,
@@ -442,7 +442,7 @@ ViewPort.prototype.drawBackground = function (boundaryStart, boundaryEnd) {
         }
     }
 
-    this.context.globalAlpha = Math.max(Math.min(Math.min(this.world.stageTime() * 6, (this.world.stageInterval - this.world.stageTime()) * 6), 1), 0);
+    this.context.globalAlpha = 1 - Math.min(1, (this.world.stageEnd ? this.world.stageEndTime() : this.world.stageTime()) / this.world.stageInterval);
     this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
     this.context.globalAlpha = 1;
 };
