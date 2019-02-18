@@ -80,7 +80,7 @@ var STAGE = [{
                         var x = r * (this.width / 3 + p * 10);
                         var kedamaPaired = new Enemy(this, x, y, -r * 2, 30, -r * 12, 0, 4, 12, "kedamaMinion");
                         kedamaPaired.addDrops(p ? "point" : "power");
-                        kedamaPaired.on(0.5, function (i) {
+                        kedamaPaired.on(0.6, function (i) {
                             this.shootProjectileAt(this.world.player, this.width, 60, 0, 2, "kunai.purple");
                         }).repeat(2 - this.difficulty * 0.2);
                     }
