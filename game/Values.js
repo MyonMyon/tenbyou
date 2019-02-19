@@ -165,6 +165,13 @@ var FONT = {
             color: ["#f60", "#940"]
         }
     },
+    upgrade: {
+        font: "Accuratist",
+        size: 8,
+        color: ["#fff", "#ccc"],
+        strokeWidth: 1,
+        strokeColor: "#666"
+    },
     info: {
         font: "Unispace Rg",
         size: 6,

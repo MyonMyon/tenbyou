@@ -287,6 +287,7 @@ Player.prototype.addPower = function (power, silent) {
     if (this.power > this.powerMax) {
         this.power = this.powerMax;
         if (powerOld < this.powerMax) {
+            this.world.vp.showMessage(["Full Power!"], 2, [FONT.upgrade], "top");
             this.world.clearField(0);
             this.world.replaceBonus("power", "point");
         }
@@ -326,6 +327,7 @@ Player.prototype.addLives = function (lives, parts) {
     var succ = this.addItems("lives", lives, "lifeParts", parts);
     if (this.lives > old) {
         Sound.play(SFX.playerExtend);
+        this.world.vp.showMessage(["Extend!"], 2, [FONT.upgrade], "top");
     }
     return succ;
 };
