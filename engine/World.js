@@ -6,8 +6,8 @@ function World(vp) {
     this.lastID = 0;
     this.entities = [];
 
-    this.time = 0;
     this.ticksPS = 60;
+    this.time = -1 / this.ticksPS;
     this.tickTime = 0;
     this.tickInterval = 1;
 
@@ -32,11 +32,7 @@ function World(vp) {
 
     this.eventChain = new EventChain(this);
 
-    var self = this;
-
-    this.tickerId = setInterval(function () {
-        self.tick();
-    }, 1000 / this.ticksPS);
+    this.tick();
 }
 
 World.prototype.setPause = function (value) {
@@ -267,6 +263,11 @@ World.prototype.tick = function () {
         }
         this.eventChain.tick();
     }
+
+    var w = this;
+    this.tickerId = setTimeout(function () {
+        w.tick();
+    }, 1000 / this.ticksPS);
 };
 
 World.prototype.randomBonus = function () {
