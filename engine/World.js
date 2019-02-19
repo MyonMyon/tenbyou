@@ -250,6 +250,7 @@ World.prototype.tick = function () {
     if (!this.pause) {
         if (this.dialogue) {
             this.dialogue.tick();
+            this.postponeTick();
             return;
         }
 
@@ -272,7 +273,10 @@ World.prototype.tick = function () {
         }
         this.eventChain.tick();
     }
+    this.postponeTick();
+};
 
+World.prototype.postponeTick = function () {
     var w = this;
     this.tickerId = setTimeout(function () {
         w.tick();
