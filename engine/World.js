@@ -159,8 +159,11 @@ World.prototype.destroy = function () {
     this.vp.mainMenu.fadeIn = new Date().getTime();
 };
 
-World.prototype.addTime = function () {
+World.prototype.addTime = function (stepBoss) {
     if (this.boss) {
+        if (stepBoss) {
+            this.boss.attackCurrent = this.boss.attacks.length;
+        }
         this.boss.nextAttack();
         return;
     }
@@ -168,7 +171,13 @@ World.prototype.addTime = function () {
         var e = this.eventChain.events[i];
         if (!e.done) {
             this.time = this.substageStart + e.second;
-            return;
+            if (!stepBoss) {
+                return;
+            }
+            if (!e.fire.name) {
+                return;
+            }
+            e.done = true;
         }
     }
 };
