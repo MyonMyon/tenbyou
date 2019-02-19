@@ -121,11 +121,13 @@ function MainMenu(vp) {
             submenu: {tree: [{
                         id: "sound_on",
                         title: "Sound",
+                        description: "Enable sounds",
                         control: "toggle",
                         statePath: "sound.enabled"
                     }, {
                         id: "video_gradients",
                         title: "Gradients",
+                        description: "Enable gradients in text (causes lower framerate)",
                         control: "toggle",
                         statePath: "video.gradients",
                         vpField: "gradients"
