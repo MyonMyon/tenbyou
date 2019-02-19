@@ -45,6 +45,9 @@ ViewPort.prototype.perfStep = function () {
     }
     if (startTime % 100 < this.prevMS % 100) {
         this.fps = (this.ticks[this.ticks.length - 1] - this.ticks[0]) / 2 / 2000 * this.ticks.length;
+        if (this.world && Settings.get("video.world_sync")) {
+            this.world.ticksPS = Math.round(this.fps / 5) * 5;
+        }
     }
     if (startTime % 1000 < this.prevMS) {
         if (this.pChart && this.pChart.mode !== "off" && this.world && !this.world.pause) {

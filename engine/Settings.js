@@ -14,6 +14,7 @@ Settings.getDefault = function (key) {
     var m = {
         "dev.mode": "false",
         "sound.enabled": "true",
+        "video.world_sync": "true",
         "video.gradients": "true"
     };
     return m[key];
@@ -27,6 +28,7 @@ Settings.getType = function (key) {
     var m = {
         "dev.mode": "boolean",
         "sound.enabled": "boolean",
+        "video.world_sync": "boolean",
         "video.gradients": "boolean"
     };
     return m[key];

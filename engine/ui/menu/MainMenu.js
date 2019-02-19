@@ -131,6 +131,12 @@ function MainMenu(vp) {
                         control: "toggle",
                         statePath: "video.gradients",
                         vpField: "gradients"
+                    }, {
+                        id: "video_world_sync",
+                        title: "Timer Sync",
+                        description: "Synchronise world timer with the framerate",
+                        control: "toggle",
+                        statePath: "video.world_sync"
                     }]}
         },
         {
