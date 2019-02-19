@@ -116,11 +116,13 @@ Entity.prototype.step = function () {
     if (this.reflects > 0) {
         if (this.x > this.world.width / 2 || this.x < -this.world.width / 2) {
             this.x1 = -this.x1;
+            this.x -= (this.x - this.world.width / (this.x > 0 ? 2 : -2)) * 2;
             this.onReflect("x");
             --this.reflects;
         }
         if (this.y > this.world.height / 2 || this.y < -this.world.height / 2) {
             this.y1 = -this.y1;
+            this.y -= (this.y - this.world.height / (this.y > 0 ? 2 : -2)) * 2;
             this.onReflect("y");
             --this.reflects;
         }
