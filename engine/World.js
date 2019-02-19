@@ -8,6 +8,7 @@ function World(vp) {
 
     this.time = 0;
     this.ticksPS = 60;
+    this.tickTime = 0;
     this.tickInterval = 1;
 
     this.pause = false;
@@ -170,7 +171,7 @@ World.prototype.addTime = function () {
     for (var i in this.eventChain.events) {
         var e = this.eventChain.events[i];
         if (!e.done) {
-            this.time = this.substageStart + Math.floor(e.second * this.ticksPS) - 1;
+            this.time = this.substageStart + e.second;
             return;
         }
     }
@@ -210,7 +211,7 @@ World.prototype.stageBonus = function () {
         bonus *= this.player.points;
         bonus = Math.floor(bonus / 10) * 10;
         this.player.score += bonus;
-        this.stageEnd = this.stageTime();
+        this.stageEnd = this.time;
         this.vp.showMessage(["Stage Clear!", "Bonus: " + bonus], this.stageInterval);
         this.eventChain.addEventNow(function () {
             this.nextStage();
@@ -222,15 +223,11 @@ World.prototype.stageBonus = function () {
 };
 
 World.prototype.relTime = function () {
-    return (this.time - this.substageStart) / this.ticksPS;
-};
-
-World.prototype.stageTime = function () {
-    return this.time / this.ticksPS;
+    return this.time - this.substageStart;
 };
 
 World.prototype.stageEndTime = function () {
-    return this.stageInterval + this.stageEnd - this.stageTime();
+    return this.stageInterval + this.stageEnd - this.time;
 };
 
 World.prototype.setBoss = function (enemy, title, isLast) {
@@ -250,15 +247,15 @@ World.prototype.tick = function () {
             this.dialogue.tick();
             return;
         }
-        this.time += this.tickInterval;
 
         //skip frame logic:
-        if (Math.abs(Math.round(this.time) - this.time) < 0.05 || this.tickInterval === 1) {
-            this.time = Math.round(this.time);
-        }
-        if (this.time !== Math.round(this.time)) {
+        this.tickTime += this.tickInterval;
+        if (this.tickTime < 1) {
             return;
         }
+        this.tickTime = 0;
+
+        this.time += 1 / this.ticksPS;
 
         for (var i in this.entities) {
             if (!this.entities[i].removalMark) {

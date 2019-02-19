@@ -243,14 +243,14 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
 
 ViewPort.prototype.showMessage = function (textArray, time, styleArray, position) {
     this.messageTextArray = textArray;
-    this.messageStart = this.world.stageTime();
+    this.messageStart = this.world.time;
     this.messageTime = time;
     this.messagePosition = position || "center";
     this.messageStyleArray = styleArray || [FONT.title];
 };
 
 ViewPort.prototype.showItemLine = function () {
-    this.itemLineStart = this.world.stageTime();
+    this.itemLineStart = this.world.time;
     this.itemLineTime = 4;
 };
 
@@ -413,7 +413,7 @@ ViewPort.prototype.drawBackground = function (boundaryStart, boundaryEnd) {
     if (stage) {
         var bg = spell ? (this.world.boss.attacks[this.world.boss.attackCurrent].background || SPRITE.spellBackground) : stage.background;
         if (bg) {
-            var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.stageTime() * bg.speed) % bg.object.height;
+            var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.time * bg.speed) % bg.object.height;
             this.context.drawImage(bg.object,
                     0, Math.max(0, t),
                     bg.object.width, bg.object.width / this.world.width * this.world.height,
@@ -436,14 +436,14 @@ ViewPort.prototype.drawBackground = function (boundaryStart, boundaryEnd) {
                 this.context.drawImage(o,
                         0, 0,
                         o.width, o.height,
-                        boundaryStart.x + this.world.stageTime() * (i ? -180 : 180) % (o.width * this.zoom / 4) + (j - 1) * (o.width * this.zoom / 4),
+                        boundaryStart.x + this.world.time * (i ? -180 : 180) % (o.width * this.zoom / 4) + (j - 1) * (o.width * this.zoom / 4),
                         (boundaryStart.y * (0.25 + (1 - i) * 0.5) + boundaryEnd.y * (0.25 + i * 0.5)) - o.height / 2,
                         o.width * this.zoom / 4, o.height * this.zoom / 4);
             }
         }
     }
 
-    this.context.globalAlpha = 1 - Math.min(1, (this.world.stageEnd ? this.world.stageEndTime() : this.world.stageTime()) / this.world.stageInterval);
+    this.context.globalAlpha = 1 - Math.min(1, (this.world.stageEnd ? this.world.stageEndTime() : this.world.time) / this.world.stageInterval);
     this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
     this.context.globalAlpha = 1;
 };
@@ -486,7 +486,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
         }
     }
 
-    var time = this.world.stageTime();
+    var time = this.world.time;
     //Show message:
     if (time < (this.messageStart + this.messageTime) && time > this.messageStart) {
         this.context.textAlign = "center";
