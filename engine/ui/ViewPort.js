@@ -49,7 +49,7 @@ ViewPort.prototype.perfStep = function () {
             this.gradients = false;
         }
         if (this.world && Settings.get("video.world_sync")) {
-            this.world.ticksPS = Math.round(this.fps / 5) * 5;
+            this.world.ticksPS = Math.round(this.fps / 10) * 10;
         }
     }
     if (startTime % 1000 < this.prevMS) {
