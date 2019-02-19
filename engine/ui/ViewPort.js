@@ -45,6 +45,9 @@ ViewPort.prototype.perfStep = function () {
     }
     if (startTime % 100 < this.prevMS % 100) {
         this.fps = (this.ticks[this.ticks.length - 1] - this.ticks[0]) / 2 / 2000 * this.ticks.length;
+        if (this.gradients === null && this.fps < 55) {
+            this.gradients = false;
+        }
         if (this.world && Settings.get("video.world_sync")) {
             this.world.ticksPS = Math.round(this.fps / 5) * 5;
         }
@@ -224,7 +227,7 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
         if (this.context.lineWidth) {
             this.context.strokeText(textArray[i], x, yr);
         }
-        if (this.gradients && this.gradientBuffer) {
+        if ((this.gradients !== false) && this.gradientBuffer) {
             var t = this.context.textBaseline;
             var d = 0.5;
             if (["top", "hanging"].indexOf(t) >= 0) {

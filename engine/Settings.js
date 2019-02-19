@@ -15,7 +15,7 @@ Settings.getDefault = function (key) {
         "dev.mode": "false",
         "sound.enabled": "true",
         "video.world_sync": "true",
-        "video.gradients": "true"
+        "video.gradients": "null"
     };
     return m[key];
 };

@@ -128,8 +128,11 @@ function MainMenu(vp) {
                         id: "video_gradients",
                         title: "Gradients",
                         description: "Enable gradients in text (causes lower framerate)",
-                        control: "toggle",
+                        control: "toggleThree",
                         statePath: "video.gradients",
+                        stateNames: {
+                            "Partial": "Auto"
+                        },
                         vpField: "gradients"
                     }, {
                         id: "video_world_sync",
