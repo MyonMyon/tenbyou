@@ -257,6 +257,7 @@ World.prototype.tick = function () {
         //skip frame logic:
         this.tickTime += this.tickInterval;
         if (this.tickTime < 1) {
+            this.postponeTick();
             return;
         }
         this.tickTime = 0;
