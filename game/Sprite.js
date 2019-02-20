@@ -177,6 +177,8 @@ var SPRITE = {
         beamBlue: {
             x: 0,
             y: 0,
+            frames: 2,
+            interval: 0.05,
             hitbox: 0.5
         },
         beamBlueSpecial: {
