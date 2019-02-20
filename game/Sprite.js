@@ -171,8 +171,8 @@ var SPRITE = {
     },
     beam: {
         file: "projectile/beam.png",
-        frameWidth: 32,
-        frameHeight: 32,
+        frameWidth: 64,
+        frameHeight: 64,
         frameMargin: 1,
         beamBlue: {
             x: 0,
