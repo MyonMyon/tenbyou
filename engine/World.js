@@ -171,10 +171,7 @@ World.prototype.addTime = function (stepBoss) {
         var e = this.eventChain.events[i];
         if (!e.done) {
             this.time = this.substageStart + e.second;
-            if (!stepBoss) {
-                return;
-            }
-            if (!e.fire.name) {
+            if (!stepBoss || !e.fire.name) {
                 return;
             }
             e.done = true;
