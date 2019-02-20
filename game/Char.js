@@ -10,7 +10,7 @@ var CHAR = {
             if (this.projectile) {
                 this.projectile.remove();
             }
-            this.projectile = new Beam(this.world, 0, -10, 200, Util.toAngle("n"), 0, 0, 0, 0, 0, 2 + Math.floor(this.power) / 2, true, "beamBlue");
+            this.projectile = new Beam(this.world, 0, -10, 200, this.beamAngle || Util.toAngle("n"), 0, 0, 0, 0, 0, 2 + Math.floor(this.power) / 2, true, "beamBlue");
             this.projectile.damagePS = 40 + Math.floor(this.power) * 8;
             this.projectile.setAnchor(this);
             this.projectile.behavior = function () {
@@ -31,6 +31,7 @@ var CHAR = {
         },
         onShootEnd: function () {
             if (this.projectile) {
+                this.beamAngle = this.projectile.a0;
                 this.projectile.remove();
                 this.projectile = null;
             }
