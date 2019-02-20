@@ -10,7 +10,7 @@ var CHAR = {
             if (this.projectile) {
                 this.projectile.remove();
             }
-            this.projectile = new Beam(this.world, 0, -10, 200, Util.toAngle("n"), 0, 0, 0, 0, 0, 2 + Math.floor(this.power) / 2, true);
+            this.projectile = new Beam(this.world, 0, -10, 200, Util.toAngle("n"), 0, 0, 0, 0, 0, 2 + Math.floor(this.power) / 2, true, "beamBlue");
             this.projectile.damagePS = 40 + Math.floor(this.power) * 8;
             this.projectile.setAnchor(this);
             this.projectile.behavior = function () {
@@ -36,7 +36,7 @@ var CHAR = {
             }
         },
         onSpecial: function () {
-            this.projectileSpecial = new Beam(this.world, 0, -10, 200, Util.toAngle("s"), 0, Math.PI * (Math.random() >= 0.5 ? 2 : -2), 0, 0, 0, 10, true);
+            this.projectileSpecial = new Beam(this.world, 0, -10, 200, Util.toAngle("s"), 0, Math.PI * (Math.random() >= 0.5 ? 2 : -2), 0, 0, 0, 10, true, "beamBlueSpecial");
             this.projectileSpecial.damagePS = 500;
             this.projectileSpecial.removeTime = 1;
             this.projectileSpecial.setAnchor(this);

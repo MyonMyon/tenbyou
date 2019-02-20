@@ -174,7 +174,16 @@ var SPRITE = {
         frameWidth: 32,
         frameHeight: 32,
         frameMargin: 1,
-        hitbox: 0.5
+        beamBlue: {
+            x: 0,
+            y: 0,
+            hitbox: 0.5
+        },
+        beamBlueSpecial: {
+            x: 0,
+            y: 0,
+            hitbox: 2
+        }
     },
     bonus: {
         file: "bonus.png",
