@@ -109,17 +109,20 @@ SpriteHandler.prototype.getFrame = function (time) {
     };
 };
 
-SpriteHandler.prototype.draw = function (context, x, y, t, z) {
+SpriteHandler.prototype.draw = function (context, x, y, t, z, c) {
+    var c = c || 1;
     var img = this.getFrame(t);
     if (this.object) {
-        context.drawImage(this.object,
-                img.x * (this.frameWidth + this.frameMargin),
-                img.y * (this.frameHeight + this.frameMargin),
-                this.width * this.frameWidth,
-                this.height * this.frameHeight,
-                x - z / 2 * this.zoom,
-                y - z / 2 * this.zoom,
-                z * this.zoom,
-                z * this.zoom);
+        for (var i = 0; i < c; i++) {
+            context.drawImage(this.object,
+                    img.x * (this.frameWidth + this.frameMargin),
+                    img.y * (this.frameHeight + this.frameMargin),
+                    this.width * this.frameWidth,
+                    this.height * this.frameHeight,
+                    x - z / 2 * this.zoom,
+                    y - z / 2 * this.zoom + i * z * this.zoom,
+                    z * this.zoom,
+                    z * this.zoom);
+        }
     }
 };
