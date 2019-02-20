@@ -45,6 +45,7 @@ function Entity(world, x, y, x1, y1, x2, y2, width) {
     this.targetTime = 0;
 
     this.lifetime = 0;
+    this.removeTime = Infinity;
 
     this.priority = 0;
     this.sprite = new SpriteHandler();
@@ -132,6 +133,10 @@ Entity.prototype.step = function () {
     this.width += this.w1 / this.world.ticksPS;
 
     this.lifetime += 1 / this.world.ticksPS;
+
+    if (this.lifetime > this.removeTime) {
+        this.remove();
+    }
 };
 
 Entity.prototype.getAngle = function () {
