@@ -38,14 +38,13 @@ Beam.prototype.draw = function (context) {
     context.translate(ePos.x, ePos.y);
     context.rotate(this.a0 - Math.PI / 2);
 
-    //todo: remove magic numbers:
     this.spriteBeam.draw(
             context,
             0,
-            (this.width * 8),
+            this.width * 4 * this.spriteBeam.zoom,
             this.playerSide ? this.world.relTime() : this.lifetime,
             this.world.vp.zoom * this.width * 2,
-            this.length / (this.width * 4));
+            this.length / (this.width * 2 * this.spriteBeam.zoom));
 
     context.restore();
 
