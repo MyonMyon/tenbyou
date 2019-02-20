@@ -116,13 +116,9 @@ ViewPort.prototype.initMenu = function () {
         this.pChart.nextMode();
     }
 
-    this.version = "Tenbyou v" + ENGINE_VERSION + " (alpha)";
-    if (this.inDev) {
-        this.version += " dev";
-    }
-    this.version += " revision";
-    if (!this.inDev) {
-        this.version += " " + Util.fillWithLeadingZeros(REVISION_TOTAL, 4);
+    this.version = "Tenbyou v" + ENGINE_VERSION + "." + (this.inDev ? "dev" : Util.fillWithLeadingZeros(REVISION_TOTAL, 4));
+    if (DEV_STAGE) {
+        this.version += " (" + DEV_STAGE + ")";
     }
 };
 
