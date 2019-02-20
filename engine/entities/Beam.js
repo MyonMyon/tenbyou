@@ -1,11 +1,12 @@
 function Beam(world, x, y, length, a, r, a1, r1, a2, r2, width, playerSide, spriteName) {
     extend(this, new Entity(world, x, y, 0, 0, 0, 0, width));
-    this.sprite.set(SPRITE.beam);
+    this.spriteBeam = new SpriteHandler();
+    this.spriteBeam.set(SPRITE.beam);
     if (spriteName) {
         var s = spriteName.split(".");
-        this.sprite.set(s[0]);
+        this.spriteBeam.set(s[0]);
         if (s[1] && SPRITE.beam[s[1]]) {
-            this.sprite.setPositionShift(SPRITE.beam[s[1]].x, SPRITE.beam[s[1]].y);
+            this.spriteBeam.setPositionShift(SPRITE.beam[s[1]].x, SPRITE.beam[s[1]].y);
         }
         this.rotate = SPRITE.beam[s[0]].rotate;
     }
@@ -33,30 +34,33 @@ Beam.prototype.draw = function (context) {
         context.globalAlpha = 0.4;
     }
 
-    /*
     context.save();
     context.translate(ePos.x, ePos.y);
-    if (this.rotate || this.angle) {
-        var a = this.useAnchorAngle ? this.anchor.getAngle() : this.getAngle();
-        context.rotate(a - Math.PI / 2 + this.angle);
-    }
+    context.rotate(this.a0 - Math.PI / 2);
 
-    this.sprite.draw(context, 0, 0, this.playerSide ? this.world.relTime() : this.lifetime, this.world.vp.zoom * this.width * 2);
+    //todo: remove magic numbers:
+    this.spriteBeam.draw(
+            context,
+            0,
+            (this.width * 8),
+            this.playerSide ? this.world.relTime() : this.lifetime,
+            this.world.vp.zoom * this.width * 2,
+            this.length / (this.width * 4));
 
     context.restore();
-    */
-    //if (this.world.drawHitboxes) {
-    var ePos2 = this.world.vp.toScreen(this.x + Math.cos(this.a0) * this.length, this.y + Math.sin(this.a0) * this.length);
-    context.strokeStyle = "white";
-    context.lineCap = "round";
-    context.lineWidth = this.world.vp.zoom * this.width * 2;
 
-    context.beginPath();
-    context.moveTo(ePos.x, ePos.y);
-    context.lineTo(ePos2.x, ePos2.y);
-    context.stroke();
-    context.closePath();
-    //}
+    if (this.world.drawHitboxes) {
+        var ePos2 = this.world.vp.toScreen(this.x + Math.cos(this.a0) * this.length, this.y + Math.sin(this.a0) * this.length);
+        context.strokeStyle = "white";
+        context.lineCap = "round";
+        context.lineWidth = this.world.vp.zoom * this.width * 2;
+
+        context.beginPath();
+        context.moveTo(ePos.x, ePos.y);
+        context.lineTo(ePos2.x, ePos2.y);
+        context.stroke();
+        context.closePath();
+    }
 
     context.globalAlpha = 1;
 };
