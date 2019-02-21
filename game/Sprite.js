@@ -189,11 +189,11 @@ var SPRITE = {
         beamBlueSpecial: {
             x: 0,
             y: 1,
-            hitbox: 2,
+            hitbox: 3,
             joint: {
                 x: 0,
                 y: 0,
-                hitbox: 2
+                hitbox: 3
             }
         }
     },
