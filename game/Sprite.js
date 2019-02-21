@@ -176,15 +176,25 @@ var SPRITE = {
         frameMargin: 1,
         beamBlue: {
             x: 0,
-            y: 0,
+            y: 1,
             frames: 2,
             interval: 0.05,
-            hitbox: 0.5
+            hitbox: 0.5,
+            joint: {
+                x: 0,
+                y: 0,
+                hitbox: 0.5
+            }
         },
         beamBlueSpecial: {
             x: 0,
-            y: 0,
-            hitbox: 2
+            y: 1,
+            hitbox: 2,
+            joint: {
+                x: 0,
+                y: 0,
+                hitbox: 2
+            }
         }
     },
     bonus: {
