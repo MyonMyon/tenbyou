@@ -9,6 +9,10 @@ function Beam(world, x, y, length, a, r, a1, r1, a2, r2, width, playerSide, spri
             this.spriteBeam.setPositionShift(SPRITE.beam[s[1]].x, SPRITE.beam[s[1]].y);
         }
         this.rotate = SPRITE.beam[s[0]].rotate;
+        if (SPRITE.beam[s[0]].joint) {
+            this.sprite.set(SPRITE.beam);
+            this.sprite.set(SPRITE.beam[s[0]].joint);
+        }
     }
 
     this.playerSide = playerSide || false;
@@ -37,6 +41,13 @@ Beam.prototype.draw = function (context) {
     context.save();
     context.translate(ePos.x, ePos.y);
     context.rotate(this.a0 - Math.PI / 2);
+
+    if (this.sprite.ref) {
+        this.sprite.draw(
+                context, 0, 0,
+                this.playerSide ? this.world.relTime() : this.lifetime,
+                this.world.vp.zoom * this.width * 2)
+    }
 
     this.spriteBeam.draw(
             context,
