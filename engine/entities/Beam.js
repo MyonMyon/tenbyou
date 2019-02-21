@@ -41,7 +41,7 @@ Beam.prototype.draw = function (context) {
     this.spriteBeam.draw(
             context,
             0,
-            this.width * 4 * this.spriteBeam.zoom,
+            this.world.vp.zoom * this.width * this.spriteBeam.zoom,
             this.playerSide ? this.world.relTime() : this.lifetime,
             this.world.vp.zoom * this.width * 2,
             this.length / (this.width * 2 * this.spriteBeam.zoom));
