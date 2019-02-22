@@ -169,6 +169,7 @@ Enemy.prototype.step = function () {
                 if (e instanceof Beam) {
                     if (Util.collisionCheckBeam(this, e)) {
                         this.hurt(e.damagePS / this.world.ticksPS, {x: this.x, y: this.y});
+                        e.break(Util.vectorLength(this.x - e.x, this.y - e.y));
                     }
                 }
             }

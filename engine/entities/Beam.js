@@ -20,7 +20,9 @@ function Beam(world, x, y, length, a, r, a1, r1, a2, r2, width, playerSide, spri
 
     this.angle = a;
     this.setPolarVectors(a, r, a1, r1, a2, r2);
-    this.length = length;
+    this.length = this.maxLength = length;
+    this.breakable = true;
+
     this.grazed = 0;
     this.grazePS = 10;
     this.grazeTime = 0;
@@ -82,6 +84,12 @@ Beam.prototype.draw = function (context) {
     context.globalAlpha = 1;
 };
 
+Beam.prototype.break = function (length) {
+    if (this.breakable && length < this.length) {
+        this.length = length;
+    }
+};
+
 Beam.prototype.step = function () {
     this.$step();
 
@@ -91,6 +99,7 @@ Beam.prototype.step = function () {
     }
 
     this.behavior();
+    this.length = this.maxLength;
 };
 
 Beam.prototype.behavior = function () {
