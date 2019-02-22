@@ -114,15 +114,16 @@ SpriteHandler.prototype.draw = function (context, x, y, t, z, c) {
     var img = this.getFrame(t);
     if (this.object) {
         for (var i = 0; i < c; i++) {
+            var part = (i + 1 <= c) ? 1 : (c - Math.floor(c));
             context.drawImage(this.object,
                     img.x * (this.frameWidth + this.frameMargin),
                     img.y * (this.frameHeight + this.frameMargin),
                     this.width * this.frameWidth,
-                    this.height * this.frameHeight,
+                    this.height * this.frameHeight * part,
                     x - z / 2 * this.zoom,
                     y - z / 2 * this.zoom + i * z * this.zoom,
                     z * this.zoom,
-                    z * this.zoom);
+                    z * this.zoom * part);
         }
     }
 };
