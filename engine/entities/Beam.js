@@ -46,7 +46,14 @@ Beam.prototype.draw = function (context) {
         this.sprite.draw(
                 context, 0, 0,
                 this.playerSide ? this.world.relTime() : this.lifetime,
-                this.world.vp.zoom * this.width * 2)
+                this.world.vp.zoom * this.width * 2);
+
+        context.rotate(Math.PI);
+        this.sprite.draw(
+                context, 0, this.world.vp.zoom * -this.length,
+                this.playerSide ? this.world.relTime() : this.lifetime,
+                this.world.vp.zoom * this.width * 2);
+        context.rotate(-Math.PI);
     }
 
     this.spriteBeam.draw(
