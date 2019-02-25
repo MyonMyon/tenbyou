@@ -491,7 +491,6 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
         var m = this.messages[im];
         if (time < (m.start + m.length) && time > m.start) {
             this.context.textBaseline = m.position === "itemLine" ? "middle" : "alphabetic";
-            this.context.textAlign = "center";
             //TODO: remove magic numbers 1/0.33s, 1/0.66s
             this.context.globalAlpha = Math.min(Math.min((time - m.start) * 3, (m.start + m.length - time) * 1.5), 1);
             var start = 0;
@@ -513,9 +512,18 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
             }
             for (var i in m.text) {
                 this.setFont(m.style[i % m.style.length]);
-                this.drawText(m.text[i],
-                        (boundaryStart.x + boundaryEnd.x) / 2,
-                        start + this.zoom * 10 * (+i + indexOffset));
+                var text = m.text[i].split("\t");
+                for (var j in text) {
+                    var x;
+                    if (text.length === 1) {
+                        this.context.textAlign = "center";
+                        x = (boundaryStart.x + boundaryEnd.x) / 2;
+                    } else {
+                        this.context.textAlign = +j ? "right" : "left";
+                        x = +j? (boundaryEnd.x - this.zoom * 40) : (boundaryStart.x + this.zoom * 40);
+                    }
+                    this.drawText(text[j], x, start + this.zoom * 10 * (+i + indexOffset));
+                }
             }
         }
     }
