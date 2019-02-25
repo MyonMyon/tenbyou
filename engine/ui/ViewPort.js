@@ -502,7 +502,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
                     break;
                 case "center":
                     start = (boundaryStart.y + boundaryEnd.y) / 2;
-                    indexOffset = -m.text.length / 2
+                    indexOffset = -m.text.length / 2;
                     break;
                 case "itemLine":
                     start = this.toScreen(0, this.world.maxBonusY).y;
@@ -520,7 +520,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
                         x = (boundaryStart.x + boundaryEnd.x) / 2;
                     } else {
                         this.context.textAlign = +j ? "right" : "left";
-                        x = +j? (boundaryEnd.x - this.zoom * 40) : (boundaryStart.x + this.zoom * 40);
+                        x = +j ? (boundaryEnd.x - this.zoom * 40) : (boundaryStart.x + this.zoom * 40);
                     }
                     this.drawText(text[j], x, start + this.zoom * 10 * (+i + indexOffset));
                 }
