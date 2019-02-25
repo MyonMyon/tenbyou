@@ -28,7 +28,7 @@ function World(vp) {
     this.continuable = true;
 
     this.vp = vp;
-    vp.clearMessage();
+    vp.clearMessages();
 
     this.eventChain = new EventChain(this);
 
@@ -154,7 +154,7 @@ World.prototype.processBoss = function (data) {
 
 World.prototype.destroy = function () {
     clearInterval(this.tickerId);
-    this.vp.clearMessage();
+    this.vp.clearMessages();
     this.vp.world = null;
     this.vp.mainMenu.fadeIn = new Date().getTime();
 };
@@ -201,7 +201,7 @@ World.prototype.nextStage = function () {
 
     this.player.graze = 0;
     this.player.points = 0;
-    this.vp.clearMessage();
+    this.vp.clearMessages();
     this.initEventChain();
 };
 

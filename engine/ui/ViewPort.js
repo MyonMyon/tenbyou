@@ -10,7 +10,7 @@ function ViewPort() {
 
     this.setZoom(ZOOM);
 
-    this.clearMessage();
+    this.clearMessages();
 
     this.debugString = "";
 
@@ -244,11 +244,14 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
 };
 
 ViewPort.prototype.showMessage = function (textArray, time, styleArray, position) {
-    this.messageTextArray = textArray;
-    this.messageStart = this.world.time;
-    this.messageTime = time;
-    this.messagePosition = position || "center";
-    this.messageStyleArray = styleArray || [FONT.title];
+    var m = {
+        text: textArray,
+        start: this.world.time,
+        length: time,
+        position: position || "center",
+        style: styleArray || [FONT.title]
+    };
+    this.messages.push(m);
 };
 
 ViewPort.prototype.showItemLine = function () {
@@ -256,11 +259,8 @@ ViewPort.prototype.showItemLine = function () {
     this.itemLineTime = 4;
 };
 
-ViewPort.prototype.clearMessage = function () {
-    this.messageTextArray = [];
-    this.messageStart = 0;
-    this.messageTime = 0;
-    this.messageStyleArray = [FONT.title];
+ViewPort.prototype.clearMessages = function () {
+    this.messages = [];
     this.itemLineStart = 0;
     this.itemLineTime = 0;
 };
@@ -489,17 +489,20 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
     }
 
     var time = this.world.time;
-    //Show message:
-    if (time < (this.messageStart + this.messageTime) && time > this.messageStart) {
-        this.context.textAlign = "center";
-        this.context.globalAlpha = Math.min(Math.min((time - this.messageStart) * 3, (this.messageStart + this.messageTime - time) * 1.5), 1);
-        for (var i in this.messageTextArray) {
-            this.setFont(this.messageStyleArray[i % this.messageStyleArray.length]);
-            var index = this.messagePosition === "top" ? (i + 2) : (i - this.messageTextArray.length / 2);
-            var start = this.messagePosition === "top" ? boundaryStart.y : (boundaryStart.y + boundaryEnd.y) / 2;
-            this.drawText(this.messageTextArray[i],
-                (boundaryStart.x + boundaryEnd.x) / 2,
-                start + this.zoom * 10 * index);
+    //Show messages:
+    for (var im in this.messages) {
+        var m = this.messages[im];
+        if (time < (m.start + m.length) && time > m.start) {
+            this.context.textAlign = "center";
+            this.context.globalAlpha = Math.min(Math.min((time - m.start) * 3, (m.start + m.length - time) * 1.5), 1);
+            for (var i in m.text) {
+                this.setFont(m.style[i % m.style.length]);
+                var index = m.position === "top" ? (i + 2) : (i - m.text.length / 2);
+                var start = m.position === "top" ? boundaryStart.y : (boundaryStart.y + boundaryEnd.y) / 2;
+                this.drawText(m.text[i],
+                    (boundaryStart.x + boundaryEnd.x) / 2,
+                    start + this.zoom * 10 * index);
+            }
         }
     }
     if (time < (this.itemLineStart + this.itemLineTime) && time > this.itemLineStart) {
