@@ -207,14 +207,27 @@ World.prototype.nextStage = function () {
 
 World.prototype.stageBonus = function () {
     if (this.stage > 0) {
-        var bonus = this.stage * 1000;
-        bonus += this.player.power * 1000;
-        bonus += this.player.graze * 10;
-        bonus *= this.player.points;
-        bonus = Math.floor(bonus / 10) * 10;
+        //TODO: player/bomb/extra count
+        var ptsStage = this.stage * 1000;
+        var ptsPower = Math.floor(this.player.power * 1000);
+        var ptsGraze = this.player.graze * 10;
+        var mxPoints = this.player.points;
+        var bonus = Math.floor((ptsStage + ptsPower + ptsGraze) * mxPoints / 10) * 10;
+
         this.player.score += bonus;
         this.stageEnd = this.time;
-        this.vp.showMessage(["Stage Clear!", "Bonus: " + bonus], this.stageInterval);
+        var styleArray = new Array(8).fill(FONT.title);
+        styleArray.fill(FONT.subtitle, 1, 6);
+        this.vp.showMessage([
+            "Stage Clear!",
+            "",
+            "Stage:\t" + ptsStage,
+            "Power:\t" + ptsPower,
+            "Graze:\t" + ptsGraze,
+            "Points:\t×" + mxPoints,
+            "",
+            "Total:\t" + bonus
+        ], this.stageInterval, styleArray);
         this.eventChain.addEventNow(function () {
             this.nextStage();
         }, this.stageInterval);
