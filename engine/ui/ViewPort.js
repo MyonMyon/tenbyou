@@ -255,14 +255,11 @@ ViewPort.prototype.showMessage = function (textArray, time, styleArray, position
 };
 
 ViewPort.prototype.showItemLine = function () {
-    this.itemLineStart = this.world.time;
-    this.itemLineTime = 4;
+    this.showMessage(["Item Get Border Line !"], 4, [FONT.itemLine], "itemLine");
 };
 
 ViewPort.prototype.clearMessages = function () {
     this.messages = [];
-    this.itemLineStart = 0;
-    this.itemLineTime = 0;
 };
 
 ViewPort.prototype.toScreen = function (worldX, worldY) {
@@ -493,30 +490,37 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
     for (var im in this.messages) {
         var m = this.messages[im];
         if (time < (m.start + m.length) && time > m.start) {
+            this.context.textBaseline = m.position === "itemLine" ? "middle" : "alphabetic";
             this.context.textAlign = "center";
+            //TODO: remove magic numbers 1/0.33s, 1/0.66s
             this.context.globalAlpha = Math.min(Math.min((time - m.start) * 3, (m.start + m.length - time) * 1.5), 1);
+            var start = 0;
+            var indexOffset = 0;
+            switch (m.position) {
+                case "top":
+                    start = boundaryStart.y;
+                    indexOffset = 2;
+                    break;
+                case "center":
+                    start = (boundaryStart.y + boundaryEnd.y) / 2;
+                    indexOffset = -m.text.length / 2
+                    break;
+                case "itemLine":
+                    start = this.toScreen(0, this.world.maxBonusY).y;
+                    this.context.fillStyle = m.style[0].strokeColor;
+                    this.context.fillRect(boundaryStart.x, start - this.zoom / 4, this.world.width * this.zoom, this.zoom / 2);
+                    break;
+            }
             for (var i in m.text) {
                 this.setFont(m.style[i % m.style.length]);
-                var index = m.position === "top" ? (i + 2) : (i - m.text.length / 2);
-                var start = m.position === "top" ? boundaryStart.y : (boundaryStart.y + boundaryEnd.y) / 2;
                 this.drawText(m.text[i],
-                    (boundaryStart.x + boundaryEnd.x) / 2,
-                    start + this.zoom * 10 * index);
+                        (boundaryStart.x + boundaryEnd.x) / 2,
+                        start + this.zoom * 10 * (+i + indexOffset));
             }
         }
     }
-    if (time < (this.itemLineStart + this.itemLineTime) && time > this.itemLineStart) {
-        this.context.textBaseline = "middle";
-        this.context.textAlign = "center";
-        var boundaryItemLine = this.toScreen(0, this.world.maxBonusY);
-        this.context.globalAlpha = Math.min(1, (time - this.itemLineStart) / 0.5, (this.itemLineStart + this.itemLineTime - time) / 0.5);
-        this.context.fillStyle = FONT.itemLine.strokeColor;
-        this.context.fillRect(boundaryStart.x, boundaryItemLine.y - this.zoom / 4, this.world.width * this.zoom, this.zoom / 2);
 
-        this.setFont(FONT.itemLine);
-        this.drawText("Item Get Border Line !", (boundaryStart.x + boundaryEnd.x) / 2, boundaryItemLine.y);
-        this.context.textBaseline = "alphabetic";
-    }
+    this.context.textBaseline = "alphabetic";
     this.context.globalAlpha = 1;
 };
 
