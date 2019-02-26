@@ -1,5 +1,5 @@
 function Bonus(world, x, y, cat, autoGather) {
-    extend(this, new Entity(world, x, y, Math.random() * 20 - 10, -60, 0, 90, 0));
+    extend(this, new Entity(world, x, y, Random.nextFloat(20) - 10, -60, 0, 90, 0));
 
     this.cat = cat;
     this.autoGather = autoGather || false;

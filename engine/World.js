@@ -305,7 +305,7 @@ World.prototype.randomBonus = function () {
             bonuses.push(i);
         }
     }
-    var bonusType = bonuses[Math.floor(Math.random() * bonuses.length)];
+    var bonusType = Random.nextArrayElement(bonuses);
     new Bonus(this, this.player.x, -this.height / 2 + 20, bonusType, false);
 };
 
@@ -346,7 +346,7 @@ World.prototype.replaceBonus = function (catWhat, catWith) {
 
 World.prototype.splash = function (entity, count, area, time) {
     for (var i = 0; i < count; ++i) {
-        new Particle(this, entity.x, entity.y, time + (Math.random() - 0.5) * time, 8, true, true, "spark");
+        new Particle(this, entity.x, entity.y, time + (Random.nextFloat() - 0.5) * time, 8, true, true, "spark");
     }
 };
 

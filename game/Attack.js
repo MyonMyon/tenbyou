@@ -24,7 +24,7 @@ var SPELL = {
                     var y = Math.floor(i / w) * this.world.height / (h - 1) - this.world.height / 2;
                     var p = new Projectile(
                             this.world, x, y, 0, 0, 0, 0, 1.5, true,
-                            ["seal.cyan", "seal.yellow", "seal.magenta"][Math.floor(Math.random() * 3)]);
+                            Random.nextArrayElement(["seal.cyan", "seal.yellow", "seal.magenta"]));
                     p.behavior = function () {
                         this.angle = this.world.relTime();
                     };
@@ -281,7 +281,7 @@ var SPELL = {
         init: function () {
             this.on(0, function () {
                 var nuclearBall = new Projectile(this.world,
-                        (Math.random() - 0.5) * this.world.width,
+                        (Random.nextFloat() - 0.5) * this.world.width,
                         -this.world.height / 2 - 5,
                         0, 180, 0, -81, 20, false, "nuclear");
                 nuclearBall.behavior = function () {

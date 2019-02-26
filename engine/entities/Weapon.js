@@ -48,8 +48,8 @@ Weapon.prototype.destroy = function () {
     new Particle(this.world, this.x, this.y, 0.66, 8, false, false, "splash");
     for (var i in this.drops) {
         this.dropBonus(
-                Math.random() * Math.PI * 2,
-                Math.random() * 5,
+                Random.nextFloat(Math.PI * 2),
+                Random.nextFloat(5),
                 this.drops[i].cat);
     }
     this.onDestroy();

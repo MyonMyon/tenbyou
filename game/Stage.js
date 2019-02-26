@@ -29,7 +29,7 @@ var STAGE = [{
                                 0,
                                 2, [1, 2, 5, 10], i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i ? "point" : "power"); //type, amount (optional)
-                        if (Math.random() < 0.1) {
+                        if (Random.nextBool(0.1)) {
                             fairy.addDrops("powerLarge"); //10% chance of big power item;
                         }
                         fairy.bulletSprite = i ? "static.blue" : "static.red"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
@@ -129,7 +129,7 @@ var STAGE = [{
                 repeatInterval: 1.5,
                 repeatCount: 15,
                 func: function (iter) {
-                    var x = Math.random() * (this.width - 40) - this.width / 2 + 20;
+                    var x = Random.nextFloat(this.width - 40) - this.width / 2 + 20;
                     var y = -this.height / 2 + 20;
                     if (iter % 5 < 3) {
                         var orb = new Enemy(this, x, y, 0, 6, 0, 0, 2, 25, "orbMinion");
@@ -144,9 +144,9 @@ var STAGE = [{
                         mine.appearanceTime = 1;
                         mine.onDestroy = function () {
                             this.arcProjectiles(function () {
-                                return Math.random() * Math.PI * 2;
+                                return Random.nextFloat(Math.PI * 2);
                             }, null, 8 + this.world.difficulty * 2, 0, function () {
-                                return Math.random() * 15 + 2;
+                                return Random.nextFloat(15) + 2;
                             }, 30, 3, "strike.purple");
                         };
                     }
@@ -161,7 +161,7 @@ var STAGE = [{
                         this.removeEnemies(); //cleanup after orbs
                     }
                     var stone = new Enemy(this,
-                            this.width * (Math.random() - 0.5) * 0.8, -this.height / 2 - 3,
+                            this.width * (Random.nextFloat() - 0.5) * 0.8, -this.height / 2 - 3,
                             0, 30 + this.difficulty * 6,
                             0, 60,
                             4, 2, "stoneFace");
@@ -177,7 +177,7 @@ var STAGE = [{
                     var x = r * (this.width / 2 - 10);
                     var y = Math.min(this.height / 2 - 2,
                             Math.max(-this.height / 2 + 2,
-                                    this.player.y - 15 + Math.random() * 30));
+                                    this.player.y - 15 + Random.nextFloat(30)));
                     var sideFairy = new Enemy(this, x, y, -r * 15, 0, r * 15, 0, 2, [1, 2, 5, 10], "fairyBlue");
                     sideFairy.appearanceTime = 1;
                     sideFairy.addDrops("point", 2);
@@ -342,7 +342,7 @@ var STAGE = [{
                                 0,
                                 2, [1, 2, 5, 10], i ? "fairyBlue" : "fairyRed");
                         fairy.addDrops(i ? "point" : "power"); //type, amount (optional)
-                        if (Math.random() < 0.1) {
+                        if (Random.nextBool(0.1)) {
                             fairy.addDrops("powerLarge"); //10% chance of big power item;
                         }
                         fairy.bulletSprite = i ? "eyeBlue" : "eyeRed"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)

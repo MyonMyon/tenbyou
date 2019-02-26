@@ -113,8 +113,8 @@ Enemy.prototype.step = function () {
         for (var i = 0; i < this.drops.length; ++i)
             if (this.drops[i].reqDamage === 0 && this.attackCurrent === this.drops[i].attackID && !this.drops[i].removed) {
                 this.dropBonus(
-                        Math.random() * Math.PI * 2,
-                        Math.random() * this.initialHealth / 5,
+                        Random.nextFloat(Math.PI * 2),
+                        Random.nextFloat(this.initialHealth / 5),
                         this.drops[i].cat);
                 this.drops[i].removed = true;
             }
@@ -243,7 +243,7 @@ Enemy.prototype.hurt = function (damage, position) {
         for (var i = 0; i < this.drops.length; ++i) {
             //To do: fix this atrocity
             if (this.drops[i].reqDamage !== 0 && this.attackCurrent === this.drops[i].attackID && ((((this.initialHealth - this.health) % this.drops[i].reqDamage) < ((this.initialHealth - this.health - damage) % this.drops[i].reqDamage) && damage > 0) || damage > this.drops[i].reqDamage)) {
-                new Bonus(this.world, this.x + Math.random() * 12 - 6, this.y + Math.random() * 12 - 6, this.drops[i].cat, false);
+                new Bonus(this.world, this.x + Random.nextFloat(12) - 6, this.y + Random.nextFloat(12) - 6, this.drops[i].cat, false);
             }
         }
     } else {
