@@ -30,6 +30,10 @@ function World(vp) {
     this.vp = vp;
     vp.clearMessages();
 
+    this.seed = Date.now();
+    Random.setSeed(this.seed);
+    this.vp.debugString = "Seed: " + this.seed;
+
     this.eventChain = new EventChain(this);
 
     this.tick();

@@ -17,6 +17,7 @@ var ENGINE_CODE = [
     "util/Settings",
     "util/Sound",
     "util/GameEvent",
+    "util/Random",
     "ui/menu/Menu",
     "ui/menu/MainMenu",
     "ui/menu/PauseMenu",
