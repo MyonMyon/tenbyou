@@ -10,7 +10,7 @@ function PerformanceChart(vp) {
     };
     this.data = [];
     this.maxTicks = 200;
-    this.maxValue = {ec: 0, tl: 0.05};
+    this.maxValue = {entityCount: 0, tickLength: 0.05};
 
     this.modes = ["off", "timed", "point"];
     this.mode = "off";
@@ -31,10 +31,10 @@ PerformanceChart.prototype.addData = function (data) {
     if (this.data.length > this.maxTicks) {
         this.data.splice(0, this.data.length - this.maxTicks);
     }
-    this.maxValue.ec = 0;
+    this.maxValue.entityCount = 0;
     for (var i in this.data) {
-        if (this.data[i].ec > this.maxValue.ec) {
-            this.maxValue.ec = this.data[i].ec;
+        if (this.data[i].entityCount > this.maxValue.entityCount) {
+            this.maxValue.entityCount = this.data[i].entityCount;
         }
     }
     this.thresholds = {
@@ -58,23 +58,23 @@ PerformanceChart.prototype.getThresholdColor = function (value) {
 };
 
 PerformanceChart.prototype.drawPoint = function () {
-    for (var i = 0; i < this.maxValue.ec; i += 100) {
+    for (var i = 0; i < this.maxValue.entityCount; i += 100) {
         this.vp.context.strokeStyle = i % 1000 ? "#fff" : "#f00";
         this.vp.context.lineWidth = this.vp.zoom / (i % 500 ? 4 : 2);
         this.vp.context.beginPath();
         this.vp.context.moveTo(
                 this.vp.zoom * this.position.x,
-                this.vp.zoom * (this.position.y + (1 - i / this.maxValue.ec) * this.size.y));
+                this.vp.zoom * (this.position.y + (1 - i / this.maxValue.entityCount) * this.size.y));
         this.vp.context.lineTo(
                 this.vp.zoom * (this.position.x + this.size.x),
-                this.vp.zoom * (this.position.y + (1 - i / this.maxValue.ec) * this.size.y));
+                this.vp.zoom * (this.position.y + (1 - i / this.maxValue.entityCount) * this.size.y));
         this.vp.context.stroke();
     }
     for (var i in this.data) {
-        this.vp.context.fillStyle = this.getThresholdColor(this.data[i].tl);
+        this.vp.context.fillStyle = this.getThresholdColor(this.data[i].tickLength);
         this.vp.context.fillRect(
-                this.vp.zoom * (this.position.x + this.data[i].tl / this.maxValue.tl * this.size.x - 1),
-                this.vp.zoom * (this.position.y + (1 - this.data[i].ec / this.maxValue.ec) * this.size.y - 1),
+                this.vp.zoom * (this.position.x + this.data[i].tickLength / this.maxValue.tickLength * this.size.x - 1),
+                this.vp.zoom * (this.position.y + (1 - this.data[i].entityCount / this.maxValue.entityCount) * this.size.y - 1),
                 this.vp.zoom * 2,
                 this.vp.zoom * 2);
     }
@@ -82,13 +82,13 @@ PerformanceChart.prototype.drawPoint = function () {
     this.vp.setFont(FONT.debug);
     this.vp.context.textBaseline = "alphabetic";
     this.vp.context.textAlign = "left";
-    this.vp.drawText(this.maxValue.ec, this.vp.zoom * this.position.x, this.vp.zoom * (this.position.y + 2.5));
+    this.vp.drawText(this.maxValue.entityCount, this.vp.zoom * this.position.x, this.vp.zoom * (this.position.y + 2.5));
     this.vp.context.textAlign = "right";
     for (var i in this.fpsUnits) {
         this.vp.context.fillStyle = this.getThresholdColor(1 / this.fpsUnits[i]);
         this.vp.drawText(
                 this.fpsUnits[i],
-                this.vp.zoom * (this.position.x + this.size.x / this.maxValue.tl / this.fpsUnits[i]),
+                this.vp.zoom * (this.position.x + this.size.x / this.maxValue.tickLength / this.fpsUnits[i]),
                 this.vp.zoom * (this.position.y + this.size.y));
     }
 };
@@ -97,32 +97,32 @@ PerformanceChart.prototype.drawTimed = function () {
     this.vp.context.strokeStyle = "#ff0";
     this.vp.context.lineWidth = this.vp.zoom / 2;
     for (var i in this.data) {
-        this.vp.context.fillStyle = this.getThresholdColor(this.data[i].tl);
+        this.vp.context.fillStyle = this.getThresholdColor(this.data[i].tickLength);
         this.vp.context.fillRect(
                 this.vp.zoom * (this.position.x + i * this.size.x / this.maxTicks),
                 this.vp.zoom * (this.position.y + this.size.y),
                 this.vp.zoom * this.size.x / this.maxTicks,
-                this.vp.zoom * -this.size.y * Math.min(1, this.data[i].tl / this.maxValue.tl));
+                this.vp.zoom * -this.size.y * Math.min(1, this.data[i].tickLength / this.maxValue.tickLength));
     }
     this.vp.context.beginPath();
     for (var i in this.data) {
         this.vp.context[i ? "lineTo" : "moveTo"](
                 this.vp.zoom * (this.position.x + this.size.x * i / (this.maxTicks - 1)),
-                this.vp.zoom * (this.position.y + this.size.y * (1 - this.data[i].ec / this.maxValue.ec)));
+                this.vp.zoom * (this.position.y + this.size.y * (1 - this.data[i].entityCount / this.maxValue.entityCount)));
     }
     this.vp.context.stroke();
 
     this.vp.setFont(FONT.debug);
     this.vp.context.textBaseline = "alphabetic";
     this.vp.context.textAlign = "left";
-    this.vp.drawText(this.maxValue.ec, this.vp.zoom * this.position.x, this.vp.zoom * (this.position.y + 2.5));
+    this.vp.drawText(this.maxValue.entityCount, this.vp.zoom * this.position.x, this.vp.zoom * (this.position.y + 2.5));
     this.vp.context.textAlign = "right";
     for (var i in this.fpsUnits) {
             this.vp.context.fillStyle = this.getThresholdColor(1 / this.fpsUnits[i]);
             this.vp.drawText(
                     this.fpsUnits[i],
                     this.vp.zoom * (this.position.x + this.size.x),
-                    this.vp.zoom * (this.position.y + this.size.y * (1 - 1 / this.maxValue.tl / this.fpsUnits[i]) + 2.5));
+                    this.vp.zoom * (this.position.y + this.size.y * (1 - 1 / this.maxValue.tickLength / this.fpsUnits[i]) + 2.5));
     }
 };
 
