@@ -16,7 +16,7 @@ function PerformanceChart(vp) {
     this.mode = "off";
 }
 
-PerformanceChart.prototype.snap = function() {
+PerformanceChart.prototype.snap = function () {
     console.log(ENGINE_VERSION);
     console.table(this.data);
 };
@@ -118,11 +118,11 @@ PerformanceChart.prototype.drawTimed = function () {
     this.vp.drawText(this.maxValue.entityCount, this.vp.zoom * this.position.x, this.vp.zoom * (this.position.y + 2.5));
     this.vp.context.textAlign = "right";
     for (var i in this.fpsUnits) {
-            this.vp.context.fillStyle = this.getThresholdColor(1 / this.fpsUnits[i]);
-            this.vp.drawText(
-                    this.fpsUnits[i],
-                    this.vp.zoom * (this.position.x + this.size.x),
-                    this.vp.zoom * (this.position.y + this.size.y * (1 - 1 / this.maxValue.tickLength / this.fpsUnits[i]) + 2.5));
+        this.vp.context.fillStyle = this.getThresholdColor(1 / this.fpsUnits[i]);
+        this.vp.drawText(
+                this.fpsUnits[i],
+                this.vp.zoom * (this.position.x + this.size.x),
+                this.vp.zoom * (this.position.y + this.size.y * (1 - 1 / this.maxValue.tickLength / this.fpsUnits[i]) + 2.5));
     }
 };
 

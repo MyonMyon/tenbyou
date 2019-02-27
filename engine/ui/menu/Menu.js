@@ -269,7 +269,7 @@ Menu.prototype.draw = function () {
                     this.vp.height * (y - 0.1) * 1.2 - obj.height / 2 * z,
                     obj.width * z,
                     obj.height * z);
-            }
+        }
     }
 
     var m = this.getCurrentMenu();
@@ -320,8 +320,8 @@ Menu.prototype.draw = function () {
         this.vp.setFont(FONT.menu, {description: true});
         this.vp.context.globalAlpha = Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay);
         this.vp.drawText(description,
-                    this.vp.zoom * MENU_X,
-                    this.vp.zoom * MENU_DESC_Y);
+                this.vp.zoom * MENU_X,
+                this.vp.zoom * MENU_DESC_Y);
         this.vp.context.globalAlpha = 1;
     }
 

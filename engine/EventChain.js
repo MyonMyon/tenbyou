@@ -28,7 +28,7 @@ EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCo
         done: false,
         useWorldTimeGrid: useWorldTimeGrid,
         fire: func,
-        repeat: function(interval, times) {
+        repeat: function (interval, times) {
             this.repeatInterval = interval;
             this.repeatCount = times || Infinity;
         }

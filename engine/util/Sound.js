@@ -6,7 +6,7 @@
 function Sound() {
 }
 
-Sound.play = function(data) {
+Sound.play = function (data) {
     if (Settings.get("sound.enabled")) {
         if (!data.noSeek && !data.object.ended) {
             data.object = new Audio(data.object.src);
