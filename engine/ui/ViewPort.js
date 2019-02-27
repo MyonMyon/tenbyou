@@ -54,7 +54,7 @@ ViewPort.prototype.perfStep = function () {
     }
     if (startTime % 1000 < this.prevMS) {
         if (this.pChart && this.pChart.mode !== "off" && this.world && !this.world.pause) {
-            this.pChart.addData({ec: this.world.entities.length, tl: 1 / this.fps});
+            this.pChart.addData({entityCount: this.world.entities.length, tickLength: 1 / this.fps});
         }
     }
     this.prevMS = startTime % 1000;
