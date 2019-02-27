@@ -532,6 +532,15 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
     this.context.globalAlpha = 1;
 };
 
+ViewPort.prototype.drawImageOverlay = function (image, zoom) {
+    this.context.drawImage(
+            image,
+            (this.width - image.width * zoom * this.zoom) / 2,
+            (this.height - image.height * zoom * this.zoom) / 2,
+            image.width * zoom * this.zoom,
+            image.height * zoom * this.zoom);
+};
+
 ViewPort.prototype.drawSplash = function () {
     this.context.fillStyle = "#000";
     this.context.fillRect(0, 0, this.width, this.height);
@@ -545,12 +554,7 @@ ViewPort.prototype.drawSplash = function () {
     var t = new Date().getTime();
     if (this.splashStart && t < this.splashStart + this.splashMs) {
         this.context.globalAlpha = Math.min((t - this.splashStart) / this.splashFadeMs, (this.splashStart + this.splashMs - t) / this.splashFadeMs);
-        this.context.drawImage(
-                this.splash,
-                (this.width - this.splash.width * SPLASH_ZOOM * this.zoom) / 2,
-                (this.height - this.splash.height * SPLASH_ZOOM * this.zoom) / 2,
-                this.splash.width * SPLASH_ZOOM * this.zoom,
-                this.splash.height * SPLASH_ZOOM * this.zoom);
+        this.drawImageOverlay(this.splash, SPLASH_ZOOM);
     }
 };
 
