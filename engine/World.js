@@ -69,6 +69,7 @@ World.prototype.startStage = function (stage, difficulty) {
             });
         }
     }
+    this.stages[this.stages.length - 1].last = true;
     this.stage = stage;
     this.initEventChain();
 };
@@ -81,7 +82,8 @@ World.prototype.startExtra = function (difficulty) {
                 extra: STAGE[i].extra,
                 title: STAGE[i].title,
                 desc: STAGE[i].description || "",
-                background: STAGE[i].background
+                background: STAGE[i].background,
+                last: true
             };
             break;
         }
@@ -198,7 +200,7 @@ World.prototype.nextStage = function () {
     this.substageStart = 0;
     this.stageEnd = null;
 
-    if (this.stage >= this.stages.length || this.stages[this.stage - 1].last) {
+    if (this.stages[this.stage - 1].last) {
         this.continuable = false;
         if (this.stage === 1) {
             //Spell Practice behavior:
