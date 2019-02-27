@@ -583,7 +583,6 @@ ViewPort.prototype.drawRolls = function () {
     for (var i in this.rolls) {
         var roll = this.rolls[i];
         if ((roll.startTime <= t) && (t <= roll.endTime)) {
-            console.log(this.context.globalAlpha);
             this.context.globalAlpha = Math.min((t - roll.startTime) / fadeMs, (roll.endTime - t) / fadeMs);
             this.drawImageOverlay(roll.image, roll.zoom);
             return;
