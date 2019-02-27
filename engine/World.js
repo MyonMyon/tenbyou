@@ -64,7 +64,8 @@ World.prototype.startStage = function (stage, difficulty) {
             this.stages.push({
                 title: STAGE[i].title,
                 desc: STAGE[i].description || "",
-                background: STAGE[i].background
+                background: STAGE[i].background,
+                last: STAGE[i].last
             });
         }
     }
@@ -197,9 +198,14 @@ World.prototype.nextStage = function () {
     this.substageStart = 0;
     this.stageEnd = null;
 
-    if (this.stage >= this.stages.length) {
+    if (this.stage >= this.stages.length || this.stages[this.stage - 1].last) {
         this.continuable = false;
-        this.setPause(true);
+        if (this.stage === 1) {
+            //Spell Practice behavior:
+            this.setPause(true);
+        } else {
+            //Main Game/Extra behavior:
+            this.destroy();
         return;
     }
 
