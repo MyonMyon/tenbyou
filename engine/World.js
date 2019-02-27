@@ -169,7 +169,7 @@ World.prototype.destroy = function () {
 World.prototype.addTime = function (stepBoss) {
     if (this.boss) {
         if (stepBoss) {
-            this.boss.attackCurrent = this.boss.attacks.length;
+            this.boss.attackCurrent = this.boss.attacks.length - 1;
         }
         this.boss.nextAttack();
         return;
