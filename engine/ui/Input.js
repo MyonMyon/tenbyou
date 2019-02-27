@@ -75,6 +75,7 @@ function Input(vp) {
         "PageUp": "zoom_out",
         "PageDown": "zoom_in",
         "Tab": "perf",
+        "KeyO": "perf_snap",
         "KeyP": "screenshot",
         "Escape": "pause"
     };
@@ -119,6 +120,7 @@ function Input(vp) {
         "stage": {category: "dev", mode: "execute", func: "nextStage()"},
         "slow": {category: "dev", mode: "execute", func: "slowMode()"},
         "perf": {category: "perf", mode: "execute", func: "pChart.nextMode()", vp: true},
+        "perf_snap": {category: "perf", mode: "execute", func: "pChart.snap()", vp: true},
         "zoom_out": {category: "menu", mode: "execute", func: "changeZoom(-1)", vp: true},
         "zoom_in": {category: "menu", mode: "execute", func: "changeZoom(1)", vp: true},
         "pause": {category: "menu", mode: "execute", func: "setPause(true)"}

@@ -16,6 +16,11 @@ function PerformanceChart(vp) {
     this.mode = "off";
 }
 
+PerformanceChart.prototype.snap = function() {
+    console.log(ENGINE_VERSION);
+    console.table(this.data);
+};
+
 PerformanceChart.prototype.nextMode = function () {
     var index = this.modes.indexOf(this.mode);
     this.mode = this.modes[(index + 1) % this.modes.length];
