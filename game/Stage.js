@@ -261,6 +261,7 @@ var STAGE = [{
             file: "bg/stage/2.jpg",
             speed: 60
         },
+        last: true,
         events: [{
                 substage: 0,
                 second: 4,
@@ -409,8 +410,32 @@ var STAGE = [{
                 }
             }]
     }, {
-        title: "TEST",
-        description: "There is nothing here. Be patient.",
+        last: true,
+        title: "[ENDING TEST]",
+        description: "Wait for credit rolls!",
+        background: {
+            file: "bg/spell/gr.jpg",
+            speed: 1000
+        },
+        events: [{
+                substage: 0,
+                second: 0.2,
+                title: true
+            }, {
+                substage: 0,
+                second: 4,
+                boss: {
+                    char: "lily",
+                    attacks: [
+                        [NON_SPELL.fodder]
+                    ],
+                    last: true
+                }
+            }
+        ]
+    }, {
+        title: "Storage",
+        description: "Some stuff to be used later.",
         background: {
             file: "bg/stage/2.jpg",
             speed: 60
