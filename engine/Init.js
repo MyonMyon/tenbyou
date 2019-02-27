@@ -40,6 +40,7 @@ var GAME_CODE = [
     "Attack",
     "Stage",
     "Sprite",
+    "Roll",
     "Events"
 ];
 
@@ -50,6 +51,10 @@ var IMAGE_LOAD = [{
         itemProp: "file",
         push: true,
         checkInside: true
+    }, {
+        object: "ROLL",
+        push: true,
+        itemProp: "file"
     }, {
         object: "STAGE",
         itemProp: "background"

@@ -122,6 +122,22 @@ ViewPort.prototype.initMenu = function () {
     }
 };
 
+ViewPort.prototype.initRolls = function (charName) {
+    var t = Date.now();
+    this.rolls = [];
+    for (var i in ROLL) {
+        if (ROLL[i].object && (!ROLL[i].player || ROLL[i].player === charName)) {
+            var tNext = t + (ROLL[i].time || ROLL[0].time) * 1000;
+            this.rolls.push({
+                image: ROLL[i].object,
+                zoom: ROLL[i].zoom || ROLL[0].zoom,
+                startTime: t,
+                endTime: tNext
+            });
+        }
+    }
+};
+
 /**
  * Takes a screenshot. After that displays a message and refreshes menu or displays the file depending on the settings.
  */
@@ -558,6 +574,24 @@ ViewPort.prototype.drawSplash = function () {
     }
 };
 
+ViewPort.prototype.drawRolls = function () {
+    this.context.globalAlpha = 1;
+    var fadeMs = 200;
+    this.context.fillStyle = "#000";
+    this.context.fillRect(0, 0, this.width, this.height);
+    var t = Date.now();
+    for (var i in this.rolls) {
+        var roll = this.rolls[i];
+        if ((roll.startTime <= t) && (t <= roll.endTime)) {
+            console.log(this.context.globalAlpha);
+            this.context.globalAlpha = Math.min((t - roll.startTime) / fadeMs, (roll.endTime - t) / fadeMs);
+            this.drawImageOverlay(roll.image, roll.zoom);
+            return;
+        }
+    }
+    this.rolls = null;
+};
+
 ViewPort.prototype.draw = function () {
     if (!this.perfStep) {
         return this.requestDraw();
@@ -565,6 +599,11 @@ ViewPort.prototype.draw = function () {
     this.perfStep();
 
     this.context.globalAlpha = 1;
+
+    if (this.rolls) {
+        this.drawRolls();
+        return this.requestDraw();
+    }
 
     if (!this.mainMenu) {
         this.drawSplash();

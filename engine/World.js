@@ -205,6 +205,7 @@ World.prototype.nextStage = function () {
             this.setPause(true);
         } else {
             //Main Game/Extra behavior:
+            this.vp.initRolls(this.player.name);
             this.destroy();
         }
         return;

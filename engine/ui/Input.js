@@ -210,6 +210,10 @@ Input.prototype.getKeyAlias = function (code) {
  * @return {Boolean} Is action performed.
  */
 Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
+    if (this.vp.rolls) {
+        //Don't do anything while rolling
+        return;
+    }
     if (!this.vp.splashComplete) {
         if (this.vp.loaded) {
             this.vp.initMenu();
