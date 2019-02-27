@@ -206,6 +206,7 @@ World.prototype.nextStage = function () {
         } else {
             //Main Game/Extra behavior:
             this.destroy();
+        }
         return;
     }
 
