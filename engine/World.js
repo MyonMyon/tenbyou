@@ -233,7 +233,7 @@ World.prototype.stageBonus = function () {
         var styleArray = new Array(8).fill(FONT.title);
         styleArray.fill(FONT.subtitle, 1, 6);
         this.vp.showMessage([
-            "Stage Clear!",
+            this.stages[this.stage].last ? "All Clear!" : "Stage Clear!",
             "",
             "Stage:\t" + ptsStage,
             "Power:\t" + ptsPower,
