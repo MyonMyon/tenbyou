@@ -528,7 +528,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
             }
             for (var i in m.text) {
                 this.setFont(m.style[i % m.style.length]);
-                var text = m.text[i].split("\t");
+                var text = (m.text[i] + "").split("\t");
                 for (var j in text) {
                     var x;
                     if (text.length === 1) {
