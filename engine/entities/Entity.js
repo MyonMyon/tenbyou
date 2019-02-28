@@ -147,8 +147,20 @@ Entity.prototype.getSpeed = function () {
     return Util.vectorLength(this.x1, this.y1);
 };
 
+Entity.prototype.setSpeed = function (newSpeed) {
+    var factor = newSpeed / this.getSpeed();
+    this.x1 *= factor;
+    this.y1 *= factor;
+};
+
 Entity.prototype.getAcceleration = function () {
     return Util.vectorLength(this.x2, this.y2);
+};
+
+Entity.prototype.setAcceleration = function (newAcceleration) {
+    var factor = newAcceleration / this.getAcceleration();
+    this.x2 *= factor;
+    this.y2 *= factor;
 };
 
 Entity.prototype.draw = function (context) {
