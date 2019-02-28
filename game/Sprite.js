@@ -145,6 +145,10 @@ var SPRITE = {
             height: 2,
             rotate: true
         },
+        star: {
+            x: 5,
+            y: 6
+        },
         red: {
             x: 1
         },
