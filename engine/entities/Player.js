@@ -180,23 +180,47 @@ Player.prototype.step = function () {
 
     for (var i in this.world.entities) {
         var e = this.world.entities[i];
-        if (e instanceof Projectile && !e.playerSide && e.width) {
-            //collision
-            if (Util.collisionCheck(e, this, this.grazeWidth)) {
-                if (Util.collisionCheck(e, this)) {
-                    e.remove();
-                    if (!this.isInvulnerable()) {
-                        this.kill();
-                        break;
+        if (!e.playerSide && e.width) {
+            if (e instanceof Projectile) {
+                if (Util.collisionCheck(e, this, this.grazeWidth)) {
+                    if (Util.collisionCheck(e, this)) {
+                        e.remove();
+                        if (!this.isInvulnerable()) {
+                            this.kill();
+                            break;
+                        }
+                    } else if (e.grazed < e.damage && !this.isInvulnerable()) {
+                        Sound.play(SFX.playerGraze);
+                        ++this.graze;
+                        var xD = this.x - e.x;
+                        var yD = this.y - e.y;
+                        var s = new Particle(this.world, this.x, this.y, 0.25, 8, false, false, "spark");
+                        s.setVectors(null, null, xD * 5, yD * 5);
+                        ++e.grazed;
                     }
-                } else if (e.grazed < e.damage && !this.isInvulnerable()) {
-                    Sound.play(SFX.playerGraze);
-                    ++this.graze;
-                    var xD = this.x - e.x;
-                    var yD = this.y - e.y;
-                    var s = new Particle(this.world, this.x, this.y, 0.25, 8, false, false, "spark");
-                    s.setVectors(null, null, xD * 5, yD * 5);
-                    ++e.grazed;
+                }
+            }
+            if (e instanceof Beam) {
+                if (Util.collisionCheckBeam(this, e, this.grazeWidth)) {
+                    if (Util.collisionCheckBeam(this, e)) {
+                        e.break(Util.vectorLength(this.x - e.x, this.y - e.y));
+                        if (!this.isInvulnerable()) {
+                            this.kill();
+                            break;
+                        }
+                    } else if (!this.isInvulnerable()) {
+                        var grazeOld = this.graze;
+                        this.graze += e.grazePS / this.world.ticksPS;
+                        if (Math.floor(grazeOld) !== Math.floor(this.graze)) {
+                            Sound.play(SFX.playerGraze);
+                            var cwmx = Util.isClockwiseNearest(e.a0, Util.angleBetweenEntities(e, this)) ? 1 : -1;
+                            var xD = Math.cos(e.a0 + Math.PI / 2 * cwmx);
+                            var yD = Math.sin(e.a0 + Math.PI / 2 * cwmx);
+                            var s = new Particle(this.world, this.x, this.y, 0.25, 8, false, false, "spark");
+                            s.setVectors(null, null, xD * 50, yD * 50);
+                            ++e.grazed;
+                        }
+                    }
                 }
             }
         }
