@@ -28,9 +28,9 @@ Projectile.prototype.draw = function (context) {
 
     context.save();
     context.translate(ePos.x, ePos.y);
-    if (this.rotate || this.angle) {
+    if (this.rotate || this.angle || this.a0) {
         var a = this.useAnchorAngle ? this.anchor.getAngle() : this.getAngle();
-        context.rotate(a - Math.PI / 2 + this.angle);
+        context.rotate(a - Math.PI / 2 + this.angle + this.a0);
     }
 
     this.sprite.draw(context, 0, 0, this.playerSide ? this.world.relTime() : this.lifetime, this.world.vp.zoom * this.width * 2);
