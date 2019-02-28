@@ -135,7 +135,7 @@ Entity.prototype.step = function () {
     this.lifetime += 1 / this.world.ticksPS;
 
     if (this.lifetime > this.removeTime) {
-        this.remove();
+        this.remove(true);
     }
 };
 
