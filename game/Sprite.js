@@ -179,6 +179,16 @@ var SPRITE = {
         frameWidth: 64,
         frameHeight: 64,
         frameMargin: 1,
+        masterSpark: {
+            x: 1,
+            y: 1,
+            hitbox: 0.8,
+            joint: {
+                x: 1,
+                y: 0,
+                hitbox: 0.8
+            }
+        },
         beamBlue: {
             x: 0,
             y: 1,
