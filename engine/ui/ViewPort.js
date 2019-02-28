@@ -423,8 +423,6 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
 
 ViewPort.prototype.drawBackground = function (boundaryStart, boundaryEnd) {
     this.context.fillStyle = "black";
-    var boundaryStart = this.toScreen(-this.world.width / 2, -this.world.height / 2);
-    var boundaryEnd = this.toScreen(this.world.width / 2, this.world.height / 2);
     this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
 
     var stage = this.world.stages[this.world.stage];
