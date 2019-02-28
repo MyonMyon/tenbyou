@@ -52,6 +52,31 @@ Util.toAngle = function (compass) {
 };
 
 /**
+ * @param {Number} angle1 Origin angle.
+ * @param {Number} angle2 Target angle.
+ * @return {Boolean} Is it faster to turn angle1 position clockwise than counterclockwise to reach angle2.
+ */
+Util.isClockwiseNearest = function (angle1, angle2) {
+    //Narrow angle to [-2PI:+2PI]:
+    angle1 = angle1 % (Math.PI * 2);
+    angle2 = angle2 % (Math.PI * 2);
+
+    //Narrow angle to (0:+2PI]:
+    if (angle1 <= 0) {
+        angle1 += Math.PI * 2;
+    }
+    if (angle2 <= 0) {
+        angle2 += Math.PI * 2;
+    }
+
+    var diff = angle2 - angle1;
+
+    var invert = diff > 0;
+    diff = Math.abs(diff);
+    return (diff > Math.PI) !== invert;
+};
+
+/**
  * @param {String} compass Throw any shit in here!
  * @return {Number} Angle in radians.
  */
