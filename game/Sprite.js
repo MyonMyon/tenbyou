@@ -147,7 +147,8 @@ var SPRITE = {
         },
         star: {
             x: 5,
-            y: 6
+            y: 6,
+            hitbox: 0.5
         },
         red: {
             x: 1
