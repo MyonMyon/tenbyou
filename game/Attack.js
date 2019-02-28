@@ -90,6 +90,57 @@ var SPELL = {
             }).repeat(0.2);
         }
     },
+    finalSpark: {
+        boss: "marisa",
+        number: 13,
+        names: [
+            null,
+            null,
+            null,
+            "Magicannon \"Final Master Spark\""
+        ],
+        health: 750,
+        time: 64,
+        decrTime: 48,
+        bonus: 2400000,
+        bonusBound: 400000,
+        init: function () {
+            this.on(1, function (iter) {
+                if (iter % 40 === 0) {
+                    this.headToPointSmoothly(this.world.width * Random.nextFloat(0.4) * ((iter % 80 < 40) ? 1 : -1), -this.world.height * (0.15 + Random.nextFloat(0.2)), 2);
+                }
+                if (iter % 40 < 10) {
+                    return;
+                }
+                if (iter % 40 === 10) {
+                    this.angleToPlayer = Util.angleBetweenEntities(this, this.world.player);
+                    var msPre = new Beam(this.world, 0, 0, 1, this.angleToPlayer, 0, 0, 0, 0, 0, 0.6, false, "masterSpark");
+                    msPre.setAnchor(this);
+                    msPre.removeTime = 1.5;
+                    msPre.behavior = function() {
+                        this.maxLength += 200 / this.world.ticksPS;
+                    };
+                }
+                if (iter % 40 === 16) {
+                    this.masterSpark = new Beam(this.world, 0, 0, 200, this.angleToPlayer, 75, 0, 0, 0, 0, 50, false, "masterSpark");
+                    this.masterSpark.setAnchor(this);
+                    this.masterSpark.removeTime = 3;
+                    this.world.startShake(3, 3);
+                }
+                if (iter % 40 === 18) {
+                    var oldAngle = this.angleToPlayer;
+                    this.angleToPlayer = Util.angleBetweenEntities(this, this.world.player);
+                    this.masterSpark.a1 = Util.isClockwiseNearest(oldAngle, this.angleToPlayer) ? 0.4 : -0.4;
+                }
+                var starCircle = this.arcProjectiles(iter * Math.PI / 24, null, 8, 0, 30, -15, 3, ["star.red", "star.blue"][iter % 2], false);
+                starCircle.forEach(function(s) {
+                    s.a1 = (iter % 2) ? -1 : 1;
+                    s.preserve = true;
+                    s.removeTime = 7;
+                }, this);
+            }).repeat(0.25);
+        }
+    },
     lilyAlpha: {
         boss: "lily",
         number: 14,
