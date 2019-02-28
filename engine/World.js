@@ -27,6 +27,8 @@ function World(vp) {
     this.stageInterval = 2.5;
     this.continuable = true;
 
+    this.shake = {x: 0, y: 0, time: 0, strength: 0};
+
     this.vp = vp;
     vp.clearMessages();
 
@@ -287,6 +289,15 @@ World.prototype.tick = function () {
         this.tickTime = 0;
 
         this.time += 1 / this.ticksPS;
+        if (this.shake.time > 0) {
+            this.shake.time -= 1 / this.ticksPS;
+            var a = Math.random() * Math.PI * 2;
+            var r = Math.random() * this.shake.strength;
+            this.shake.x = Math.cos(a) * r;
+            this.shake.y = Math.sin(a) * r;
+        } else {
+            this.shake = {x: 0, y: 0, time: 0, strength: 0};
+        }
 
         for (var i in this.entities) {
             if (!this.entities[i].removalMark) {
@@ -358,6 +369,13 @@ World.prototype.splash = function (entity, count, area, time) {
     for (var i = 0; i < count; ++i) {
         new Particle(this, entity.x, entity.y, time + (Random.nextFloat() - 0.5) * time, 8, true, true, "spark");
     }
+};
+
+World.prototype.startShake = function (time, strength) {
+    time = time || 1;
+    strength = strength || 1;
+    this.shake.time += time;
+    this.shake.strength = Math.max(this.shake.strength, strength);
 };
 
 World.prototype.draw = function (context) {

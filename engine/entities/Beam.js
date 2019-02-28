@@ -34,7 +34,7 @@ Beam.prototype.draw = function (context) {
         return;
     }
 
-    var ePos = this.world.vp.toScreen(this.x, this.y);
+    var ePos = this.world.vp.toScreenFX(this.x, this.y);
 
     if (this.playerSide) {
         context.globalAlpha = 0.4;
@@ -69,7 +69,7 @@ Beam.prototype.draw = function (context) {
     context.restore();
 
     if (this.world.drawHitboxes) {
-        var ePos2 = this.world.vp.toScreen(this.x + Math.cos(this.a0) * this.length, this.y + Math.sin(this.a0) * this.length);
+        var ePos2 = this.world.vp.toScreenFX(this.x + Math.cos(this.a0) * this.length, this.y + Math.sin(this.a0) * this.length);
         context.strokeStyle = "white";
         context.lineCap = "round";
         context.lineWidth = this.world.vp.zoom * this.width * 2;

@@ -89,7 +89,7 @@ Weapon.prototype.draw = function (context) {
         return; //bye-bye!
     }
     var ctx = this.world.vp.context;
-    var ePos = this.world.vp.toScreen(this.x, this.y);
+    var ePos = this.world.vp.toScreenFX(this.x, this.y);
     ctx.save();
     ctx.translate(ePos.x, ePos.y);
     ctx.rotate(Math.PI / 2 + this.angle);

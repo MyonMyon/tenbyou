@@ -20,7 +20,7 @@ Projectile.prototype.draw = function (context) {
         return;
     }
 
-    var ePos = this.world.vp.toScreen(this.x, this.y);
+    var ePos = this.world.vp.toScreenFX(this.x, this.y);
 
     if (this.playerSide) {
         context.globalAlpha = 0.4;

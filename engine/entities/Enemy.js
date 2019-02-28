@@ -24,7 +24,7 @@ function Enemy(world, x, y, x1, y1, x2, y2, width, health, spriteName) {
 }
 
 Enemy.prototype.draw = function (context) {
-    var ePos = this.world.vp.toScreen(this.x, this.y);
+    var ePos = this.world.vp.toScreenFX(this.x, this.y);
 
     context.save();
     if (this.lifetime < this.appearanceTime) {
@@ -91,7 +91,7 @@ Enemy.prototype.draw = function (context) {
 
 Enemy.prototype.drawBossWheel = function (context, r, from, to, color, lineWidth) {
     if (from !== to) {
-        var ePos = this.world.vp.toScreen(this.x, this.y);
+        var ePos = this.world.vp.toScreenFX(this.x, this.y);
         context.lineWidth = lineWidth * this.world.vp.zoom;
         context.strokeStyle = color;
 

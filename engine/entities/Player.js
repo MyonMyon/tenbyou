@@ -204,7 +204,7 @@ Player.prototype.step = function () {
 };
 
 Player.prototype.draw = function (context) {
-    var ePos = this.world.vp.toScreen(this.x, this.y);
+    var ePos = this.world.vp.toScreenFX(this.x, this.y);
 
     if (this.respawnTime === null) {
         context.save();

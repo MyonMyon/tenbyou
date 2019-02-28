@@ -285,6 +285,10 @@ ViewPort.prototype.toScreen = function (worldX, worldY) {
     return value;
 };
 
+ViewPort.prototype.toScreenFX = function (worldX, worldY) {
+    return this.toScreen(worldX + this.world.shake.x, worldY + this.world.shake.y);
+};
+
 ViewPort.prototype.infoShow = function (info, line, tab, reverse) {
     this.context.textAlign = reverse ? "right" : "left";
     if (reverse) {

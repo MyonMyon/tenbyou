@@ -8,7 +8,7 @@ function Text(world, x, y, content, max, cat) {
 }
 
 Text.prototype.draw = function (context) {
-    var ePos = this.world.vp.toScreen(this.x, this.y);
+    var ePos = this.world.vp.toScreenFX(this.x, this.y);
     context.textAlign = "center";
     context.globalAlpha = Math.max(0, Math.min(1, (this.removeTime - this.lifetime) * 6));
     var d = {};

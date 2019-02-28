@@ -13,6 +13,6 @@ function Particle(world, x, y, removeTime, width, randomFrame, moving, spriteNam
 }
 
 Particle.prototype.draw = function (context) {
-    var ePos = this.world.vp.toScreen(this.x, this.y);
+    var ePos = this.world.vp.toScreenFX(this.x, this.y);
     this.sprite.draw(context, ePos.x, ePos.y, this.lifetime, this.world.vp.zoom * this.width);
 };

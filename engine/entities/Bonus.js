@@ -10,7 +10,7 @@ function Bonus(world, x, y, cat, autoGather) {
 Bonus.prototype.draw = function (context) {
     var minHeight = -this.world.height / 2 + 3;
     var offScreen = this.y < minHeight;
-    var ePos = this.world.vp.toScreen(this.x, offScreen ? minHeight : this.y);
+    var ePos = this.world.vp.toScreenFX(this.x, offScreen ? minHeight : this.y);
     this.sprite.setPositionShift(offScreen * SPRITE.bonus.offScreen.x || 0, offScreen * SPRITE.bonus.offScreen.y || 0);
 
     context.save();
