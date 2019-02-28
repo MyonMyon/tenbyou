@@ -170,6 +170,10 @@ var CHAR = {
         name: "O.R.B.",
         width: 6
     },
+    marisa: {
+        name: "Marisa Kirisame",
+        width: 2
+    },
     okuu: {
         name: "Utsuho Reiuji",
         width: 2

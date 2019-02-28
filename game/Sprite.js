@@ -333,6 +333,14 @@ var SPRITE = {
             y: 0,
             hitbox: 0.25
         },
+        marisa: {
+            file: "enemy/marisa.png",
+            frameWidth: 64,
+            frameHeight: 64,
+            x: 0,
+            y: 0,
+            hitbox: 0.25
+        },
         lily: {
             file: "enemy/lily.png",
             frameWidth: 64,
