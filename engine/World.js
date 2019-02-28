@@ -224,6 +224,7 @@ World.prototype.nextStage = function () {
 World.prototype.stageBonus = function () {
     if (this.stage > 0) {
         //TODO: player/bomb/extra count
+        this.player.graze = Math.floor(this.player.graze);
         var ptsStage = this.stage * 1000;
         var ptsPower = Math.floor(this.player.power * 1000);
         var ptsGraze = this.player.graze * 10;

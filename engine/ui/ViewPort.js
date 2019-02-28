@@ -391,7 +391,7 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
     this.infoShow("Points", 7, 0, true);
     this.infoShow(this.world.player.points, 7, 1);
     this.infoShow("Graze", 8, 0, true);
-    this.infoShow(this.world.player.graze, 8, 1);
+    this.infoShow(Math.floor(this.world.player.graze), 8, 1);
 
     this.iconShow(0, 1, 6, 0);
     this.infoShow("Power", 6, 0, true);
