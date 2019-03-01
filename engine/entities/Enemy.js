@@ -295,6 +295,14 @@ Enemy.prototype.addAttack = function (spell, title, data, newGroup, params) {
     this.attacks[n].spell = spell;
     this.attacks[n].title = title;
     this.attacks[n].params = params;
+
+    var convertibleProps = ["time", "health", "decrTime", "bonus", "bonusBound"];
+    for (var i in convertibleProps) {
+        var prop = convertibleProps[i];
+        if (typeof this.attacks[n][prop] === "function") {
+            this.attacks[n][prop] = this.attacks[n][prop].apply(this, params);
+        }
+    }
 };
 
 Enemy.prototype.nextAttack = function () {
