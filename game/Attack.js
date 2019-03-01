@@ -396,23 +396,11 @@ var NON_SPELL = {
             //~wiggling left and right~
             this.x1 = Math.cos(this.lifetime * 1.5) * 30;
         },
-        health: 300,
-        time: 15
-    },
-    //TODO: remove by allowing dynamic health/time:
-    orbSpamCopyPasta: {
-        init: function () {
-            this.on(0, function () {
-                var c = 2 * (this.attackGroupCurrent + 3) * (this.world.difficulty + 1);
-                var d = this.lifetime * 3;
-                this.arcProjectiles(d, null, c, 0, 30, 0, 2, ["static.red", "static.blue"]);
-            }).repeat(0.133);
+        health: function (power) {
+            return power ? 500 : 300;
         },
-        func: function () {
-            //~wiggling left and right~
-            this.x1 = Math.cos(this.lifetime * 1.5) * 30;
-        },
-        health: 500,
-        time: 25
+        time: function (power) {
+            return power ? 25 : 15;
+        }
     }
 };

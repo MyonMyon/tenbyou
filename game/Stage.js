@@ -221,9 +221,9 @@ var STAGE = [{
                 boss: {
                     char: "orb",
                     attacks: [
-                        [NON_SPELL.orbSpam],
+                        [NON_SPELL.orbSpam, false],
                         [SPELL.orbAlpha],
-                        [NON_SPELL.orbSpamCopyPasta],
+                        [NON_SPELL.orbSpam, true],
                         [SPELL.orbBeta]
                     ],
                     startDialogue: [{
@@ -246,9 +246,9 @@ var STAGE = [{
                 boss: {
                     char: "orb",
                     attacks: [
-                        [NON_SPELL.orbSpam],
+                        [NON_SPELL.orbSpam, false],
                         [SPELL.orbAlpha],
-                        [NON_SPELL.orbSpamCopyPasta],
+                        [NON_SPELL.orbSpam, true],
                         [SPELL.orbBeta]
                     ],
                     last: true
