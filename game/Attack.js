@@ -208,6 +208,37 @@ var SPELL = {
             }).repeat(0.1);
         }
     },
+    lilySpring: {
+        boss: "lily",
+        number: 18,
+        names: [
+            null,
+            null,
+            null,
+            "Spring Sign \"Surprise Spring\""
+        ],
+        background: {
+            file: "bg/spell/gr.jpg",
+            speed: 100
+        },
+        health: 800,
+        time: 22,
+        decrTime: 6,
+        bonus: 600000,
+        bonusBound: 200000,
+        init: function () {
+            this.on(1, function (iter) {
+                var angleR = Util.toAngle("w") - iter * 0.14;
+                var angleB = Util.toAngle("e") + iter * 0.42;
+                var angleG = Util.toAngle("n") - iter * 0.28;
+                var angleY = Util.toAngle("n") + iter * 0.42;
+                this.arcProjectiles(angleR, Math.PI / 3, 8, 30, 20, 0, 2, "strike.red");
+                this.arcProjectiles(angleB, Math.PI / 3, 8, 24, 30, 0, 2, "strike.blue");
+                this.arcProjectiles(angleG, Math.PI / 3, 8, 0, 40, 0, 2, "strike.lime");
+                this.arcProjectiles(angleY, Math.PI / 3, 12, 18, 50, 0, 2, "strike.yellow");
+            }).repeat(0.166);
+        }
+    },
     orbGamma: {
         boss: "orb",
         number: 42,
