@@ -1,4 +1,21 @@
 var SPELL = {
+    fodder: {
+        boss: "marisa",
+        number: -1,
+        names: [
+            null,
+            null,
+            null,
+            null,
+            null,
+            "FODDER"
+        ],
+        health: 9001,
+        time: 42,
+        decrTime: 2,
+        bonus: 99999,
+        bonusBound: 5000
+    },
     nullity: {
         boss: "kedama",
         number: 0,
