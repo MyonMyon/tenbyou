@@ -180,7 +180,7 @@ Player.prototype.step = function () {
 
     for (var i in this.world.entities) {
         var e = this.world.entities[i];
-        if (!e.playerSide && e.width) {
+        if (!e.playerSide && e.width && !e.harmless) {
             if (e instanceof Projectile) {
                 if (Util.collisionCheck(e, this, this.grazeWidth)) {
                     if (Util.collisionCheck(e, this)) {

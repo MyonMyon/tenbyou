@@ -116,6 +116,7 @@ var SPELL = {
                     this.angleToPlayer = Util.angleBetweenEntities(this, this.world.player);
                     var msPre = new Beam(this.world, 0, 0, 1, this.angleToPlayer, 0, 0, 0, 0, 0, 0.6, false, "masterSpark");
                     msPre.setAnchor(this);
+                    msPre.harmless = true;
                     msPre.removeTime = 1.5;
                     msPre.behavior = function() {
                         this.maxLength += 200 / this.world.ticksPS;

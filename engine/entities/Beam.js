@@ -27,6 +27,8 @@ function Beam(world, x, y, length, a, r, a1, r1, a2, r2, width, playerSide, spri
     this.grazePS = 10;
     this.grazeTime = 0;
     this.damagePS = 10;
+
+    this.harmless = false;
 }
 
 Beam.prototype.draw = function (context) {
@@ -36,7 +38,7 @@ Beam.prototype.draw = function (context) {
 
     var ePos = this.world.vp.toScreenFX(this.x, this.y);
 
-    if (this.playerSide) {
+    if (this.playerSide || this.harmless) {
         context.globalAlpha = 0.4;
     }
 
