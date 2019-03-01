@@ -450,6 +450,7 @@ var STAGE = [{
                 repeatInterval: 1,
                 repeatCount: 12,
                 func: function (iter) {
+                    this.startShake(0.3, 10);
                     var r = (iter % 2) ? -1 : 1;
                     var fairyTurret = new Enemy(this,
                             r * (this.width / 2 + 1), -this.height / 2 - 1,
