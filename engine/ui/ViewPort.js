@@ -433,17 +433,20 @@ ViewPort.prototype.drawBackground = function (boundaryStart, boundaryEnd) {
         var bg = spell ? (this.world.boss.attacks[this.world.boss.attackCurrent].background || SPRITE.spellBackground) : stage.background;
         if (bg) {
             var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.time * bg.speed) % bg.object.height;
+            var shS = this.world.shake.strength * this.zoom;
+            var shX = this.world.shake.x * this.zoom - shS;
+            var shY = this.world.shake.y * this.zoom - shS;
             this.context.drawImage(bg.object,
                     0, Math.max(0, t),
                     bg.object.width, bg.object.width / this.world.width * this.world.height,
-                    boundaryStart.x, boundaryStart.y - 1 - Math.min(0, t / (bg.object.width / this.world.width) * this.zoom),
-                    this.world.width * this.zoom, this.world.height * this.zoom);
+                    boundaryStart.x + shX, boundaryStart.y - 1 - Math.min(0, t / (bg.object.width / this.world.width) * this.zoom) + shY,
+                    this.world.width * this.zoom + shS * 2, this.world.height * this.zoom + shS * 2);
             if (t < 0) {
                 this.context.drawImage(bg.object,
                         0, bg.object.height + t,
                         bg.object.width, -t,
-                        boundaryStart.x, boundaryStart.y,
-                        this.world.width * this.zoom, -Math.min(0, t / (bg.object.width / this.world.width) * this.zoom));
+                        boundaryStart.x + shX, boundaryStart.y + shY,
+                        this.world.width * this.zoom + shS * 2, -Math.min(0, t / (bg.object.width / this.world.width) * this.zoom) + shS * 2);
             }
         }
     }
