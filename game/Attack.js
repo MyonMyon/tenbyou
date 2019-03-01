@@ -118,7 +118,7 @@ var SPELL = {
         ],
         health: 750,
         time: 64,
-        decrTime: 48,
+        decrTime: 16,
         bonus: 2400000,
         bonusBound: 400000,
         init: function () {
