@@ -263,17 +263,6 @@ Enemy.prototype.initHealth = function (health) {
     this.health = health;
 };
 
-Enemy.prototype.addDrops = function (cat, amount, reqDamage, afterAttack) {
-    amount = amount || 1;
-    for (var i = 0; i < amount; ++i) {
-        this.drops.push({
-            cat: cat,
-            reqDamage: reqDamage || 0,
-            attackID: afterAttack ? (this.attacks.length - 1) : null
-        });
-    }
-};
-
 Enemy.prototype.addAttack = function (spell, title, data, newGroup, params) {
     //decrTime - time when bonus counter start to decrease
     //bonusBound - bonus gotten in the last moment

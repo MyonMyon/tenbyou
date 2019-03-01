@@ -343,6 +343,17 @@ Entity.prototype.isInvulnerable = function () {
     return this.invulnerable;
 };
 
+Entity.prototype.addDrops = function (cat, amount, reqDamage, afterAttack) {
+    amount = amount || 1;
+    for (var i = 0; i < amount; ++i) {
+        this.drops.push({
+            cat: cat,
+            reqDamage: reqDamage || 0,
+            attackID: afterAttack ? (this.attacks.length - 1) : null
+        });
+    }
+};
+
 Entity.prototype.dropBonus = function (angle, distance, cat) {
     var p = cat === "power" && this.world.player.power >= this.world.player.powerMax;
     return new Bonus(

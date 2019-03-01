@@ -78,16 +78,6 @@ Weapon.prototype.onDestroy = function () {
     //Override with CHAR data!
 };
 
-//TODO: unite with Enemy method?
-Weapon.prototype.addDrops = function (cat, amount) {
-    amount = amount || 1;
-    for (var i = 0; i < amount; ++i) {
-        this.drops.push({
-            cat: cat
-        });
-    }
-};
-
 Weapon.prototype.draw = function (context) {
     if (this.removalMark || this.anchor === this.player && this.player.respawnTime !== null) {
         return; //bye-bye!
