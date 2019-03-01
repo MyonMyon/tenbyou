@@ -143,6 +143,7 @@ var SPELL = {
                     this.masterSpark = new Beam(this.world, 0, 0, 200, this.angleToPlayer, 75, 0, 0, 0, 0, 50, false, "masterSpark");
                     this.masterSpark.setAnchor(this);
                     this.masterSpark.removeTime = 3;
+                    this.masterSpark.breakable = false;
                     this.world.startShake(3, 3);
                 }
                 if (iter % 40 === 18) {
