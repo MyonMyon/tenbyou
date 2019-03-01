@@ -259,19 +259,21 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
     }
 };
 
-ViewPort.prototype.showMessage = function (textArray, time, styleArray, position) {
+ViewPort.prototype.showMessage = function (textArray, time, styleArray, position, fadeIn, fadeOut) {
     var m = {
         text: textArray,
         start: this.world.time,
         length: time,
         position: position || "center",
-        style: styleArray || [FONT.title]
+        style: styleArray || [FONT.title],
+        fadeIn: fadeIn || 0.33,
+        fadeOut: fadeOut || 0.66
     };
     this.messages.push(m);
 };
 
 ViewPort.prototype.showItemLine = function () {
-    this.showMessage(["Item Get Border Line !"], 4, [FONT.itemLine], "itemLine");
+    this.showMessage(["Item Get Border Line !"], 4, [FONT.itemLine], "itemLine", 0.5, 0.5);
 };
 
 ViewPort.prototype.clearMessages = function () {
@@ -509,8 +511,10 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
         var m = this.messages[im];
         if (time < (m.start + m.length) && time > m.start) {
             this.context.textBaseline = m.position === "itemLine" ? "middle" : "alphabetic";
-            //TODO: remove magic numbers 1/0.33s, 1/0.66s
-            this.context.globalAlpha = Math.min(Math.min((time - m.start) * 3, (m.start + m.length - time) * 1.5), 1);
+            this.context.globalAlpha = Math.min(
+                    Math.min(1,
+                            (time - m.start) / m.fadeIn,
+                            (m.start + m.length - time) / m.fadeOut));
             var start = 0;
             var indexOffset = 0;
             switch (m.position) {
