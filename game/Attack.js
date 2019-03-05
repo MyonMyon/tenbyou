@@ -144,7 +144,7 @@ var SPELL = {
                     this.masterSpark.setAnchor(this);
                     this.masterSpark.removeTime = 3;
                     this.masterSpark.breakable = false;
-                    this.world.startShake(3, 3);
+                    this.world.startShake(3, 1.5);
                 }
                 if (iter % 40 === 18) {
                     var oldAngle = this.angleToPlayer;
