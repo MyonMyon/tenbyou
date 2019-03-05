@@ -24,6 +24,18 @@ Util.fillWithLeadingZeros = function (data, length, overflowSlice) {
 };
 
 /**
+ * Processes number to be in given bounds.
+ *
+ * @param {Number} min Minimal value to output.
+ * @param {Number} value Input value.
+ * @param {Number} max Maximal value to output.
+ * @return {Number} Bounded value.
+ */
+Util.bound = function (min, value, max) {
+    return Math.min(max, Math.max(min, value));
+};
+
+/**
  * @param {Number|Array|Function} data Value to extract.
  * @param {Number} iteration Iteration #.
  * @return {Number} Processed data.
