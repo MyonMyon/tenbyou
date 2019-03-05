@@ -14,6 +14,7 @@ Settings.getDefault = function (key) {
     var m = {
         "dev.mode": "false",
         "sound.enabled": "true",
+        "sound.volume_sfx": "100",
         "video.world_sync": "true",
         "video.gradients": "null"
     };
@@ -28,6 +29,7 @@ Settings.getType = function (key) {
     var m = {
         "dev.mode": "boolean",
         "sound.enabled": "boolean",
+        "sound.volume_sfx": "number",
         "video.world_sync": "boolean",
         "video.gradients": "boolean"
     };

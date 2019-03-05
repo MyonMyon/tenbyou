@@ -125,6 +125,15 @@ function MainMenu(vp) {
                         control: "toggle",
                         statePath: "sound.enabled"
                     }, {
+                        id: "volume",
+                        title: "SFX Volume",
+                        description: "Volume of sound effects",
+                        control: "slider",
+                        statePath: "sound.volume_sfx",
+                        stateNames: {
+                            "0": "Off"
+                        }
+                    }, {
                         id: "video_gradients",
                         title: "Gradients",
                         description: "Enable gradients in text (causes lower framerate)",
