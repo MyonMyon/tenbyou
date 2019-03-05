@@ -123,10 +123,18 @@ Menu.prototype.action = function (code) {
             this.changeIndex(-1);
             break;
         case "nav_right":
-            this.changeIndex(m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY);
+            if (m.tree[this.currentIndex].control === "slider") {
+                this.changeValue(1);
+            } else {
+                this.changeIndex(m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY);
+            }
             break;
         case "nav_left":
-            this.changeIndex(m.compact ? -MENU_CAPACITY_COMPACT : -MENU_CAPACITY);
+            if (m.tree[this.currentIndex].control === "slider") {
+                this.changeValue(-1);
+            } else {
+                this.changeIndex(m.compact ? -MENU_CAPACITY_COMPACT : -MENU_CAPACITY);
+            }
             break;
         case "nav_back":
             if (m.parent) {
@@ -234,6 +242,35 @@ Menu.prototype.changeIndex = function (delta) {
 };
 
 /**
+ * Function to change input's value.
+ *
+ * @param {Number} delta Difference. Usually -1 or +1.
+ */
+Menu.prototype.changeValue = function (delta) {
+    var m = this.getCurrentMenu();
+    var menuItem = m.tree[this.currentIndex];
+    if (menuItem) {
+        if (menuItem.control) {
+            if (menuItem.control === "slider") {
+                if (menuItem.values) {
+                    var index = menuItem.values.indexOf(menuItem.state);
+                    index += delta;
+                    index = Util.bound(0, index, menuItem.values.length - 1);
+                    menuItem.state = menuItem.values[index];
+                } else {
+                    menuItem.state += (menuItem.step || 10) * delta;
+                    menuItem.state = Util.bound(menuItem.min || 0, menuItem.state, menuItem.max || 100);
+                }
+            }
+            Settings.set(menuItem.statePath, menuItem.state);
+            if (menuItem.control === "slider") {
+                Sound.play(this.navSound);
+            }
+        }
+    }
+};
+
+/**
  * Applies settings for certain menu item (control).
  *
  * @param {Object} menuItem Menu item object.
@@ -297,6 +334,17 @@ Menu.prototype.draw = function () {
                     }
                     this.vp.drawText(
                             stateName,
+                            this.vp.zoom * (MENU_X + MENU_OPTION_OFFSET_X),
+                            this.vp.zoom * MENU_Y + height * row);
+                    break;
+                case "slider":
+                    var stateName = items[i].state + "";
+                    if (items[i].stateNames) {
+                        stateName = items[i].stateNames[stateName] || stateName;
+                    }
+                    this.vp.drawText(
+                            //TODO: replace with something better:
+                            "◀ " + stateName + " ▶",
                             this.vp.zoom * (MENU_X + MENU_OPTION_OFFSET_X),
                             this.vp.zoom * MENU_Y + height * row);
                     break;
