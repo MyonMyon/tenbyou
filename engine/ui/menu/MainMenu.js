@@ -15,9 +15,7 @@ function MainMenu(vp) {
     var aliases = this.vp.input.actionsAliases;
     for (var i in aliases) {
         if (["interaction", "misc"].indexOf(aliases[i].category) >= 0) {
-            MENU.input.tree.push({
-                title: i.toTitleCase() + ": " + this.vp.input.getKeyByAction(i, true)
-            });
+            MENU.input.text.push(i.toTitleCase() + ": " + this.vp.input.getKeyByAction(i, true));
         }
     }
     

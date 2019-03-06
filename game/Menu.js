@@ -17,7 +17,7 @@ var MENU = {
         tree: []
     },
     input: {
-        tree: []
+        text: []
     },
     main: {
         tree: [{

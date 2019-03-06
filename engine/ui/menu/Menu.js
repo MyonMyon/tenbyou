@@ -57,7 +57,9 @@ Menu.prototype.loadSettingsStates = function (tree) {
             if (typeof submenu === "string") {
                 submenu = MENU[submenu];
             }
-            this.loadSettingsStates(submenu.tree);
+            if (submenu.tree) {
+                this.loadSettingsStates(submenu.tree);
+            }
         }
     }
 };
@@ -69,9 +71,11 @@ Menu.prototype.loadSettingsStates = function (tree) {
 Menu.prototype.getCurrentMenu = function (parent) {
     var menu = this.currentMenu || {tree: this.tree}; //AKA Pause Menu and Main Menu
 
-    menu.tree = menu.tree.filter(function (item) {
-        return item.visible;
-    });
+    if (menu.tree) {
+        menu.tree = menu.tree.filter(function (item) {
+            return item.visible;
+        });
+    }
     return menu;
 };
 
@@ -89,7 +93,9 @@ Menu.prototype.updateStates = function (menu) {
             if (typeof submenu === "string") {
                 submenu = MENU[submenu];
             }
-            this.updateStates(submenu.tree);
+            if (submenu.tree) {
+                this.updateStates(submenu.tree);
+            }
         }
     }
 };
@@ -241,6 +247,9 @@ Menu.prototype.shortcut = function (keyCode) {
  */
 Menu.prototype.changeIndex = function (delta) {
     var m = this.getCurrentMenu();
+    if (!m.tree) {
+        return;
+    }
     var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
     var l = m.tree.length;
     Sound.play(this.navSound);
@@ -330,7 +339,8 @@ Menu.prototype.draw = function () {
     }
 
     var m = this.getCurrentMenu();
-    var items = m.tree;
+    var textMode = !!m.text;
+    var items = textMode ? m.text : m.tree;
 
     context.textAlign = MENU_TEXT_ALIGN;
     context.textBaseline = "top";
@@ -341,10 +351,17 @@ Menu.prototype.draw = function () {
     for (var i in items) {
         var row = +i - this.rowOffset;
         if (row >= 0 && row < cap) {
-            this.vp.setFont(FONT.menu, {selected: this.currentIndex === +i, compact: m.compact, disabled: items[i].isEnabled && !items[i].isEnabled.apply(this)});
-            this.vp.drawText(items[i].title,
-                    this.vp.zoom * (MENU_X + (this.currentIndex === +i) * MENU_SELECTION_OFFSET_X * Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay)),
+            this.vp.setFont(FONT.menu, {
+                selected: textMode || this.currentIndex === +i,
+                compact: m.compact,
+                disabled: !textMode && items[i].isEnabled && !items[i].isEnabled.apply(this)
+            });
+            this.vp.drawText(textMode ? items[i] : items[i].title,
+                    this.vp.zoom * (MENU_X + (!textMode && this.currentIndex === +i) * MENU_SELECTION_OFFSET_X * Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay)),
                     this.vp.zoom * MENU_Y + height * row);
+            if (textMode) {
+                continue;
+            }
             switch (items[i].control) {
                 case "toggle":
                 case "toggleThree":
