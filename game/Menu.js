@@ -21,13 +21,11 @@ var MENU = {
     },
     main: {
         tree: [{
-            id: "start",
             title: "Game Start",
             description: "Start playing the main game",
             submenu: "diff",
             states: { gameType: "standard" }
         }, {
-            id: "extra",
             title: "Extra Start",
             description: "Not yet",
             isEnabled: function () {
@@ -38,24 +36,20 @@ var MENU = {
             },
             states: { gameType: "extra", char: "nBarashou" }
         }, {
-            id: "spell",
             title: "Spell Practice",
             description: "Start practicing spell attacks",
             submenu: "char",
             states: { gameType: "spell" }
         }, {
-            id: "options",
             title: "Options",
             description: "Just a couple of tweaks",
             submenu: {
                 tree: [{
-                    id: "sound_on",
                     title: "Sound",
                     description: "Enable sounds",
                     control: "toggle",
                     statePath: "sound.enabled"
                 }, {
-                    id: "volume",
                     title: "SFX Volume",
                     description: "Volume of sound effects",
                     control: "slider",
@@ -64,7 +58,6 @@ var MENU = {
                         "0": "Off"
                     }
                 }, {
-                    id: "video_gradients",
                     title: "Gradients",
                     description: "Enable gradients in text (causes lower framerate)",
                     control: "toggleThree",
@@ -74,7 +67,6 @@ var MENU = {
                     },
                     vpField: "gradients"
                 }, {
-                    id: "video_world_sync",
                     title: "Timer Sync",
                     description: "Synchronise world timer with the framerate",
                     control: "toggle",
@@ -82,12 +74,10 @@ var MENU = {
                 }]
             }
         }, {
-            id: "controls",
             title: "Controls",
             description: "See key bindings",
             submenu: "input"
         }, {
-            id: "quit",
             title: "Quit",
             description: "Back to the reality",
             action: function () {
@@ -150,7 +140,6 @@ var MENU = {
 for (var i in STAGE) {
     if (!STAGE[i].extra) {
         MENU.stage.tree.push({
-            id: "stg_" + (+i + 1),
             states: {stage: +i + 1},
             title: "Stage " + (+i + 1),
             description: STAGE[i].title,
@@ -161,7 +150,6 @@ for (var i in STAGE) {
 for (var i in CHAR) {
     if (CHAR[i].playable) {
         MENU.char.tree.push({
-            id: "char_" + i,
             states: {char: i},
             title: CHAR[i].name,
             description: CHAR[i].description,
@@ -172,7 +160,6 @@ for (var i in CHAR) {
 for (var i in DIFF) {
     if (!DIFF[i].hidden) {
         MENU.diff.tree.push({
-            id: "diff_" + i,
             states: {difficulty: +i},
             title: DIFF[i].name,
             description: DIFF[i].description,
@@ -186,7 +173,6 @@ for (var i in SPELL) {
     for (var j in SPELL[i].names) {
         if (SPELL[i].names[j]) {
             MENU.spell.tree.push({
-                id: "spell_" + spellNumber,
                 states: {difficulty: +j, spell: SPELL[i]},
                 spell: SPELL[i],
                 title: "#" + Util.fillWithLeadingZeros(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
