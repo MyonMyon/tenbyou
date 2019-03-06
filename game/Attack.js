@@ -35,8 +35,9 @@ var SPELL = {
         init: function () {
             var w = 61;
             var h = 76;
+            var c = 1;
             this.on(0.0166, function (iter) {
-                for (var i = iter * 5; i < (iter + 1) * 5; i++) {
+                for (var i = iter * c; i < (iter + 1) * c; i++) {
                     var x = (i % w) * this.world.width / (w - 1) - this.world.width / 2;
                     var y = Math.floor(i / w) * this.world.height / (h - 1) - this.world.height / 2;
                     var p = new Projectile(
