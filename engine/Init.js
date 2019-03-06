@@ -41,7 +41,8 @@ var GAME_CODE = [
     "Stage",
     "Sprite",
     "Roll",
-    "Event"
+    "Event",
+    "Menu"
 ];
 
 var CUT_IN = {};

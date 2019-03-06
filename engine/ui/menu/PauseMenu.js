@@ -9,58 +9,7 @@ function PauseMenu(vp) {
 
     this.navSound = SFX.menuPauseNavigate;
 
-    this.tree = [
-        {
-            isVisible: function () {
-                return this.vp.world && this.vp.world.continueMode && this.vp.world.continuable;
-            },
-            title: "Continue",
-            action: function () {
-                this.vp.world.setPause(false);
-                this.vp.world.player.useContinue();
-                this.resetLocation();
-            }
-        },
-        {
-            isVisible: function () {
-                return this.vp.world && !this.vp.world.continueMode;
-            },
-            title: "Resume",
-            shortcut: "Escape",
-            action: function () {
-                this.vp.world.setPause(false);
-                this.resetLocation();
-            }
-        },
-        {
-            title: "Restart",
-            shortcut: "KeyR",
-            action: function () {
-                var diff = this.vp.world.difficulty;
-                var spell = this.vp.world.spell;
-                var char = this.vp.world.player.name;
-                this.fadeOut = new Date().getTime();
-                this.vp.world = new World(this.vp);
-                this.vp.world.setPlayer(char);
-                if (spell) {
-                    this.vp.world.startSpellPractice(diff, spell);
-                } else if (DIFF[diff].hidden) {
-                    this.vp.world.startExtra(diff);
-                } else {
-                    this.vp.world.startStage(1, diff);
-                }
-                this.resetLocation();
-            }
-        },
-        {
-            title: "To Main Menu",
-            shortcut: "KeyQ",
-            action: function () {
-                this.vp.world.destroy();
-                this.resetLocation();
-            }
-        }
-    ];
+    this.tree = MENU.pause.tree;
 }
 
 /**

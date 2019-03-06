@@ -53,7 +53,11 @@ Menu.prototype.loadSettingsStates = function (tree) {
             }
         }
         if (tree[i].submenu) {
-            this.loadSettingsStates(tree[i].submenu.tree);
+            var submenu = tree[i].submenu;
+            if (typeof submenu === "string") {
+                submenu = MENU[submenu];
+            }
+            this.loadSettingsStates(submenu.tree);
         }
     }
 };
@@ -81,7 +85,11 @@ Menu.prototype.updateStates = function (menu) {
     for (var i in menu) {
         menu[i].visible = (!menu[i].isVisible || menu[i].isVisible.apply(this));
         if (menu[i].submenu) {
-            this.updateStates(menu[i].submenu.tree);
+            var submenu = menu[i].submenu;
+            if (typeof submenu === "string") {
+                submenu = MENU[submenu];
+            }
+            this.updateStates(submenu.tree);
         }
     }
 };
@@ -183,12 +191,20 @@ Menu.prototype.selectItem = function (menuItem, manual) {
             }
         }
         if (menuItem.action) {
-            menuItem.action.apply(this, [menuItem]);
+            var action = menuItem.action;
+            if (typeof menuItem.action === "string") {
+                action = this[action];
+            }
+            action.apply(this, [menuItem]);
         }
         if (menuItem.submenu) {
-            menuItem.submenu.parent = this.getCurrentMenu();
-            menuItem.submenu.indexInParent = this.currentIndex;
-            this.currentMenu = menuItem.submenu;
+            var submenu = menuItem.submenu;
+            if (typeof submenu === "string") {
+                submenu = MENU[submenu];
+            }
+            submenu.parent = this.getCurrentMenu();
+            submenu.indexInParent = this.currentIndex;
+            this.currentMenu = submenu;
             this.rowOffset = this.currentIndex = 0;
         }
         if (manual) {
@@ -207,7 +223,11 @@ Menu.prototype.shortcut = function (keyCode) {
     var m = this.getCurrentMenu();
     for (var i in m.tree) {
         if (m.tree[i].shortcut === keyCode) {
-            m.tree[i].action.apply(this);
+            var action = m.tree[i].action;
+            if (typeof menuItem.action === "string") {
+                action = this[action];
+            }
+            action.apply(this);
             return true;
         }
     }
