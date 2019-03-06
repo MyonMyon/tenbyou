@@ -14,8 +14,8 @@ GameEvent.RECURSION_LIMIT = 42;
  */
 GameEvent.getCurrentEvents = function (valuesObject) {
     var events = [];
-    for (var i in EVENTS) {
-        if (GameEvent.resolveCondition(EVENTS[i].condition, valuesObject)) {
+    for (var i in EVENT) {
+        if (GameEvent.resolveCondition(EVENT[i].condition, valuesObject)) {
             events.push(i);
         }
     }
@@ -28,7 +28,7 @@ GameEvent.getCurrentEvents = function (valuesObject) {
  * @return {Array} Names of the ongoing events.
  */
 GameEvent.checkEvent = function (eventName, valuesObject) {
-    return GameEvent.resolveCondition(EVENTS[eventName].condition, valuesObject);
+    return GameEvent.resolveCondition(EVENT[eventName].condition, valuesObject);
 };
 
 /**
@@ -62,7 +62,7 @@ GameEvent.resolveCondition = function (conditionObject, valuesObject, recursionC
             andResult = andResult && orResult;
         } else if (i === "events") {
             for (var j in conditionObject[i]) {
-                if (!GameEvent.resolveCondition(EVENTS[conditionObject[i][j]].condition, valuesObject, ++recursionCount)) {
+                if (!GameEvent.resolveCondition(EVENT[conditionObject[i][j]].condition, valuesObject, ++recursionCount)) {
                     return false;
                 }
             }

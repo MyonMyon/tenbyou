@@ -294,8 +294,8 @@ Menu.prototype.draw = function () {
     var context = this.vp.context;
 
     if (GameEvent.checkEvent("valentine")) {
-        var obj = EVENTS.valentine.res.object;
-        var z = EVENTS.valentine.res.zoom * this.vp.zoom;
+        var obj = EVENT.valentine.res.object;
+        var z = EVENT.valentine.res.zoom * this.vp.zoom;
         var c = 42;
         for (var i = 0; i < c; i++) {
             var xD = this.vp.zoom * Math.sin(new Date().getTime() / 200 + Math.sin(i) * 42) * 5;

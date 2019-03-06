@@ -41,7 +41,7 @@ var GAME_CODE = [
     "Stage",
     "Sprite",
     "Roll",
-    "Events"
+    "Event"
 ];
 
 var CUT_IN = {};
@@ -67,7 +67,7 @@ var IMAGE_LOAD = [{
         push: true,
         checkInside: true
     }, {
-        object: "EVENTS",
+        object: "EVENT",
         itemProp: "res"
     }];
 

@@ -1,4 +1,4 @@
-var EVENTS = {
+var EVENT = {
     "valentine": {
         "condition": {
             "month": 2,
