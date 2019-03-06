@@ -62,12 +62,11 @@ PerformanceChart.prototype.drawPoint = function () {
         this.vp.context.strokeStyle = i % 1000 ? "#fff" : "#f00";
         this.vp.context.lineWidth = this.vp.zoom / (i % 500 ? 4 : 2);
         this.vp.context.beginPath();
-        this.vp.context.moveTo(
-                this.vp.zoom * this.position.x,
+        for (var j = 0; j < 2; j++) {
+            this.vp.context[j ? "lineTo" : "moveTo"](
+                this.vp.zoom * (this.position.x + +j * this.size.x),
                 this.vp.zoom * (this.position.y + (1 - i / this.maxValue.entityCount) * this.size.y));
-        this.vp.context.lineTo(
-                this.vp.zoom * (this.position.x + this.size.x),
-                this.vp.zoom * (this.position.y + (1 - i / this.maxValue.entityCount) * this.size.y));
+        }
         this.vp.context.stroke();
     }
     for (var i in this.data) {
