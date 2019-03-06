@@ -78,6 +78,22 @@ var MENU = {
             description: "See key bindings",
             submenu: "input"
         }, {
+            title: "About",
+            description: "See information about the game",
+            submenu: {
+                compact: true,
+                text: [
+                    "Disclaimer:",
+                    "This fan game is heavily inspired and based on Touhou Project series by ZUN.",
+                    "The game is still in an early development stage. It's full of bugs, artwork is rough",
+                    "and the stages aren't even finished. Let's hope the game will be done eventually ._.",
+                    "",
+                    "Credits:",
+                    "Art, Sound, Engine Programming, Game Scripting: sw33tch.",
+                    "Alpha-Testers: SL1900 and many others from Flowerfield Studio Discord!",
+                ]
+            }
+        }, {
             title: "Quit",
             description: "Back to the reality",
             action: function () {
