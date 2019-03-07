@@ -34,6 +34,8 @@ function ViewPort() {
         }, self.splashMs + self.splashFadeMs);
     };
 
+    this.preRenders = {};
+
     this.draw();
 }
 

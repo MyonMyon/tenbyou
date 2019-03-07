@@ -33,7 +33,15 @@ Projectile.prototype.draw = function (context) {
         context.rotate(a - Math.PI / 2 + this.angle + this.a0);
     }
 
-    this.sprite.draw(context, 0, 0, this.playerSide ? this.world.relTime() : this.lifetime, this.world.vp.zoom * this.width * 2);
+    var pr = this.world.vp.preRenders;
+    var id = this.spriteName;
+    if (!pr[id]) {
+        pr[id] = document.createElement("canvas");
+        pr[id].width = this.world.vp.zoom * this.width * 2;
+        pr[id].height = this.world.vp.zoom * this.width * 2;
+        this.sprite.draw(pr[id].getContext("2d"), 0, 0, this.playerSide ? this.world.relTime() : this.lifetime, this.world.vp.zoom * this.width * 2);
+    }
+    context.drawImage(pr[id], 0, 0);
 
     context.restore();
 
