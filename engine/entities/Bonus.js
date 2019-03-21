@@ -111,12 +111,12 @@ class Bonus extends Entity {
                     t.y = this.world.player.y - 10;
                 } else {
                     this.world.lastText = new Text(
-                            this.world,
-                            this.world.player.x,
-                            this.world.player.y - 10,
-                            score || (power + 0.001).toFixed(2),
-                            max,
-                            cat);
+                        this.world,
+                        this.world.player.x,
+                        this.world.player.y - 10,
+                        score || (power + 0.001).toFixed(2),
+                        max,
+                        cat);
                 }
             }
         }

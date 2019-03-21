@@ -10,7 +10,7 @@ function PerformanceChart(vp) {
     };
     this.data = [];
     this.maxTicks = 200;
-    this.maxValue = {entityCount: 0, tickLength: 0.05};
+    this.maxValue = { entityCount: 0, tickLength: 0.05 };
 
     this.modes = ["off", "timed", "point"];
     this.mode = "off";
@@ -72,10 +72,10 @@ PerformanceChart.prototype.drawPoint = function () {
     for (var i in this.data) {
         this.vp.context.fillStyle = this.getThresholdColor(this.data[i].tickLength);
         this.vp.context.fillRect(
-                this.vp.zoom * (this.position.x + this.data[i].tickLength / this.maxValue.tickLength * this.size.x - 1),
-                this.vp.zoom * (this.position.y + (1 - this.data[i].entityCount / this.maxValue.entityCount) * this.size.y - 1),
-                this.vp.zoom * 2,
-                this.vp.zoom * 2);
+            this.vp.zoom * (this.position.x + this.data[i].tickLength / this.maxValue.tickLength * this.size.x - 1),
+            this.vp.zoom * (this.position.y + (1 - this.data[i].entityCount / this.maxValue.entityCount) * this.size.y - 1),
+            this.vp.zoom * 2,
+            this.vp.zoom * 2);
     }
 
     this.vp.setFont(FONT.debug);
@@ -86,9 +86,9 @@ PerformanceChart.prototype.drawPoint = function () {
     for (var i in this.fpsUnits) {
         this.vp.context.fillStyle = this.getThresholdColor(1 / this.fpsUnits[i]);
         this.vp.drawText(
-                this.fpsUnits[i],
-                this.vp.zoom * (this.position.x + this.size.x / this.maxValue.tickLength / this.fpsUnits[i]),
-                this.vp.zoom * (this.position.y + this.size.y));
+            this.fpsUnits[i],
+            this.vp.zoom * (this.position.x + this.size.x / this.maxValue.tickLength / this.fpsUnits[i]),
+            this.vp.zoom * (this.position.y + this.size.y));
     }
 };
 
@@ -98,16 +98,16 @@ PerformanceChart.prototype.drawTimed = function () {
     for (var i in this.data) {
         this.vp.context.fillStyle = this.getThresholdColor(this.data[i].tickLength);
         this.vp.context.fillRect(
-                this.vp.zoom * (this.position.x + i * this.size.x / this.maxTicks),
-                this.vp.zoom * (this.position.y + this.size.y),
-                this.vp.zoom * this.size.x / this.maxTicks,
-                this.vp.zoom * -this.size.y * Math.min(1, this.data[i].tickLength / this.maxValue.tickLength));
+            this.vp.zoom * (this.position.x + i * this.size.x / this.maxTicks),
+            this.vp.zoom * (this.position.y + this.size.y),
+            this.vp.zoom * this.size.x / this.maxTicks,
+            this.vp.zoom * -this.size.y * Math.min(1, this.data[i].tickLength / this.maxValue.tickLength));
     }
     this.vp.context.beginPath();
     for (var i in this.data) {
         this.vp.context[i ? "lineTo" : "moveTo"](
-                this.vp.zoom * (this.position.x + this.size.x * i / (this.maxTicks - 1)),
-                this.vp.zoom * (this.position.y + this.size.y * (1 - this.data[i].entityCount / this.maxValue.entityCount)));
+            this.vp.zoom * (this.position.x + this.size.x * i / (this.maxTicks - 1)),
+            this.vp.zoom * (this.position.y + this.size.y * (1 - this.data[i].entityCount / this.maxValue.entityCount)));
     }
     this.vp.context.stroke();
 
@@ -119,9 +119,9 @@ PerformanceChart.prototype.drawTimed = function () {
     for (var i in this.fpsUnits) {
         this.vp.context.fillStyle = this.getThresholdColor(1 / this.fpsUnits[i]);
         this.vp.drawText(
-                this.fpsUnits[i],
-                this.vp.zoom * (this.position.x + this.size.x),
-                this.vp.zoom * (this.position.y + this.size.y * (1 - 1 / this.maxValue.tickLength / this.fpsUnits[i]) + 2.5));
+            this.fpsUnits[i],
+            this.vp.zoom * (this.position.x + this.size.x),
+            this.vp.zoom * (this.position.y + this.size.y * (1 - 1 / this.maxValue.tickLength / this.fpsUnits[i]) + 2.5));
     }
 };
 
@@ -131,10 +131,10 @@ PerformanceChart.prototype.draw = function () {
     }
     this.vp.context.fillStyle = "rgba(23, 23, 23, 0.8)";
     this.vp.context.fillRect(
-            this.vp.zoom * this.position.x,
-            this.vp.zoom * this.position.y,
-            this.vp.zoom * this.size.x,
-            this.vp.zoom * this.size.y);
+        this.vp.zoom * this.position.x,
+        this.vp.zoom * this.position.y,
+        this.vp.zoom * this.size.x,
+        this.vp.zoom * this.size.y);
     switch (this.mode) {
         case "timed":
             this.drawTimed();

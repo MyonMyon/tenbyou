@@ -1,10 +1,10 @@
 class PauseMenu extends Menu {
     constructor(vp) {
-    super(vp);
+        super(vp);
 
-    this.navSound = SFX.menuPauseNavigate;
+        this.navSound = SFX.menuPauseNavigate;
 
-    this.tree = MENU.pause.tree;
+        this.tree = MENU.pause.tree;
     }
 
     /**

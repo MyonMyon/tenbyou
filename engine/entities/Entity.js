@@ -250,10 +250,10 @@ class Entity {
         var d = Util.distanceBetweenPoints(this.x, this.y, targetX, targetY);
         if (d !== 0)
             this.setVectors(null, null,
-                    (targetX - this.x) / d * speed,
-                    (targetY - this.y) / d * speed,
-                    (targetX - this.x) / d * acceleration,
-                    (targetY - this.y) / d * acceleration);
+                (targetX - this.x) / d * speed,
+                (targetY - this.y) / d * speed,
+                (targetX - this.x) / d * acceleration,
+                (targetY - this.y) / d * acceleration);
     }
 
     headToPointSmoothly(targetX, targetY, time) {
@@ -270,8 +270,8 @@ class Entity {
             var e = this.world.entities[i];
             if ((e instanceof type && ((type === Projectile && !e.playerSide) || type !== Projectile)) || type === null) {
                 if (e !== this &&
-                        Util.distanceBetweenEntities(this, e) < nearestDistance &&
-                        Math.abs(Util.angleBetweenEntities(this, e) - this.getAngle()) <= angleRange) {
+                    Util.distanceBetweenEntities(this, e) < nearestDistance &&
+                    Math.abs(Util.angleBetweenEntities(this, e) - this.getAngle()) <= angleRange) {
                     var complete = true;
                     if (filters) {
                         for (var j in filters) {
@@ -292,20 +292,20 @@ class Entity {
 
     shootProjectile(angle, distance, speed, acceleration, width, sprite, anchored) {
         var p = new Projectile(this.world,
-                (anchored ? 0 : this.x) + distance * Math.cos(angle),
-                (anchored ? 0 : this.y) + distance * Math.sin(angle),
-                Math.cos(angle) * speed,
-                Math.sin(angle) * speed,
-                Math.cos(angle) * acceleration,
-                Math.sin(angle) * acceleration,
-                width, false, sprite);
+            (anchored ? 0 : this.x) + distance * Math.cos(angle),
+            (anchored ? 0 : this.y) + distance * Math.sin(angle),
+            Math.cos(angle) * speed,
+            Math.sin(angle) * speed,
+            Math.cos(angle) * acceleration,
+            Math.sin(angle) * acceleration,
+            width, false, sprite);
         if (anchored) {
             p.setAnchor(this);
         }
         if ((this.x > this.world.width / 2
-                || this.x < -this.world.width / 2
-                || this.y > this.world.height / 2
-                || this.y < -this.world.height / 2)) {
+            || this.x < -this.world.width / 2
+            || this.y > this.world.height / 2
+            || this.y < -this.world.height / 2)) {
             //don't shoot from offscreen
             p.remove();
         }
@@ -331,12 +331,12 @@ class Entity {
         for (var i = 0; i < count; i++) {
             var a = Util.iterate(centerAngle, i) + dAngle + i * rangeAngle / rCount;
             ps.push(this.shootProjectile(a,
-                    Util.iterate(distance, i),
-                    Util.iterate(speed, i),
-                    Util.iterate(acceleration, i),
-                    Util.iterate(width, i),
-                    Util.iterate(sprite, i),
-                    Util.iterate(anchored, i)));
+                Util.iterate(distance, i),
+                Util.iterate(speed, i),
+                Util.iterate(acceleration, i),
+                Util.iterate(width, i),
+                Util.iterate(sprite, i),
+                Util.iterate(anchored, i)));
         }
         return ps;
     }
@@ -359,11 +359,11 @@ class Entity {
     dropBonus(angle, distance, cat) {
         var p = cat === "power" && this.world.player.power >= this.world.player.powerMax;
         return new Bonus(
-                this.world,
-                this.x + Math.cos(angle) * distance,
-                this.y + Math.sin(angle) * distance,
-                p ? "point" : cat,
-                false);
+            this.world,
+            this.x + Math.cos(angle) * distance,
+            this.y + Math.sin(angle) * distance,
+            p ? "point" : cat,
+            false);
     }
 
     on(second, func) {

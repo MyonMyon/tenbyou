@@ -19,7 +19,7 @@ function World(vp) {
 
     this.difficulty = 0;
     this.stages = [];
-    this.stages[0] = {title: "", desc: "", background: null}; //used for the spell spractice
+    this.stages[0] = { title: "", desc: "", background: null }; //used for the spell spractice
     this.stage = 0;
     this.substage = 0;
     this.substageStart = 0;
@@ -27,7 +27,7 @@ function World(vp) {
     this.stageInterval = 2.5;
     this.continuable = true;
 
-    this.shake = {x: 0, y: 0, time: 0, strength: 0};
+    this.shake = { x: 0, y: 0, time: 0, strength: 0 };
 
     this.vp = vp;
     vp.clearMessages();
@@ -297,7 +297,7 @@ World.prototype.tick = function () {
             this.shake.x = Math.cos(a) * r;
             this.shake.y = Math.sin(a) * r;
         } else {
-            this.shake = {x: 0, y: 0, time: 0, strength: 0};
+            this.shake = { x: 0, y: 0, time: 0, strength: 0 };
         }
 
         for (var i in this.entities) {

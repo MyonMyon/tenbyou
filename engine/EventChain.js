@@ -23,8 +23,8 @@ EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCo
         repeatCount: repeatCount || 1,
         iteration: 0,
         second: useWorldTimeGrid ?
-                (Math.floor((this.parent.world.relTime() + second) / repeatInterval) + 1) * (repeatInterval) :
-                second,
+            (Math.floor((this.parent.world.relTime() + second) / repeatInterval) + 1) * (repeatInterval) :
+            second,
         done: false,
         useWorldTimeGrid: useWorldTimeGrid,
         fire: func,

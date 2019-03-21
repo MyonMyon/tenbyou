@@ -49,25 +49,25 @@ class Beam extends Entity {
 
         if (this.sprite.ref) {
             this.sprite.draw(
-                    context, 0, 0,
-                    this.playerSide ? this.world.relTime() : this.lifetime,
-                    this.world.vp.zoom * this.width * 2);
+                context, 0, 0,
+                this.playerSide ? this.world.relTime() : this.lifetime,
+                this.world.vp.zoom * this.width * 2);
 
             context.rotate(Math.PI);
             this.sprite.draw(
-                    context, 0, this.world.vp.zoom * -this.length,
-                    this.playerSide ? this.world.relTime() : this.lifetime,
-                    this.world.vp.zoom * this.width * 2);
+                context, 0, this.world.vp.zoom * -this.length,
+                this.playerSide ? this.world.relTime() : this.lifetime,
+                this.world.vp.zoom * this.width * 2);
             context.rotate(-Math.PI);
         }
 
         this.spriteBeam.draw(
-                context,
-                0,
-                this.world.vp.zoom * this.width * this.spriteBeam.zoom,
-                this.playerSide ? this.world.relTime() : this.lifetime,
-                this.world.vp.zoom * this.width * 2,
-                this.length / (this.width * 2 * this.spriteBeam.zoom));
+            context,
+            0,
+            this.world.vp.zoom * this.width * this.spriteBeam.zoom,
+            this.playerSide ? this.world.relTime() : this.lifetime,
+            this.world.vp.zoom * this.width * 2,
+            this.length / (this.width * 2 * this.spriteBeam.zoom));
 
         context.restore();
 

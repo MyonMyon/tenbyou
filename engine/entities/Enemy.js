@@ -68,14 +68,14 @@ class Enemy extends Entity {
 
             for (var i = thisSection; i < sectionsN; ++i)
                 this.drawBossWheel(context, 23,
-                        (i + ((i === thisSection) ? 1 - this.health / this.initialHealth : 0)) / sectionsN * (fullWheel ? 1 : 0.75),
-                        (i + 1) / sectionsN * (fullWheel ? 1 : 0.75),
-                        (i % 2 === 0) ? BOSS_HEALTH_COLOR : BOSS_HEALTH_ALT_COLOR, BOSS_HEALTH_WIDTH);
+                    (i + ((i === thisSection) ? 1 - this.health / this.initialHealth : 0)) / sectionsN * (fullWheel ? 1 : 0.75),
+                    (i + 1) / sectionsN * (fullWheel ? 1 : 0.75),
+                    (i % 2 === 0) ? BOSS_HEALTH_COLOR : BOSS_HEALTH_ALT_COLOR, BOSS_HEALTH_WIDTH);
             for (var i = Math.max(thisSection - sectionsN, 0); i < sectionsS; ++i)
                 this.drawBossWheel(context, 23,
-                        (i + ((i === (thisSection - sectionsN)) ? 1 - this.health / this.initialHealth : 0)) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
-                        (i + 1) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
-                        (i % 2 === 0) ? BOSS_HEALTH_SPELL_COLOR : BOSS_HEALTH_SPELL_ALT_COLOR, BOSS_HEALTH_WIDTH);
+                    (i + ((i === (thisSection - sectionsN)) ? 1 - this.health / this.initialHealth : 0)) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
+                    (i + 1) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
+                    (i % 2 === 0) ? BOSS_HEALTH_SPELL_COLOR : BOSS_HEALTH_SPELL_ALT_COLOR, BOSS_HEALTH_WIDTH);
 
             var rt = this.lifetime;
             var at = this.attacks[this.attackCurrent].time;
@@ -114,9 +114,9 @@ class Enemy extends Entity {
             for (var i = 0; i < this.drops.length; ++i)
                 if (this.drops[i].reqDamage === 0 && this.attackCurrent === this.drops[i].attackID && !this.drops[i].removed) {
                     this.dropBonus(
-                            Random.nextFloat(Math.PI * 2),
-                            Random.nextFloat(this.initialHealth / 5),
-                            this.drops[i].cat);
+                        Random.nextFloat(Math.PI * 2),
+                        Random.nextFloat(this.initialHealth / 5),
+                        this.drops[i].cat);
                     this.drops[i].removed = true;
                 }
 
@@ -131,18 +131,18 @@ class Enemy extends Entity {
 
         //remove from world
         if ((this.x > this.world.width / 2 + this.width * 2
-                || this.x < -this.world.width / 2 - this.width * 2
-                || this.y > this.world.height / 2 + this.width * 2
-                || this.y < -this.world.height / 2 - this.width * 2) && this !== this.world.boss) {//DO NOT DELETE BOSSES
+            || this.x < -this.world.width / 2 - this.width * 2
+            || this.y > this.world.height / 2 + this.width * 2
+            || this.y < -this.world.height / 2 - this.width * 2) && this !== this.world.boss) {//DO NOT DELETE BOSSES
             this.remove(true);
             return;
         }
 
         //collision with player
         if (this.lifetime >= this.appearanceTime &&
-                !this.world.player.isInvulnerable() &&
-                Util.distanceBetweenEntities(this, this.world.player) <
-                (this.width + this.world.player.width)) {
+            !this.world.player.isInvulnerable() &&
+            Util.distanceBetweenEntities(this, this.world.player) <
+            (this.width + this.world.player.width)) {
             this.world.player.kill();
         }
 
@@ -156,20 +156,20 @@ class Enemy extends Entity {
 
         //collision with bullets
         if ((this.world.boss !== this || (this.attackCurrent !== null && this.attackCurrent < this.attacks.length)) &&
-                this.lifetime >= this.appearanceTime) {
-            for (var i in  this.world.entities) {
+            this.lifetime >= this.appearanceTime) {
+            for (var i in this.world.entities) {
                 var e = this.world.entities[i];
                 if (e.playerSide) {
                     if (e instanceof Projectile) {
                         if (Util.collisionCheck(this, e)) {
-                            this.hurt(e.damage, {x: e.x, y: e.y});
+                            this.hurt(e.damage, { x: e.x, y: e.y });
                             e.remove();
                         }
                         continue;
                     }
                     if (e instanceof Beam) {
                         if (Util.collisionCheckBeam(this, e)) {
-                            this.hurt(e.damagePS / this.world.ticksPS, {x: this.x, y: this.y});
+                            this.hurt(e.damagePS / this.world.ticksPS, { x: this.x, y: this.y });
                             e.break(Util.vectorLength(this.x - e.x, this.y - e.y));
                         }
                     }
@@ -272,7 +272,7 @@ class Enemy extends Entity {
         var m = this.attackGroups.length - 1;
 
         if (n === 0 || (this.attacks[n - 1].spell && !spell) || newGroup)
-            this.attackGroups[++m] = {start: n, nonspells: 0, spells: 0};
+            this.attackGroups[++m] = { start: n, nonspells: 0, spells: 0 };
         if (spell)
             ++this.attackGroups[m].spells;
         else

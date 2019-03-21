@@ -41,8 +41,8 @@ var SPELL = {
                     var x = (i % w) * this.world.width / (w - 1) - this.world.width / 2;
                     var y = Math.floor(i / w) * this.world.height / (h - 1) - this.world.height / 2;
                     var p = new Projectile(
-                            this.world, x, y, 0, 0, 0, 0, 1.5, true,
-                            Random.nextArrayElement(["seal.cyan", "seal.yellow", "seal.magenta"]));
+                        this.world, x, y, 0, 0, 0, 0, 1.5, true,
+                        Random.nextArrayElement(["seal.cyan", "seal.yellow", "seal.magenta"]));
                     p.behavior = function () {
                         this.angle = this.world.relTime();
                     };
@@ -75,8 +75,8 @@ var SPELL = {
                 for (var i in bs) {
                     var a = bs[i].getAngle();
                     bs[i].setVectors(null, null,
-                            Math.cos(a + d) * (20 + this.world.difficulty * 5),
-                            Math.sin(a + d) * (5 + this.world.difficulty * 20));
+                        Math.cos(a + d) * (20 + this.world.difficulty * 5),
+                        Math.sin(a + d) * (5 + this.world.difficulty * 20));
                 }
             }).repeat(0.1);
         }
@@ -136,7 +136,7 @@ var SPELL = {
                     msPre.setAnchor(this);
                     msPre.harmless = true;
                     msPre.removeTime = 1.5;
-                    msPre.behavior = function() {
+                    msPre.behavior = function () {
                         this.maxLength += 200 / this.world.ticksPS;
                     };
                 }
@@ -153,7 +153,7 @@ var SPELL = {
                     this.masterSpark.a1 = Util.isClockwiseNearest(oldAngle, this.angleToPlayer) ? 0.4 : -0.4;
                 }
                 var starCircle = this.arcProjectiles(iter * Math.PI / 24, null, 8, 0, 30, -15, 3, ["star.red", "star.blue"][iter % 2], false);
-                starCircle.forEach(function(s) {
+                starCircle.forEach(function (s) {
                     s.a1 = (iter % 2) ? -1 : 1;
                     s.preserve = true;
                     s.removeTime = 7;
@@ -383,9 +383,9 @@ var SPELL = {
         init: function () {
             this.on(0, function () {
                 var nuclearBall = new Projectile(this.world,
-                        (Random.nextFloat() - 0.5) * this.world.width,
-                        -this.world.height / 2 - 5,
-                        0, 180, 0, -81, 20, false, "nuclear");
+                    (Random.nextFloat() - 0.5) * this.world.width,
+                    -this.world.height / 2 - 5,
+                    0, 180, 0, -81, 20, false, "nuclear");
                 nuclearBall.behavior = function () {
                     if (this.width <= 0.2)
                         this.remove();

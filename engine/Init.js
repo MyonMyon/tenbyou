@@ -48,36 +48,36 @@ var GAME_CODE = [
 var CUT_IN = {};
 
 var IMAGE_LOAD = [{
-        object: "SPRITE",
-        itemProp: "file",
-        push: true,
-        checkInside: true
-    }, {
-        object: "ROLL",
-        push: true,
-        itemProp: "file"
-    }, {
-        object: "STAGE",
-        itemProp: "background"
-    }, {
-        object: "SPELL",
-        itemProp: "background"
-    }, {
-        object: "CUT_IN",
-        itemProp: "file",
-        push: true,
-        checkInside: true
-    }, {
-        object: "EVENT",
-        itemProp: "res"
-    }];
+    object: "SPRITE",
+    itemProp: "file",
+    push: true,
+    checkInside: true
+}, {
+    object: "ROLL",
+    push: true,
+    itemProp: "file"
+}, {
+    object: "STAGE",
+    itemProp: "background"
+}, {
+    object: "SPELL",
+    itemProp: "background"
+}, {
+    object: "CUT_IN",
+    itemProp: "file",
+    push: true,
+    checkInside: true
+}, {
+    object: "EVENT",
+    itemProp: "res"
+}];
 
 var SFX_LOAD = [{
-        object: "SFX",
-        itemProp: "file",
-        push: true,
-        checkInside: true
-    }];
+    object: "SFX",
+    itemProp: "file",
+    push: true,
+    checkInside: true
+}];
 
 function init() {
     try {

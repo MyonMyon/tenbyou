@@ -104,15 +104,15 @@ var SFX = {
 };
 
 var FONT_FILES = [{
-        name: "Unispace Rg",
-        file: "unispace_rg.ttf"
-    }, {
-        name: "Revue Normal",
-        file: "revuen.ttf"
-    }, {
-        name: "Accuratist",
-        file: "accuratist.ttf"
-    }];
+    name: "Unispace Rg",
+    file: "unispace_rg.ttf"
+}, {
+    name: "Revue Normal",
+    file: "revuen.ttf"
+}, {
+    name: "Accuratist",
+    file: "accuratist.ttf"
+}];
 
 var FONT = {
     description: {
@@ -370,27 +370,27 @@ var MENU_SCROLL_X = 10;
 var MENU_SCROLL_W = 1;
 
 var DIFF = [{
-        name: "Easy",
-        letter: "E",
-        description: "For the casual gamers"
-    }, {
-        name: "Normal",
-        letter: "N",
-        description: "For the normies (REEEEEEEEEEEEEEE)"
-    }, {
-        name: "Hard",
-        letter: "H",
-        description: "For the challengers"
-    }, {
-        name: "Lunatic",
-        letter: "L",
-        description: "This thing is CURSED"
-    }, {
-        name: "Extra",
-        letter: "X",
-        hidden: true
-    }, {
-        name: "Phantasm",
-        letter: "P",
-        hidden: true
-    }];
+    name: "Easy",
+    letter: "E",
+    description: "For the casual gamers"
+}, {
+    name: "Normal",
+    letter: "N",
+    description: "For the normies (REEEEEEEEEEEEEEE)"
+}, {
+    name: "Hard",
+    letter: "H",
+    description: "For the challengers"
+}, {
+    name: "Lunatic",
+    letter: "L",
+    description: "This thing is CURSED"
+}, {
+    name: "Extra",
+    letter: "X",
+    hidden: true
+}, {
+    name: "Phantasm",
+    letter: "P",
+    hidden: true
+}];

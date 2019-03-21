@@ -1,6 +1,6 @@
 class Weapon extends Entity {
     constructor(player, name, anchored) {
-    super(player.world, 0, 0);
+        super(player.world, 0, 0);
         if (anchored) {
             this.setAnchor(player);
         } else {
@@ -31,10 +31,10 @@ class Weapon extends Entity {
             for (var i in this.world.entities) {
                 var e = this.world.entities[i];
                 if ((e instanceof Projectile || e instanceof Beam) &&
-                        !e.playerSide &&
-                        e.width &&
-                        !e.harmless &&
-                        Util.collisionCheck(this, e)) {
+                    !e.playerSide &&
+                    e.width &&
+                    !e.harmless &&
+                    Util.collisionCheck(this, e)) {
                     //collision
                     this.hit();
                 }
@@ -53,9 +53,9 @@ class Weapon extends Entity {
         new Particle(this.world, this.x, this.y, 0.66, 8, false, false, "splash");
         for (var i in this.drops) {
             this.dropBonus(
-                    Random.nextFloat(Math.PI * 2),
-                    Random.nextFloat(5),
-                    this.drops[i].cat);
+                Random.nextFloat(Math.PI * 2),
+                Random.nextFloat(5),
+                this.drops[i].cat);
         }
         this.onDestroy();
         this.remove();

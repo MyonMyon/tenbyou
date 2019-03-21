@@ -87,10 +87,10 @@ Dialogue.prototype.draw = function () {
                 }
                 vp.context.globalAlpha = this.charStates[i].active ? 1 : 0.4;
                 vp.context.drawImage(s, 0, 0, s.width, s.height,
-                        vp.zoom * (this.charStates[i].posIndex - 0.5) * 30,
-                        0,
-                        vp.height / 2 * r,
-                        -vp.height / 2);
+                    vp.zoom * (this.charStates[i].posIndex - 0.5) * 30,
+                    0,
+                    vp.height / 2 * r,
+                    -vp.height / 2);
             }
             vp.context.restore();
         }
@@ -99,10 +99,10 @@ Dialogue.prototype.draw = function () {
     vp.context.textBaseline = "top";
     vp.context.fillStyle = DIALOGUE_COLOR;
     vp.context.fillRect(
-            DIALOGUE_X * vp.zoom,
-            DIALOGUE_Y * vp.zoom,
-            DIALOGUE_W * vp.zoom,
-            DIALOGUE_H * vp.zoom);
+        DIALOGUE_X * vp.zoom,
+        DIALOGUE_Y * vp.zoom,
+        DIALOGUE_W * vp.zoom,
+        DIALOGUE_H * vp.zoom);
 
     var charName = this.activeChar;
     var charColor;
@@ -121,13 +121,13 @@ Dialogue.prototype.draw = function () {
     vp.context.textAlign = "left";
     vp.setFont(FONT.dialogue);
     vp.drawText(this.lines[this.index].text,
-            (DIALOGUE_X + DIALOGUE_MX) * vp.zoom,
-            (DIALOGUE_Y + DIALOGUE_MY * 2 + FONT.character.size) * vp.zoom,
-            (DIALOGUE_W - DIALOGUE_MX * 2) * vp.zoom,
-            Math.floor(this.time * this.lettersPS));
+        (DIALOGUE_X + DIALOGUE_MX) * vp.zoom,
+        (DIALOGUE_Y + DIALOGUE_MY * 2 + FONT.character.size) * vp.zoom,
+        (DIALOGUE_W - DIALOGUE_MX * 2) * vp.zoom,
+        Math.floor(this.time * this.lettersPS));
     if (this.lines[this.index].time < this.time) {
         vp.drawText("▶",
-                (DIALOGUE_X + DIALOGUE_W - DIALOGUE_MX * 2) * vp.zoom,
-                (DIALOGUE_Y + DIALOGUE_MY * 4 + FONT.character.size) * vp.zoom);
+            (DIALOGUE_X + DIALOGUE_W - DIALOGUE_MX * 2) * vp.zoom,
+            (DIALOGUE_Y + DIALOGUE_MY * 4 + FONT.character.size) * vp.zoom);
     }
 };

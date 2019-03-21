@@ -156,7 +156,7 @@ var MENU = {
 for (var i in STAGE) {
     if (!STAGE[i].extra) {
         MENU.stage.tree.push({
-            states: {stage: +i + 1},
+            states: { stage: +i + 1 },
             title: "Stage " + (+i + 1),
             description: STAGE[i].title,
             action: "startGame"
@@ -166,7 +166,7 @@ for (var i in STAGE) {
 for (var i in CHAR) {
     if (CHAR[i].playable) {
         MENU.char.tree.push({
-            states: {char: i},
+            states: { char: i },
             title: CHAR[i].name,
             description: CHAR[i].description,
             action: "onCharSelect"
@@ -176,7 +176,7 @@ for (var i in CHAR) {
 for (var i in DIFF) {
     if (!DIFF[i].hidden) {
         MENU.diff.tree.push({
-            states: {difficulty: +i},
+            states: { difficulty: +i },
             title: DIFF[i].name,
             description: DIFF[i].description,
             submenu: MENU.char
@@ -189,7 +189,7 @@ for (var i in SPELL) {
     for (var j in SPELL[i].names) {
         if (SPELL[i].names[j]) {
             MENU.spell.tree.push({
-                states: {difficulty: +j, spell: SPELL[i]},
+                states: { difficulty: +j, spell: SPELL[i] },
                 spell: SPELL[i],
                 title: "#" + Util.fillWithLeadingZeros(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
                 action: "startGame"

@@ -90,7 +90,7 @@ SpriteHandler.prototype.setRandomFrame = function () {
 };
 
 SpriteHandler.prototype.getFrame = function (time) {
-    var shift = {x: 0, y: 0};
+    var shift = { x: 0, y: 0 };
     if (this.animationFrames.length) {
         var cTime = (time + this.animationOffset) % this.animationLength;
         var frameTime = 0;
@@ -116,14 +116,14 @@ SpriteHandler.prototype.draw = function (context, x, y, t, z, c) {
         for (var i = 0; i < c; i++) {
             var part = (i + 1 <= c) ? 1 : (c - Math.floor(c));
             context.drawImage(this.object,
-                    img.x * (this.frameWidth + this.frameMargin),
-                    img.y * (this.frameHeight + this.frameMargin),
-                    this.width * this.frameWidth,
-                    this.height * this.frameHeight * part,
-                    x - z / 2 * this.zoom,
-                    y - z / 2 * this.zoom + i * z * this.zoom,
-                    z * this.zoom,
-                    z * this.zoom * part);
+                img.x * (this.frameWidth + this.frameMargin),
+                img.y * (this.frameHeight + this.frameMargin),
+                this.width * this.frameWidth,
+                this.height * this.frameHeight * part,
+                x - z / 2 * this.zoom,
+                y - z / 2 * this.zoom + i * z * this.zoom,
+                z * this.zoom,
+                z * this.zoom * part);
         }
     }
 };

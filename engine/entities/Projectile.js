@@ -1,6 +1,6 @@
 class Projectile extends Entity {
     constructor(world, x, y, x1, y1, x2, y2, width, playerSide, spriteName) {
-    super(world, x, y, x1, y1, x2, y2, width);
+        super(world, x, y, x1, y1, x2, y2, width);
         this.sprite.set(SPRITE.projectile);
         if (spriteName) {
             var s = spriteName.split(".");
@@ -63,9 +63,9 @@ class Projectile extends Entity {
             var div = this.playerSide ? 1.8 : 2;
             //remove from world
             if (this.x > this.world.width / div + this.width * 2
-                    || this.x < -this.world.width / div - this.width * 2
-                    || this.y > this.world.height / div + this.width * 2
-                    || this.y < -this.world.height / div - this.width * 2)
+                || this.x < -this.world.width / div - this.width * 2
+                || this.y > this.world.height / div + this.width * 2
+                || this.y < -this.world.height / div - this.width * 2)
                 this.remove();
         }
 

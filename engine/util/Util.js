@@ -111,9 +111,9 @@ Util.meanAngle = function () {
     var n = arguments.length;
     var a = Object.values(arguments);
     return (Math.atan2(
-            Util.sum(a.map(Math.sin)) / n,
-            Util.sum(a.map(Math.cos)) / n)
-            + Math.PI * 2) % (Math.PI * 2);
+        Util.sum(a.map(Math.sin)) / n,
+        Util.sum(a.map(Math.cos)) / n)
+        + Math.PI * 2) % (Math.PI * 2);
 };
 
 /**
@@ -154,9 +154,9 @@ Util.collisionCheckBeam = function (entityPoint, entityBeam, distance) {
     var y2 = y1 + Math.sin(entityBeam.a0) * entityBeam.length;
     distance = (distance || 0) + entityPoint.width + entityBeam.width;
     if (entityPoint.x > x1 + distance && entityPoint.x > x2 + distance ||
-            entityPoint.x < x1 - distance && entityPoint.x < x2 - distance ||
-            entityPoint.y > y1 + distance && entityPoint.y > y2 + distance ||
-            entityPoint.y < y1 - distance && entityPoint.y < y2 - distance) {
+        entityPoint.x < x1 - distance && entityPoint.x < x2 - distance ||
+        entityPoint.y > y1 + distance && entityPoint.y > y2 + distance ||
+        entityPoint.y < y1 - distance && entityPoint.y < y2 - distance) {
         return false;
     }
     return Util.distanceBetweenPointAndSegment(entityPoint.x, entityPoint.y, x1, y1, x2, y2) < distance;
@@ -172,7 +172,7 @@ Util.distanceBetweenPoints = function (point1x, point1y, point2x, point2y) {
 
 Util.distanceBetweenPointAndSegment = function (pointX, pointY, segment1x, segment1y, segment2x, segment2y) {
     return Math.abs((segment2y - segment1y) * pointX - (segment2x - segment1x) * pointY + segment2x * segment1y - segment2y * segment1x) /
-            Math.sqrt(Math.pow(segment2x - segment1x, 2) + Math.pow(segment2y - segment1y, 2));
+        Math.sqrt(Math.pow(segment2x - segment1x, 2) + Math.pow(segment2y - segment1y, 2));
 };
 
 /**
@@ -184,18 +184,18 @@ Util.distanceBetweenPointAndSegment = function (pointX, pointY, segment1x, segme
  */
 Util.formatAsDateTime = function (timestamp, format) {
     var strings = {
-        "YYYY": {func: "fullYear"},
-        "YY": {func: "fullYear", fill: 2},
-        "MM": {func: "month", addition: 1, fill: 2},
-        "M": {func: "month", addition: 1},
-        "DD": {func: "date", fill: 2},
-        "D": {func: "date"},
-        "hh": {func: "hours", fill: 2},
-        "h": {func: "hours"},
-        "mm": {func: "minutes", fill: 2},
-        "m": {func: "minutes"},
-        "ss": {func: "seconds", fill: 2},
-        "s": {func: "seconds"}
+        "YYYY": { func: "fullYear" },
+        "YY": { func: "fullYear", fill: 2 },
+        "MM": { func: "month", addition: 1, fill: 2 },
+        "M": { func: "month", addition: 1 },
+        "DD": { func: "date", fill: 2 },
+        "D": { func: "date" },
+        "hh": { func: "hours", fill: 2 },
+        "h": { func: "hours" },
+        "mm": { func: "minutes", fill: 2 },
+        "m": { func: "minutes" },
+        "ss": { func: "seconds", fill: 2 },
+        "s": { func: "seconds" }
     };
     var date = new Date(timestamp * 1000);
     var result = format || "YYYY-MM-DD";

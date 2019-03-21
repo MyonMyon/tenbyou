@@ -98,7 +98,7 @@ var CHAR = {
                         bullet.rangeForAim = 100;
                     }
                     bullet.on(0, function () {
-                        this.headToEntity(this.nearestEntity(Enemy, this.rangeForAim, Math.PI / 4, {isInvulnerable: false}), 480, 0);
+                        this.headToEntity(this.nearestEntity(Enemy, this.rangeForAim, Math.PI / 4, { isInvulnerable: false }), 480, 0);
                     }).repeat(this.player.focused ? 0.05 : 0.2);
                 }
             },

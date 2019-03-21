@@ -19,7 +19,7 @@ class MainMenu extends Menu {
                 MENU.input.text.push(i.toTitleCase() + ": " + this.vp.input.getKeyByAction(i, true));
             }
         }
-        
+
         this.updateStates();
         this.loadSettingsStates();
     }
@@ -76,15 +76,15 @@ class MainMenu extends Menu {
 
         super.draw();
         if (!this.getCurrentMenu().parent) {
-            this.vp.setFont(FONT.title, {menu: true, fr: true});
+            this.vp.setFont(FONT.title, { menu: true, fr: true });
             this.vp.drawText(FRANCHISE_TITLE, MENU_X * this.vp.zoom, MENU_TITLE_Y * this.vp.zoom);
         }
 
-        this.vp.setFont(FONT.info, {minor: true});
+        this.vp.setFont(FONT.info, { minor: true });
         this.vp.drawText(
-                [this.vp.version, "/", RELEASE_DATE, "/", this.vp.fps.toFixed(2), "FPS"].join(" "),
-                MENU_X * this.vp.zoom,
-                MENU_VER_Y * this.vp.zoom);
+            [this.vp.version, "/", RELEASE_DATE, "/", this.vp.fps.toFixed(2), "FPS"].join(" "),
+            MENU_X * this.vp.zoom,
+            MENU_VER_Y * this.vp.zoom);
         this.vp.context.globalAlpha = 1;
     }
 }

@@ -95,7 +95,7 @@ class Player extends Entity {
 
     step() {
         var dir = (this.moveLeft !== this.moveRight ? this.moveRight ? "e" : "w" : "") +
-                (this.moveUp !== this.moveDown ? this.moveDown ? "s" : "n" : "");
+            (this.moveUp !== this.moveDown ? this.moveDown ? "s" : "n" : "");
         var a = Util.toMeanAngle(dir);
         var r = (this.focused ? this.speedFocused : this.speed) * (a !== null);
 

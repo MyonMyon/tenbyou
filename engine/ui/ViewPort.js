@@ -54,7 +54,7 @@ ViewPort.prototype.perfStep = function () {
     }
     if (startTime % 1000 < this.prevMS) {
         if (this.pChart && this.pChart.mode !== "off" && this.world && !this.world.pause) {
-            this.pChart.addData({entityCount: this.world.entities.length, tickLength: 1 / this.fps});
+            this.pChart.addData({ entityCount: this.world.entities.length, tickLength: 1 / this.fps });
         }
     }
     this.prevMS = startTime % 1000;
@@ -70,11 +70,11 @@ ViewPort.prototype.setZoom = function (zoom) {
     }
     var dpr = window.devicePixelRatio || 1;
     var bspr =
-            this.context.webkitBackingStorePixelRatio ||
-            this.context.mozBackingStorePixelRatio ||
-            this.context.msBackingStorePixelRatio ||
-            this.context.oBackingStorePixelRatio ||
-            this.context.backingStorePixelRatio || 1;
+        this.context.webkitBackingStorePixelRatio ||
+        this.context.mozBackingStorePixelRatio ||
+        this.context.msBackingStorePixelRatio ||
+        this.context.oBackingStorePixelRatio ||
+        this.context.backingStorePixelRatio || 1;
     var ratio = dpr / bspr;
 
     this.width = WIDTH * zoom;
@@ -281,7 +281,7 @@ ViewPort.prototype.clearMessages = function () {
 };
 
 ViewPort.prototype.toScreen = function (worldX, worldY) {
-    var value = {x: 0, y: 0};
+    var value = { x: 0, y: 0 };
     value.x = Math.round(this.centerX + (worldX + SHIFT_X) * this.zoom);
     value.y = Math.round(this.centerY + (worldY + SHIFT_Y) * this.zoom);
     return value;
@@ -298,39 +298,39 @@ ViewPort.prototype.infoShow = function (info, line, tab, reverse) {
     }
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
     this.drawText(
-            info,
-            boundaryRight.x + this.zoom * (5 + tab * INFO_TAB),
-            boundaryRight.y + this.zoom * (7.5 + (line + 1) * INFO_LINE));
+        info,
+        boundaryRight.x + this.zoom * (5 + tab * INFO_TAB),
+        boundaryRight.y + this.zoom * (7.5 + (line + 1) * INFO_LINE));
 };
 
 ViewPort.prototype.starShow = function (sprite, line, tab, count, parts, max) {
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
     for (var i = 0; i < max; ++i) {
         this.context.drawImage(
-                SPRITE.gui.object,
-                sprite * SPRITE.gui.frameWidth,
-                (i < count ? 0 : (i === count ? 4 - parts : 4)) * SPRITE.gui.frameHeight,
-                SPRITE.gui.frameWidth,
-                SPRITE.gui.frameHeight,
-                boundaryRight.x + this.zoom * (4 + i * 5 + tab * INFO_TAB),
-                boundaryRight.y + this.zoom * (2 + (line + 1) * INFO_LINE),
-                6 * this.zoom,
-                6 * this.zoom);
+            SPRITE.gui.object,
+            sprite * SPRITE.gui.frameWidth,
+            (i < count ? 0 : (i === count ? 4 - parts : 4)) * SPRITE.gui.frameHeight,
+            SPRITE.gui.frameWidth,
+            SPRITE.gui.frameHeight,
+            boundaryRight.x + this.zoom * (4 + i * 5 + tab * INFO_TAB),
+            boundaryRight.y + this.zoom * (2 + (line + 1) * INFO_LINE),
+            6 * this.zoom,
+            6 * this.zoom);
     }
 };
 
 ViewPort.prototype.iconShow = function (spriteX, spriteY, line, tab) {
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
     this.context.drawImage(
-            SPRITE.bonus.object,
-            spriteX * SPRITE.bonus.frameWidth,
-            spriteY * SPRITE.bonus.frameHeight,
-            SPRITE.bonus.frameWidth,
-            SPRITE.bonus.frameHeight,
-            boundaryRight.x + this.zoom * (9 + tab * INFO_TAB),
-            boundaryRight.y + this.zoom * (2 + (line + 1) * INFO_LINE),
-            6 * this.zoom,
-            6 * this.zoom);
+        SPRITE.bonus.object,
+        spriteX * SPRITE.bonus.frameWidth,
+        spriteY * SPRITE.bonus.frameHeight,
+        SPRITE.bonus.frameWidth,
+        SPRITE.bonus.frameHeight,
+        boundaryRight.x + this.zoom * (9 + tab * INFO_TAB),
+        boundaryRight.y + this.zoom * (2 + (line + 1) * INFO_LINE),
+        6 * this.zoom,
+        6 * this.zoom);
 };
 
 ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
@@ -366,15 +366,15 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
 
     if (this.world.boss) {
         this.context.drawImage(
-                SPRITE.gui.object,
-                2 * SPRITE.gui.frameWidth,
-                (Math.floor(this.world.relTime() * 2) % 2) * SPRITE.gui.frameHeight,
-                SPRITE.gui.frameWidth,
-                SPRITE.gui.frameHeight,
-                this.toScreen(this.world.boss.x, 0).x - 3 * this.zoom,
-                y2,
-                6 * this.zoom,
-                6 * this.zoom);
+            SPRITE.gui.object,
+            2 * SPRITE.gui.frameWidth,
+            (Math.floor(this.world.relTime() * 2) % 2) * SPRITE.gui.frameHeight,
+            SPRITE.gui.frameWidth,
+            SPRITE.gui.frameHeight,
+            this.toScreen(this.world.boss.x, 0).x - 3 * this.zoom,
+            y2,
+            6 * this.zoom,
+            6 * this.zoom);
     }
 
     this.setFont(FONT.info);
@@ -397,10 +397,10 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
 
     this.iconShow(0, 1, 6, 0);
     this.infoShow("Power", 6, 0, true);
-    this.setFont(FONT.info, {active: this.world.player.specialCooldown <= 0 && this.world.player.power >= 1});
+    this.setFont(FONT.info, { active: this.world.player.specialCooldown <= 0 && this.world.player.power >= 1 });
     this.infoShow(this.world.player.power.toFixed(2), 6, 1);
 
-    this.setFont(FONT.info, {minor: true});
+    this.setFont(FONT.info, { minor: true });
     if (this.inDev) {
         this.infoShow(this.debugString, 9, 0);
         this.infoShow("S#" + this.world.stage + "." + this.world.substage, 10, 0);
@@ -419,7 +419,7 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
     this.setFont(FONT.difficulty, diffO);
     this.drawText(DIFF[this.world.difficulty].name.toUpperCase(), (boundaryEnd.x + this.width) / 2, boundaryStart.y + 6 * this.zoom);
 
-    this.setFont(FONT.title, {name: true});
+    this.setFont(FONT.title, { name: true });
     this.drawText(GAME_TITLE, (boundaryEnd.x + this.width) / 2, boundaryEnd.y - this.zoom * 10);
 };
 
@@ -437,16 +437,16 @@ ViewPort.prototype.drawBackground = function (boundaryStart, boundaryEnd) {
             var shX = this.world.shake.x * this.zoom - shS;
             var shY = this.world.shake.y * this.zoom - shS;
             this.context.drawImage(bg.object,
-                    0, Math.max(0, t),
-                    bg.object.width, bg.object.width / this.world.width * this.world.height,
-                    boundaryStart.x + shX, boundaryStart.y - 1 - Math.min(0, t / (bg.object.width / this.world.width) * this.zoom) + shY,
-                    this.world.width * this.zoom + shS * 2, this.world.height * this.zoom + shS * 2);
+                0, Math.max(0, t),
+                bg.object.width, bg.object.width / this.world.width * this.world.height,
+                boundaryStart.x + shX, boundaryStart.y - 1 - Math.min(0, t / (bg.object.width / this.world.width) * this.zoom) + shY,
+                this.world.width * this.zoom + shS * 2, this.world.height * this.zoom + shS * 2);
             if (t < 0) {
                 this.context.drawImage(bg.object,
-                        0, bg.object.height + t,
-                        bg.object.width, -t,
-                        boundaryStart.x + shX, boundaryStart.y + shY,
-                        this.world.width * this.zoom + shS * 2, -Math.min(0, t / (bg.object.width / this.world.width) * this.zoom) + shS * 2);
+                    0, bg.object.height + t,
+                    bg.object.width, -t,
+                    boundaryStart.x + shX, boundaryStart.y + shY,
+                    this.world.width * this.zoom + shS * 2, -Math.min(0, t / (bg.object.width / this.world.width) * this.zoom) + shS * 2);
             }
         }
     }
@@ -456,11 +456,11 @@ ViewPort.prototype.drawBackground = function (boundaryStart, boundaryEnd) {
         for (var i = 0; i < 2; ++i) {
             for (var j = 0; j < 2 + (boundaryEnd.x + boundaryStart.x) / (o.width * this.zoom / 4); ++j) {
                 this.context.drawImage(o,
-                        0, 0,
-                        o.width, o.height,
-                        boundaryStart.x + this.world.time * (i ? -180 : 180) % (o.width * this.zoom / 4) + (j - 1) * (o.width * this.zoom / 4),
-                        (boundaryStart.y * (0.25 + (1 - i) * 0.5) + boundaryEnd.y * (0.25 + i * 0.5)) - o.height / 2,
-                        o.width * this.zoom / 4, o.height * this.zoom / 4);
+                    0, 0,
+                    o.width, o.height,
+                    boundaryStart.x + this.world.time * (i ? -180 : 180) % (o.width * this.zoom / 4) + (j - 1) * (o.width * this.zoom / 4),
+                    (boundaryStart.y * (0.25 + (1 - i) * 0.5) + boundaryEnd.y * (0.25 + i * 0.5)) - o.height / 2,
+                    o.width * this.zoom / 4, o.height * this.zoom / 4);
             }
         }
     }
@@ -476,16 +476,16 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
         this.setFont(FONT.description);
         this.context.textAlign = "left";
         this.drawText(this.world.boss.title,
-                boundaryStart.x + this.zoom * 2.5,
-                boundaryStart.y + this.zoom * 5);
+            boundaryStart.x + this.zoom * 2.5,
+            boundaryStart.y + this.zoom * 5);
 
         if (this.world.boss.attackCurrent !== null && !this.world.dialogue) {
             for (var i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
                 this.context.drawImage(SPRITE.gui.object, 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
-                        boundaryStart.x + this.zoom * 2 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4,
-                        boundaryStart.y + this.zoom * 6,
-                        SPRITE.gui.frameWidth * this.zoom / 4,
-                        SPRITE.gui.frameHeight * this.zoom / 4);
+                    boundaryStart.x + this.zoom * 2 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4,
+                    boundaryStart.y + this.zoom * 6,
+                    SPRITE.gui.frameWidth * this.zoom / 4,
+                    SPRITE.gui.frameHeight * this.zoom / 4);
 
             if (this.world.boss.attackCurrent < this.world.boss.attacks.length) {
                 var attack = this.world.boss.attacks[this.world.boss.attackCurrent];
@@ -493,17 +493,17 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
                 if (attack.spell) {
                     {
                         this.drawText(attack.title,
-                                boundaryEnd.x - this.zoom * 17.5,
-                                boundaryStart.y + this.zoom * 5);
+                            boundaryEnd.x - this.zoom * 17.5,
+                            boundaryStart.y + this.zoom * 5);
                         this.drawText("BONUS: " + (this.world.player.spellCompleteTerms ? this.world.boss.bonus : "FAILED"),
-                                boundaryEnd.x - this.zoom * 17.5,
-                                boundaryStart.y + this.zoom * 10);
+                            boundaryEnd.x - this.zoom * 17.5,
+                            boundaryStart.y + this.zoom * 10);
                     }
                 }
-                this.setFont(FONT.timer, {fullBonus: this.world.boss.lifetime < attack.decrTime});
+                this.setFont(FONT.timer, { fullBonus: this.world.boss.lifetime < attack.decrTime });
                 this.drawText(Util.fillWithLeadingZeros(Math.ceil(attack.time - this.world.boss.lifetime), 2),
-                        boundaryEnd.x - this.zoom * 2.5,
-                        boundaryStart.y + this.zoom * 10);
+                    boundaryEnd.x - this.zoom * 2.5,
+                    boundaryStart.y + this.zoom * 10);
             }
         }
     }
@@ -515,9 +515,9 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
         if (time < (m.start + m.length) && time > m.start) {
             this.context.textBaseline = m.position === "itemLine" ? "middle" : "alphabetic";
             this.context.globalAlpha = Math.min(
-                    Math.min(1,
-                            (time - m.start) / m.fadeIn,
-                            (m.start + m.length - time) / m.fadeOut));
+                Math.min(1,
+                    (time - m.start) / m.fadeIn,
+                    (m.start + m.length - time) / m.fadeOut));
             var start = 0;
             var indexOffset = 0;
             switch (m.position) {
@@ -559,11 +559,11 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
 
 ViewPort.prototype.drawImageOverlay = function (image, zoom) {
     this.context.drawImage(
-            image,
-            (this.width - image.width * zoom * this.zoom) / 2,
-            (this.height - image.height * zoom * this.zoom) / 2,
-            image.width * zoom * this.zoom,
-            image.height * zoom * this.zoom);
+        image,
+        (this.width - image.width * zoom * this.zoom) / 2,
+        (this.height - image.height * zoom * this.zoom) / 2,
+        image.width * zoom * this.zoom,
+        image.height * zoom * this.zoom);
 };
 
 ViewPort.prototype.drawSplash = function () {

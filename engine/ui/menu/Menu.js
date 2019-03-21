@@ -70,7 +70,7 @@ class Menu {
      * @return {Object} Current menu item object.
      */
     getCurrentMenu(parent) {
-        var menu = this.currentMenu || {tree: this.tree}; //AKA Pause Menu and Main Menu
+        var menu = this.currentMenu || { tree: this.tree }; //AKA Pause Menu and Main Menu
 
         if (menu.tree) {
             menu.tree = menu.tree.filter(function (item) {
@@ -331,11 +331,11 @@ class Menu {
                 var xD = this.vp.zoom * Math.sin(new Date().getTime() / 200 + Math.sin(i) * 42) * 5;
                 var y = (new Date().getTime() + Math.pow(Math.sin(i) * 420, 2)) % 4000 / 4000;
                 context.drawImage(
-                        obj,
-                        this.vp.width * (i + 0.5) / c + xD - obj.width / 2 * z,
-                        this.vp.height * (y - 0.1) * 1.2 - obj.height / 2 * z,
-                        obj.width * z,
-                        obj.height * z);
+                    obj,
+                    this.vp.width * (i + 0.5) / c + xD - obj.width / 2 * z,
+                    this.vp.height * (y - 0.1) * 1.2 - obj.height / 2 * z,
+                    obj.width * z,
+                    obj.height * z);
             }
         }
 
@@ -358,8 +358,8 @@ class Menu {
                     disabled: !textMode && items[i].isEnabled && !items[i].isEnabled.apply(this)
                 });
                 this.vp.drawText(textMode ? items[i] : items[i].title,
-                        this.vp.zoom * (MENU_X + (!textMode && this.currentIndex === +i) * MENU_SELECTION_OFFSET_X * Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay)),
-                        this.vp.zoom * MENU_Y + height * row);
+                    this.vp.zoom * (MENU_X + (!textMode && this.currentIndex === +i) * MENU_SELECTION_OFFSET_X * Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay)),
+                    this.vp.zoom * MENU_Y + height * row);
                 if (textMode) {
                     continue;
                 }
@@ -371,9 +371,9 @@ class Menu {
                             stateName = items[i].stateNames[stateName] || stateName;
                         }
                         this.vp.drawText(
-                                stateName,
-                                this.vp.zoom * (MENU_X + MENU_OPTION_OFFSET_X),
-                                this.vp.zoom * MENU_Y + height * row);
+                            stateName,
+                            this.vp.zoom * (MENU_X + MENU_OPTION_OFFSET_X),
+                            this.vp.zoom * MENU_Y + height * row);
                         break;
                     case "slider":
                         var stateName = items[i].state + "";
@@ -381,10 +381,10 @@ class Menu {
                             stateName = items[i].stateNames[stateName] || stateName;
                         }
                         this.vp.drawText(
-                                //TODO: replace with something better:
-                                "◀ " + stateName + " ▶",
-                                this.vp.zoom * (MENU_X + MENU_OPTION_OFFSET_X),
-                                this.vp.zoom * MENU_Y + height * row);
+                            //TODO: replace with something better:
+                            "◀ " + stateName + " ▶",
+                            this.vp.zoom * (MENU_X + MENU_OPTION_OFFSET_X),
+                            this.vp.zoom * MENU_Y + height * row);
                         break;
                 }
             }
@@ -392,27 +392,27 @@ class Menu {
 
         var l = items.length;
         if (l > cap) {
-            this.vp.setFont(FONT.menu, {selected: true});
+            this.vp.setFont(FONT.menu, { selected: true });
             context.strokeRect(this.vp.zoom * MENU_SCROLL_X,
-                    this.vp.zoom * MENU_Y + this.rowOffset * height * cap / (l - cap + 1),
-                    this.vp.zoom * MENU_SCROLL_W, height * cap / (l - cap + 2));
+                this.vp.zoom * MENU_Y + this.rowOffset * height * cap / (l - cap + 1),
+                this.vp.zoom * MENU_SCROLL_W, height * cap / (l - cap + 2));
             context.fillRect(this.vp.zoom * MENU_SCROLL_X,
-                    this.vp.zoom * MENU_Y + this.rowOffset * height * cap / (l - cap + 1),
-                    this.vp.zoom * MENU_SCROLL_W, height * cap / (l - cap + 2));
+                this.vp.zoom * MENU_Y + this.rowOffset * height * cap / (l - cap + 1),
+                this.vp.zoom * MENU_SCROLL_W, height * cap / (l - cap + 2));
         }
 
         var description = items[this.currentIndex].description;
         if (description) {
-            this.vp.setFont(FONT.menu, {description: true});
+            this.vp.setFont(FONT.menu, { description: true });
             this.vp.context.globalAlpha = Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay);
             this.vp.drawText(description,
-                    this.vp.zoom * MENU_X,
-                    this.vp.zoom * MENU_DESC_Y);
+                this.vp.zoom * MENU_X,
+                this.vp.zoom * MENU_DESC_Y);
             this.vp.context.globalAlpha = 1;
         }
 
         var title = this.getCurrentTitle();
-        this.vp.setFont(FONT.title, {menu: true});
+        this.vp.setFont(FONT.title, { menu: true });
         this.vp.drawText(title, this.vp.zoom * MENU_X, this.vp.zoom * MENU_SUBTITLE_Y);
     }
 }
