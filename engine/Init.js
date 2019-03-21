@@ -99,7 +99,7 @@ function init() {
             getFont(FONT_FILES[i]);
         }
         vp = new ViewPort();
-        loadResources(ENGINE_CODE, "script", "engine/", ".js", "engine code", vp, loadGame);
+        loadResources(ENGINE_CODE, "script", "engine/", ".js", "engine code", vp, loadGame, true);
     };
     var loadGame = function () {
         getIcon(ICON);

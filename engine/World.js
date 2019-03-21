@@ -394,7 +394,7 @@ World.prototype.draw = function (context) {
         for (var p = 0; p < 2; ++p) {
             for (var i in this.entities) {
                 var e = this.entities[i];
-                if (e.priority === p && e.classes[0] === drawOrder[d]) {
+                if (e.priority === p && e.constructor.name === drawOrder[d]) {
                     e.draw(context);
                 }
             }
