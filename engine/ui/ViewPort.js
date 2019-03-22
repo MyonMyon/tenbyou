@@ -584,7 +584,7 @@ ViewPort.prototype.drawSplash = function () {
 
 ViewPort.prototype.drawRolls = function () {
     this.context.globalAlpha = 1;
-    var fadeMs = 200;
+    const fadeMs = 200;
     this.context.fillStyle = "#000";
     this.context.fillRect(0, 0, this.width, this.height);
     var t = Date.now();

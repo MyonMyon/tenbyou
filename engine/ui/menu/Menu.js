@@ -326,7 +326,7 @@ class Menu {
         if (GameEvent.checkEvent("valentine")) {
             var obj = EVENT.valentine.res.object;
             var z = EVENT.valentine.res.zoom * this.vp.zoom;
-            var c = 42;
+            const c = 42;
             for (let i = 0; i < c; i++) {
                 var xD = this.vp.zoom * Math.sin(new Date().getTime() / 200 + Math.sin(i) * 42) * 5;
                 var y = (new Date().getTime() + Math.pow(Math.sin(i) * 420, 2)) % 4000 / 4000;

@@ -33,9 +33,9 @@ var SPELL = {
         bonus: 99999,
         bonusBound: 5000,
         init: function () {
-            var w = 61;
-            var h = 76;
-            var c = 1;
+            const w = 61;
+            const h = 76;
+            const c = 1;
             this.on(0.0166, function (iter) {
                 for (let i = iter * c; i < (iter + 1) * c; i++) {
                     var x = (i % w) * this.world.width / (w - 1) - this.world.width / 2;

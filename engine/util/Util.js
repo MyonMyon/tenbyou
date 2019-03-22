@@ -183,7 +183,7 @@ Util.distanceBetweenPointAndSegment = function (pointX, pointY, segment1x, segme
  * @return {String} String in defined format.
  */
 Util.formatAsDateTime = function (timestamp, format) {
-    var strings = {
+    const strings = {
         "YYYY": { func: "fullYear" },
         "YY": { func: "fullYear", fill: 2 },
         "MM": { func: "month", addition: 1, fill: 2 },

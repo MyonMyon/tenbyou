@@ -125,7 +125,7 @@ function Input(vp) {
         "zoom_in": { category: "menu", mode: "execute", func: "changeZoom(1)", vp: true },
         "pause": { category: "menu", mode: "execute", func: "setPause(true)" }
     };
-    var eventTypes = ["keyDown", "keyUp", "mouseDown", "mouseUp", "mouseMove", "mouseWheel"];
+    const eventTypes = ["keyDown", "keyUp", "mouseDown", "mouseUp", "mouseMove", "mouseWheel"];
     for (let eventType of eventTypes) {
         this.addEventListener(eventType);
     }

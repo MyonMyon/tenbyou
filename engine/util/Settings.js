@@ -11,7 +11,7 @@ function Settings() {
  * @return {String} Default state of the setting in string form.
  */
 Settings.getDefault = function (key) {
-    var m = {
+    const m = {
         "dev.mode": "false",
         "sound.enabled": "true",
         "sound.volume_sfx": "100",
@@ -26,7 +26,7 @@ Settings.getDefault = function (key) {
  * @return {String} Type of the setting. Exaple: "boolean", "number", "string", "json".
  */
 Settings.getType = function (key) {
-    var m = {
+    const m = {
         "dev.mode": "boolean",
         "sound.enabled": "boolean",
         "sound.volume_sfx": "number",

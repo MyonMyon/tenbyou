@@ -11,7 +11,7 @@ class Weapon extends Entity {
         var data = CHAR[player.name].weapons[name];
         this.name = name;
         this.drops = [];
-        var propImport = ["behavior", "onShoot", "onHit", "onDestroy", "width"];
+        const propImport = ["behavior", "onShoot", "onHit", "onDestroy", "width"];
         for (let prop of propImport) {
             var d = data[prop];
             if (d) {

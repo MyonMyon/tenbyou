@@ -51,7 +51,7 @@ class Player extends Entity {
         this.name = charName;
         this.sprite.set(SPRITE.player);
         this.sprite.set(charName);
-        var propImport = [
+        const propImport = [
             "width",
             "speed",
             "speedFocused",

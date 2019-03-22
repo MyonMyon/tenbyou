@@ -284,7 +284,7 @@ class Enemy extends Entity {
         this.attacks[n].title = title;
         this.attacks[n].params = params;
 
-        var convertibleProps = ["time", "health", "decrTime", "bonus", "bonusBound"];
+        const convertibleProps = ["time", "health", "decrTime", "bonus", "bonusBound"];
         for (let prop of convertibleProps) {
             if (typeof this.attacks[n][prop] === "function") {
                 this.attacks[n][prop] = this.attacks[n][prop].apply(this, params);
