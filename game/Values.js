@@ -1,49 +1,49 @@
-var DEV_STAGE = "alpha";
+const DEV_STAGE = "alpha";
 
-var ZOOM = 4;
-var WIDTH = 256;
-var HEIGHT = 192;
-var SHIFT_X = -48;
-var SHIFT_Y = 0;
+const ZOOM = 4;
+const WIDTH = 256;
+const HEIGHT = 192;
+const SHIFT_X = -48;
+const SHIFT_Y = 0;
 
-var DIALOGUE_COLOR = "rgba(0, 0, 0, 0.5)";
-var DIALOGUE_X = 10;
-var DIALOGUE_Y = 150;
-var DIALOGUE_W = 140;
-var DIALOGUE_H = 32;
-var DIALOGUE_MX = 5;
-var DIALOGUE_MY = 5;
+const DIALOGUE_COLOR = "rgba(0, 0, 0, 0.5)";
+const DIALOGUE_X = 10;
+const DIALOGUE_Y = 150;
+const DIALOGUE_W = 140;
+const DIALOGUE_H = 32;
+const DIALOGUE_MX = 5;
+const DIALOGUE_MY = 5;
 
-var RESOURCE_FOLDER = "resources/";
-var SPRITE_FOLDER = RESOURCE_FOLDER + "img/";
-var SPLASH = SPRITE_FOLDER + "splash.png";
-var SPLASH_ZOOM = 0.25;
-var CUT_IN_FOLDER_NAME = "cutin/";
-var FONT_FOLDER = RESOURCE_FOLDER + "fonts/";
-var SFX_FOLDER = RESOURCE_FOLDER + "sfx/";
-var ICON = SPRITE_FOLDER + "icon.png";
+const RESOURCE_FOLDER = "resources/";
+const SPRITE_FOLDER = RESOURCE_FOLDER + "img/";
+const SPLASH = SPRITE_FOLDER + "splash.png";
+const SPLASH_ZOOM = 0.25;
+const CUT_IN_FOLDER_NAME = "cutin/";
+const FONT_FOLDER = RESOURCE_FOLDER + "fonts/";
+const SFX_FOLDER = RESOURCE_FOLDER + "sfx/";
+const ICON = SPRITE_FOLDER + "icon.png";
 
-var SHIELD_COLOR = "rgba(160, 0, 0, 0.3)";
-var HITBOX_COLOR = "rgba(255, 255, 255, 0.7)";
-var HITBOX_STROKE_COLOR = "rgba(0, 0, 0, 0.7)";
+const SHIELD_COLOR = "rgba(160, 0, 0, 0.3)";
+const HITBOX_COLOR = "rgba(255, 255, 255, 0.7)";
+const HITBOX_STROKE_COLOR = "rgba(0, 0, 0, 0.7)";
 
-var BOSS_WHEEL_WIDTH = 0.5;
-var BOSS_WHEEL_COLOR = "rgba(0, 0, 0, 0.8)";
+const BOSS_WHEEL_WIDTH = 0.5;
+const BOSS_WHEEL_COLOR = "rgba(0, 0, 0, 0.8)";
 
-var BOSS_TIMER_WIDTH = 0.75;
-var BOSS_TIMER_COLOR = "rgba(192, 255, 255, 0.8)";
-var BOSS_TIMER_ALT_COLOR = "rgba(0, 192, 192, 0.8)";
+const BOSS_TIMER_WIDTH = 0.75;
+const BOSS_TIMER_COLOR = "rgba(192, 255, 255, 0.8)";
+const BOSS_TIMER_ALT_COLOR = "rgba(0, 192, 192, 0.8)";
 
-var BOSS_HEALTH_WIDTH = 1.75;
-var BOSS_HEALTH_COLOR = "rgba(255, 192, 192, 0.8)";
-var BOSS_HEALTH_ALT_COLOR = "rgba(192, 144, 144, 0.8)";
-var BOSS_HEALTH_SPELL_COLOR = "rgba(255, 0, 0, 0.8)";
-var BOSS_HEALTH_SPELL_ALT_COLOR = "rgba(192, 0, 0, 0.8)";
+const BOSS_HEALTH_WIDTH = 1.75;
+const BOSS_HEALTH_COLOR = "rgba(255, 192, 192, 0.8)";
+const BOSS_HEALTH_ALT_COLOR = "rgba(192, 144, 144, 0.8)";
+const BOSS_HEALTH_SPELL_COLOR = "rgba(255, 0, 0, 0.8)";
+const BOSS_HEALTH_SPELL_ALT_COLOR = "rgba(192, 0, 0, 0.8)";
 
-var BORDER_WIDTH = 0.5;
-var BORDER_COLOR = "#c00";
+const BORDER_WIDTH = 0.5;
+const BORDER_COLOR = "#c00";
 
-var BACKGROUND = "#023";
+const BACKGROUND = "#023";
 
 var SFX = {
     menuNavigate: {
@@ -103,7 +103,7 @@ var SFX = {
     }
 };
 
-var FONT_FILES = [{
+const FONT_FILES = [{
     name: "Unispace Rg",
     file: "unispace_rg.ttf"
 }, {
@@ -114,7 +114,7 @@ var FONT_FILES = [{
     file: "accuratist.ttf"
 }];
 
-var FONT = {
+const FONT = {
     description: {
         font: "Unispace Rg",
         size: 3,
@@ -277,7 +277,7 @@ var FONT = {
     }
 };
 
-var BONUS = {
+const BONUS = {
     powerLarge: {
         itemLinePenalty: true,
         maxFallback: "point",
@@ -346,30 +346,30 @@ var BONUS = {
     }
 };
 
-var INFO_LINE = 8;
-var INFO_TAB = 40;
+const INFO_LINE = 8;
+const INFO_TAB = 40;
 
-var FRANCHISE_TITLE = "Boundary Crossing:";
-var GAME_TITLE = "Guiding Anomalous Patterns";
-var GAME_ABBR = "bx01";
+const FRANCHISE_TITLE = "Boundary Crossing:";
+const GAME_TITLE = "Guiding Anomalous Patterns";
+const GAME_ABBR = "bx01";
 
-var MENU_TITLE_Y = 44;
-var MENU_SUBTITLE_Y = 64;
-var MENU_X = 12;
-var MENU_Y = 88;
-var MENU_H = 10;
-var MENU_H_COMPACT = 7;
-var MENU_OPTION_OFFSET_X = 80;
-var MENU_SELECTION_OFFSET_X = 4;
-var MENU_DESC_Y = 164;
-var MENU_VER_Y = 178;
-var MENU_TEXT_ALIGN = "left";
-var MENU_CAPACITY = 7;
-var MENU_CAPACITY_COMPACT = 10;
-var MENU_SCROLL_X = 10;
-var MENU_SCROLL_W = 1;
+const MENU_TITLE_Y = 44;
+const MENU_SUBTITLE_Y = 64;
+const MENU_X = 12;
+const MENU_Y = 88;
+const MENU_H = 10;
+const MENU_H_COMPACT = 7;
+const MENU_OPTION_OFFSET_X = 80;
+const MENU_SELECTION_OFFSET_X = 4;
+const MENU_DESC_Y = 164;
+const MENU_VER_Y = 178;
+const MENU_TEXT_ALIGN = "left";
+const MENU_CAPACITY = 7;
+const MENU_CAPACITY_COMPACT = 10;
+const MENU_SCROLL_X = 10;
+const MENU_SCROLL_W = 1;
 
-var DIFF = [{
+const DIFF = [{
     name: "Easy",
     letter: "E",
     description: "For the casual gamers"

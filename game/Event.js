@@ -1,4 +1,4 @@
-var EVENT = {
+const EVENT = {
     "valentine": {
         "condition": {
             "month": 2,

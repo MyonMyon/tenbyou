@@ -1,4 +1,4 @@
-var CHAR = {
+const CHAR = {
     freyja: {
         playable: true,
         name: "Freyja til Folkvang",

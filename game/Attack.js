@@ -397,7 +397,7 @@ var SPELL = {
     }
 };
 
-var NON_SPELL = {
+const NON_SPELL = {
     fodder: {
         health: 50,
         time: 15

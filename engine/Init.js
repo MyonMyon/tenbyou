@@ -1,15 +1,15 @@
-var ENGINE_VERSION = "0.5.50";
-var RELEASE_DATE = "2019-03-21";
-var REVISION_INNER = 3;
-var REVISION_TOTAL = 695;
+const ENGINE_VERSION = "0.5.50";
+const RELEASE_DATE = "2019-03-21";
+const REVISION_INNER = 3;
+const REVISION_TOTAL = 695;
 
-var PRIORITY_CODE = [
+const PRIORITY_CODE = [
     "engine/Ext",
     "game/Values",
     "engine/ui/ViewPort"
 ];
 
-var ENGINE_CODE = [
+const ENGINE_CODE = [
     "World",
     "EventChain",
     "SpriteHandler",
@@ -35,7 +35,7 @@ var ENGINE_CODE = [
     "entities/Text"
 ];
 
-var GAME_CODE = [
+const GAME_CODE = [
     "Char",
     "Attack",
     "Stage",
@@ -47,7 +47,7 @@ var GAME_CODE = [
 
 var CUT_IN = {};
 
-var IMAGE_LOAD = [{
+const IMAGE_LOAD = [{
     object: "SPRITE",
     itemProp: "file",
     push: true,
@@ -72,7 +72,7 @@ var IMAGE_LOAD = [{
     itemProp: "res"
 }];
 
-var SFX_LOAD = [{
+const SFX_LOAD = [{
     object: "SFX",
     itemProp: "file",
     push: true,
@@ -189,7 +189,7 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
 }
 
 function getIcon() {
-    var MIME = {
+    const MIME = {
         "ico": "image/x-icon",
         "jpg": "image/jpeg",
         "jpeg": "image/jpeg",

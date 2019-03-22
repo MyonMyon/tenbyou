@@ -1,4 +1,4 @@
-var MENU = {
+const MENU = {
     stage: {
         title: "Select Stage",
         tree: []
