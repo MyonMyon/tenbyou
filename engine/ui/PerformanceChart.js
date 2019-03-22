@@ -14,6 +14,8 @@ function PerformanceChart(vp) {
 
     this.modes = ["off", "timed", "point"];
     this.mode = "off";
+
+    this.fpsUnits = [20, 25, 30, 40, 50, 60, 75, 90, 120, 240];
 }
 
 PerformanceChart.prototype.snap = function () {
@@ -44,7 +46,6 @@ PerformanceChart.prototype.addData = function (data) {
         0.035: "#c00",
         0.05: "#800"
     };
-    this.fpsUnits = [20, 25, 30, 40, 50, 60, 75, 90, 120, 240];
 };
 
 PerformanceChart.prototype.getThresholdColor = function (value) {
