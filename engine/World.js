@@ -153,7 +153,7 @@ class World {
                 }
                 if (!a.names || a.names[this.difficulty]) {
                     let spell = !!a.names;
-                    boss.addAttack(spell, spell ? a.names[this.difficulty] : null, a, newGroup, data.attacks[i].slice(1));
+                    boss.addAttack(spell, spell ? a.names[this.difficulty] : null, a, newGroup, attacks.slice(1));
                 }
                 newGroup = false;
             }
