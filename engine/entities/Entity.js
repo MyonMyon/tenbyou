@@ -174,9 +174,8 @@ class Entity {
             if (!forced) {
                 return;
             }
-            var list = this.anchored.slice();
-            for (var i in list) {
-                list[i].setAnchor(null);
+            for (let entity of this.anchored.slice()) {
+                entity.setAnchor(null);
             }
         }
         this.removalMark = true;
@@ -266,23 +265,22 @@ class Entity {
         var angleRange = angleRange || Math.PI;
         var nearest = null;
         var nearestDistance = range || this.world.height * 2;
-        for (var i in this.world.entities) {
-            var e = this.world.entities[i];
-            if ((e instanceof type && ((type === Projectile && !e.playerSide) || type !== Projectile)) || type === null) {
-                if (e !== this &&
-                    Util.distanceBetweenEntities(this, e) < nearestDistance &&
-                    Math.abs(Util.angleBetweenEntities(this, e) - this.getAngle()) <= angleRange) {
+        for (let entity of this.world.entities) {
+            if ((entity instanceof type && ((type === Projectile && !entity.playerSide) || type !== Projectile)) || type === null) {
+                if (entity !== this &&
+                    Util.distanceBetweenEntities(this, entity) < nearestDistance &&
+                    Math.abs(Util.angleBetweenEntities(this, entity) - this.getAngle()) <= angleRange) {
                     var complete = true;
                     if (filters) {
-                        for (var j in filters) {
-                            if (e[j]) {
-                                complete = complete && e[j]() === filters[j];
+                        for (let j in filters) {
+                            if (entity[j]) {
+                                complete = complete && entity[j]() === filters[j];
                             }
                         }
                     }
                     if (complete) {
-                        nearest = e;
-                        nearestDistance = Util.distanceBetweenEntities(this, e);
+                        nearest = entity;
+                        nearestDistance = Util.distanceBetweenEntities(this, entity);
                     }
                 }
             }
@@ -328,7 +326,7 @@ class Entity {
             dAngle = -rangeAngle / 2;
         }
         var ps = [];
-        for (var i = 0; i < count; i++) {
+        for (let i = 0; i < count; i++) {
             var a = Util.iterate(centerAngle, i) + dAngle + i * rangeAngle / rCount;
             ps.push(this.shootProjectile(a,
                 Util.iterate(distance, i),
@@ -347,7 +345,7 @@ class Entity {
 
     addDrops(cat, amount, reqDamage, afterAttack) {
         amount = amount || 1;
-        for (var i = 0; i < amount; ++i) {
+        for (let i = 0; i < amount; ++i) {
             this.drops.push({
                 cat: cat,
                 reqDamage: reqDamage || 0,

@@ -32,9 +32,9 @@ PerformanceChart.prototype.addData = function (data) {
         this.data.splice(0, this.data.length - this.maxTicks);
     }
     this.maxValue.entityCount = 0;
-    for (var i in this.data) {
-        if (this.data[i].entityCount > this.maxValue.entityCount) {
-            this.maxValue.entityCount = this.data[i].entityCount;
+    for (let item of this.data) {
+        if (item.entityCount > this.maxValue.entityCount) {
+            this.maxValue.entityCount = item.entityCount;
         }
     }
     this.thresholds = {
@@ -49,7 +49,7 @@ PerformanceChart.prototype.addData = function (data) {
 
 PerformanceChart.prototype.getThresholdColor = function (value) {
     var c;
-    for (var i in this.thresholds) {
+    for (let i in this.thresholds) {
         if (i < value) {
             c = this.thresholds[i];
         }
@@ -58,22 +58,22 @@ PerformanceChart.prototype.getThresholdColor = function (value) {
 };
 
 PerformanceChart.prototype.drawPoint = function () {
-    for (var i = 0; i < this.maxValue.entityCount; i += 100) {
+    for (let i = 0; i < this.maxValue.entityCount; i += 100) {
         this.vp.context.strokeStyle = i % 1000 ? "#fff" : "#f00";
         this.vp.context.lineWidth = this.vp.zoom / (i % 500 ? 4 : 2);
         this.vp.context.beginPath();
-        for (var j = 0; j < 2; j++) {
+        for (let j = 0; j < 2; j++) {
             this.vp.context[j ? "lineTo" : "moveTo"](
                 this.vp.zoom * (this.position.x + +j * this.size.x),
                 this.vp.zoom * (this.position.y + (1 - i / this.maxValue.entityCount) * this.size.y));
         }
         this.vp.context.stroke();
     }
-    for (var i in this.data) {
-        this.vp.context.fillStyle = this.getThresholdColor(this.data[i].tickLength);
+    for (let item of this.data) {
+        this.vp.context.fillStyle = this.getThresholdColor(item.tickLength);
         this.vp.context.fillRect(
-            this.vp.zoom * (this.position.x + this.data[i].tickLength / this.maxValue.tickLength * this.size.x - 1),
-            this.vp.zoom * (this.position.y + (1 - this.data[i].entityCount / this.maxValue.entityCount) * this.size.y - 1),
+            this.vp.zoom * (this.position.x + item.tickLength / this.maxValue.tickLength * this.size.x - 1),
+            this.vp.zoom * (this.position.y + (1 - item.entityCount / this.maxValue.entityCount) * this.size.y - 1),
             this.vp.zoom * 2,
             this.vp.zoom * 2);
     }
@@ -83,11 +83,11 @@ PerformanceChart.prototype.drawPoint = function () {
     this.vp.context.textAlign = "left";
     this.vp.drawText(this.maxValue.entityCount, this.vp.zoom * this.position.x, this.vp.zoom * (this.position.y + 2.5));
     this.vp.context.textAlign = "right";
-    for (var i in this.fpsUnits) {
-        this.vp.context.fillStyle = this.getThresholdColor(1 / this.fpsUnits[i]);
+    for (let unit of this.fpsUnits) {
+        this.vp.context.fillStyle = this.getThresholdColor(1 / unit);
         this.vp.drawText(
-            this.fpsUnits[i],
-            this.vp.zoom * (this.position.x + this.size.x / this.maxValue.tickLength / this.fpsUnits[i]),
+            unit,
+            this.vp.zoom * (this.position.x + this.size.x / this.maxValue.tickLength / unit),
             this.vp.zoom * (this.position.y + this.size.y));
     }
 };
@@ -95,7 +95,7 @@ PerformanceChart.prototype.drawPoint = function () {
 PerformanceChart.prototype.drawTimed = function () {
     this.vp.context.strokeStyle = "#ff0";
     this.vp.context.lineWidth = this.vp.zoom / 2;
-    for (var i in this.data) {
+    for (let i in this.data) {
         this.vp.context.fillStyle = this.getThresholdColor(this.data[i].tickLength);
         this.vp.context.fillRect(
             this.vp.zoom * (this.position.x + i * this.size.x / this.maxTicks),
@@ -104,7 +104,7 @@ PerformanceChart.prototype.drawTimed = function () {
             this.vp.zoom * -this.size.y * Math.min(1, this.data[i].tickLength / this.maxValue.tickLength));
     }
     this.vp.context.beginPath();
-    for (var i in this.data) {
+    for (let i in this.data) {
         this.vp.context[i ? "lineTo" : "moveTo"](
             this.vp.zoom * (this.position.x + this.size.x * i / (this.maxTicks - 1)),
             this.vp.zoom * (this.position.y + this.size.y * (1 - this.data[i].entityCount / this.maxValue.entityCount)));
@@ -116,12 +116,12 @@ PerformanceChart.prototype.drawTimed = function () {
     this.vp.context.textAlign = "left";
     this.vp.drawText(this.maxValue.entityCount, this.vp.zoom * this.position.x, this.vp.zoom * (this.position.y + 2.5));
     this.vp.context.textAlign = "right";
-    for (var i in this.fpsUnits) {
-        this.vp.context.fillStyle = this.getThresholdColor(1 / this.fpsUnits[i]);
+    for (let unit of this.fpsUnits) {
+        this.vp.context.fillStyle = this.getThresholdColor(1 / unit);
         this.vp.drawText(
-            this.fpsUnits[i],
+            unit,
             this.vp.zoom * (this.position.x + this.size.x),
-            this.vp.zoom * (this.position.y + this.size.y * (1 - 1 / this.maxValue.tickLength / this.fpsUnits[i]) + 2.5));
+            this.vp.zoom * (this.position.y + this.size.y * (1 - 1 / this.maxValue.tickLength / unit) + 2.5));
     }
 };
 

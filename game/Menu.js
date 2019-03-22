@@ -153,7 +153,7 @@ const MENU = {
 };
 
 
-for (var i in STAGE) {
+for (let i in STAGE) {
     if (!STAGE[i].extra) {
         MENU.stage.tree.push({
             states: { stage: +i + 1 },
@@ -163,7 +163,7 @@ for (var i in STAGE) {
         });
     }
 }
-for (var i in CHAR) {
+for (let i in CHAR) {
     if (CHAR[i].playable) {
         MENU.char.tree.push({
             states: { char: i },
@@ -173,7 +173,7 @@ for (var i in CHAR) {
         });
     }
 }
-for (var i in DIFF) {
+for (let i in DIFF) {
     if (!DIFF[i].hidden) {
         MENU.diff.tree.push({
             states: { difficulty: +i },
@@ -184,9 +184,9 @@ for (var i in DIFF) {
     }
 }
 var spellNumber = 0;
-for (var i in SPELL) {
+for (let i in SPELL) {
     spellNumber = SPELL[i].number || spellNumber;
-    for (var j in SPELL[i].names) {
+    for (let j in SPELL[i].names) {
         if (SPELL[i].names[j]) {
             MENU.spell.tree.push({
                 states: { difficulty: +j, spell: SPELL[i] },

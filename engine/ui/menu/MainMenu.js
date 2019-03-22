@@ -14,7 +14,7 @@ class MainMenu extends Menu {
         this.tree = MENU.main.tree;
 
         var aliases = this.vp.input.actionsAliases;
-        for (var i in aliases) {
+        for (let i in aliases) {
             if (["interaction", "misc"].indexOf(aliases[i].category) >= 0) {
                 MENU.input.text.push(i.toTitleCase() + ": " + this.vp.input.getKeyByAction(i, true));
             }

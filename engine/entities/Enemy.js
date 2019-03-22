@@ -66,12 +66,12 @@ class Enemy extends Entity {
 
             var fullWheel = (sectionsS === 0 || sectionsN === 0);
 
-            for (var i = thisSection; i < sectionsN; ++i)
+            for (let i = thisSection; i < sectionsN; ++i)
                 this.drawBossWheel(context, 23,
                     (i + ((i === thisSection) ? 1 - this.health / this.initialHealth : 0)) / sectionsN * (fullWheel ? 1 : 0.75),
                     (i + 1) / sectionsN * (fullWheel ? 1 : 0.75),
                     (i % 2 === 0) ? BOSS_HEALTH_COLOR : BOSS_HEALTH_ALT_COLOR, BOSS_HEALTH_WIDTH);
-            for (var i = Math.max(thisSection - sectionsN, 0); i < sectionsS; ++i)
+            for (let i = Math.max(thisSection - sectionsN, 0); i < sectionsS; ++i)
                 this.drawBossWheel(context, 23,
                     (i + ((i === (thisSection - sectionsN)) ? 1 - this.health / this.initialHealth : 0)) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
                     (i + 1) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
@@ -111,13 +111,13 @@ class Enemy extends Entity {
         }
 
         if (this.health <= 0) {
-            for (var i = 0; i < this.drops.length; ++i)
-                if (this.drops[i].reqDamage === 0 && this.attackCurrent === this.drops[i].attackID && !this.drops[i].removed) {
+            for (let drop of this.drops)
+                if (drop.reqDamage === 0 && this.attackCurrent === drop.attackID && !drop.removed) {
                     this.dropBonus(
                         Random.nextFloat(Math.PI * 2),
                         Random.nextFloat(this.initialHealth / 5),
-                        this.drops[i].cat);
-                    this.drops[i].removed = true;
+                        drop.cat);
+                        drop.removed = true;
                 }
 
             if (this.attackCurrent === null) {
@@ -147,30 +147,28 @@ class Enemy extends Entity {
         }
 
         //collision with placed player weapons
-        for (var i in this.world.entities) {
-            var w = this.world.entities[i];
-            if (w instanceof Weapon && !w.isInvulnerable() && Util.collisionCheck(this, w)) {
-                w.hit();
+        for (let weapon of this.world.entities) {
+            if (weapon instanceof Weapon && !weapon.isInvulnerable() && Util.collisionCheck(this, weapon)) {
+                weapon.hit();
             }
         }
 
         //collision with bullets
         if ((this.world.boss !== this || (this.attackCurrent !== null && this.attackCurrent < this.attacks.length)) &&
             this.lifetime >= this.appearanceTime) {
-            for (var i in this.world.entities) {
-                var e = this.world.entities[i];
-                if (e.playerSide) {
-                    if (e instanceof Projectile) {
-                        if (Util.collisionCheck(this, e)) {
-                            this.hurt(e.damage, { x: e.x, y: e.y });
-                            e.remove();
+            for (let entity of this.world.entities) {
+                if (entity.playerSide) {
+                    if (entity instanceof Projectile) {
+                        if (Util.collisionCheck(this, entity)) {
+                            this.hurt(entity.damage, { x: entity.x, y: entity.y });
+                            entity.remove();
                         }
                         continue;
                     }
-                    if (e instanceof Beam) {
-                        if (Util.collisionCheckBeam(this, e)) {
-                            this.hurt(e.damagePS / this.world.ticksPS, { x: this.x, y: this.y });
-                            e.break(Util.vectorLength(this.x - e.x, this.y - e.y));
+                    if (entity instanceof Beam) {
+                        if (Util.collisionCheckBeam(this, entity)) {
+                            this.hurt(entity.damagePS / this.world.ticksPS, { x: this.x, y: this.y });
+                            entity.break(Util.vectorLength(this.x - entity.x, this.y - entity.y));
                         }
                     }
                 }
@@ -241,10 +239,10 @@ class Enemy extends Entity {
         }
 
         if (this.health > 0) {
-            for (var i = 0; i < this.drops.length; ++i) {
+            for (let drop of this.drops) {
                 //To do: fix this atrocity
-                if (this.drops[i].reqDamage !== 0 && this.attackCurrent === this.drops[i].attackID && ((((this.initialHealth - this.health) % this.drops[i].reqDamage) < ((this.initialHealth - this.health - damage) % this.drops[i].reqDamage) && damage > 0) || damage > this.drops[i].reqDamage)) {
-                    new Bonus(this.world, this.x + Random.nextFloat(12) - 6, this.y + Random.nextFloat(12) - 6, this.drops[i].cat, false);
+                if (drop.reqDamage !== 0 && this.attackCurrent === drop.attackID && ((((this.initialHealth - this.health) % drop.reqDamage) < ((this.initialHealth - this.health - damage) % drop.reqDamage) && damage > 0) || damage > drop.reqDamage)) {
+                    new Bonus(this.world, this.x + Random.nextFloat(12) - 6, this.y + Random.nextFloat(12) - 6, drop.cat, false);
                 }
             }
         } else {
@@ -279,7 +277,7 @@ class Enemy extends Entity {
             ++this.attackGroups[m].nonspells;
 
         this.attacks[n] = {};
-        for (var i in data) {
+        for (let i in data) {
             this.attacks[n][i] = data[i];
         }
         this.attacks[n].spell = spell;
@@ -287,8 +285,7 @@ class Enemy extends Entity {
         this.attacks[n].params = params;
 
         var convertibleProps = ["time", "health", "decrTime", "bonus", "bonusBound"];
-        for (var i in convertibleProps) {
-            var prop = convertibleProps[i];
+        for (let prop of convertibleProps) {
             if (typeof this.attacks[n][prop] === "function") {
                 this.attacks[n][prop] = this.attacks[n][prop].apply(this, params);
             }

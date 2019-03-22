@@ -37,7 +37,7 @@ var SPELL = {
             var h = 76;
             var c = 1;
             this.on(0.0166, function (iter) {
-                for (var i = iter * c; i < (iter + 1) * c; i++) {
+                for (let i = iter * c; i < (iter + 1) * c; i++) {
                     var x = (i % w) * this.world.width / (w - 1) - this.world.width / 2;
                     var y = Math.floor(i / w) * this.world.height / (h - 1) - this.world.height / 2;
                     var p = new Projectile(
@@ -72,9 +72,9 @@ var SPELL = {
                 var c = 8;
                 var d = this.lifetime * 1.5;
                 var bs = this.arcProjectiles(0, null, c, this.width, 1, 0, 2.5, iter % 2 ? "static.blue" : "static.red");
-                for (var i in bs) {
-                    var a = bs[i].getAngle();
-                    bs[i].setVectors(null, null,
+                for (let b of bs) {
+                    var a = b.getAngle();
+                    b.setVectors(null, null,
                         Math.cos(a + d) * (20 + this.world.difficulty * 5),
                         Math.sin(a + d) * (5 + this.world.difficulty * 20));
                 }
@@ -100,8 +100,8 @@ var SPELL = {
                 var c = 3 + this.world.difficulty * 2;
                 var r = this.world.difficulty * 5;
                 var bs = this.arcProjectiles(Util.toAngle("s"), null, c, this.width + r, 25, 0, 2.5, iter % 2 ? "static.blue" : "static.red");
-                for (var i in bs) {
-                    bs[i].on(0.1, function () {
+                for (let b of bs) {
+                    b.on(0.1, function () {
                         this.headToEntity(this.world.player, 0, 60);
                     }).repeat(2);
                 }
@@ -183,8 +183,8 @@ var SPELL = {
             this.on(1, function (iter) {
                 if (iter % 200 < 80) {
                     var bs = this.arcProjectiles(0, null, 4, this.width * 4, 20, -9, 4, "seal.red");
-                    for (var i in bs) {
-                        bs[i].on(2, function () {
+                    for (let b of bs) {
+                        b.on(2, function () {
                             var a = this.getAngle() - Math.PI / 2;
                             this.setVectors(null, null, Math.cos(a) * 20, Math.sin(a) * 20, Math.cos(a) * 24, Math.sin(a) * 24);
                         });
@@ -196,12 +196,12 @@ var SPELL = {
                 if (iter % 200 < 160 && iter % 200 >= 60) {
                     var c = 3 + this.world.difficulty * 2;
                     var bs = this.arcProjectiles(this.attackAngle, null, c, this.width * 2, 30, 1.8, 2, iter % 200 < 70 ? "seal.purple" : "seal");
-                    for (var i in bs) {
+                    for (let b of bs) {
                         if (iter % 200 < 70) {
-                            bs[i].priority = 1;
+                            b.priority = 1;
                         }
-                        bs[i].reflects = 5;
-                        bs[i].onReflect = function (type) {
+                        b.reflects = 5;
+                        b.onReflect = function (type) {
                             this[type + "2"] = 0;
                         };
                     }
@@ -257,7 +257,7 @@ var SPELL = {
         init: function () {
             var count = this.world.difficulty + 2;
             this.satellites = [];
-            for (var i = 0; i < count; ++i) {
+            for (let i = 0; i < count; ++i) {
                 var satellite = new Enemy(this.world, this.x, this.y, 0, 0, 0, 0, 2, 160, "orbMinion");
                 satellite.relAngle = Math.PI * 2 * i / count;
                 satellite.parent = this;
@@ -281,8 +281,8 @@ var SPELL = {
             }
         },
         finish: function () {
-            for (var i in this.satellites) {
-                this.satellites[i].remove();
+            for (let sat of this.satellites) {
+                sat.remove();
             }
         }
     },
@@ -314,8 +314,8 @@ var SPELL = {
                 var s = 60;
                 var a = Math.PI / 2 - Math.cos(this.lifetime * 0.75);
                 var bs = this.arcProjectiles(a, null, c, r, s, 0, 2, "orbBlue");
-                for (var i in bs) {
-                    bs[i].reflects = 1;
+                for (let b of bs) {
+                    b.reflects = 1;
                 }
             }).repeat(0.133);
         }

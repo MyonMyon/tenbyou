@@ -41,20 +41,20 @@ class Menu {
         if (!tree) {
             tree = this.tree;
         }
-        for (var i in tree) {
-            if (tree[i].statePath) {
-                var settingValue = Settings.get(tree[i].statePath);
-                if (tree[i].control === "radio") {
-                    tree[i].state = settingValue === tree[i].stateVar;
+        for (let item of tree) {
+            if (item.statePath) {
+                var settingValue = Settings.get(item.statePath);
+                if (item.control === "radio") {
+                    item.state = settingValue === item.stateVar;
                 } else {
-                    tree[i].state = settingValue;
+                    item.state = settingValue;
                 }
-                if (tree[i].vpField) {
-                    eval("this.vp." + tree[i].vpField + " = settingValue;");
+                if (item.vpField) {
+                    eval("this.vp." + item.vpField + " = settingValue;");
                 }
             }
-            if (tree[i].submenu) {
-                var submenu = tree[i].submenu;
+            if (item.submenu) {
+                var submenu = item.submenu;
                 if (typeof submenu === "string") {
                     submenu = MENU[submenu];
                 }
@@ -87,10 +87,10 @@ class Menu {
         if (!menu) {
             menu = this.tree;
         }
-        for (var i in menu) {
-            menu[i].visible = (!menu[i].isVisible || menu[i].isVisible.apply(this));
-            if (menu[i].submenu) {
-                var submenu = menu[i].submenu;
+        for (let item of menu) {
+            item.visible = (!item.isVisible || item.isVisible.apply(this));
+            if (item.submenu) {
+                var submenu = item.submenu;
                 if (typeof submenu === "string") {
                     submenu = MENU[submenu];
                 }
@@ -193,7 +193,7 @@ class Menu {
                 this.applySettingsFor(menuItem);
             }
             if (menuItem.states) {
-                for (var i in menuItem.states) {
+                for (let i in menuItem.states) {
                     this.states[i] = menuItem.states[i];
                 }
             }
@@ -228,9 +228,9 @@ class Menu {
      */
     shortcut(keyCode) {
         var m = this.getCurrentMenu();
-        for (var i in m.tree) {
-            if (m.tree[i].shortcut === keyCode) {
-                var action = m.tree[i].action;
+        for (let item of m.tree) {
+            if (item.shortcut === keyCode) {
+                var action = item.action;
                 if (typeof menuItem.action === "string") {
                     action = this[action];
                 }
@@ -327,7 +327,7 @@ class Menu {
             var obj = EVENT.valentine.res.object;
             var z = EVENT.valentine.res.zoom * this.vp.zoom;
             var c = 42;
-            for (var i = 0; i < c; i++) {
+            for (let i = 0; i < c; i++) {
                 var xD = this.vp.zoom * Math.sin(new Date().getTime() / 200 + Math.sin(i) * 42) * 5;
                 var y = (new Date().getTime() + Math.pow(Math.sin(i) * 420, 2)) % 4000 / 4000;
                 context.drawImage(
@@ -349,7 +349,7 @@ class Menu {
         var height = this.vp.zoom * (m.compact ? MENU_H_COMPACT : MENU_H);
         var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
 
-        for (var i in items) {
+        for (let i in items) {
             var row = +i - this.rowOffset;
             if (row >= 0 && row < cap) {
                 this.vp.setFont(FONT.menu, {

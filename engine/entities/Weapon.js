@@ -12,10 +12,10 @@ class Weapon extends Entity {
         this.name = name;
         this.drops = [];
         var propImport = ["behavior", "onShoot", "onHit", "onDestroy", "width"];
-        for (var i in propImport) {
-            var d = data[propImport[i]];
+        for (let prop of propImport) {
+            var d = data[prop];
             if (d) {
-                this[propImport[i]] = d;
+                this[prop] = d;
             }
         }
         this.angle = -Math.PI / 2; //look north by default
@@ -28,13 +28,12 @@ class Weapon extends Entity {
         super.step();
 
         if (!this.isInvulnerable()) {
-            for (var i in this.world.entities) {
-                var e = this.world.entities[i];
-                if ((e instanceof Projectile || e instanceof Beam) &&
-                    !e.playerSide &&
-                    e.width &&
-                    !e.harmless &&
-                    Util.collisionCheck(this, e)) {
+            for (let entity of this.world.entities) {
+                if ((entity instanceof Projectile || entity instanceof Beam) &&
+                    !entity.playerSide &&
+                    entity.width &&
+                    !entity.harmless &&
+                    Util.collisionCheck(this, entity)) {
                     //collision
                     this.hit();
                 }
@@ -51,11 +50,11 @@ class Weapon extends Entity {
 
     destroy() {
         new Particle(this.world, this.x, this.y, 0.66, 8, false, false, "splash");
-        for (var i in this.drops) {
+        for (let drop of this.drops) {
             this.dropBonus(
                 Random.nextFloat(Math.PI * 2),
                 Random.nextFloat(5),
-                this.drops[i].cat);
+                drop.cat);
         }
         this.onDestroy();
         this.remove();

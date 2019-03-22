@@ -124,13 +124,13 @@ const CHAR = {
         },
         onPowerChange: function (power) {
             if (this.turrets) {
-                for (var i in this.turrets) {
-                    this.turrets[i].remove();
+                for (let turret of this.turrets) {
+                    turret.remove();
                 }
             }
             this.turrets = [];
             var count = power + 1;
-            for (var i = 0; i < count; i++) {
+            for (let i = 0; i < count; i++) {
                 var aimed = count > 3 && (i === 0 || i === count - 1) || count === 3 && i === 1;
                 var turret = new Weapon(this, aimed ? "turretAimed" : "turret", true);
                 turret.index = i;
@@ -140,8 +140,8 @@ const CHAR = {
             }
         },
         onShoot: function () {
-            for (var i in this.turrets) {
-                this.turrets[i].onShoot();
+            for (let turret of this.turrets) {
+                turret.onShoot();
             }
         },
         onBomb: function () {

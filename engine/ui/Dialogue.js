@@ -6,26 +6,26 @@ function Dialogue(world, lines) {
     this.charStates = {};
     this.activeChar = null;
     this.lettersPS = 40;
-    for (var i in this.lines) {
-        var char = this.lines[i].char;
+    for (let line of this.lines) {
+        var char = line.char;
         if (char && !this.charStates[char]) {
             this.charStates[char] = {};
         }
-        if (this.lines[i].position && !this.charStates[char].position) {
-            this.charStates[char].position = this.lines[i].position;
+        if (line.position && !this.charStates[char].position) {
+            this.charStates[char].position = line.position;
         }
-        if (this.lines[i].sprite && !this.charStates[char].sprite) {
-            this.charStates[char].sprite = CUT_IN[this.lines[i].sprite].object;
+        if (line.sprite && !this.charStates[char].sprite) {
+            this.charStates[char].sprite = CUT_IN[line.sprite].object;
         }
-        if (!this.lines[i].time) {
-            this.lines[i].time = this.lines[i].text.length / this.lettersPS * 1.5;
+        if (!line.time) {
+            line.time = line.text.length / this.lettersPS * 1.5;
         }
     }
     var lIndex = 0;
     var rIndex = 0;
-    for (var i in this.charStates) {
-        var l = this.charStates[i].position === "left";
-        this.charStates[i].posIndex = l ? lIndex++ : rIndex++;
+    for (let state of this.charStates) {
+        var l = state.position === "left";
+        state.posIndex = l ? lIndex++ : rIndex++;
     }
     this.updateCharStates();
     this.time = 0;
@@ -44,7 +44,7 @@ Dialogue.prototype.tick = function () {
 Dialogue.prototype.updateCharStates = function () {
     if (this.lines[this.index].char) {
         this.activeChar = this.lines[this.index].char;
-        for (var i in this.charStates) {
+        for (let i in this.charStates) {
             this.charStates[i].active = this.activeChar === i;
         }
     }
@@ -73,21 +73,21 @@ Dialogue.prototype.next = function () {
 Dialogue.prototype.draw = function () {
     var vp = this.world.vp;
 
-    for (var a = 0; a <= 1; a++) {
-        for (var i in this.charStates) {
+    for (let a = 0; a <= 1; a++) {
+        for (let state of this.charStates) {
             vp.context.save();
-            if (this.charStates[i].active === !!a) {
-                var s = this.charStates[i].sprite;
+            if (state.active === !!a) {
+                var s = state.sprite;
                 var r = s.width / s.height;
-                var l = this.charStates[i].position === "left";
+                var l = state.position === "left";
                 var v = vp.toScreen(this.world.width / 2 * (l ? -1 : 1), this.world.height / 2);
                 vp.context.translate(v.x, v.y);
                 if (!l) {
                     vp.context.scale(-1, 1);
                 }
-                vp.context.globalAlpha = this.charStates[i].active ? 1 : 0.4;
+                vp.context.globalAlpha = state.active ? 1 : 0.4;
                 vp.context.drawImage(s, 0, 0, s.width, s.height,
-                    vp.zoom * (this.charStates[i].posIndex - 0.5) * 30,
+                    vp.zoom * (state.posIndex - 0.5) * 30,
                     0,
                     vp.height / 2 * r,
                     -vp.height / 2);

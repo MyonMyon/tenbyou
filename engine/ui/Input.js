@@ -126,8 +126,8 @@ function Input(vp) {
         "pause": { category: "menu", mode: "execute", func: "setPause(true)" }
     };
     var eventTypes = ["keyDown", "keyUp", "mouseDown", "mouseUp", "mouseMove", "mouseWheel"];
-    for (var i in eventTypes) {
-        this.addEventListener(eventTypes[i]);
+    for (let eventType of eventTypes) {
+        this.addEventListener(eventType);
     }
     this.vp = vp;
     var self = this;
@@ -166,7 +166,7 @@ Input.prototype.addEventListener = function (eventType) {
  */
 Input.prototype.getKeyByAction = function (action, single) {
     var resultArray = [];
-    for (var k in this.defaultMapping) {
+    for (let k in this.defaultMapping) {
         if (this.defaultMapping[k] === action) {
             if (single)
                 return k;
@@ -305,7 +305,7 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
  */
 Input.prototype.stopAll = function () {
     if (this.vp.world) {
-        for (var i in this.actionsAliases) {
+        for (let i in this.actionsAliases) {
             var alias = this.actionsAliases[i];
             if (alias.mode === "keyState" && eval(this.vp.world[alias.func.split(".")[0]])) {
                 eval("this.vp.world." + alias.func + "=" + false);
@@ -329,8 +329,8 @@ Input.prototype.keyEvent = function (event, keyDown) {
         keyCodes[1] = keyG;
     }
 
-    for (var i in keyCodes) {
-        if (this.action(keyCodes[i], keyDown, event.key)) {
+    for (let keyCode of keyCodes) {
+        if (this.action(keyCode, keyDown, event.key)) {
             event.preventDefault();
             return;
         }

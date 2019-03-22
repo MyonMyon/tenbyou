@@ -97,8 +97,8 @@ Util.toMeanAngle = function (compass) {
         return null;
     }
     var a = [];
-    for (var i in compass) {
-        a.push(Util.toAngle(compass[i]));
+    for (let item of compass) {
+        a.push(Util.toAngle(item));
     }
     return Util.meanAngle.apply(null, a);
 };
@@ -199,7 +199,7 @@ Util.formatAsDateTime = function (timestamp, format) {
     };
     var date = new Date(timestamp * 1000);
     var result = format || "YYYY-MM-DD";
-    for (var i in strings) {
+    for (let i in strings) {
         var replacement = date["get" + strings[i].func.toTitleCase()]();
         if (strings[i].addition) {
             replacement += strings[i].addition;

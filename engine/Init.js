@@ -95,7 +95,7 @@ function init() {
         loadResources(PRIORITY_CODE, "script", "", ".js", "priority code", null, loadEngine);
     };
     var loadEngine = function () {
-        for (var i in FONT_FILES) {
+        for (let i in FONT_FILES) {
             getFont(FONT_FILES[i]);
         }
         vp = new ViewPort();
@@ -140,20 +140,19 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
     var totalRes = nameArray.length + resAdd;
     var loadedRes = resAdd;
     var fail = false;
-    mainLoop: for (var i in nameArray) {
+    mainLoop: for (let name of nameArray) {
         var s = document.createElement(elementTag);
-        if (nameArray[i].file) {
-            for (var j in nameArray) {
-                var nj = nameArray[j];
-                if (nj.object && nj.file === nameArray[i].file) {
-                    nameArray[i].object = nj.object;
+        if (name.file) {
+            for (let name2 in nameArray) {
+                if (name2.object && name2.file === name.file) {
+                    name.object = name2.object;
                     loadedRes++; //I know the count is wrong...
                     continue mainLoop;
                 }
             }
-            nameArray[i].object = s;
+            name.object = s;
         }
-        s.src = prefix + (nameArray[i].file || nameArray[i]) + postfix + "?v=" + ENGINE_VERSION;
+        s.src = prefix + (name.file || name) + postfix + "?v=" + ENGINE_VERSION;
 
         var success = elementTag === "audio" ? "onloadeddata" : "onload";
         s[success] = function () {
@@ -205,15 +204,14 @@ function getIcon() {
 
 function getCutIns() {
     CUT_IN = {};
-    for (var i in STAGE) {
-        for (var j in STAGE[i].events) {
-            var e = STAGE[i].events[j];
-            if (e.boss) {
-                for (var k in e.boss) {
+    for (let stage of STAGE) {
+        for (let event of stage.events) {
+            if (event.boss) {
+                for (let k in event.boss) {
                     if (k.indexOf("Dialogue") >= 0) {
-                        for (var l in e.boss[k]) {
+                        for (let data of event.boss[k]) {
                             //deepest loop I ever created...
-                            var s = e.boss[k][l].sprite;
+                            var s = data.sprite;
                             if (s && !CUT_IN[s]) {
                                 CUT_IN[s] = {
                                     file: CUT_IN_FOLDER_NAME + s
@@ -242,14 +240,13 @@ function getFont(data) {
  */
 function getFiles(input) {
     var files = [];
-    for (var s in input) {
-        var data = input[s];
+    for (let data of input) {
         var o = window[data.object];
-        for (var i in o) {
+        for (let i in o) {
             getFile(o[i], data, files);
             if (data.checkInside) {
                 //and... one level deeper:
-                for (var j in o[i]) {
+                for (let j in o[i]) {
                     getFile(o[i][j], data, files);
                 }
             }

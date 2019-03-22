@@ -19,7 +19,7 @@ var STAGE = [{
         repeatInterval: [2, 1.6, 1.2, 0.8],
         repeatCount: [5, 7, 9, 11],
         func: function () {
-            for (var i = 0; i < 2; i++) { //two sides
+            for (let i = 0; i < 2; i++) { //two sides
                 var fairy = new Enemy(this,
                     (i === 0 ? -this.width - 4 : this.width + 4) / 2,
                     -this.height / 2 - 2,
@@ -76,7 +76,7 @@ var STAGE = [{
         repeatCount: 20,
         func: function (iter) {
             var r = (iter % 10 < 5) ? -1 : 1;
-            for (var p = 0; p < 2; ++p) {
+            for (let p = 0; p < 2; ++p) {
                 var y = -this.height / 2 - 5;
                 var x = r * (this.width / 3 + p * 10);
                 var kedamaPaired = new Enemy(this, x, y, -r * 2, 30, -r * 12, 0, 4, 12, "kedamaMinion");
@@ -286,7 +286,7 @@ var STAGE = [{
             });
             fairyTurret.on(0.6, function () {
                 var a = this.shootProjectileAt(this.savedPoint, 4, 50, 0, 0);
-                for (var i = 0; i < 2; ++i) {
+                for (let i = 0; i < 2; ++i) {
                     var b = new Projectile(this.world, 0, 0, 0, 0, 0, 0, 2, false, i ? "strike.blue" : "strike.red");
                     b.setAnchor(a, true);
                     b.maxDistance = i ? -10 : 10;
@@ -334,7 +334,7 @@ var STAGE = [{
             return 3 + 2 * (world.difficulty + 1);
         },
         func: function () {
-            for (var i = 0; i < 2; i++) { //two sides
+            for (let i = 0; i < 2; i++) { //two sides
                 var fairy = new Enemy(this,
                     (i === 0 ? -this.width - 4 : this.width + 4) / 2,
                     -this.height / 2 - 2,
@@ -393,7 +393,7 @@ var STAGE = [{
                 var a = this.shootProjectileAt(this.world.player, 5, 50, 0, 0);
                 var count = 4 + this.world.difficulty * 2;
                 var b = a.arcProjectiles(Util.toAngle("s"), null, count, 0, 0, 0, 2, ["static.yellow", "static.red"], true);
-                for (var i in b) {
+                for (let i in b) {
                     var angle = i / count * Math.PI * 2;
                     b[i].setPolarVectors(angle, 1, 0, 20, Math.PI / 4 * (iter % 2 ? -1 : 1), -10);
                 }

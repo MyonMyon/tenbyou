@@ -61,13 +61,13 @@ World.prototype.setPlayer = function (charName) {
 
 World.prototype.startStage = function (stage, difficulty) {
     this.difficulty = difficulty;
-    for (var i in STAGE) {
-        if (!STAGE[i].extra) {
+    for (let stage of STAGE) {
+        if (!stage.extra) {
             this.stages.push({
-                title: STAGE[i].title,
-                desc: STAGE[i].description || "",
-                background: STAGE[i].background,
-                last: STAGE[i].last
+                title: stage.title,
+                desc: stage.description || "",
+                background: stage.background,
+                last: stage.last
             });
         }
     }
@@ -78,7 +78,7 @@ World.prototype.startStage = function (stage, difficulty) {
 
 World.prototype.startExtra = function (difficulty) {
     this.difficulty = difficulty;
-    for (var i in STAGE) {
+    for (let i in STAGE) {
         if (STAGE[i].extra === difficulty) {
             this.stages[+i + 1] = {
                 extra: STAGE[i].extra,
@@ -109,20 +109,19 @@ World.prototype.startSpellPractice = function (difficulty, spell) {
 
 World.prototype.initEventChain = function () {
     this.eventChain.clear();
-    for (var i in STAGE[this.stage - 1].events) {
-        var e = STAGE[this.stage - 1].events[i];
-        if (e.substage === this.substage && (!e.player || e.player === this.player.name)) {
-            if (e.boss) {
-                e.func = this.processBoss(e.boss);
+    for (let event of STAGE[this.stage - 1].events) {
+        if (event.substage === this.substage && (!event.player || event.player === this.player.name)) {
+            if (event.boss) {
+                event.func = this.processBoss(event.boss);
             }
-            if (e.itemLine) {
-                e.func = function () {
+            if (event.itemLine) {
+                event.func = function () {
                     this.vp.showItemLine();
                 };
             }
-            if (e.title) {
-                e.func = function () {
-                    var t;
+            if (event.title) {
+                event.func = function () {
+                    let t;
                     if (this.stages[this.stage].extra) {
                         t = DIFF[this.difficulty].name + " Stage";
                     } else {
@@ -131,7 +130,7 @@ World.prototype.initEventChain = function () {
                     this.vp.showMessage([t + ": " + this.stages[this.stage].title, this.stages[this.stage].desc], 4, [FONT.title, FONT.subtitle]);
                 };
             }
-            this.eventChain.addEvent(e.func, e.second, e.repeatInterval, e.repeatCount);
+            this.eventChain.addEvent(event.func, event.second, event.repeatInterval, event.repeatCount);
         }
     }
 };
@@ -145,8 +144,8 @@ World.prototype.processBoss = function (data) {
                 new Dialogue(this.world, data.startDialogue);
             };
         }
-        for (var i in data.attacks) {
-            var a = data.attacks[i][0];
+        for (let attacks of data.attacks) {
+            let a = attacks[0];
             if (!a) {
                 newGroup = true;
                 continue;
@@ -176,14 +175,13 @@ World.prototype.addTime = function (stepBoss) {
         this.boss.nextAttack();
         return;
     }
-    for (var i in this.eventChain.events) {
-        var e = this.eventChain.events[i];
-        if (!e.done) {
-            this.time = this.substageStart + e.second;
-            if (!stepBoss || !e.fire.name) {
+    for (let event of this.eventChain.events) {
+        if (!event.done) {
+            this.time = this.substageStart + event.second;
+            if (!stepBoss || !event.fire.name) {
                 return;
             }
-            e.done = true;
+            event.done = true;
         }
     }
 };
@@ -300,13 +298,13 @@ World.prototype.tick = function () {
             this.shake = { x: 0, y: 0, time: 0, strength: 0 };
         }
 
-        for (var i in this.entities) {
-            if (!this.entities[i].removalMark) {
-                this.entities[i].step();
+        for (let entity of this.entities) {
+            if (!entity.removalMark) {
+                entity.step();
             }
         }
-        for (var i in this.entities) {
-            this.entities[i].flush(); //refreshing fixed coords
+        for (let entity of this.entities) {
+            entity.flush(); //refreshing fixed coords
         }
         this.eventChain.tick();
     }
@@ -322,7 +320,7 @@ World.prototype.postponeTick = function () {
 
 World.prototype.randomBonus = function () {
     var bonuses = [];
-    for (var i in BONUS) {
+    for (let i in BONUS) {
         if (!BONUS[i].tech) {
             bonuses.push(i);
         }
@@ -332,42 +330,39 @@ World.prototype.randomBonus = function () {
 };
 
 World.prototype.clearField = function (damageForEnemies) {
-    for (var i in this.entities) {
-        var e = this.entities[i];
-        if (e instanceof Projectile && !e.playerSide) {
+    for (let entity of this.entities) {
+        if (entity instanceof Projectile && !entity.playerSide) {
             //don't turn virtual bullets into bonuses
-            if (e.width) {
-                new Bonus(this, e.x, e.y, "pointSmall", true);
+            if (entity.width) {
+                new Bonus(this, entity.x, entity.y, "pointSmall", true);
             }
-            e.remove();
+            entity.remove();
         }
-        if (e instanceof Enemy && damageForEnemies > 0) {
-            e.hurt(damageForEnemies);
+        if (entity instanceof Enemy && damageForEnemies > 0) {
+            entity.hurt(damageForEnemies);
         }
     }
 };
 
 World.prototype.removeEnemies = function () {
-    for (var i in this.entities) {
-        var e = this.entities[i];
-        if (e instanceof Enemy && e !== this.boss) {
-            e.behaviorFinal(true);
+    for (let entity of this.entities) {
+        if (entity instanceof Enemy && entity !== this.boss) {
+            entity.behaviorFinal(true);
         }
     }
 };
 
 World.prototype.replaceBonus = function (catWhat, catWith) {
-    for (var i in this.entities) {
-        var e = this.entities[i];
-        if (e instanceof Bonus && e.cat === catWhat) {
-            e.cat = catWith;
-            new Particle(this, e.x, e.y, 0.25, 8, true, false, "spark");
+    for (let entity of this.entities) {
+        if (entity instanceof Bonus && entity.cat === catWhat) {
+            entity.cat = catWith;
+            new Particle(this, entity.x, entity.y, 0.25, 8, true, false, "spark");
         }
     }
 };
 
 World.prototype.splash = function (entity, count, area, time) {
-    for (var i = 0; i < count; ++i) {
+    for (let i = 0; i < count; ++i) {
         new Particle(this, entity.x, entity.y, time + (Random.nextFloat() - 0.5) * time, 8, true, true, "spark");
     }
 };
@@ -390,12 +385,11 @@ World.prototype.draw = function (context) {
         "Projectile",
         "Text"
     ];
-    for (var d in drawOrder) {
-        for (var p = 0; p < 2; ++p) {
-            for (var i in this.entities) {
-                var e = this.entities[i];
-                if (e.priority === p && e.constructor.name === drawOrder[d]) {
-                    e.draw(context);
+    for (let draw of drawOrder) {
+        for (let p = 0; p < 2; ++p) {
+            for (let entity of this.entities) {
+                if (entity.priority === p && entity.constructor.name === draw) {
+                    entity.draw(context);
                 }
             }
         }

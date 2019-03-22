@@ -63,10 +63,10 @@ class Player extends Entity {
             "onSpecial",
             "onPowerChange"
         ];
-        for (var i in propImport) {
-            var d = CHAR[charName][propImport[i]];
+        for (let prop of propImport) {
+            var d = CHAR[charName][prop];
             if (d) {
-                this[propImport[i]] = d;
+                this[prop] = d;
             }
         }
         this.onPowerChange(0);
@@ -179,47 +179,46 @@ class Player extends Entity {
             this.hiscore = this.score;
         }
 
-        for (var i in this.world.entities) {
-            var e = this.world.entities[i];
-            if (!e.playerSide && e.width && !e.harmless) {
-                if (e instanceof Projectile) {
-                    if (Util.collisionCheck(e, this, this.grazeWidth)) {
-                        if (Util.collisionCheck(e, this)) {
-                            e.remove();
+        for (let entity of this.world.entities) {
+            if (!entity.playerSide && entity.width && !entity.harmless) {
+                if (entity instanceof Projectile) {
+                    if (Util.collisionCheck(entity, this, this.grazeWidth)) {
+                        if (Util.collisionCheck(entity, this)) {
+                            entity.remove();
                             if (!this.isInvulnerable()) {
                                 this.kill();
                                 break;
                             }
-                        } else if (e.grazed < e.damage && !this.isInvulnerable()) {
+                        } else if (entity.grazed < entity.damage && !this.isInvulnerable()) {
                             Sound.play(SFX.playerGraze);
                             ++this.graze;
-                            var xD = this.x - e.x;
-                            var yD = this.y - e.y;
+                            var xD = this.x - entity.x;
+                            var yD = this.y - entity.y;
                             var s = new Particle(this.world, this.x, this.y, 0.25, 8, false, false, "spark");
                             s.setVectors(null, null, xD * 5, yD * 5);
-                            ++e.grazed;
+                            ++entity.grazed;
                         }
                     }
                 }
-                if (e instanceof Beam) {
-                    if (Util.collisionCheckBeam(this, e, this.grazeWidth)) {
-                        if (Util.collisionCheckBeam(this, e)) {
-                            e.break(Util.vectorLength(this.x - e.x, this.y - e.y));
+                if (entity instanceof Beam) {
+                    if (Util.collisionCheckBeam(this, entity, this.grazeWidth)) {
+                        if (Util.collisionCheckBeam(this, entity)) {
+                            entity.break(Util.vectorLength(this.x - entity.x, this.y - entity.y));
                             if (!this.isInvulnerable()) {
                                 this.kill();
                                 break;
                             }
                         } else if (!this.isInvulnerable()) {
                             var grazeOld = this.graze;
-                            this.graze += e.grazePS / this.world.ticksPS;
+                            this.graze += entity.grazePS / this.world.ticksPS;
                             if (Math.floor(grazeOld) !== Math.floor(this.graze)) {
                                 Sound.play(SFX.playerGraze);
-                                var cwmx = Util.isClockwiseNearest(e.a0, Util.angleBetweenEntities(e, this)) ? 1 : -1;
-                                var xD = Math.cos(e.a0 + Math.PI / 2 * cwmx);
-                                var yD = Math.sin(e.a0 + Math.PI / 2 * cwmx);
+                                var cwmx = Util.isClockwiseNearest(entity.a0, Util.angleBetweenEntities(entity, this)) ? 1 : -1;
+                                var xD = Math.cos(entity.a0 + Math.PI / 2 * cwmx);
+                                var yD = Math.sin(entity.a0 + Math.PI / 2 * cwmx);
                                 var s = new Particle(this.world, this.x, this.y, 0.25, 8, false, false, "spark");
                                 s.setVectors(null, null, xD * 50, yD * 50);
-                                ++e.grazed;
+                                ++entity.grazed;
                             }
                         }
                     }
@@ -426,8 +425,8 @@ class Player extends Entity {
         if (this.lives < 1) {
             this.world.continueMode = true;
             this.world.continuable = this.world.stage > 0 && this.score % 10 < 9;
-            for (var i in this.anchored) {
-                this.anchored[i].remove();
+            for (let entity of this.anchored) {
+                entity.remove();
             }
             this.world.setPause(true);
             if (!this.world.continuable) {
@@ -441,7 +440,7 @@ class Player extends Entity {
 
         this.autoGatherTime = 0;
         this.invulnTime = this.invulnTimeRespawn;
-        for (var i = 0; i < 9; ++i) {
+        for (let i = 0; i < 9; ++i) {
             if (i === 4 && this.lives < 1)
                 new Bonus(this.world, this.x, this.y, "gauge", false);
             else

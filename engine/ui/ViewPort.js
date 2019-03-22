@@ -125,12 +125,12 @@ ViewPort.prototype.initMenu = function () {
 ViewPort.prototype.initRolls = function (charName) {
     var t = Date.now();
     this.rolls = [];
-    for (var i in ROLL) {
-        if (ROLL[i].object && (!ROLL[i].player || ROLL[i].player === charName)) {
-            var tNext = t + (ROLL[i].time || ROLL[0].time) * 1000;
+    for (let roll of ROLL) {
+        if (roll.object && (!roll.player || roll.player === charName)) {
+            var tNext = t + (roll.time || ROLL[0].time) * 1000;
             this.rolls.push({
-                image: ROLL[i].object,
-                zoom: ROLL[i].zoom || ROLL[0].zoom,
+                image: roll.object,
+                zoom: roll.zoom || ROLL[0].zoom,
                 startTime: t,
                 endTime: tNext
             });
@@ -167,17 +167,17 @@ ViewPort.prototype.setFont = function (data, options) {
         strokeColor: "transparent",
         strokeWidth: 0
     };
-    for (var i in attr) {
-        if (data[attr[i]]) {
-            this.fontData[attr[i]] = data[attr[i]];
+    for (let a of attr) {
+        if (data[a]) {
+            this.fontData[a] = data[a];
         }
     }
     if (options) {
-        for (var i in options) {
+        for (let i in options) {
             if (options[i] && data[i]) {
-                for (var j in attr) {
-                    if (data[i][attr[j]]) {
-                        this.fontData[attr[j]] = data[i][attr[j]];
+                for (let a of attr) {
+                    if (data[i][a]) {
+                        this.fontData[a] = data[i][a];
                     }
                 }
             }
@@ -205,27 +205,27 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
         var t = text.split(/([\s\n]+)/);
         textArray = [""];
         var w = 0;
-        for (var i in t) {
+        for (let tPart of t) {
             if (w === 0) {
-                t[i] = t[i].replace(/\s/g, "\u200b");
+                tPart = tPart.replace(/\s/g, "\u200b");
             }
-            var wi = this.context.measureText(t[i]).width;
+            var wi = this.context.measureText(tPart).width;
             w += wi;
-            if (t[i].match(/\n/) || w > maxWidth) {
-                if (t[i].match(/\s+/)) {
-                    t[i] = t[i].replace(/\s/g, "\u200b");
+            if (tPart.match(/\n/) || w > maxWidth) {
+                if (tPart.match(/\s+/)) {
+                    tPart = tPart.replace(/\s/g, "\u200b");
                     wi = 0;
                 }
                 w = wi;
-                textArray.push(t[i]);
+                textArray.push(tPart);
             } else {
-                textArray[textArray.length - 1] += t[i];
+                textArray[textArray.length - 1] += tPart;
             }
         }
     }
     if (maxChars !== null && maxChars !== undefined) {
         var c = 0;
-        for (var i in textArray) {
+        for (let i in textArray) {
             c += textArray[i].length;
             if (c > maxChars) {
                 textArray[i] = textArray[i].slice(0, maxChars - c);
@@ -234,7 +234,7 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
             }
         }
     }
-    for (var i in textArray) {
+    for (let i in textArray) {
         var yr = y + i * this.fontData.size;
         if (this.context.lineWidth) {
             this.context.strokeText(textArray[i], x, yr);
@@ -305,7 +305,7 @@ ViewPort.prototype.infoShow = function (info, line, tab, reverse) {
 
 ViewPort.prototype.starShow = function (sprite, line, tab, count, parts, max) {
     var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
-    for (var i = 0; i < max; ++i) {
+    for (let i = 0; i < max; ++i) {
         this.context.drawImage(
             SPRITE.gui.object,
             sprite * SPRITE.gui.frameWidth,
@@ -453,8 +453,8 @@ ViewPort.prototype.drawBackground = function (boundaryStart, boundaryEnd) {
 
     if (spell) {
         var o = SPRITE.spellStrip.object;
-        for (var i = 0; i < 2; ++i) {
-            for (var j = 0; j < 2 + (boundaryEnd.x + boundaryStart.x) / (o.width * this.zoom / 4); ++j) {
+        for (let i = 0; i < 2; ++i) {
+            for (let j = 0; j < 2 + (boundaryEnd.x + boundaryStart.x) / (o.width * this.zoom / 4); ++j) {
                 this.context.drawImage(o,
                     0, 0,
                     o.width, o.height,
@@ -480,7 +480,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
             boundaryStart.y + this.zoom * 5);
 
         if (this.world.boss.attackCurrent !== null && !this.world.dialogue) {
-            for (var i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
+            for (let i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
                 this.context.drawImage(SPRITE.gui.object, 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
                     boundaryStart.x + this.zoom * 2 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4,
                     boundaryStart.y + this.zoom * 6,
@@ -510,35 +510,34 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
 
     var time = this.world.time;
     //Show messages:
-    for (var im in this.messages) {
-        var m = this.messages[im];
-        if (time < (m.start + m.length) && time > m.start) {
-            this.context.textBaseline = m.position === "itemLine" ? "middle" : "alphabetic";
+    for (let message of this.messages) {
+        if (time < (message.start + message.length) && time > message.start) {
+            this.context.textBaseline = message.position === "itemLine" ? "middle" : "alphabetic";
             this.context.globalAlpha = Math.min(
                 Math.min(1,
-                    (time - m.start) / m.fadeIn,
-                    (m.start + m.length - time) / m.fadeOut));
-            var start = 0;
-            var indexOffset = 0;
-            switch (m.position) {
+                    (time - message.start) / message.fadeIn,
+                    (message.start + message.length - time) / message.fadeOut));
+            let start = 0;
+            let indexOffset = 0;
+            switch (message.position) {
                 case "top":
                     start = boundaryStart.y;
                     indexOffset = 2;
                     break;
                 case "center":
                     start = (boundaryStart.y + boundaryEnd.y) / 2;
-                    indexOffset = -m.text.length / 2;
+                    indexOffset = -message.text.length / 2;
                     break;
                 case "itemLine":
                     start = this.toScreen(0, this.world.maxBonusY).y;
-                    this.context.fillStyle = m.style[0].strokeColor;
+                    this.context.fillStyle = message.style[0].strokeColor;
                     this.context.fillRect(boundaryStart.x, start - this.zoom / 4, this.world.width * this.zoom, this.zoom / 2);
                     break;
             }
-            for (var i in m.text) {
-                this.setFont(m.style[i % m.style.length]);
-                var text = (m.text[i] + "").split("\t");
-                for (var j in text) {
+            for (let i in message.text) {
+                this.setFont(message.style[i % message.style.length]);
+                var text = (message.text[i] + "").split("\t");
+                for (let j in text) {
                     var x;
                     if (text.length === 1) {
                         this.context.textAlign = "center";
@@ -589,8 +588,7 @@ ViewPort.prototype.drawRolls = function () {
     this.context.fillStyle = "#000";
     this.context.fillRect(0, 0, this.width, this.height);
     var t = Date.now();
-    for (var i in this.rolls) {
-        var roll = this.rolls[i];
+    for (let roll of this.rolls) {
         if ((roll.startTime <= t) && (t <= roll.endTime)) {
             this.context.globalAlpha = Math.min((t - roll.startTime) / fadeMs, (roll.endTime - t) / fadeMs);
             this.drawImageOverlay(roll.image, roll.zoom);

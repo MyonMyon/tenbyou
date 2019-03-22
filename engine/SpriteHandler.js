@@ -64,8 +64,7 @@ SpriteHandler.prototype.animate = function (frames, interval, frameReverse) {
     this.animationFrames = [];
     this.animationLength = 0;
 
-    var i = 0;
-    for (i = 0; i < frames * this.height; i += this.height) {
+    for (let i = 0; i < frames * this.height; i += this.height) {
         this.animationFrames.push({
             x: 0,
             y: i,
@@ -74,7 +73,7 @@ SpriteHandler.prototype.animate = function (frames, interval, frameReverse) {
         this.animationLength += interval;
     }
     if (frameReverse) {
-        for (i = i - this.height; i > 0; i -= this.height) {
+        for (let i = i - this.height; i > 0; i -= this.height) {
             this.animationFrames.push({
                 x: 0,
                 y: i,
@@ -94,8 +93,7 @@ SpriteHandler.prototype.getFrame = function (time) {
     if (this.animationFrames.length) {
         var cTime = (time + this.animationOffset) % this.animationLength;
         var frameTime = 0;
-        for (var i in this.animationFrames) {
-            var frame = this.animationFrames[i];
+        for (let frame of this.animationFrames) {
             if (cTime >= frameTime && cTime < frame.tEnd) {
                 shift = frame;
                 break;
@@ -113,8 +111,8 @@ SpriteHandler.prototype.draw = function (context, x, y, t, z, c) {
     var c = c || 1;
     var img = this.getFrame(t);
     if (this.object) {
-        for (var i = 0; i < c; i++) {
-            var part = (i + 1 <= c) ? 1 : (c - Math.floor(c));
+        for (let i = 0; i < c; i++) {
+            let part = (i + 1 <= c) ? 1 : (c - Math.floor(c));
             context.drawImage(this.object,
                 img.x * (this.frameWidth + this.frameMargin),
                 img.y * (this.frameHeight + this.frameMargin),

@@ -14,7 +14,7 @@ GameEvent.RECURSION_LIMIT = 42;
  */
 GameEvent.getCurrentEvents = function (valuesObject) {
     var events = [];
-    for (var i in EVENT) {
+    for (let i in EVENT) {
         if (GameEvent.resolveCondition(EVENT[i].condition, valuesObject)) {
             events.push(i);
         }
@@ -50,10 +50,10 @@ GameEvent.resolveCondition = function (conditionObject, valuesObject, recursionC
         return false;
     }
     var andResult = true;
-    for (var i in conditionObject) {
+    for (let i in conditionObject) {
         if (i === "or") {
             var orResult = false;
-            for (var j in conditionObject[i]) {
+            for (let j in conditionObject[i]) {
                 orResult = orResult || GameEvent.resolveCondition(conditionObject[i][j], valuesObject, ++recursionCount);
                 if (orResult) {
                     break;
@@ -61,8 +61,8 @@ GameEvent.resolveCondition = function (conditionObject, valuesObject, recursionC
             }
             andResult = andResult && orResult;
         } else if (i === "events") {
-            for (var j in conditionObject[i]) {
-                if (!GameEvent.resolveCondition(EVENT[conditionObject[i][j]].condition, valuesObject, ++recursionCount)) {
+            for (let item of conditionObject[i]) {
+                if (!GameEvent.resolveCondition(EVENT[item].condition, valuesObject, ++recursionCount)) {
                     return false;
                 }
             }
