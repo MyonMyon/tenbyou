@@ -121,10 +121,11 @@ Util.meanAngle = function () {
  * @return {Number} Sum of arguments.
  */
 Util.sum = function () {
+    let a;
     if (arguments[0] && arguments[0].length) {
-        let a = arguments[0];
+        a = arguments[0];
     } else {
-        let a = Object.values(arguments);
+        a = Object.values(arguments);
     }
     return a.reduce(function (acc, val) {
         return acc + val;
