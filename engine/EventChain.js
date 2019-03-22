@@ -18,7 +18,7 @@ EventChain.prototype.addEvent = function (func, second, repeatInterval, repeatCo
     } else if (typeof repeatCount === "object") {
         repeatCount = repeatCount[this.parent.world ? this.parent.world.difficulty : this.parent.difficulty];
     }
-    var e = {
+    let e = {
         repeatInterval: repeatInterval,
         repeatCount: repeatCount || 1,
         iteration: 0,
@@ -42,7 +42,7 @@ EventChain.prototype.addEventNow = function (func, secondTimeout, repeatInterval
 };
 
 EventChain.prototype.tick = function () {
-    var t;
+    let t;
     for (let event of this.events) {
         if (event.useWorldTimeGrid) {
             t = this.parent.world.relTime();

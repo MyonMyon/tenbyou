@@ -7,7 +7,7 @@ function Dialogue(world, lines) {
     this.activeChar = null;
     this.lettersPS = 40;
     for (let line of this.lines) {
-        var char = line.char;
+        let char = line.char;
         if (char && !this.charStates[char]) {
             this.charStates[char] = {};
         }
@@ -21,10 +21,10 @@ function Dialogue(world, lines) {
             line.time = line.text.length / this.lettersPS * 1.5;
         }
     }
-    var lIndex = 0;
-    var rIndex = 0;
+    let lIndex = 0;
+    let rIndex = 0;
     for (let state of this.charStates) {
-        var l = state.position === "left";
+        let l = state.position === "left";
         state.posIndex = l ? lIndex++ : rIndex++;
     }
     this.updateCharStates();
@@ -55,7 +55,7 @@ Dialogue.prototype.updateCharStates = function () {
 
 Dialogue.prototype.next = function () {
     if (this.lines[this.index].text) {
-        var reqTime = this.lines[this.index].time;
+        let reqTime = this.lines[this.index].time;
         if (this.time < reqTime) {
             this.time = reqTime;
             return;
@@ -71,16 +71,16 @@ Dialogue.prototype.next = function () {
 };
 
 Dialogue.prototype.draw = function () {
-    var vp = this.world.vp;
+    let vp = this.world.vp;
 
     for (let a = 0; a <= 1; a++) {
         for (let state of this.charStates) {
             vp.context.save();
             if (state.active === !!a) {
-                var s = state.sprite;
-                var r = s.width / s.height;
-                var l = state.position === "left";
-                var v = vp.toScreen(this.world.width / 2 * (l ? -1 : 1), this.world.height / 2);
+                let s = state.sprite;
+                let r = s.width / s.height;
+                let l = state.position === "left";
+                let v = vp.toScreen(this.world.width / 2 * (l ? -1 : 1), this.world.height / 2);
                 vp.context.translate(v.x, v.y);
                 if (!l) {
                     vp.context.scale(-1, 1);
@@ -104,14 +104,14 @@ Dialogue.prototype.draw = function () {
         DIALOGUE_W * vp.zoom,
         DIALOGUE_H * vp.zoom);
 
-    var charName = this.activeChar;
-    var charColor;
+    let charName = this.activeChar;
+    let charColor;
     if (CHAR[this.activeChar]) {
         charName = CHAR[this.activeChar].name;
         charColor = CHAR[this.activeChar].color;
     }
     vp.context.textAlign = this.charStates[this.activeChar].position || "left";
-    var x = vp.context.textAlign === "left" ? DIALOGUE_X + DIALOGUE_MX : DIALOGUE_X + DIALOGUE_W - DIALOGUE_MX;
+    let x = vp.context.textAlign === "left" ? DIALOGUE_X + DIALOGUE_MX : DIALOGUE_X + DIALOGUE_W - DIALOGUE_MX;
     vp.setFont(FONT.character);
     if (charColor) {
         vp.context.fillStyle = charColor;

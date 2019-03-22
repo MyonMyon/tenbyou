@@ -1,5 +1,5 @@
-var RANDOM_GET_COUNT = null;
-var RANDOM_RESULT = null;
+let RANDOM_GET_COUNT = null;
+let RANDOM_RESULT = null;
 
 /**
  * Empty constructor for utility class.
@@ -15,7 +15,7 @@ function Random() {
  * @param {Number} seed Seed for very pseudo-RNG.
  */
 Random.setSeed = function (seed) {
-    var x = Math.PI * seed;
+    let x = Math.PI * seed;
     RANDOM_RESULT = x - Math.floor(x);
     RANDOM_GET_COUNT = seed;
 };
@@ -30,7 +30,7 @@ Random.setSeed = function (seed) {
  */
 Random.nextFloat = function (rangeSize) {
     RANDOM_GET_COUNT++;
-    var x = Math.PI * (RANDOM_GET_COUNT + RANDOM_RESULT);
+    let x = Math.PI * (RANDOM_GET_COUNT + RANDOM_RESULT);
     RANDOM_RESULT = x - Math.floor(x);
     return RANDOM_RESULT * (rangeSize || 1);
 };

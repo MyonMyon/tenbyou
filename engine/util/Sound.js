@@ -10,7 +10,7 @@ Sound.play = function (data) {
     if (!Settings.get("sound.enabled")) {
         return;
     }
-    var vol = Settings.get("sound.volume_sfx") / 100;
+    let vol = Settings.get("sound.volume_sfx") / 100;
     if (vol === 0) {
         return;
     }

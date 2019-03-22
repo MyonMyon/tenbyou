@@ -25,7 +25,7 @@ class Menu {
      * @return {Number} Fade value from 0 to 1.
      */
     getFade() {
-        var t = new Date().getTime();
+        let t = new Date().getTime();
         if (!this.fadeIn || this.fadeOut && (this.fadeOut + this.fadeLength) < t && (this.fadeOut + this.fadeLength) > this.fadeIn) {
             return 0;
         }
@@ -43,7 +43,7 @@ class Menu {
         }
         for (let item of tree) {
             if (item.statePath) {
-                var settingValue = Settings.get(item.statePath);
+                let settingValue = Settings.get(item.statePath);
                 if (item.control === "radio") {
                     item.state = settingValue === item.stateVar;
                 } else {
@@ -54,7 +54,7 @@ class Menu {
                 }
             }
             if (item.submenu) {
-                var submenu = item.submenu;
+                let submenu = item.submenu;
                 if (typeof submenu === "string") {
                     submenu = MENU[submenu];
                 }
@@ -70,7 +70,7 @@ class Menu {
      * @return {Object} Current menu item object.
      */
     getCurrentMenu(parent) {
-        var menu = this.currentMenu || { tree: this.tree }; //AKA Pause Menu and Main Menu
+        let menu = this.currentMenu || { tree: this.tree }; //AKA Pause Menu and Main Menu
 
         if (menu.tree) {
             menu.tree = menu.tree.filter(function (item) {
@@ -90,7 +90,7 @@ class Menu {
         for (let item of menu) {
             item.visible = (!item.isVisible || item.isVisible.apply(this));
             if (item.submenu) {
-                var submenu = item.submenu;
+                let submenu = item.submenu;
                 if (typeof submenu === "string") {
                     submenu = MENU[submenu];
                 }
@@ -105,7 +105,7 @@ class Menu {
      * @return {String} Current menu title.
      */
     getCurrentTitle() {
-        var menu = this.getCurrentMenu();
+        let menu = this.getCurrentMenu();
         return menu.title || (menu.parent ? menu.parent.tree[menu.indexInParent].title : GAME_TITLE);
     }
 
@@ -129,7 +129,7 @@ class Menu {
         if (new Date().getTime() < this.lastAction + this.actionDelay) {
             return;
         }
-        var m = this.getCurrentMenu();
+        let m = this.getCurrentMenu();
         switch (code) {
             case "nav_down":
                 this.changeIndex(1);
@@ -198,14 +198,14 @@ class Menu {
                 }
             }
             if (menuItem.action) {
-                var action = menuItem.action;
+                let action = menuItem.action;
                 if (typeof menuItem.action === "string") {
                     action = this[action];
                 }
                 action.apply(this, [menuItem]);
             }
             if (menuItem.submenu) {
-                var submenu = menuItem.submenu;
+                let submenu = menuItem.submenu;
                 if (typeof submenu === "string") {
                     submenu = MENU[submenu];
                 }
@@ -227,10 +227,10 @@ class Menu {
      * @param {String} keyCode Key code.
      */
     shortcut(keyCode) {
-        var m = this.getCurrentMenu();
+        let m = this.getCurrentMenu();
         for (let item of m.tree) {
             if (item.shortcut === keyCode) {
-                var action = item.action;
+                let action = item.action;
                 if (typeof menuItem.action === "string") {
                     action = this[action];
                 }
@@ -247,15 +247,15 @@ class Menu {
      * @param {Number} delta Row selection difference.
      */
     changeIndex(delta) {
-        var m = this.getCurrentMenu();
+        let m = this.getCurrentMenu();
         if (!m.tree) {
             return;
         }
-        var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
-        var l = m.tree.length;
+        let cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
+        let l = m.tree.length;
         Sound.play(this.navSound);
         if (Math.abs(delta) > 1) {
-            var n = this.currentIndex + delta;
+            let n = this.currentIndex + delta;
             this.rowOffset = Math.max(0, Math.min(this.rowOffset + delta, l - cap));
             if (n < 0) {
                 this.currentIndex = 0;
@@ -277,13 +277,13 @@ class Menu {
      * @param {Number} delta Difference. Usually -1 or +1.
      */
     changeValue(delta) {
-        var m = this.getCurrentMenu();
-        var menuItem = m.tree[this.currentIndex];
+        let m = this.getCurrentMenu();
+        let menuItem = m.tree[this.currentIndex];
         if (menuItem) {
             if (menuItem.control) {
                 if (menuItem.control === "slider") {
                     if (menuItem.values) {
-                        var index = menuItem.values.indexOf(menuItem.state);
+                        let index = menuItem.values.indexOf(menuItem.state);
                         index += delta;
                         index = Util.bound(0, index, menuItem.values.length - 1);
                         menuItem.state = menuItem.values[index];
@@ -310,7 +310,7 @@ class Menu {
             console.log("Trying to apply settings to non-control menu item!");
             return;
         }
-        var settingValue = menuItem.control === "radio" ? menuItem.stateVar : menuItem.state;
+        let settingValue = menuItem.control === "radio" ? menuItem.stateVar : menuItem.state;
         Settings.set(menuItem.statePath, settingValue);
         if (menuItem.vpField) {
             eval("this.vp." + menuItem.vpField + " = settingValue;");
@@ -321,15 +321,15 @@ class Menu {
      * Menu interface draw function.
      */
     draw() {
-        var context = this.vp.context;
+        let context = this.vp.context;
 
         if (GameEvent.checkEvent("valentine")) {
-            var obj = EVENT.valentine.res.object;
-            var z = EVENT.valentine.res.zoom * this.vp.zoom;
+            let obj = EVENT.valentine.res.object;
+            let z = EVENT.valentine.res.zoom * this.vp.zoom;
             const c = 42;
             for (let i = 0; i < c; i++) {
-                var xD = this.vp.zoom * Math.sin(new Date().getTime() / 200 + Math.sin(i) * 42) * 5;
-                var y = (new Date().getTime() + Math.pow(Math.sin(i) * 420, 2)) % 4000 / 4000;
+                let xD = this.vp.zoom * Math.sin(new Date().getTime() / 200 + Math.sin(i) * 42) * 5;
+                let y = (new Date().getTime() + Math.pow(Math.sin(i) * 420, 2)) % 4000 / 4000;
                 context.drawImage(
                     obj,
                     this.vp.width * (i + 0.5) / c + xD - obj.width / 2 * z,
@@ -339,18 +339,18 @@ class Menu {
             }
         }
 
-        var m = this.getCurrentMenu();
-        var textMode = !!m.text;
-        var items = textMode ? m.text : m.tree;
+        let m = this.getCurrentMenu();
+        let textMode = !!m.text;
+        let items = textMode ? m.text : m.tree;
 
         context.textAlign = MENU_TEXT_ALIGN;
         context.textBaseline = "top";
 
-        var height = this.vp.zoom * (m.compact ? MENU_H_COMPACT : MENU_H);
-        var cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
+        let height = this.vp.zoom * (m.compact ? MENU_H_COMPACT : MENU_H);
+        let cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
 
         for (let i in items) {
-            var row = +i - this.rowOffset;
+            let row = +i - this.rowOffset;
             if (row >= 0 && row < cap) {
                 this.vp.setFont(FONT.menu, {
                     selected: textMode || this.currentIndex === +i,
@@ -363,10 +363,11 @@ class Menu {
                 if (textMode) {
                     continue;
                 }
+                let stateName;
                 switch (items[i].control) {
                     case "toggle":
                     case "toggleThree":
-                        var stateName = items[i].state === null ? "Partial" : items[i].state ? "On" : "Off";
+                        stateName = items[i].state === null ? "Partial" : items[i].state ? "On" : "Off";
                         if (items[i].stateNames) {
                             stateName = items[i].stateNames[stateName] || stateName;
                         }
@@ -376,7 +377,7 @@ class Menu {
                             this.vp.zoom * MENU_Y + height * row);
                         break;
                     case "slider":
-                        var stateName = items[i].state + "";
+                        stateName = items[i].state + "";
                         if (items[i].stateNames) {
                             stateName = items[i].stateNames[stateName] || stateName;
                         }
@@ -390,7 +391,7 @@ class Menu {
             }
         }
 
-        var l = items.length;
+        let l = items.length;
         if (l > cap) {
             this.vp.setFont(FONT.menu, { selected: true });
             context.strokeRect(this.vp.zoom * MENU_SCROLL_X,
@@ -401,7 +402,7 @@ class Menu {
                 this.vp.zoom * MENU_SCROLL_W, height * cap / (l - cap + 2));
         }
 
-        var description = items[this.currentIndex].description;
+        let description = items[this.currentIndex].description;
         if (description) {
             this.vp.setFont(FONT.menu, { description: true });
             this.vp.context.globalAlpha = Math.min(1, (new Date().getTime() - this.lastAction) / this.actionDelay);
@@ -411,7 +412,7 @@ class Menu {
             this.vp.context.globalAlpha = 1;
         }
 
-        var title = this.getCurrentTitle();
+        let title = this.getCurrentTitle();
         this.vp.setFont(FONT.title, { menu: true });
         this.vp.drawText(title, this.vp.zoom * MENU_X, this.vp.zoom * MENU_SUBTITLE_Y);
     }

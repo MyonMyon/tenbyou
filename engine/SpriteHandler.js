@@ -89,10 +89,10 @@ SpriteHandler.prototype.setRandomFrame = function () {
 };
 
 SpriteHandler.prototype.getFrame = function (time) {
-    var shift = { x: 0, y: 0 };
+    let shift = { x: 0, y: 0 };
     if (this.animationFrames.length) {
-        var cTime = (time + this.animationOffset) % this.animationLength;
-        var frameTime = 0;
+        let cTime = (time + this.animationOffset) % this.animationLength;
+        let frameTime = 0;
         for (let frame of this.animationFrames) {
             if (cTime >= frameTime && cTime < frame.tEnd) {
                 shift = frame;
@@ -108,8 +108,8 @@ SpriteHandler.prototype.getFrame = function (time) {
 };
 
 SpriteHandler.prototype.draw = function (context, x, y, t, z, c) {
-    var c = c || 1;
-    var img = this.getFrame(t);
+    c = c || 1;
+    let img = this.getFrame(t);
     if (this.object) {
         for (let i = 0; i < c; i++) {
             let part = (i + 1 <= c) ? 1 : (c - Math.floor(c));

@@ -4,7 +4,7 @@ class Beam extends Entity {
         this.spriteBeam = new SpriteHandler();
         this.spriteBeam.set(SPRITE.beam);
         if (spriteName) {
-            var s = spriteName.split(".");
+            let s = spriteName.split(".");
             this.spriteBeam.set(s[0]);
             if (s[1] && SPRITE.beam[s[1]]) {
                 this.spriteBeam.setPositionShift(SPRITE.beam[s[1]].x, SPRITE.beam[s[1]].y);
@@ -37,7 +37,7 @@ class Beam extends Entity {
             return;
         }
 
-        var ePos = this.world.vp.toScreenFX(this.x, this.y);
+        let ePos = this.world.vp.toScreenFX(this.x, this.y);
 
         if (this.playerSide || this.harmless) {
             context.globalAlpha = 0.4;
@@ -72,7 +72,7 @@ class Beam extends Entity {
         context.restore();
 
         if (this.world.drawHitboxes) {
-            var ePos2 = this.world.vp.toScreenFX(this.x + Math.cos(this.a0) * this.length, this.y + Math.sin(this.a0) * this.length);
+            let ePos2 = this.world.vp.toScreenFX(this.x + Math.cos(this.a0) * this.length, this.y + Math.sin(this.a0) * this.length);
             context.strokeStyle = "white";
             context.lineCap = "round";
             context.lineWidth = this.world.vp.zoom * this.width * 2;

@@ -150,7 +150,7 @@ class Entity {
     }
 
     setSpeed(newSpeed) {
-        var factor = newSpeed / this.getSpeed();
+        let factor = newSpeed / this.getSpeed();
         this.x1 *= factor;
         this.y1 *= factor;
     }
@@ -160,7 +160,7 @@ class Entity {
     }
 
     setAcceleration(newAcceleration) {
-        var factor = newAcceleration / this.getAcceleration();
+        let factor = newAcceleration / this.getAcceleration();
         this.x2 *= factor;
         this.y2 *= factor;
     }
@@ -185,7 +185,7 @@ class Entity {
 
     setAnchor(entity, useAnchorAngle) {
         if (!entity && this.anchor) {
-            var index = this.anchor.anchored.indexOf(this);
+            let index = this.anchor.anchored.indexOf(this);
             if (index >= 0) {
                 this.anchor.anchored.splice(index, 1);
                 this.x = this.anchor.x + this.x0;
@@ -246,7 +246,7 @@ class Entity {
     }
 
     headToPoint(targetX, targetY, speed, acceleration) {
-        var d = Util.distanceBetweenPoints(this.x, this.y, targetX, targetY);
+        let d = Util.distanceBetweenPoints(this.x, this.y, targetX, targetY);
         if (d !== 0)
             this.setVectors(null, null,
                 (targetX - this.x) / d * speed,
@@ -262,15 +262,15 @@ class Entity {
     }
 
     nearestEntity(type, range, angleRange, filters) {
-        var angleRange = angleRange || Math.PI;
-        var nearest = null;
-        var nearestDistance = range || this.world.height * 2;
+        angleRange = angleRange || Math.PI;
+        let nearest = null;
+        let nearestDistance = range || this.world.height * 2;
         for (let entity of this.world.entities) {
             if ((entity instanceof type && ((type === Projectile && !entity.playerSide) || type !== Projectile)) || type === null) {
                 if (entity !== this &&
                     Util.distanceBetweenEntities(this, entity) < nearestDistance &&
                     Math.abs(Util.angleBetweenEntities(this, entity) - this.getAngle()) <= angleRange) {
-                    var complete = true;
+                    let complete = true;
                     if (filters) {
                         for (let j in filters) {
                             if (entity[j]) {
@@ -289,7 +289,7 @@ class Entity {
     }
 
     shootProjectile(angle, distance, speed, acceleration, width, sprite, anchored) {
-        var p = new Projectile(this.world,
+        let p = new Projectile(this.world,
             (anchored ? 0 : this.x) + distance * Math.cos(angle),
             (anchored ? 0 : this.y) + distance * Math.sin(angle),
             Math.cos(angle) * speed,
@@ -311,13 +311,13 @@ class Entity {
     }
 
     shootProjectileAt(target, distance, speed, acceleration, width, sprite, anchored) {
-        var angle = Util.angleBetweenEntities(this, target);
+        let angle = Util.angleBetweenEntities(this, target);
         return this.shootProjectile(angle, distance, speed, acceleration, width, sprite, anchored);
     }
 
     arcProjectiles(centerAngle, rangeAngle, count, distance, speed, acceleration, width, sprite, anchored) {
-        var rCount = count;
-        var dAngle = 0;
+        let rCount = count;
+        let dAngle = 0;
         if (rangeAngle === null) {
             rangeAngle = Math.PI * 2;
         }
@@ -325,9 +325,9 @@ class Entity {
             --rCount;
             dAngle = -rangeAngle / 2;
         }
-        var ps = [];
+        let ps = [];
         for (let i = 0; i < count; i++) {
-            var a = Util.iterate(centerAngle, i) + dAngle + i * rangeAngle / rCount;
+            let a = Util.iterate(centerAngle, i) + dAngle + i * rangeAngle / rCount;
             ps.push(this.shootProjectile(a,
                 Util.iterate(distance, i),
                 Util.iterate(speed, i),
@@ -355,7 +355,7 @@ class Entity {
     }
 
     dropBonus(angle, distance, cat) {
-        var p = cat === "power" && this.world.player.power >= this.world.player.powerMax;
+        let p = cat === "power" && this.world.player.power >= this.world.player.powerMax;
         return new Bonus(
             this.world,
             this.x + Math.cos(angle) * distance,

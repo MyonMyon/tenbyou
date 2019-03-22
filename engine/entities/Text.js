@@ -9,10 +9,10 @@ class Text extends Entity {
     }
 
     draw(context) {
-        var ePos = this.world.vp.toScreenFX(this.x, this.y);
+        let ePos = this.world.vp.toScreenFX(this.x, this.y);
         context.textAlign = "center";
         context.globalAlpha = Math.max(0, Math.min(1, (this.removeTime - this.lifetime) * 6));
-        var d = {};
+        let d = {};
         if (this.max) {
             d[this.cat + "Max"] = true;
         } else {

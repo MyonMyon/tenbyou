@@ -9,9 +9,9 @@ class Bonus extends Entity {
     }
 
     draw(context) {
-        var minHeight = -this.world.height / 2 + 3;
-        var offScreen = this.y < minHeight;
-        var ePos = this.world.vp.toScreenFX(this.x, offScreen ? minHeight : this.y);
+        let minHeight = -this.world.height / 2 + 3;
+        let offScreen = this.y < minHeight;
+        let ePos = this.world.vp.toScreenFX(this.x, offScreen ? minHeight : this.y);
         this.sprite.setPositionShift(offScreen * SPRITE.bonus.offScreen.x || 0, offScreen * SPRITE.bonus.offScreen.y || 0);
 
         context.save();
@@ -34,9 +34,9 @@ class Bonus extends Entity {
             this.remove();
 
         //reflect
-        var offScreen = Math.abs(this.x) - this.world.width / 2;
+        let offScreen = Math.abs(this.x) - this.world.width / 2;
         if (offScreen > 0) {
-            var offSpeed = offScreen * 5; //show on screen in 0.2 seconds
+            let offSpeed = offScreen * 5; //show on screen in 0.2 seconds
             if (Math.abs(this.x1) > offSpeed) {
                 this.x1 = -this.x1;
             } else {
@@ -45,7 +45,7 @@ class Bonus extends Entity {
         }
 
         //collision
-        var d = Util.distanceBetweenEntities(this, this.world.player);
+        let d = Util.distanceBetweenEntities(this, this.world.player);
 
         if (this.autoGather)
             this.headToEntity(this.world.player, 120, 0);
@@ -57,12 +57,12 @@ class Bonus extends Entity {
         if (d < this.world.player.gatherWidthFinal) {
             Sound.play(SFX.itemCollect);
             this.remove();
-            var oldScore = this.world.player.score;
-            var oldPower = this.world.player.power;
-            var max = this.world.player.isMaxBonus();
-            var mx = max ? 1 : 0.5;
+            let oldScore = this.world.player.score;
+            let oldPower = this.world.player.power;
+            let max = this.world.player.isMaxBonus();
+            let mx = max ? 1 : 0.5;
 
-            var ref = BONUS[this.cat];
+            let ref = BONUS[this.cat];
             if (ref.points) {
                 this.world.player.points += ref.points;
             }
@@ -70,7 +70,7 @@ class Bonus extends Entity {
                 this.world.player.gatherValue += ref.gatherValue;
             }
             if (ref.power) {
-                var p = ref.power;
+                let p = ref.power;
                 if (ref.itemLinePenalty) {
                     p *= mx;
                 }
@@ -89,18 +89,18 @@ class Bonus extends Entity {
                 }
             }
             if (ref.score) {
-                var s = ref.score;
+                let s = ref.score;
                 if (ref.itemLinePenalty) {
                     s *= mx;
                 }
                 this.world.player.score += s;
             }
 
-            var score = this.world.player.score - oldScore;
-            var power = this.world.player.power - oldPower;
-            var cat = score ? "point" : "power";
+            let score = this.world.player.score - oldScore;
+            let power = this.world.player.power - oldPower;
+            let cat = score ? "point" : "power";
             if (score || power) {
-                var t = this.world.lastText;
+                let t = this.world.lastText;
                 if (t && t.lifetime <= 0.04 && t.max === max && t.cat === cat) {
                     t.content = +t.content + (score || power);
                     if (power) {

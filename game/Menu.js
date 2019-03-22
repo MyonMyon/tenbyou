@@ -126,9 +126,9 @@ const MENU = {
             title: "Restart",
             shortcut: "KeyR",
             action: function () {
-                var diff = this.vp.world.difficulty;
-                var spell = this.vp.world.spell;
-                var char = this.vp.world.player.name;
+                let diff = this.vp.world.difficulty;
+                let spell = this.vp.world.spell;
+                let char = this.vp.world.player.name;
                 this.fadeOut = new Date().getTime();
                 this.vp.world = new World(this.vp);
                 this.vp.world.setPlayer(char);
@@ -183,7 +183,7 @@ for (let i in DIFF) {
         });
     }
 }
-var spellNumber = 0;
+let spellNumber = 0;
 for (let i in SPELL) {
     spellNumber = SPELL[i].number || spellNumber;
     for (let j in SPELL[i].names) {

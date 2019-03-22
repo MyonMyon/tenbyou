@@ -71,12 +71,12 @@ const CHAR = {
             turret: {
                 width: 2,
                 behavior: function () {
-                    var a = -Math.PI / 2 - (this.count - 1) * Math.PI / 8 + this.index * Math.PI / 4;
+                    let a = -Math.PI / 2 - (this.count - 1) * Math.PI / 8 + this.index * Math.PI / 4;
                     this.x0 = Math.cos(a) * (this.player.focused ? 6 : 12);
                     this.y0 = Math.sin(a) * 6;
                 },
                 onShoot: function () {
-                    var bullet = this.shootProjectile(-Math.PI / 2, 4, 480, 0, 2, "strike.blue");
+                    let bullet = this.shootProjectile(-Math.PI / 2, 4, 480, 0, 2, "strike.blue");
                     bullet.playerSide = true;
                     bullet.damage = (1 + this.player.damageInc) / (this.count + this.player.damageInc);
                 }
@@ -84,12 +84,12 @@ const CHAR = {
             turretAimed: {
                 width: 2,
                 behavior: function () {
-                    var a = -Math.PI / 2 - (this.count - 1) * Math.PI / 8 + this.index * Math.PI / 4;
+                    let a = -Math.PI / 2 - (this.count - 1) * Math.PI / 8 + this.index * Math.PI / 4;
                     this.x0 = Math.cos(a) * (this.player.focused ? 6 : 12);
                     this.y0 = Math.sin(a) * 6;
                 },
                 onShoot: function () {
-                    var bullet = this.shootProjectile(-Math.PI / 2, 4, 480, 0, 2, "strike.red");
+                    let bullet = this.shootProjectile(-Math.PI / 2, 4, 480, 0, 2, "strike.red");
                     bullet.playerSide = true;
                     bullet.damage = 1.5 * (1 + this.player.damageInc) / (this.count + this.player.damageInc);
                     if (this.player.focused) {
@@ -105,7 +105,7 @@ const CHAR = {
             turretAuto: {
                 width: 2,
                 onHit: function () {
-                    var t = this.lifetime;
+                    let t = this.lifetime;
                     if (this.restoreAt && this.restoreAt > t && this.vulnerableAt < t) {
                         this.destroy();
                     }
@@ -116,7 +116,7 @@ const CHAR = {
                     if (this.restoreAt && this.restoreAt > this.lifetime) {
                         return;
                     }
-                    var bullet = this.shootProjectile(this.angle, 4, 480, 0, 2, "strike.yellow");
+                    let bullet = this.shootProjectile(this.angle, 4, 480, 0, 2, "strike.yellow");
                     bullet.playerSide = true;
                     bullet.damage = this.damage;
                 }
@@ -129,10 +129,10 @@ const CHAR = {
                 }
             }
             this.turrets = [];
-            var count = power + 1;
+            let count = power + 1;
             for (let i = 0; i < count; i++) {
-                var aimed = count > 3 && (i === 0 || i === count - 1) || count === 3 && i === 1;
-                var turret = new Weapon(this, aimed ? "turretAimed" : "turret", true);
+                let aimed = count > 3 && (i === 0 || i === count - 1) || count === 3 && i === 1;
+                let turret = new Weapon(this, aimed ? "turretAimed" : "turret", true);
                 turret.index = i;
                 turret.count = count;
                 turret.invulnerable = true;
@@ -148,7 +148,7 @@ const CHAR = {
             this.world.clearField(20);
         },
         onSpecial: function () {
-            var turret = new Weapon(this, "turretAuto", false);
+            let turret = new Weapon(this, "turretAuto", false);
             turret.on(this.shotCooldownDefault, function () {
                 this.onShoot();
             }).repeat(this.shotCooldownDefault);

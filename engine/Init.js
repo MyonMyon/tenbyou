@@ -90,29 +90,29 @@ function init() {
     } catch (ex) {
         console.error(ex);
     }
-    var vp;
-    var loadPriority = function () {
+    let vp;
+    let loadPriority = function () {
         loadResources(PRIORITY_CODE, "script", "", ".js", "priority code", null, loadEngine);
     };
-    var loadEngine = function () {
+    let loadEngine = function () {
         for (let i in FONT_FILES) {
             getFont(FONT_FILES[i]);
         }
         vp = new ViewPort();
         loadResources(ENGINE_CODE, "script", "engine/", ".js", "engine code", vp, loadGame, true);
     };
-    var loadGame = function () {
+    let loadGame = function () {
         getIcon(ICON);
         loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, loadSprites, true);
     };
-    var loadSprites = function () {
+    let loadSprites = function () {
         getCutIns();
         loadResources(getFiles(IMAGE_LOAD), "img", SPRITE_FOLDER, "", "sprites", vp, loadSfx);
     };
-    var loadSfx = function () {
+    let loadSfx = function () {
         loadResources(getFiles(SFX_LOAD), "audio", SFX_FOLDER, "", "SFX", vp, loadEnd);
     };
-    var loadEnd = function () {
+    let loadEnd = function () {
         onLoad();
         vp.onLoad();
     };
@@ -137,11 +137,11 @@ function init() {
 function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextHandler, onFinish, sync, resAdd) {
     resAdd = resAdd || 0;
     document.getElementsByTagName("title")[0].innerHTML = "Loading";
-    var totalRes = nameArray.length + resAdd;
-    var loadedRes = resAdd;
-    var fail = false;
+    let totalRes = nameArray.length + resAdd;
+    let loadedRes = resAdd;
+    let fail = false;
     mainLoop: for (let name of nameArray) {
-        var s = document.createElement(elementTag);
+        let s = document.createElement(elementTag);
         if (name.file) {
             for (let name2 in nameArray) {
                 if (name2.object && name2.file === name.file) {
@@ -154,7 +154,7 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
         }
         s.src = prefix + (name.file || name) + postfix + "?v=" + ENGINE_VERSION;
 
-        var success = elementTag === "audio" ? "onloadeddata" : "onload";
+        let success = elementTag === "audio" ? "onloadeddata" : "onload";
         s[success] = function () {
             loadedRes++;
             document.getElementsByTagName("title")[0].innerHTML = "Loading " + tag + " " + loadedRes + "/" + totalRes;
@@ -195,7 +195,7 @@ function getIcon() {
         "png": "image/png",
         "svg": "image/svg+xml"
     };
-    var s = document.createElement("link");
+    let s = document.createElement("link");
     s.rel = "shortcut icon";
     s.href = ICON + "?v=" + ENGINE_VERSION;
     s.type = MIME[ICON.split(".")[1]];
@@ -211,7 +211,7 @@ function getCutIns() {
                     if (k.indexOf("Dialogue") >= 0) {
                         for (let data of event.boss[k]) {
                             //deepest loop I ever created...
-                            var s = data.sprite;
+                            let s = data.sprite;
                             if (s && !CUT_IN[s]) {
                                 CUT_IN[s] = {
                                     file: CUT_IN_FOLDER_NAME + s
@@ -226,11 +226,11 @@ function getCutIns() {
 }
 
 function getFont(data) {
-    var obj = {
+    let obj = {
         "font-family": data.name,
         "src": "url(" + FONT_FOLDER + data.file + "?v=" + ENGINE_VERSION + ")"
     };
-    var s = document.getElementsByTagName("style")[0];
+    let s = document.getElementsByTagName("style")[0];
     s.innerHTML += "\n@font-face " + JSON.stringify(obj).replace(/,/g, ";").replace(/\"/g, "");
 }
 
@@ -239,9 +239,9 @@ function getFont(data) {
  * @returns {Array} Array of image resource files.
  */
 function getFiles(input) {
-    var files = [];
+    let files = [];
     for (let data of input) {
-        var o = window[data.object];
+        let o = window[data.object];
         for (let i in o) {
             getFile(o[i], data, files);
             if (data.checkInside) {

@@ -13,7 +13,7 @@ class MainMenu extends Menu {
 
         this.tree = MENU.main.tree;
 
-        var aliases = this.vp.input.actionsAliases;
+        let aliases = this.vp.input.actionsAliases;
         for (let i in aliases) {
             if (["interaction", "misc"].indexOf(aliases[i].category) >= 0) {
                 MENU.input.text.push(i.toTitleCase() + ": " + this.vp.input.getKeyByAction(i, true));
@@ -71,7 +71,7 @@ class MainMenu extends Menu {
     draw() {
         this.vp.context.globalAlpha = this.getFade();
 
-        var o = SPRITE.menuBackground.object;
+        let o = SPRITE.menuBackground.object;
         this.vp.context.drawImage(o, 0, 0, o.width, o.height, 0, 0, WIDTH * this.vp.zoom, HEIGHT * this.vp.zoom);
 
         super.draw();

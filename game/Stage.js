@@ -20,7 +20,7 @@ var STAGE = [{
         repeatCount: [5, 7, 9, 11],
         func: function () {
             for (let i = 0; i < 2; i++) { //two sides
-                var fairy = new Enemy(this,
+                let fairy = new Enemy(this,
                     (i === 0 ? -this.width - 4 : this.width + 4) / 2,
                     -this.height / 2 - 2,
                     (i === 0 ? 20 : -20),
@@ -34,7 +34,7 @@ var STAGE = [{
                 }
                 fairy.bulletSprite = i ? "static.blue" : "static.red"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
                 fairy.on(0.7, function () { //and now let's code the fairy's shooting event!
-                    var bullet = this.shootProjectileAt(this.world.player, 0, 0, 100, 2, this.bulletSprite);
+                    let bullet = this.shootProjectileAt(this.world.player, 0, 0, 100, 2, this.bulletSprite);
                     bullet.behavior = function () {
                         if (Util.vectorLength(this.x1, this.y1) > 60) {
                             this.setVectors(null, null, null, null, 0, 0);
@@ -49,12 +49,12 @@ var STAGE = [{
         repeatInterval: 1.2,
         repeatCount: 10,
         func: function (iter) {
-            var x = this.width * (-1 / 4 + Math.min(iter, 9 - iter) % 5 / 8);
-            var y = -this.height * 0.45;
-            var kedama = new Enemy(this, x, y, 0, 12, 0, 0, 4, 12, "kedamaMinion");
+            let x = this.width * (-1 / 4 + Math.min(iter, 9 - iter) % 5 / 8);
+            let y = -this.height * 0.45;
+            let kedama = new Enemy(this, x, y, 0, 12, 0, 0, 4, 12, "kedamaMinion");
             kedama.addDrops("point", 2);
             kedama.on(1.5, function (i) {
-                var shootInterval = 30 - this.world.difficulty * 6;
+                let shootInterval = 30 - this.world.difficulty * 6;
                 if (i % shootInterval >= 8) {
                     //pause every 8 shots
                     return;
@@ -75,11 +75,11 @@ var STAGE = [{
         repeatInterval: 1.2,
         repeatCount: 20,
         func: function (iter) {
-            var r = (iter % 10 < 5) ? -1 : 1;
+            let r = (iter % 10 < 5) ? -1 : 1;
             for (let p = 0; p < 2; ++p) {
-                var y = -this.height / 2 - 5;
-                var x = r * (this.width / 3 + p * 10);
-                var kedamaPaired = new Enemy(this, x, y, -r * 2, 30, -r * 12, 0, 4, 12, "kedamaMinion");
+                let y = -this.height / 2 - 5;
+                let x = r * (this.width / 3 + p * 10);
+                let kedamaPaired = new Enemy(this, x, y, -r * 2, 30, -r * 12, 0, 4, 12, "kedamaMinion");
                 kedamaPaired.addDrops(p ? "point" : "power");
                 kedamaPaired.on(0.6, function (i) {
                     this.shootProjectileAt(this.world.player, this.width, 60, 0, 2, "kunai.purple");
@@ -130,10 +130,10 @@ var STAGE = [{
         repeatInterval: 1.5,
         repeatCount: 15,
         func: function (iter) {
-            var x = Random.nextFloat(this.width - 40) - this.width / 2 + 20;
-            var y = -this.height / 2 + 20;
+            let x = Random.nextFloat(this.width - 40) - this.width / 2 + 20;
+            let y = -this.height / 2 + 20;
             if (iter % 5 < 3) {
-                var orb = new Enemy(this, x, y, 0, 6, 0, 0, 2, 25, "orbMinion");
+                let orb = new Enemy(this, x, y, 0, 6, 0, 0, 2, 25, "orbMinion");
                 orb.appearanceTime = 1;
                 orb.addDrops("power");
                 orb.addDrops("point");
@@ -141,7 +141,7 @@ var STAGE = [{
                     this.shootProjectileAt(this.world.player, this.width, 50 + this.world.difficulty * 10, 0, 2, "strike.red");
                 }).repeat(0.75 - this.difficulty * 0.1);
             } else {
-                var mine = new Enemy(this, x, y, 0, 3, 0, 0, 4, 1, "landMine");
+                let mine = new Enemy(this, x, y, 0, 3, 0, 0, 4, 1, "landMine");
                 mine.appearanceTime = 1;
                 mine.onDestroy = function () {
                     this.arcProjectiles(function () {
@@ -161,7 +161,7 @@ var STAGE = [{
             if (iter === 0) {
                 this.removeEnemies(); //cleanup after orbs
             }
-            var stone = new Enemy(this,
+            let stone = new Enemy(this,
                 this.width * (Random.nextFloat() - 0.5) * 0.8, -this.height / 2 - 3,
                 0, 30 + this.difficulty * 6,
                 0, 60,
@@ -174,12 +174,12 @@ var STAGE = [{
         repeatInterval: 1,
         repeatCount: 20,
         func: function (iter) {
-            var r = (iter % 2) ? -1 : 1;
-            var x = r * (this.width / 2 - 10);
-            var y = Math.min(this.height / 2 - 2,
+            let r = (iter % 2) ? -1 : 1;
+            let x = r * (this.width / 2 - 10);
+            let y = Math.min(this.height / 2 - 2,
                 Math.max(-this.height / 2 + 2,
                     this.player.y - 15 + Random.nextFloat(30)));
-            var sideFairy = new Enemy(this, x, y, -r * 15, 0, r * 15, 0, 2, [1, 2, 5, 10], "fairyBlue");
+            let sideFairy = new Enemy(this, x, y, -r * 15, 0, r * 15, 0, 2, [1, 2, 5, 10], "fairyBlue");
             sideFairy.appearanceTime = 1;
             sideFairy.addDrops("point", 2);
             sideFairy.on(1.2, function (i) {
@@ -196,8 +196,8 @@ var STAGE = [{
         repeatInterval: 2,
         repeatCount: 10,
         func: function (iter) {
-            var r = (iter % 2) ? -1 : 1;
-            var fairyTurret = new Enemy(this,
+            let r = (iter % 2) ? -1 : 1;
+            let fairyTurret = new Enemy(this,
                 r * (this.width / 2 + 1), -this.height / 2 - 1,
                 -r * 30, 30,
                 r * 15, -15,
@@ -207,8 +207,8 @@ var STAGE = [{
                 this.savedPoint = { x: this.x, y: this.y };
             });
             fairyTurret.on(1.8, function (i) {
-                var a = Util.toAngle((iter % 2) ? "e" : "w") + Math.PI / 2 * -r * ((i - 2) / 12);
-                var p = new Projectile(this.world,
+                let a = Util.toAngle((iter % 2) ? "e" : "w") + Math.PI / 2 * -r * ((i - 2) / 12);
+                let p = new Projectile(this.world,
                     this.savedPoint.x, this.savedPoint.y,
                     Math.cos(a) * 10, Math.sin(a) * 10,
                     Math.cos(a) * 15, Math.sin(a) * 15,
@@ -273,8 +273,8 @@ var STAGE = [{
         repeatInterval: 1,
         repeatCount: 12,
         func: function (iter) {
-            var r = (iter % 2) ? -1 : 1;
-            var fairyTurret = new Enemy(this,
+            let r = (iter % 2) ? -1 : 1;
+            let fairyTurret = new Enemy(this,
                 r * (this.width / 2 + 1), -this.height / 2 - 1,
                 -r * 30, 30,
                 r * 15, -15,
@@ -285,15 +285,15 @@ var STAGE = [{
                 this.setVectors(null, null, 0, 0, 0, 0);
             });
             fairyTurret.on(0.6, function () {
-                var a = this.shootProjectileAt(this.savedPoint, 4, 50, 0, 0);
+                let a = this.shootProjectileAt(this.savedPoint, 4, 50, 0, 0);
                 for (let i = 0; i < 2; ++i) {
-                    var b = new Projectile(this.world, 0, 0, 0, 0, 0, 0, 2, false, i ? "strike.blue" : "strike.red");
+                    let b = new Projectile(this.world, 0, 0, 0, 0, 0, 0, 2, false, i ? "strike.blue" : "strike.red");
                     b.setAnchor(a, true);
                     b.maxDistance = i ? -10 : 10;
                     b.behavior = function () {
                         if (this.anchor) {
-                            var angle = this.anchor.getAngle();
-                            var d = Math.sin(this.lifetime * 4) * this.maxDistance;
+                            let angle = this.anchor.getAngle();
+                            let d = Math.sin(this.lifetime * 4) * this.maxDistance;
                             this.x0 = Math.cos(angle - Math.PI / 2) * d;
                             this.y0 = Math.sin(angle - Math.PI / 2) * d;
                         }
@@ -310,8 +310,8 @@ var STAGE = [{
         repeatInterval: 2,
         repeatCount: 10,
         func: function (iter) {
-            var r = (iter % 2) ? -1 : 1;
-            var eye = new Enemy(this,
+            let r = (iter % 2) ? -1 : 1;
+            let eye = new Enemy(this,
                 r * (this.width / 2 + 1), -this.height / 2 - 1,
                 -r * 40, 20,
                 r * 3, -5,
@@ -319,8 +319,8 @@ var STAGE = [{
             eye.addDrops("power");
             eye.addDrops("point", 2);
             eye.on(0.2, function () {
-                var a = this.shootProjectileAt(this.world.player, 5, 50, 0, 0);
-                var count = 4 + this.world.difficulty * 2;
+                let a = this.shootProjectileAt(this.world.player, 5, 50, 0, 0);
+                let count = 4 + this.world.difficulty * 2;
                 a.arcProjectiles(Util.toAngle("s"), null, count, 0, 10, 0, 2, ["static.yellow", "static.red"], true);
             }).repeat(1);
         }
@@ -335,7 +335,7 @@ var STAGE = [{
         },
         func: function () {
             for (let i = 0; i < 2; i++) { //two sides
-                var fairy = new Enemy(this,
+                let fairy = new Enemy(this,
                     (i === 0 ? -this.width - 4 : this.width + 4) / 2,
                     -this.height / 2 - 2,
                     (i === 0 ? 20 : -20),
@@ -349,7 +349,7 @@ var STAGE = [{
                 }
                 fairy.bulletSprite = i ? "eyeBlue" : "eyeRed"; //left fairy will shoot red eyes, right — the blue ones (this property is not from this class, feel free to use custom names for your purposes)
                 fairy.on(0.7, function () { //and now let's code the fairy's shooting event!
-                    var bullet = this.shootProjectileAt(this.world.player, 0, 0, 75, 2, this.bulletSprite);
+                    let bullet = this.shootProjectileAt(this.world.player, 0, 0, 75, 2, this.bulletSprite);
                     bullet.behavior = function () { //and bullet's behavior (executes every tick)!
                         if (Util.vectorLength(this.x1, this.y1) > 45) //if speed > 45 unit/s
                             this.setVectors(null, null, null, null, 0, 0); //stop accelerating
@@ -381,8 +381,8 @@ var STAGE = [{
         repeatInterval: 2,
         repeatCount: 5,
         func: function (iter) {
-            var r = (iter % 2) ? -1 : 1;
-            var eye = new Enemy(this,
+            let r = (iter % 2) ? -1 : 1;
+            let eye = new Enemy(this,
                 r * (this.width / 2 + 1), -this.height / 2 - 1,
                 -r * 40, 20,
                 r * 3, -5,
@@ -390,11 +390,11 @@ var STAGE = [{
             eye.addDrops("power", 2);
             eye.addDrops("point", 3);
             eye.on(0.2, function (iter) {
-                var a = this.shootProjectileAt(this.world.player, 5, 50, 0, 0);
-                var count = 4 + this.world.difficulty * 2;
-                var b = a.arcProjectiles(Util.toAngle("s"), null, count, 0, 0, 0, 2, ["static.yellow", "static.red"], true);
+                let a = this.shootProjectileAt(this.world.player, 5, 50, 0, 0);
+                let count = 4 + this.world.difficulty * 2;
+                let b = a.arcProjectiles(Util.toAngle("s"), null, count, 0, 0, 0, 2, ["static.yellow", "static.red"], true);
                 for (let i in b) {
-                    var angle = i / count * Math.PI * 2;
+                    let angle = i / count * Math.PI * 2;
                     b[i].setPolarVectors(angle, 1, 0, 20, Math.PI / 4 * (iter % 2 ? -1 : 1), -10);
                 }
             }).repeat(1);
@@ -452,8 +452,8 @@ var STAGE = [{
         repeatCount: 12,
         func: function (iter) {
             this.startShake(0.3, 10);
-            var r = (iter % 2) ? -1 : 1;
-            var fairyTurret = new Enemy(this,
+            let r = (iter % 2) ? -1 : 1;
+            let fairyTurret = new Enemy(this,
                 r * (this.width / 2 + 1), -this.height / 2 - 1,
                 -r * 30, 30,
                 r * 15, -15,
@@ -461,11 +461,11 @@ var STAGE = [{
             fairyTurret.addDrops("power");
             fairyTurret.on(1.5, function (iter) {
                 this.setVectors(null, null, 0, 0, 0, 0);
-                var p = this.shootProjectileAt(this.world.player, 5, 0, 0, 2, "strike.red");
+                let p = this.shootProjectileAt(this.world.player, 5, 0, 0, 2, "strike.red");
                 p.approachEntity(this.world.player, 60 + this.world.difficulty * 20);
                 p.behavior = function () {
                     if (this.getSpeed() < 1) {
-                        var px = this.shootProjectile(0, 0, 0, 0, 0, "nuclear");
+                        let px = this.shootProjectile(0, 0, 0, 0, 0, "nuclear");
                         px.setWidthVectors(2, 20, -32 + this.world.difficulty * 6);
                         px.behavior = function () {
                             if (this.width < 0) {
@@ -486,8 +486,8 @@ var STAGE = [{
         repeatInterval: 1,
         repeatCount: 12,
         func: function (iter) {
-            var r = (iter % 2) ? -1 : 1;
-            var fairyTurret = new Enemy(this,
+            let r = (iter % 2) ? -1 : 1;
+            let fairyTurret = new Enemy(this,
                 r * (this.width / 2 + 1), -this.height / 2 - 1,
                 -r * 30, 30,
                 r * 15, -15,

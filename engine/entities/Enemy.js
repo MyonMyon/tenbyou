@@ -25,7 +25,7 @@ class Enemy extends Entity {
     }
 
     draw(context) {
-        var ePos = this.world.vp.toScreenFX(this.x, this.y);
+        let ePos = this.world.vp.toScreenFX(this.x, this.y);
 
         context.save();
         if (this.lifetime < this.appearanceTime) {
@@ -60,11 +60,11 @@ class Enemy extends Entity {
             this.drawBossWheel(context, 24, 0, 1, BOSS_WHEEL_COLOR, BOSS_WHEEL_WIDTH);
             this.drawBossWheel(context, 25, 0, 1, BOSS_WHEEL_COLOR, BOSS_WHEEL_WIDTH);
 
-            var sectionsS = this.attackGroups[this.attackGroupCurrent].spells;
-            var sectionsN = this.attackGroups[this.attackGroupCurrent].nonspells;
-            var thisSection = this.attackCurrent - this.attackGroups[this.attackGroupCurrent].start;
+            let sectionsS = this.attackGroups[this.attackGroupCurrent].spells;
+            let sectionsN = this.attackGroups[this.attackGroupCurrent].nonspells;
+            let thisSection = this.attackCurrent - this.attackGroups[this.attackGroupCurrent].start;
 
-            var fullWheel = (sectionsS === 0 || sectionsN === 0);
+            let fullWheel = (sectionsS === 0 || sectionsN === 0);
 
             for (let i = thisSection; i < sectionsN; ++i)
                 this.drawBossWheel(context, 23,
@@ -77,9 +77,9 @@ class Enemy extends Entity {
                     (i + 1) / sectionsS * (fullWheel ? 1 : 0.25) + (fullWheel ? 0 : 0.75),
                     (i % 2 === 0) ? BOSS_HEALTH_SPELL_COLOR : BOSS_HEALTH_SPELL_ALT_COLOR, BOSS_HEALTH_WIDTH);
 
-            var rt = this.lifetime;
-            var at = this.attacks[this.attackCurrent].time;
-            var dt = this.attacks[this.attackCurrent].decrTime;
+            let rt = this.lifetime;
+            let at = this.attacks[this.attackCurrent].time;
+            let dt = this.attacks[this.attackCurrent].decrTime;
             if (this.attacks[this.attackCurrent].spell && this.world.player.spellCompleteTerms) { //for spells 
                 if (rt < dt) {
                     this.drawBossWheel(context, 24.5, rt / at, dt / at, BOSS_TIMER_ALT_COLOR, BOSS_TIMER_WIDTH);
@@ -92,7 +92,7 @@ class Enemy extends Entity {
 
     drawBossWheel(context, r, from, to, color, lineWidth) {
         if (from !== to) {
-            var ePos = this.world.vp.toScreenFX(this.x, this.y);
+            let ePos = this.world.vp.toScreenFX(this.x, this.y);
             context.lineWidth = lineWidth * this.world.vp.zoom;
             context.strokeStyle = color;
 
@@ -104,7 +104,7 @@ class Enemy extends Entity {
     }
 
     step() {
-        var l = this.lifetime;
+        let l = this.lifetime;
         super.step();
         if (l < this.appearanceTime && this.lifetime >= this.appearanceTime) {
             this.world.splash(this, this.initialHealth / 5, 8, 0.33);
@@ -178,18 +178,18 @@ class Enemy extends Entity {
         if (this.attackCurrent === null)
             this.behavior();
         else if (this.attackCurrent < this.attacks.length) {
-            var rt = this.lifetime;
-            var at = this.attacks[this.attackCurrent].time;
-            var dt = this.attacks[this.attackCurrent].decrTime;
-            var bb = this.attacks[this.attackCurrent].bonusBound;
+            let rt = this.lifetime;
+            let at = this.attacks[this.attackCurrent].time;
+            let dt = this.attacks[this.attackCurrent].decrTime;
+            let bb = this.attacks[this.attackCurrent].bonusBound;
 
-            var attackTimer = Math.ceil(at - rt);
+            let attackTimer = Math.ceil(at - rt);
             if (attackTimer < 10 && attackTimer < this.lastAttackTimer) {
                 Sound.play(SFX.timer);
             }
             this.lastAttackTimer = attackTimer;
 
-            var b = this.attacks[this.attackCurrent].bonus;
+            let b = this.attacks[this.attackCurrent].bonus;
             this.bonus = parseInt(Math.min(b, bb + (b - bb) * (at - rt) / (at - dt)) / 10, 10) * 10;
             if (this.attacks[this.attackCurrent].func) {
                 this.attacks[this.attackCurrent].func.apply(this, this.attacks[this.attackCurrent].params);
@@ -229,7 +229,7 @@ class Enemy extends Entity {
             return;
         }
 
-        var healthOld = this.health;
+        let healthOld = this.health;
         this.health -= damage;
 
         if (this.health < this.initialHealth / 5) {
@@ -266,8 +266,8 @@ class Enemy extends Entity {
         //decrTime - time when bonus counter start to decrease
         //bonusBound - bonus gotten in the last moment
         //newGroup - forced start of a new group of attacks
-        var n = this.attacks.length;
-        var m = this.attackGroups.length - 1;
+        let n = this.attacks.length;
+        let m = this.attackGroups.length - 1;
 
         if (n === 0 || (this.attacks[n - 1].spell && !spell) || newGroup)
             this.attackGroups[++m] = { start: n, nonspells: 0, spells: 0 };
@@ -307,7 +307,7 @@ class Enemy extends Entity {
             }
         }
 
-        var g = this.attackGroups[this.attackGroupCurrent];
+        let g = this.attackGroups[this.attackGroupCurrent];
         if (this.attackCurrent === null) {
             this.attackCurrent = 0;
             this.beforeAttack();

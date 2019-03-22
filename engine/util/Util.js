@@ -13,7 +13,7 @@ function Util() {
  * @return {String} String representation of value with requiered number of digits.
  */
 Util.fillWithLeadingZeros = function (data, length, overflowSlice) {
-    var d = data.toString();
+    let d = data.toString();
     while (d.length < length) {
         d = "0" + d;
     }
@@ -56,7 +56,7 @@ Util.iterate = function (data, iteration) {
  */
 Util.toAngle = function (compass) {
     compass = compass.toLowerCase();
-    var angles = "eswn";
+    let angles = "eswn";
     if (compass.length === 1) {
         return angles.indexOf(compass) * Math.PI / 2;
     }
@@ -81,9 +81,9 @@ Util.isClockwiseNearest = function (angle1, angle2) {
         angle2 += Math.PI * 2;
     }
 
-    var diff = angle2 - angle1;
+    let diff = angle2 - angle1;
 
-    var invert = diff > 0;
+    let invert = diff > 0;
     diff = Math.abs(diff);
     return (diff > Math.PI) !== invert;
 };
@@ -96,7 +96,7 @@ Util.toMeanAngle = function (compass) {
     if (!compass) {
         return null;
     }
-    var a = [];
+    let a = [];
     for (let item of compass) {
         a.push(Util.toAngle(item));
     }
@@ -108,8 +108,8 @@ Util.toMeanAngle = function (compass) {
  * @return {Number} Mean angle.
  */
 Util.meanAngle = function () {
-    var n = arguments.length;
-    var a = Object.values(arguments);
+    let n = arguments.length;
+    let a = Object.values(arguments);
     return (Math.atan2(
         Util.sum(a.map(Math.sin)) / n,
         Util.sum(a.map(Math.cos)) / n)
@@ -122,9 +122,9 @@ Util.meanAngle = function () {
  */
 Util.sum = function () {
     if (arguments[0] && arguments[0].length) {
-        var a = arguments[0];
+        let a = arguments[0];
     } else {
-        var a = Object.values(arguments);
+        let a = Object.values(arguments);
     }
     return a.reduce(function (acc, val) {
         return acc + val;
@@ -148,10 +148,10 @@ Util.collisionCheck = function (entity1, entity2, distance) {
 };
 
 Util.collisionCheckBeam = function (entityPoint, entityBeam, distance) {
-    var x1 = entityBeam.x;
-    var y1 = entityBeam.y;
-    var x2 = x1 + Math.cos(entityBeam.a0) * entityBeam.length;
-    var y2 = y1 + Math.sin(entityBeam.a0) * entityBeam.length;
+    let x1 = entityBeam.x;
+    let y1 = entityBeam.y;
+    let x2 = x1 + Math.cos(entityBeam.a0) * entityBeam.length;
+    let y2 = y1 + Math.sin(entityBeam.a0) * entityBeam.length;
     distance = (distance || 0) + entityPoint.width + entityBeam.width;
     if (entityPoint.x > x1 + distance && entityPoint.x > x2 + distance ||
         entityPoint.x < x1 - distance && entityPoint.x < x2 - distance ||
@@ -197,10 +197,10 @@ Util.formatAsDateTime = function (timestamp, format) {
         "ss": { func: "seconds", fill: 2 },
         "s": { func: "seconds" }
     };
-    var date = new Date(timestamp * 1000);
-    var result = format || "YYYY-MM-DD";
+    let date = new Date(timestamp * 1000);
+    let result = format || "YYYY-MM-DD";
     for (let i in strings) {
-        var replacement = date["get" + strings[i].func.toTitleCase()]();
+        let replacement = date["get" + strings[i].func.toTitleCase()]();
         if (strings[i].addition) {
             replacement += strings[i].addition;
         }
@@ -217,7 +217,7 @@ Util.formatAsDateTime = function (timestamp, format) {
  * @return {Number} Moon phase from 0 incusively (new moon) to 2 exclusively (next new moon). 1 is full moon.
  */
 Util.toMoonPhase = function (date) {
-    var timestamp = Math.floor(date.valueOf() / 1000);
+    let timestamp = Math.floor(date.valueOf() / 1000);
     timestamp -= Util.LUNATION_1_TIMESTAMP;
     return (timestamp % Util.SYNODIC_MONTH_SECONDS) / Util.SYNODIC_MONTH_SECONDS * 2;
 };

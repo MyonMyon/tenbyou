@@ -102,7 +102,7 @@ World.prototype.startSpellPractice = function (difficulty, spell) {
     this.player.bombs = 0;
     this.difficulty = difficulty;
     this.spell = spell;
-    var boss = new Enemy(this);
+    let boss = new Enemy(this);
     boss.addAttack(true, spell.names[difficulty], spell);
     boss.setBossData(spell.boss, true);
 };
@@ -137,8 +137,8 @@ World.prototype.initEventChain = function () {
 
 World.prototype.processBoss = function (data) {
     return function () {
-        var boss = new Enemy(this);
-        var newGroup = false;
+        let boss = new Enemy(this);
+        let newGroup = false;
         if (data.startDialogue) {
             boss.beforeAttack = function () {
                 new Dialogue(this.world, data.startDialogue);
@@ -151,7 +151,7 @@ World.prototype.processBoss = function (data) {
                 continue;
             }
             if (!a.names || a.names[this.difficulty]) {
-                var spell = !!a.names;
+                let spell = !!a.names;
                 boss.addAttack(spell, spell ? a.names[this.difficulty] : null, a, newGroup, data.attacks[i].slice(1));
             }
             newGroup = false;
@@ -223,15 +223,15 @@ World.prototype.stageBonus = function () {
     if (this.stage > 0) {
         //TODO: player/bomb/extra count
         this.player.graze = Math.floor(this.player.graze);
-        var ptsStage = this.stage * 1000;
-        var ptsPower = Math.floor(this.player.power * 1000);
-        var ptsGraze = this.player.graze * 10;
-        var mxPoints = this.player.points;
-        var bonus = Math.floor((ptsStage + ptsPower + ptsGraze) * mxPoints / 10) * 10;
+        let ptsStage = this.stage * 1000;
+        let ptsPower = Math.floor(this.player.power * 1000);
+        let ptsGraze = this.player.graze * 10;
+        let mxPoints = this.player.points;
+        let bonus = Math.floor((ptsStage + ptsPower + ptsGraze) * mxPoints / 10) * 10;
 
         this.player.score += bonus;
         this.stageEnd = this.time;
-        var styleArray = new Array(8).fill(FONT.title);
+        let styleArray = new Array(8).fill(FONT.title);
         styleArray.fill(FONT.subtitle, 1, 6);
         this.vp.showMessage([
             this.stages[this.stage].last ? "All Clear!" : "Stage Clear!",
@@ -290,8 +290,8 @@ World.prototype.tick = function () {
         this.time += 1 / this.ticksPS;
         if (this.shake.time > 0) {
             this.shake.time -= 1 / this.ticksPS;
-            var a = Math.random() * Math.PI * 2;
-            var r = Math.random() * this.shake.strength;
+            let a = Math.random() * Math.PI * 2;
+            let r = Math.random() * this.shake.strength;
             this.shake.x = Math.cos(a) * r;
             this.shake.y = Math.sin(a) * r;
         } else {
@@ -312,20 +312,20 @@ World.prototype.tick = function () {
 };
 
 World.prototype.postponeTick = function () {
-    var w = this;
+    let w = this;
     this.tickerId = setTimeout(function () {
         w.tick();
     }, 1000 / this.ticksPS);
 };
 
 World.prototype.randomBonus = function () {
-    var bonuses = [];
+    let bonuses = [];
     for (let i in BONUS) {
         if (!BONUS[i].tech) {
             bonuses.push(i);
         }
     }
-    var bonusType = Random.nextArrayElement(bonuses);
+    let bonusType = Random.nextArrayElement(bonuses);
     new Bonus(this, this.player.x, -this.height / 2 + 20, bonusType, false);
 };
 

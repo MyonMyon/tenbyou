@@ -13,7 +13,7 @@ GameEvent.RECURSION_LIMIT = 42;
  * @return {Array} Names of the ongoing events.
  */
 GameEvent.getCurrentEvents = function (valuesObject) {
-    var events = [];
+    let events = [];
     for (let i in EVENT) {
         if (GameEvent.resolveCondition(EVENT[i].condition, valuesObject)) {
             events.push(i);
@@ -49,10 +49,10 @@ GameEvent.resolveCondition = function (conditionObject, valuesObject, recursionC
         console.error("No condition");
         return false;
     }
-    var andResult = true;
+    let andResult = true;
     for (let i in conditionObject) {
         if (i === "or") {
-            var orResult = false;
+            let orResult = false;
             for (let j in conditionObject[i]) {
                 orResult = orResult || GameEvent.resolveCondition(conditionObject[i][j], valuesObject, ++recursionCount);
                 if (orResult) {
@@ -67,7 +67,7 @@ GameEvent.resolveCondition = function (conditionObject, valuesObject, recursionC
                 }
             }
         } else {
-            var value = GameEvent.getValueFromName(i, conditionObject[i], valuesObject);
+            let value = GameEvent.getValueFromName(i, conditionObject[i], valuesObject);
             andResult = andResult && GameEvent.compare(value, conditionObject[i]);
         }
     }
@@ -81,8 +81,8 @@ GameEvent.resolveCondition = function (conditionObject, valuesObject, recursionC
  * @return {*} Value for further comparison
  **/
 GameEvent.getValueFromName = function (valueName, comparisonObject, valuesObject) {
-    var value;
-    var date = new Date();
+    let value;
+    let date = new Date();
     switch (valueName) {
         case "year":
             value = date.getFullYear();
@@ -117,15 +117,15 @@ GameEvent.getValueFromName = function (valueName, comparisonObject, valuesObject
  * @return {Boolean} Result of the comparison.
  */
 GameEvent.compare = function (value, comparisonObject) {
-    var comparison = comparisonObject.comparison;
+    let comparison = comparisonObject.comparison;
     if (comparison && comparison.indexOf("char") === 0) {
         comparison = comparison.replace("char", "");
         value += "";
-        var cp = comparisonObject.charPosition;
+        let cp = comparisonObject.charPosition;
         if (cp < 0) {
             cp += value.length;
         }
-        var char = null;
+        let char = null;
         if (cp >= 0 && cp < value.length) {
             char = value[cp];
         }

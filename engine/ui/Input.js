@@ -130,7 +130,7 @@ function Input(vp) {
         this.addEventListener(eventType);
     }
     this.vp = vp;
-    var self = this;
+    let self = this;
     document.addEventListener("DOMMouseScroll", function (event) {
         self.mouseWheel(event);
     }, false);
@@ -153,7 +153,7 @@ function Input(vp) {
  * @param {String} eventType Event type which is also a method name for this object. Example: "keyDown", "mouseUp", "mouseWheel".
  */
 Input.prototype.addEventListener = function (eventType) {
-    var self = this;
+    let self = this;
     document.addEventListener(eventType.toLowerCase(), function (event) {
         self[eventType](event);
     }, false);
@@ -165,7 +165,7 @@ Input.prototype.addEventListener = function (eventType) {
  * @return {String|Array} Key code (abbreviature) or array.
  */
 Input.prototype.getKeyByAction = function (action, single) {
-    var resultArray = [];
+    let resultArray = [];
     for (let k in this.defaultMapping) {
         if (this.defaultMapping[k] === action) {
             if (single)
@@ -226,7 +226,7 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
         return false;
     }
 
-    var inMenu = !this.vp.world || this.vp.world.pause;
+    let inMenu = !this.vp.world || this.vp.world.pause;
 
     if (keyValue) {
         if (this.lockBuffer[keyAbbr]) {
@@ -239,11 +239,11 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
     }
 
     if (inMenu) {
-        var menu = this.vp.world ? this.vp.pauseMenu : this.vp.mainMenu;
+        let menu = this.vp.world ? this.vp.pauseMenu : this.vp.mainMenu;
         if (keyValue && menu.shortcut(keyAbbr)) {
             return true;
         }
-        var action = this.defaultMappingMenu[keyAbbr];
+        let action = this.defaultMappingMenu[keyAbbr];
         if (action && keyValue) {
             menu.action(action);
             return true;
@@ -254,18 +254,18 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
     }
 
     if (this.vp.world && this.vp.world.dialogue) {
-        var action = this.defaultMappingDialogue[keyAbbr];
+        let action = this.defaultMappingDialogue[keyAbbr];
         if (action && keyValue) {
             this.vp.world.dialogue[action]();
             return true;
         }
     }
 
-    var action = this.actionsAliases[this.defaultMapping[keyAbbr]];
-    var ignoreModality = action && action.vp;
+    let action = this.actionsAliases[this.defaultMapping[keyAbbr]];
+    let ignoreModality = action && action.vp;
     if (this.vp.world && !this.vp.world.pause || ignoreModality) {
         if (action) {
-            var objString = "this.vp.";
+            let objString = "this.vp.";
             if (!ignoreModality) {
                 objString += "world.";
             }
@@ -306,7 +306,7 @@ Input.prototype.action = function (keyAbbr, keyValue, displayedChar) {
 Input.prototype.stopAll = function () {
     if (this.vp.world) {
         for (let i in this.actionsAliases) {
-            var alias = this.actionsAliases[i];
+            let alias = this.actionsAliases[i];
             if (alias.mode === "keyState" && eval(this.vp.world[alias.func.split(".")[0]])) {
                 eval("this.vp.world." + alias.func + "=" + false);
             }
@@ -321,10 +321,10 @@ Input.prototype.stopAll = function () {
  * @param {Boolean} keyDown Is key pressed (or unpressed).
  */
 Input.prototype.keyEvent = function (event, keyDown) {
-    var keyCodes = [event.code];
+    let keyCodes = [event.code];
 
     // Fallback key code
-    var keyG = this.getKeyAbbr(event.keyCode);
+    let keyG = this.getKeyAbbr(event.keyCode);
     if (keyG !== keyCodes[0]) {
         keyCodes[1] = keyG;
     }
@@ -389,7 +389,7 @@ Input.prototype.mouseMove = function (event) {
  * @param {Event} event The event object to process.
  */
 Input.prototype.mouseWheel = function (event) {
-    var direction = "undef";
+    let direction = "undef";
     if (event.wheelDelta !== undefined)
         direction = event.wheelDelta > 0 ? "up" : "down";
     else

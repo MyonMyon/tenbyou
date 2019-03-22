@@ -3,7 +3,7 @@ class Projectile extends Entity {
         super(world, x, y, x1, y1, x2, y2, width);
         this.sprite.set(SPRITE.projectile);
         if (spriteName) {
-            var s = spriteName.split(".");
+            let s = spriteName.split(".");
             this.sprite.set(s[0]);
             if (s[1] && SPRITE.projectile[s[1]]) {
                 this.sprite.setPositionShift(SPRITE.projectile[s[1]].x, SPRITE.projectile[s[1]].y);
@@ -21,7 +21,7 @@ class Projectile extends Entity {
             return;
         }
 
-        var ePos = this.world.vp.toScreenFX(this.x, this.y);
+        let ePos = this.world.vp.toScreenFX(this.x, this.y);
 
         if (this.playerSide) {
             context.globalAlpha = 0.4;
@@ -30,7 +30,7 @@ class Projectile extends Entity {
         context.save();
         context.translate(ePos.x, ePos.y);
         if (this.rotate || this.angle || this.a0) {
-            var a = this.useAnchorAngle ? this.anchor.getAngle() : this.getAngle();
+            let a = this.useAnchorAngle ? this.anchor.getAngle() : this.getAngle();
             context.rotate(a - Math.PI / 2 + this.angle + this.a0);
         }
 
@@ -60,7 +60,7 @@ class Projectile extends Entity {
             this.soundPlayed = true;
         }
         if (!this.preserve) {
-            var div = this.playerSide ? 1.8 : 2;
+            let div = this.playerSide ? 1.8 : 2;
             //remove from world
             if (this.x > this.world.width / div + this.width * 2
                 || this.x < -this.world.width / div - this.width * 2

@@ -64,7 +64,7 @@ class Player extends Entity {
             "onPowerChange"
         ];
         for (let prop of propImport) {
-            var d = CHAR[charName][prop];
+            let d = CHAR[charName][prop];
             if (d) {
                 this[prop] = d;
             }
@@ -79,7 +79,7 @@ class Player extends Entity {
     }
 
     stepBot() {
-        var nearest = this.nearestEntity(Projectile, 20);
+        let nearest = this.nearestEntity(Projectile, 20);
         if (nearest !== null && !this.isInvulnerable())
             this.headToEntity(nearest, 0, -nearest.width * 20);
         else {
@@ -94,10 +94,10 @@ class Player extends Entity {
     }
 
     step() {
-        var dir = (this.moveLeft !== this.moveRight ? this.moveRight ? "e" : "w" : "") +
+        let dir = (this.moveLeft !== this.moveRight ? this.moveRight ? "e" : "w" : "") +
             (this.moveUp !== this.moveDown ? this.moveDown ? "s" : "n" : "");
-        var a = Util.toMeanAngle(dir);
-        var r = (this.focused ? this.speedFocused : this.speed) * (a !== null);
+        let a = Util.toMeanAngle(dir);
+        let r = (this.focused ? this.speedFocused : this.speed) * (a !== null);
 
         this.x1 = Math.cos(a) * r;
         this.y1 = Math.sin(a) * r;
@@ -192,9 +192,9 @@ class Player extends Entity {
                         } else if (entity.grazed < entity.damage && !this.isInvulnerable()) {
                             Sound.play(SFX.playerGraze);
                             ++this.graze;
-                            var xD = this.x - entity.x;
-                            var yD = this.y - entity.y;
-                            var s = new Particle(this.world, this.x, this.y, 0.25, 8, false, false, "spark");
+                            let xD = this.x - entity.x;
+                            let yD = this.y - entity.y;
+                            let s = new Particle(this.world, this.x, this.y, 0.25, 8, false, false, "spark");
                             s.setVectors(null, null, xD * 5, yD * 5);
                             ++entity.grazed;
                         }
@@ -209,14 +209,14 @@ class Player extends Entity {
                                 break;
                             }
                         } else if (!this.isInvulnerable()) {
-                            var grazeOld = this.graze;
+                            let grazeOld = this.graze;
                             this.graze += entity.grazePS / this.world.ticksPS;
                             if (Math.floor(grazeOld) !== Math.floor(this.graze)) {
                                 Sound.play(SFX.playerGraze);
-                                var cwmx = Util.isClockwiseNearest(entity.a0, Util.angleBetweenEntities(entity, this)) ? 1 : -1;
-                                var xD = Math.cos(entity.a0 + Math.PI / 2 * cwmx);
-                                var yD = Math.sin(entity.a0 + Math.PI / 2 * cwmx);
-                                var s = new Particle(this.world, this.x, this.y, 0.25, 8, false, false, "spark");
+                                let cwmx = Util.isClockwiseNearest(entity.a0, Util.angleBetweenEntities(entity, this)) ? 1 : -1;
+                                let xD = Math.cos(entity.a0 + Math.PI / 2 * cwmx);
+                                let yD = Math.sin(entity.a0 + Math.PI / 2 * cwmx);
+                                let s = new Particle(this.world, this.x, this.y, 0.25, 8, false, false, "spark");
                                 s.setVectors(null, null, xD * 50, yD * 50);
                                 ++entity.grazed;
                             }
@@ -228,7 +228,7 @@ class Player extends Entity {
     }
 
     draw(context) {
-        var ePos = this.world.vp.toScreenFX(this.x, this.y);
+        let ePos = this.world.vp.toScreenFX(this.x, this.y);
 
         if (this.respawnTime === null) {
             context.save();
@@ -303,7 +303,7 @@ class Player extends Entity {
         if (power > 0 && this.power >= this.powerMax) {
             return false;
         }
-        var powerOld = this.power;
+        let powerOld = this.power;
         this.power += power;
         if (this.power < 0) {
             this.power = 0;
@@ -347,8 +347,8 @@ class Player extends Entity {
     }
 
     addLives(lives, parts) {
-        var old = this.lives;
-        var succ = this.addItems("lives", lives, "lifeParts", parts);
+        let old = this.lives;
+        let succ = this.addItems("lives", lives, "lifeParts", parts);
         if (this.lives > old) {
             Sound.play(SFX.playerExtend);
             this.world.vp.showMessage(["Extend!"], 2, [FONT.upgrade], "top");

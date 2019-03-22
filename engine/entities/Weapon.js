@@ -8,12 +8,12 @@ class Weapon extends Entity {
             this.y = player.y;
         }
         this.player = player;
-        var data = CHAR[player.name].weapons[name];
+        let data = CHAR[player.name].weapons[name];
         this.name = name;
         this.drops = [];
         const propImport = ["behavior", "onShoot", "onHit", "onDestroy", "width"];
         for (let prop of propImport) {
-            var d = data[prop];
+            let d = data[prop];
             if (d) {
                 this[prop] = d;
             }
@@ -82,8 +82,8 @@ class Weapon extends Entity {
         if (this.removalMark || this.anchor === this.player && this.player.respawnTime !== null) {
             return; //bye-bye!
         }
-        var ctx = this.world.vp.context;
-        var ePos = this.world.vp.toScreenFX(this.x, this.y);
+        let ctx = this.world.vp.context;
+        let ePos = this.world.vp.toScreenFX(this.x, this.y);
         ctx.save();
         ctx.translate(ePos.x, ePos.y);
         ctx.rotate(Math.PI / 2 + this.angle);

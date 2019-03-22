@@ -24,7 +24,7 @@ PerformanceChart.prototype.snap = function () {
 };
 
 PerformanceChart.prototype.nextMode = function () {
-    var index = this.modes.indexOf(this.mode);
+    let index = this.modes.indexOf(this.mode);
     this.mode = this.modes[(index + 1) % this.modes.length];
 };
 
@@ -49,7 +49,7 @@ PerformanceChart.prototype.addData = function (data) {
 };
 
 PerformanceChart.prototype.getThresholdColor = function (value) {
-    var c;
+    let c;
     for (let i in this.thresholds) {
         if (i < value) {
             c = this.thresholds[i];

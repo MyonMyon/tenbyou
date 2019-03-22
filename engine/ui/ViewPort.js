@@ -24,7 +24,7 @@ function ViewPort() {
     this.splash.src = SPLASH;
     this.splashMs = 1500;
     this.splashFadeMs = 200;
-    var self = this;
+    let self = this;
     this.splash.onload = function () {
         self.splashStart = new Date().getTime();
         self.splashComplete = false;
@@ -38,7 +38,7 @@ function ViewPort() {
 }
 
 ViewPort.prototype.perfStep = function () {
-    var startTime = new Date().getTime();
+    let startTime = new Date().getTime();
     this.ticks.push(startTime);
     while (this.ticks.length && this.ticks[0] <= startTime - 2000) {
         this.ticks.splice(0, 1);
@@ -68,14 +68,14 @@ ViewPort.prototype.setZoom = function (zoom) {
     if (zoom <= 0 || zoom > 20) {
         return;
     }
-    var dpr = window.devicePixelRatio || 1;
-    var bspr =
+    let dpr = window.devicePixelRatio || 1;
+    let bspr =
         this.context.webkitBackingStorePixelRatio ||
         this.context.mozBackingStorePixelRatio ||
         this.context.msBackingStorePixelRatio ||
         this.context.oBackingStorePixelRatio ||
         this.context.backingStorePixelRatio || 1;
-    var ratio = dpr / bspr;
+    let ratio = dpr / bspr;
 
     this.width = WIDTH * zoom;
     this.height = HEIGHT * zoom;
@@ -123,11 +123,11 @@ ViewPort.prototype.initMenu = function () {
 };
 
 ViewPort.prototype.initRolls = function (charName) {
-    var t = Date.now();
+    let t = Date.now();
     this.rolls = [];
     for (let roll of ROLL) {
         if (roll.object && (!roll.player || roll.player === charName)) {
-            var tNext = t + (roll.time || ROLL[0].time) * 1000;
+            let tNext = t + (roll.time || ROLL[0].time) * 1000;
             this.rolls.push({
                 image: roll.object,
                 zoom: roll.zoom || ROLL[0].zoom,
@@ -143,11 +143,11 @@ ViewPort.prototype.initRolls = function (charName) {
  */
 ViewPort.prototype.takeScreenShot = function () {
     try {
-        var dataUrl = this.canvas.toDataURL("image/png");
+        let dataUrl = this.canvas.toDataURL("image/png");
         if (this.world) {
             this.world.setPause(true);
         }
-        var anchor = document.createElement("a");
+        let anchor = document.createElement("a");
         anchor.href = dataUrl;
         anchor.download = GAME_ABBR + "_" + Util.formatAsDateTime(Math.floor(new Date().getTime() / 1000), "YYYY-MM-DD_hh-mm-ss") + ".png";
         document.body.appendChild(anchor);
@@ -159,7 +159,7 @@ ViewPort.prototype.takeScreenShot = function () {
 };
 
 ViewPort.prototype.setFont = function (data, options) {
-    var attr = ["font", "size", "weight", "style", "color", "strokeWidth", "strokeColor"];
+    let attr = ["font", "size", "weight", "style", "color", "strokeWidth", "strokeColor"];
     this.fontData = {
         font: "sans-serif",
         size: 5,
@@ -200,16 +200,16 @@ ViewPort.prototype.setFont = function (data, options) {
 
 ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
     text += "";
-    var textArray = text.split("\n");
+    let textArray = text.split("\n");
     if (maxWidth) {
-        var t = text.split(/([\s\n]+)/);
+        let t = text.split(/([\s\n]+)/);
         textArray = [""];
-        var w = 0;
+        let w = 0;
         for (let tPart of t) {
             if (w === 0) {
                 tPart = tPart.replace(/\s/g, "\u200b");
             }
-            var wi = this.context.measureText(tPart).width;
+            let wi = this.context.measureText(tPart).width;
             w += wi;
             if (tPart.match(/\n/) || w > maxWidth) {
                 if (tPart.match(/\s+/)) {
@@ -224,7 +224,7 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
         }
     }
     if (maxChars !== null && maxChars !== undefined) {
-        var c = 0;
+        let c = 0;
         for (let i in textArray) {
             c += textArray[i].length;
             if (c > maxChars) {
@@ -235,22 +235,22 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
         }
     }
     for (let i in textArray) {
-        var yr = y + i * this.fontData.size;
+        let yr = y + i * this.fontData.size;
         if (this.context.lineWidth) {
             this.context.strokeText(textArray[i], x, yr);
         }
         if ((this.gradients !== false) && this.gradientBuffer) {
-            var t = this.context.textBaseline;
-            var d = 0.5;
+            let t = this.context.textBaseline;
+            let d = 0.5;
             if (["top", "hanging"].indexOf(t) >= 0) {
                 d = 1;
             } else if (["alphabetic", "ideographic", "bottom"].indexOf(t) >= 0) {
                 d = 0;
             }
-            var y1 = yr + this.fontData.size * (d - 1);
-            var y2 = yr + this.fontData.size * d;
+            let y1 = yr + this.fontData.size * (d - 1);
+            let y2 = yr + this.fontData.size * d;
 
-            var grd = this.context.createLinearGradient(0, y1, 0, y2);
+            let grd = this.context.createLinearGradient(0, y1, 0, y2);
             grd.addColorStop(0, this.gradientBuffer[0]);
             grd.addColorStop(1, this.gradientBuffer[1]);
             this.context.fillStyle = grd;
@@ -260,7 +260,7 @@ ViewPort.prototype.drawText = function (text, x, y, maxWidth, maxChars) {
 };
 
 ViewPort.prototype.showMessage = function (textArray, time, styleArray, position, fadeIn, fadeOut) {
-    var m = {
+    let m = {
         text: textArray,
         start: this.world.time,
         length: time,
@@ -281,7 +281,7 @@ ViewPort.prototype.clearMessages = function () {
 };
 
 ViewPort.prototype.toScreen = function (worldX, worldY) {
-    var value = { x: 0, y: 0 };
+    let value = { x: 0, y: 0 };
     value.x = Math.round(this.centerX + (worldX + SHIFT_X) * this.zoom);
     value.y = Math.round(this.centerY + (worldY + SHIFT_Y) * this.zoom);
     return value;
@@ -296,7 +296,7 @@ ViewPort.prototype.infoShow = function (info, line, tab, reverse) {
     if (reverse) {
         tab += 0.9;
     }
-    var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
+    let boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
     this.drawText(
         info,
         boundaryRight.x + this.zoom * (5 + tab * INFO_TAB),
@@ -304,7 +304,7 @@ ViewPort.prototype.infoShow = function (info, line, tab, reverse) {
 };
 
 ViewPort.prototype.starShow = function (sprite, line, tab, count, parts, max) {
-    var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
+    let boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
     for (let i = 0; i < max; ++i) {
         this.context.drawImage(
             SPRITE.gui.object,
@@ -320,7 +320,7 @@ ViewPort.prototype.starShow = function (sprite, line, tab, count, parts, max) {
 };
 
 ViewPort.prototype.iconShow = function (spriteX, spriteY, line, tab) {
-    var boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
+    let boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
     this.context.drawImage(
         SPRITE.bonus.object,
         spriteX * SPRITE.bonus.frameWidth,
@@ -339,21 +339,21 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
     this.context.lineCap = "round";
 
     this.context.fillStyle = BACKGROUND;
-    var x1 = boundaryStart.x;
-    var x2 = boundaryEnd.x;
+    let x1 = boundaryStart.x;
+    let x2 = boundaryEnd.x;
 
-    var xN = this.width;
-    var yN = this.height;
+    let xN = this.width;
+    let yN = this.height;
 
-    var y1 = boundaryStart.y;
-    var y2 = yN - boundaryStart.y;
+    let y1 = boundaryStart.y;
+    let y2 = yN - boundaryStart.y;
 
     this.context.fillRect(0, 0, xN, y1); //top plank
     this.context.fillRect(0, y2, xN, y1); //bottom plank
     this.context.fillRect(0, 0, x1, yN); //left plank
     this.context.fillRect(x2, 0, xN - x2, yN); //right plank
 
-    var o = SPRITE.uiBackground.object;
+    let o = SPRITE.uiBackground.object;
     this.context.drawImage(o, 0, 0, o.width, y1 / yN * o.height, 0, 0, xN, y1);
     this.context.drawImage(o, 0, y2 / yN * o.height, o.width, y1 / yN * o.height, 0, y2, xN, y1);
     this.context.drawImage(o, 0, 0, x1 / xN * o.width, o.height, 0, 0, x1, yN);
@@ -414,7 +414,7 @@ ViewPort.prototype.drawGUI = function (boundaryStart, boundaryEnd) {
     }
 
     this.context.textAlign = "center";
-    var diffO = {};
+    let diffO = {};
     diffO["d" + this.world.difficulty] = true;
     this.setFont(FONT.difficulty, diffO);
     this.drawText(DIFF[this.world.difficulty].name.toUpperCase(), (boundaryEnd.x + this.width) / 2, boundaryStart.y + 6 * this.zoom);
@@ -427,15 +427,15 @@ ViewPort.prototype.drawBackground = function (boundaryStart, boundaryEnd) {
     this.context.fillStyle = "black";
     this.context.fillRect(boundaryStart.x, boundaryStart.y, this.world.width * this.zoom, this.world.height * this.zoom);
 
-    var stage = this.world.stages[this.world.stage];
-    var spell = (this.world.boss && this.world.boss.attackCurrent !== null && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
+    let stage = this.world.stages[this.world.stage];
+    let spell = (this.world.boss && this.world.boss.attackCurrent !== null && this.world.boss.attacks[this.world.boss.attackCurrent].spell);
     if (stage) {
-        var bg = spell ? (this.world.boss.attacks[this.world.boss.attackCurrent].background || SPRITE.spellBackground) : stage.background;
+        let bg = spell ? (this.world.boss.attacks[this.world.boss.attackCurrent].background || SPRITE.spellBackground) : stage.background;
         if (bg) {
-            var t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.time * bg.speed) % bg.object.height;
-            var shS = this.world.shake.strength * this.zoom;
-            var shX = this.world.shake.x * this.zoom - shS;
-            var shY = this.world.shake.y * this.zoom - shS;
+            let t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.time * bg.speed) % bg.object.height;
+            let shS = this.world.shake.strength * this.zoom;
+            let shX = this.world.shake.x * this.zoom - shS;
+            let shY = this.world.shake.y * this.zoom - shS;
             this.context.drawImage(bg.object,
                 0, Math.max(0, t),
                 bg.object.width, bg.object.width / this.world.width * this.world.height,
@@ -452,7 +452,7 @@ ViewPort.prototype.drawBackground = function (boundaryStart, boundaryEnd) {
     }
 
     if (spell) {
-        var o = SPRITE.spellStrip.object;
+        let o = SPRITE.spellStrip.object;
         for (let i = 0; i < 2; ++i) {
             for (let j = 0; j < 2 + (boundaryEnd.x + boundaryStart.x) / (o.width * this.zoom / 4); ++j) {
                 this.context.drawImage(o,
@@ -488,7 +488,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
                     SPRITE.gui.frameHeight * this.zoom / 4);
 
             if (this.world.boss.attackCurrent < this.world.boss.attacks.length) {
-                var attack = this.world.boss.attacks[this.world.boss.attackCurrent];
+                let attack = this.world.boss.attacks[this.world.boss.attackCurrent];
                 this.context.textAlign = "right";
                 if (attack.spell) {
                     {
@@ -508,7 +508,7 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
         }
     }
 
-    var time = this.world.time;
+    let time = this.world.time;
     //Show messages:
     for (let message of this.messages) {
         if (time < (message.start + message.length) && time > message.start) {
@@ -536,9 +536,9 @@ ViewPort.prototype.drawMessages = function (boundaryStart, boundaryEnd) {
             }
             for (let i in message.text) {
                 this.setFont(message.style[i % message.style.length]);
-                var text = (message.text[i] + "").split("\t");
+                let text = (message.text[i] + "").split("\t");
                 for (let j in text) {
-                    var x;
+                    let x;
                     if (text.length === 1) {
                         this.context.textAlign = "center";
                         x = (boundaryStart.x + boundaryEnd.x) / 2;
@@ -575,7 +575,7 @@ ViewPort.prototype.drawSplash = function () {
         this.drawText(".".repeat(((this.prevMS / 200) | 0) % 5), this.width / 2, 3 * this.height / 4);
         this.drawText(this.loadingText || "", this.width / 2, 3 * this.height / 4 + this.zoom * 4);
     }
-    var t = new Date().getTime();
+    let t = new Date().getTime();
     if (this.splashStart && t < this.splashStart + this.splashMs) {
         this.context.globalAlpha = Math.min((t - this.splashStart) / this.splashFadeMs, (this.splashStart + this.splashMs - t) / this.splashFadeMs);
         this.drawImageOverlay(this.splash, SPLASH_ZOOM);
@@ -587,7 +587,7 @@ ViewPort.prototype.drawRolls = function () {
     const fadeMs = 200;
     this.context.fillStyle = "#000";
     this.context.fillRect(0, 0, this.width, this.height);
-    var t = Date.now();
+    let t = Date.now();
     for (let roll of this.rolls) {
         if ((roll.startTime <= t) && (t <= roll.endTime)) {
             this.context.globalAlpha = Math.min((t - roll.startTime) / fadeMs, (roll.endTime - t) / fadeMs);
@@ -621,8 +621,8 @@ ViewPort.prototype.draw = function () {
         return this.requestDraw();
     }
 
-    var boundaryStart = this.toScreen(-this.world.width / 2, -this.world.height / 2);
-    var boundaryEnd = this.toScreen(this.world.width / 2, this.world.height / 2);
+    let boundaryStart = this.toScreen(-this.world.width / 2, -this.world.height / 2);
+    let boundaryEnd = this.toScreen(this.world.width / 2, this.world.height / 2);
 
     this.drawBackground(boundaryStart, boundaryEnd);
 
@@ -645,7 +645,7 @@ ViewPort.prototype.draw = function () {
 };
 
 ViewPort.prototype.requestDraw = function () {
-    var self = this;
+    let self = this;
     requestAnimationFrame(function () {
         self.draw();
     }, this.canvas);

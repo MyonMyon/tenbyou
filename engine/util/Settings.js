@@ -42,7 +42,7 @@ Settings.getType = function (key) {
  * @return {*} Value of the setting.
  */
 Settings.get = function (key, type) {
-    var value = localStorage.getItem("settings." + key);
+    let value = localStorage.getItem("settings." + key);
     if (value === null) {
         value = Settings.getDefault(key);
     }
@@ -72,7 +72,7 @@ Settings.get = function (key, type) {
  * @param {*} value New value of the setting.
  */
 Settings.set = function (key, value) {
-    var lsKey = "settings." + key;
+    let lsKey = "settings." + key;
     if (Settings.getType(key) === "json") {
         localStorage.setItem(lsKey, JSON.stringify(value));
     } else {
