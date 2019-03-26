@@ -228,6 +228,9 @@ class Menu {
      */
     shortcut(keyCode) {
         let m = this.getCurrentMenu();
+        if (!m.tree) {
+            return false;
+        }
         for (let item of m.tree) {
             if (item.shortcut === keyCode) {
                 let action = item.action;
