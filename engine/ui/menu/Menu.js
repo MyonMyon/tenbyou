@@ -234,7 +234,7 @@ class Menu {
         for (let item of m.tree) {
             if (item.shortcut === keyCode) {
                 let action = item.action;
-                if (typeof menuItem.action === "string") {
+                if (typeof action === "string") {
                     action = this[action];
                 }
                 action.apply(this);
