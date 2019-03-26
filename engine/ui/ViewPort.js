@@ -21,6 +21,9 @@ class ViewPort {
 
         this.loaded = false;
 
+        this.vAlignsTop = new Set(["top", "hanging"]);
+        this.vAlignsBottom = new Set(["alphabetic", "ideographic", "bottom"]);
+
         this.splash = new Image();
         this.splash.src = SPLASH;
         this.splashMs = 1500;
@@ -243,9 +246,9 @@ class ViewPort {
             if ((this.gradients !== false) && this.gradientBuffer) {
                 let t = this.context.textBaseline;
                 let d = 0.5;
-                if (["top", "hanging"].indexOf(t) >= 0) {
+                if (this.vAlignsTop.has(t)) {
                     d = 1;
-                } else if (["alphabetic", "ideographic", "bottom"].indexOf(t) >= 0) {
+                } else if (this.vAlignsBottom.has(t)) {
                     d = 0;
                 }
                 let y1 = yr + this.fontData.size * (d - 1);

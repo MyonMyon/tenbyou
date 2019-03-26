@@ -94,7 +94,7 @@ class Input {
         this.defaultMappingDialogue = {
             "KeyZ": "next"
         };
-        this.repeatableMenuActions = ["nav_left", "nav_right", "nav_up", "nav_down"];
+        this.repeatableMenuActions = new Set(["nav_left", "nav_right", "nav_up", "nav_down"]);
         this.lockBuffer = {};
         this.directions = ["Left", "Right", "Up", "Down"];
         //MODES:
@@ -233,7 +233,7 @@ class Input {
         if (keyValue) {
             if (this.lockBuffer[keyAbbr]) {
                 return true;
-            } else if (!inMenu || this.repeatableMenuActions.indexOf(this.defaultMappingMenu[keyAbbr]) === -1) {
+            } else if (!inMenu || !this.repeatableMenuActions.has(this.defaultMappingMenu[keyAbbr])) {
                 this.lockBuffer[keyAbbr] = true;
             }
         } else if (this.lockBuffer[keyAbbr]) {
