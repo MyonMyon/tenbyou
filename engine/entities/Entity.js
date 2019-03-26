@@ -8,7 +8,7 @@ class Entity {
         this.x0 = x;
         this.y0 = y;
 
-        //speedЩ
+        //speed
         this.x1 = x1;
         this.y1 = y1;
 
