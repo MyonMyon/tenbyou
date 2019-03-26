@@ -164,16 +164,16 @@ Util.collisionCheckBeam = function (entityPoint, entityBeam, distance) {
 };
 
 Util.distanceBetweenEntities = function (entity1, entity2) {
-    return Math.sqrt(Math.pow(entity1.x - entity2.x, 2) + Math.pow(entity1.y - entity2.y, 2));
+    return Math.sqrt((entity1.x - entity2.x) ** 2 + (entity1.y - entity2.y) ** 2);
 };
 
 Util.distanceBetweenPoints = function (point1x, point1y, point2x, point2y) {
-    return Math.sqrt(Math.pow(point1x - point2x, 2) + Math.pow(point1y - point2y, 2));
+    return Math.sqrt((point1x - point2x) ** 2 + (point1y - point2y) ** 2);
 };
 
 Util.distanceBetweenPointAndSegment = function (pointX, pointY, segment1x, segment1y, segment2x, segment2y) {
     return Math.abs((segment2y - segment1y) * pointX - (segment2x - segment1x) * pointY + segment2x * segment1y - segment2y * segment1x) /
-        Math.sqrt(Math.pow(segment2x - segment1x, 2) + Math.pow(segment2y - segment1y, 2));
+        Math.sqrt((segment2x - segment1x) ** 2 + (segment2y - segment1y) ** 2);
 };
 
 /**

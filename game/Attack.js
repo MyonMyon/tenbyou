@@ -390,7 +390,7 @@ var SPELL = {
                     if (this.width <= 0.2)
                         this.remove();
                     else
-                        this.width = 20 - Math.pow(this.lifetime, 2) * 5;
+                        this.width = 20 - this.lifetime ** 2 * 5;
                 };
             }).repeat(0.4 / (this.world.difficulty + 1));
         }
