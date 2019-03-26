@@ -104,12 +104,12 @@ Util.toMeanAngle = function (compass) {
 };
 
 /**
- * @param {Number...} [arguments] Angles (in radians) to be processed.
+ * @param {...Number} angles Angles (in radians) to be processed.
  * @return {Number} Mean angle.
  */
-Util.meanAngle = function () {
-    let n = arguments.length;
-    let a = Object.values(arguments);
+Util.meanAngle = function (...angles) {
+    let n = angles.length;
+    let a = Object.values(angles);
     return (Math.atan2(
         Util.sum(a.map(Math.sin)) / n,
         Util.sum(a.map(Math.cos)) / n)
@@ -117,15 +117,15 @@ Util.meanAngle = function () {
 };
 
 /**
- * @param {Array|Number...} [arguments] Any numbers you like. Or an array.
+ * @param {...Array|Number} args Any numbers you like. Or an array.
  * @return {Number} Sum of arguments.
  */
-Util.sum = function () {
+Util.sum = function (...args) {
     let a;
-    if (arguments[0] && arguments[0].length) {
-        a = arguments[0];
+    if (args[0] && args[0].length) {
+        a = args[0];
     } else {
-        a = Object.values(arguments);
+        a = Object.values(args);
     }
     return a.reduce(function (acc, val) {
         return acc + val;
