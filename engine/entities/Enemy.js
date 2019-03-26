@@ -268,12 +268,14 @@ class Enemy extends Entity {
         let n = this.attacks.length;
         let m = this.attackGroups.length - 1;
 
-        if (n === 0 || (this.attacks[n - 1].spell && !spell) || newGroup)
+        if (n === 0 || (this.attacks[n - 1].spell && !spell) || newGroup) {
             this.attackGroups[++m] = { start: n, nonspells: 0, spells: 0 };
-        if (spell)
+        }
+        if (spell) {
             ++this.attackGroups[m].spells;
-        else
+        } else {
             ++this.attackGroups[m].nonspells;
+        }
 
         this.attacks[n] = {};
         for (let i in data) {
