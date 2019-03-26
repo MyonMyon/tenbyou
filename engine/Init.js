@@ -1,7 +1,7 @@
-const ENGINE_VERSION = "0.5.54";
+const ENGINE_VERSION = "0.5.55";
 const RELEASE_DATE = "2019-03-26";
-const REVISION_INNER = 5;
-const REVISION_TOTAL = 709;
+const REVISION_INNER = 4;
+const REVISION_TOTAL = 713;
 
 const PRIORITY_CODE = [
     "engine/Ext",
