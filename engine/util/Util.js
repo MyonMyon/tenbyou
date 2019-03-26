@@ -183,7 +183,7 @@ Util.distanceBetweenPointAndSegment = function (pointX, pointY, segment1x, segme
  * @param {String} format Desired string format. Example: "MM/DD/YYYY hh:mm:ss". Default is "YYYY-MM-DD".
  * @return {String} String in defined format.
  */
-Util.formatAsDateTime = function (timestamp, format) {
+Util.formatAsDateTime = function (timestamp, format = "YYYY-MM-DD") {
     const strings = {
         "YYYY": { func: "fullYear" },
         "YY": { func: "fullYear", fill: 2 },
@@ -199,7 +199,7 @@ Util.formatAsDateTime = function (timestamp, format) {
         "s": { func: "seconds" }
     };
     let date = new Date(timestamp * 1000);
-    let result = format || "YYYY-MM-DD";
+    let result = format;
     for (let i in strings) {
         let replacement = date["get" + strings[i].func.toTitleCase()]();
         if (strings[i].addition) {

@@ -1,9 +1,9 @@
 class Particle extends Entity {
-    constructor(world, x, y, removeTime, width, randomFrame, moving, spriteName) {
+    constructor(world, x, y, removeTime = 0.66, width, randomFrame, moving, spriteName) {
         let a = Math.random() * Math.PI * 2;
         let r = 30 * (Math.random() + 0.1);
         super(world, x, y, moving ? r * Math.cos(a) : 0, moving ? r * Math.sin(a) : 0, 0, 0, width);
-        this.removeTime = removeTime || 0.66;
+        this.removeTime = removeTime;
         this.sprite.set(SPRITE.particle);
         if (spriteName) {
             this.sprite.set(spriteName);

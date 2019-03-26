@@ -53,10 +53,10 @@ class SpriteHandler {
         }
     }
 
-    setPositionShift(x, y) {
+    setPositionShift(x = 0, y = 0) {
         this.positionShift = {
-            x: x || 0,
-            y: y || 0
+            x: x,
+            y: y
         };
     }
 
@@ -108,8 +108,7 @@ class SpriteHandler {
         };
     }
 
-    draw(context, x, y, t, z, c) {
-        c = c || 1;
+    draw(context, x, y, t, z, c = 1) {
         let img = this.getFrame(t);
         if (this.object) {
             for (let i = 0; i < c; i++) {

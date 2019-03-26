@@ -41,12 +41,11 @@ Settings.getType = function (key) {
  * @param {String} type Type of the setting. Not required.
  * @return {*} Value of the setting.
  */
-Settings.get = function (key, type) {
+Settings.get = function (key, type = Settings.getType(key)) {
     let value = localStorage.getItem("settings." + key);
     if (value === null) {
         value = Settings.getDefault(key);
     }
-    type = type || Settings.getType(key);
     if (value === "null") {
         value = null;
     } else {

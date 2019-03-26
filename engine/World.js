@@ -368,9 +368,7 @@ class World {
         }
     }
 
-    startShake(time, strength) {
-        time = time || 1;
-        strength = strength || 1;
+    startShake(time = 1, strength = 1) {
         this.shake.time += time;
         this.shake.strength = Math.max(this.shake.strength, strength);
     }

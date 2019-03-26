@@ -260,15 +260,15 @@ class ViewPort {
         }
     }
 
-    showMessage(textArray, time, styleArray, position, fadeIn, fadeOut) {
+    showMessage(textArray, time, styleArray = [FONT.title], position = "center", fadeIn = 0.33, fadeOut = 0.66) {
         let m = {
             text: textArray,
             start: this.world.time,
             length: time,
-            position: position || "center",
-            style: styleArray || [FONT.title],
-            fadeIn: fadeIn || 0.33,
-            fadeOut: fadeOut || 0.66
+            position: position,
+            style: styleArray,
+            fadeIn: fadeIn,
+            fadeOut: fadeOut
         };
         this.messages.push(m);
     }

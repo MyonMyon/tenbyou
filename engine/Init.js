@@ -134,8 +134,7 @@ function init() {
  * @param {Boolean} sync Load every element in the given order.
  * @param {Number} resAdd Number added to loaded and total count of resources.
  */
-function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextHandler, onFinish, sync, resAdd) {
-    resAdd = resAdd || 0;
+function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextHandler, onFinish, sync, resAdd = 0) {
     document.getElementsByTagName("title")[0].innerHTML = "Loading";
     let totalRes = nameArray.length + resAdd;
     let loadedRes = resAdd;

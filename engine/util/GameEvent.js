@@ -39,8 +39,7 @@ GameEvent.checkEvent = function (eventName, valuesObject) {
  * @param {Number} recursionCount Used to prevent game freeze due to infinite loop. Only for inner usage.
  * @return {Boolean} Are conditions satisfied.
  */
-GameEvent.resolveCondition = function (conditionObject, valuesObject, recursionCount) {
-    recursionCount = recursionCount || 0;
+GameEvent.resolveCondition = function (conditionObject, valuesObject, recursionCount = 0) {
     if (recursionCount > GameEvent.RECURSION_LIMIT) {
         console.error("Too much recursion");
         return false;

@@ -1,5 +1,5 @@
 class Projectile extends Entity {
-    constructor(world, x, y, x1, y1, x2, y2, width, playerSide, spriteName) {
+    constructor(world, x, y, x1, y1, x2, y2, width, playerSide = false, spriteName) {
         super(world, x, y, x1, y1, x2, y2, width);
         this.sprite.set(SPRITE.projectile);
         if (spriteName) {
@@ -10,7 +10,7 @@ class Projectile extends Entity {
             }
             this.rotate = SPRITE.projectile[s[0]].rotate;
         }
-        this.playerSide = playerSide || false;
+        this.playerSide = playerSide;
         this.soundPlayed = false;
         this.grazed = 0;
         this.damage = 1;

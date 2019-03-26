@@ -28,11 +28,11 @@ Random.setSeed = function (seed) {
  * @param {Number} rangeSize Bounding value for range (not to be included in result).
  * @return {Number} Random number from 0 (inclusively) to 1 (if args are empty) or rangeSize (exclusively).
  */
-Random.nextFloat = function (rangeSize) {
+Random.nextFloat = function (rangeSize = 1) {
     RANDOM_GET_COUNT++;
     let x = Math.PI * (RANDOM_GET_COUNT + RANDOM_RESULT);
     RANDOM_RESULT = x - Math.floor(x);
-    return RANDOM_RESULT * (rangeSize || 1);
+    return RANDOM_RESULT * rangeSize;
 };
 
 /**
@@ -51,8 +51,8 @@ Random.nextInt = function (rangeSize) {
  * @param {Number} chance Chance to get true, number from 0 (never) to 1 (always).
  * @return {Boolean} Either true or false, obvioulsy.
  */
-Random.nextBool = function (chance) {
-    return Random.nextFloat() < (chance || 0.5);
+Random.nextBool = function (chance = 0.5) {
+    return Random.nextFloat() < chance;
 };
 
 /**

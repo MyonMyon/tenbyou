@@ -1,5 +1,5 @@
 class Enemy extends Entity {
-    constructor(world, x, y, x1, y1, x2, y2, width, health, spriteName) {
+    constructor(world, x, y, x1, y1, x2, y2, width, health = 20, spriteName) {
         super(world, x, y, x1, y1, x2, y2, width);
         this.sprite.set(SPRITE.enemy);
         if (spriteName) {
@@ -10,9 +10,8 @@ class Enemy extends Entity {
         if (typeof health === "object") {
             health = health[world.difficulty];
         }
-        this.initialHealth = health || 20;
-        this.health = this.initialHealth;
-        this.cost = this.initialHealth * 100;
+        this.initialHealth = this.health = health;
+        this.cost = health * 100;
         this.title = "";
         this.drops = [];
         this.attacks = [];

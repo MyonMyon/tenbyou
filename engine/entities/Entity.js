@@ -1,20 +1,20 @@
 class Entity {
-    constructor(world, x, y, x1, y1, x2, y2, width) {
+    constructor(world, x = 0, y = 0, x1 = 0, y1 = 0, x2 = 0, y2 = 0, width = 2) {
         //position (global)
-        this.x = x || 0;
-        this.y = y || 0;
+        this.x = x;
+        this.y = y;
 
         //position (relative to anchor)
-        this.x0 = x || 0;
-        this.y0 = y || 0;
+        this.x0 = x;
+        this.y0 = y;
 
         //speedЩ
-        this.x1 = x1 || 0;
-        this.y1 = y1 || 0;
+        this.x1 = x1;
+        this.y1 = y1;
 
         //acceleration
-        this.x2 = x2 || 0;
-        this.y2 = y2 || 0;
+        this.x2 = x2;
+        this.y2 = y2;
 
         //ang. position
         this.a0 = 0;
@@ -28,11 +28,7 @@ class Entity {
         this.a2 = 0;
         this.r2 = 0;
 
-        if (width === undefined || width === null) {
-            this.width = 2;
-        } else {
-            this.width = width;
-        }
+        this.width = width;
 
         //width changing:
         this.w1 = 0;
@@ -261,10 +257,9 @@ class Entity {
         this.targetTime = time;
     }
 
-    nearestEntity(type, range, angleRange, filters) {
-        angleRange = angleRange || Math.PI;
+    nearestEntity(type, range = this.world.height * 2, angleRange = Math.PI, filters) {
         let nearest = null;
-        let nearestDistance = range || this.world.height * 2;
+        let nearestDistance = range;
         for (let entity of this.world.entities) {
             if ((entity instanceof type && ((type === Projectile && !entity.playerSide) || type !== Projectile)) || type === null) {
                 if (entity !== this &&
@@ -343,8 +338,7 @@ class Entity {
         return this.invulnerable;
     }
 
-    addDrops(cat, amount, reqDamage, afterAttack) {
-        amount = amount || 1;
+    addDrops(cat, amount = 1, reqDamage, afterAttack) {
         for (let i = 0; i < amount; ++i) {
             this.drops.push({
                 cat: cat,

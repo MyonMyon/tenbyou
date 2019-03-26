@@ -1,9 +1,9 @@
 class Bonus extends Entity {
-    constructor(world, x, y, cat, autoGather) {
+    constructor(world, x, y, cat, autoGather = false) {
         super(world, x, y, Random.nextFloat(20) - 10, -60, 0, 90, 0);
 
         this.cat = cat;
-        this.autoGather = autoGather || false;
+        this.autoGather = autoGather;
         this.sprite.set(SPRITE.bonus);
         this.sprite.set(cat);
     }

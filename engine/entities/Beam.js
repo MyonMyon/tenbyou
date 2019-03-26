@@ -1,5 +1,5 @@
 class Beam extends Entity {
-    constructor(world, x, y, length, a, r, a1, r1, a2, r2, width, playerSide, spriteName) {
+    constructor(world, x, y, length, a, r, a1, r1, a2, r2, width, playerSide = false, spriteName) {
         super(world, x, y, 0, 0, 0, 0, width);
         this.spriteBeam = new SpriteHandler();
         this.spriteBeam.set(SPRITE.beam);
@@ -16,7 +16,7 @@ class Beam extends Entity {
             }
         }
 
-        this.playerSide = playerSide || false;
+        this.playerSide = playerSide;
         this.soundPlayed = false;
 
         this.angle = a;
