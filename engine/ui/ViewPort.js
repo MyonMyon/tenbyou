@@ -55,7 +55,7 @@ class ViewPort {
         }
         if (startTime % 1000 < this.prevMS) {
             if (this.pChart && this.pChart.mode !== "off" && this.world && !this.world.pause) {
-                this.pChart.addData({ entityCount: this.world.entities.length, tickLength: 1 / this.fps });
+                this.pChart.addData({ entityCount: this.world.entities.size, tickLength: 1 / this.fps });
             }
         }
         this.prevMS = startTime % 1000;
@@ -406,7 +406,7 @@ class ViewPort {
             this.infoShow(this.debugString, 9, 0);
             this.infoShow("S#" + this.world.stage + "." + this.world.substage, 10, 0);
             this.infoShow("T+" + this.world.relTime().toFixed(2), 10, 0.5);
-            this.infoShow("E=" + this.world.entities.length, 10, 1);
+            this.infoShow("E=" + this.world.entities.size, 10, 1);
             this.infoShow(this.fps.toFixed(2) + " FPS × " + this.world.tickInterval, 10, 1.5);
             this.context.textAlign = "center";
             this.drawText(this.version, (boundaryEnd.x + this.width) / 2, boundaryEnd.y);

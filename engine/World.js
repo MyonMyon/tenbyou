@@ -5,7 +5,7 @@ class World {
         this.maxBonusY = -this.height / 3;
 
         this.lastID = 0;
-        this.entities = [];
+        this.entities = new Set();
 
         this.ticksPS = 60;
         this.time = -1 / this.ticksPS;
@@ -299,14 +299,14 @@ class World {
                 this.shake = { x: 0, y: 0, time: 0, strength: 0 };
             }
 
-            for (let entity of this.entities) {
-                if (!entity.removalMark) {
-                    entity.step();
+            this.entities.forEach(function(k,v,s) {
+                if (!v.removalMark) {
+                    v.step();
                 }
-            }
-            for (let entity of this.entities) {
-                entity.flush(); //refreshing fixed coords
-            }
+            });
+            this.entities.forEach(function(k,v,s) {
+                v.flush(); //refreshing fixed coords
+            });
             this.eventChain.tick();
         }
         this.postponeTick();
@@ -386,11 +386,11 @@ class World {
         ];
         for (let draw of drawOrder) {
             for (let p = 0; p < 2; ++p) {
-                for (let entity of this.entities) {
-                    if (entity.priority === p && entity.constructor.name === draw) {
-                        entity.draw(context);
+                this.entities.forEach(function(k,v,s) {
+                    if (v.priority === p && v.constructor.name === draw) {
+                        v.draw(context);
                     }
-                }
+                });
             }
         }
         if (this.dialogue) {

@@ -62,7 +62,7 @@ class Entity {
     }
 
     init() {
-        this.world.entities.push(this);
+        this.world.entities.add(this);
         this.eventChain = new EventChain(this);
     }
 
@@ -70,7 +70,7 @@ class Entity {
         this.fixedX = this.x;
         this.fixedY = this.y;
         if (this.removalMark) {
-            this.world.entities.splice(this.world.entities.indexOf(this), 1);
+            this.world.entities.delete(this);
         }
     }
 
