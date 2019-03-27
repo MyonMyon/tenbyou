@@ -332,7 +332,7 @@ class Menu {
             const c = 42;
             for (let i = 0; i < c; i++) {
                 let xD = this.vp.zoom * Math.sin(new Date().getTime() / 200 + Math.sin(i) * 42) * 5;
-                let y = (new Date().getTime() + Math.pow(Math.sin(i) * 420, 2)) % 4000 / 4000;
+                let y = (new Date().getTime() + (Math.sin(i) * 420) ** 2) % 4000 / 4000;
                 context.drawImage(
                     obj,
                     this.vp.width * (i + 0.5) / c + xD - obj.width / 2 * z,
