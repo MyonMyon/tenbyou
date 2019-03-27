@@ -191,7 +191,7 @@ for (let i in SPELL) {
             MENU.spell.tree.push({
                 states: { difficulty: +j, spell: SPELL[i] },
                 spell: SPELL[i],
-                title: "#" + Util.fillWithLeadingZeros(spellNumber, 3) + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
+                title: "#" + (spellNumber + "").padStart(3, "0") + " " + SPELL[i].names[j] + " (" + DIFF[j].letter + ")",
                 action: "startGame"
             });
             ++spellNumber;

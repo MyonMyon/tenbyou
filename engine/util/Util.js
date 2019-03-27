@@ -7,23 +7,6 @@ function Util() {
 }
 
 /**
- * @param {Number} data Value to fill up.
- * @param {Number} length Number of digits to output.
- * @param {Boolean} overflowSlice If true, cuts resulting string starting with leading digits to the specified length.
- * @return {String} String representation of value with requiered number of digits.
- */
-Util.fillWithLeadingZeros = function (data, length, overflowSlice) {
-    let d = data.toString();
-    while (d.length < length) {
-        d = "0" + d;
-    }
-    if (overflowSlice) {
-        d = d.slice(-length);
-    }
-    return d;
-};
-
-/**
  * Processes number to be in given bounds.
  *
  * @param {Number} min Minimal value to output.
@@ -206,7 +189,8 @@ Util.formatAsDateTime = function (timestamp, format = "YYYY-MM-DD") {
             replacement += strings[i].addition;
         }
         if (strings[i].fill) {
-            replacement = Util.fillWithLeadingZeros(replacement, strings[i].fill, true);
+            replacement += "";
+            replacement = replacement.padStart(strings[i].fill, "0").slice(-strings[i].fill);
         }
         result = result.replace(i, replacement);
     }

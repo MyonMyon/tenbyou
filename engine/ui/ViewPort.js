@@ -120,7 +120,7 @@ class ViewPort {
             this.pChart.nextMode();
         }
 
-        this.version = "Tenbyou v" + ENGINE_VERSION + "." + (this.inDev ? "dev" : Util.fillWithLeadingZeros(REVISION_TOTAL, 4));
+        this.version = "Tenbyou v" + ENGINE_VERSION + "." + (this.inDev ? "dev" : (REVISION_TOTAL + "").padStart(4, "0"));
         if (DEV_STAGE) {
             this.version += " (" + DEV_STAGE + ")";
         }
@@ -384,9 +384,9 @@ class ViewPort {
         this.setFont(FONT.info);
 
         this.infoShow("HiScore", 0, 0, true);
-        this.infoShow(Util.fillWithLeadingZeros(this.world.player.hiscoreDisplayed, 11), 0, 1);
+        this.infoShow((this.world.player.hiscoreDisplayed + "").padStart(11, "0"), 0, 1);
         this.infoShow("Score", 1, 0, true);
-        this.infoShow(Util.fillWithLeadingZeros(this.world.player.scoreDisplayed, 11), 1, 1);
+        this.infoShow((this.world.player.scoreDisplayed + "").padStart(11, "0"), 1, 1);
 
         this.infoShow("Lives", 3, 0, true);
         this.starShow(0, 3, 1, this.world.player.lives, this.world.player.lifeParts, this.world.player.livesMax);
@@ -505,7 +505,7 @@ class ViewPort {
                         }
                     }
                     this.setFont(FONT.timer, { fullBonus: this.world.boss.lifetime < attack.decrTime });
-                    this.drawText(Util.fillWithLeadingZeros(Math.ceil(attack.time - this.world.boss.lifetime), 2),
+                    this.drawText((Math.ceil(attack.time - this.world.boss.lifetime) + "").padStart(2, "0"),
                         boundaryEnd.x - this.zoom * 2.5,
                         boundaryStart.y + this.zoom * 10);
                 }
