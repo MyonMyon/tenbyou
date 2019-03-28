@@ -8,5 +8,12 @@ const EVENT = {
             file: "event/heart.png",
             zoom: 0.25
         }
+    },
+    "aprilFools": {
+        "condition": {
+            "month": 4,
+            "day": 1,
+        },
+        "soundPack": "event/a1/"
     }
 };
