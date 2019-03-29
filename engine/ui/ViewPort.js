@@ -104,6 +104,24 @@ class ViewPort {
         if (this.splashComplete) {
             this.initMenu();
         }
+
+        //Resolve event soundpacks:
+        let events = GameEvent.getCurrentEvents();
+        for (let e of events) {
+            if (EVENT[e].soundPack) {
+                for (let i in SFX) {
+                    let o = SFX[i].object;
+                    let f = SFX[i].file;
+                    o.src = SFX_FOLDER + EVENT[e].soundPack + f;
+                    o.onloadeddata = function() {
+                        //overrides function from Init.js, thus no counting
+                    }
+                    o.onerror = function() {
+                        o.src = SFX_FOLDER + f;
+                    }
+                }
+            }
+        }
     }
 
     initMenu() {
