@@ -68,8 +68,9 @@ const IMAGE_LOAD = [{
     push: true,
     checkInside: true
 }, {
-    object: "EVENT",
-    itemProp: "res"
+    object: "EVENT_RES",
+    itemProp: "file",
+    push: true
 }];
 
 const SFX_LOAD = [{

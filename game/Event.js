@@ -4,10 +4,6 @@ const EVENT = {
             "month": 2,
             "day": 14
         },
-        "res": {
-            file: "event/heart.png",
-            zoom: 0.25
-        }
     },
     "aprilFools": {
         "condition": {
@@ -15,5 +11,12 @@ const EVENT = {
             "day": 1,
         },
         "soundPack": "event/a1/"
+    }
+};
+
+var EVENT_RES = {
+    "valentine": {
+        file: "event/heart.png",
+        zoom: 0.25
     }
 };

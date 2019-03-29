@@ -327,8 +327,8 @@ class Menu {
         let context = this.vp.context;
 
         if (GameEvent.checkEvent("valentine")) {
-            let obj = EVENT.valentine.res.object;
-            let z = EVENT.valentine.res.zoom * this.vp.zoom;
+            let obj = EVENT_RES.valentine.object;
+            let z = EVENT_RES.valentine.zoom * this.vp.zoom;
             const c = 42;
             for (let i = 0; i < c; i++) {
                 let xD = this.vp.zoom * Math.sin(new Date().getTime() / 200 + Math.sin(i) * 42) * 5;
