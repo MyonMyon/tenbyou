@@ -18,5 +18,8 @@ var EVENT_RES = {
     "valentine": {
         file: "event/heart.png",
         zoom: 0.25
+    },
+    "aprilFools": {
+        file: "event/a1menu.png",
     }
 };

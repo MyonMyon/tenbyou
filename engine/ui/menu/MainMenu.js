@@ -20,6 +20,11 @@ class MainMenu extends Menu {
             }
         }
 
+        if (GameEvent.checkEvent("aprilFools")) {
+            //To do: REWRITE THE WHOLE RESOURCE LOADING, that's just a shit of a mess
+            SPRITE.menuBackground = EVENT_RES.aprilFools;
+        }
+
         this.updateStates();
         this.loadSettingsStates();
     }
