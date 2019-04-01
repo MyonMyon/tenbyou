@@ -23,6 +23,20 @@ GameEvent.getCurrentEvents = function (valuesObject) {
 };
 
 /**
+ * @param {String} propName Property name of prioritized event.
+ * @param {Object} valuesObject Object with some additional information. Exampe: Player, Mob etc. Non-required in some cases.
+ * @return {*} The property (any type).
+ */
+GameEvent.getCurrentProp = function (propName, valuesObject) {
+    for (let i in EVENT) {
+        if (GameEvent.resolveCondition(EVENT[i].condition, valuesObject && EVENT[i][propName])) {
+            return EVENT[i][propName];
+        }
+    }
+    return null;
+};
+
+/**
  * @param {String} eventName Event name to check.
  * @param {Object} valuesObject Object with some additional information. Exampe: Player, Mob etc. Non-required in some cases.
  * @return {Array} Names of the ongoing events.
