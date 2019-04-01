@@ -10,7 +10,8 @@ const EVENT = {
             "month": 4,
             "day": 1
         },
-        "soundPack": "event/a1/"
+        "soundPack": "event/a1/",
+        "tagline": "Fuck article 13!"
     }
 };
 
