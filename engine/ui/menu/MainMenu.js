@@ -74,10 +74,11 @@ class MainMenu extends Menu {
      * @override
      */
     draw() {
-        this.vp.context.globalAlpha = this.getFade();
+        let ctx = this.vp.context;
+        ctx.globalAlpha = this.getFade();
 
         let o = SPRITE.menuBackground.object;
-        this.vp.context.drawImage(o, 0, 0, o.width, o.height, 0, 0, WIDTH * this.vp.zoom, HEIGHT * this.vp.zoom);
+        ctx.drawImage(o, 0, 0, o.width, o.height, 0, 0, WIDTH * this.vp.zoom, HEIGHT * this.vp.zoom);
 
         super.draw();
         if (!this.getCurrentMenu().parent) {
@@ -90,6 +91,6 @@ class MainMenu extends Menu {
             [this.vp.version, "/", RELEASE_DATE, "/", this.vp.fps.toFixed(2), "FPS"].join(" "),
             MENU_X * this.vp.zoom,
             MENU_VER_Y * this.vp.zoom);
-        this.vp.context.globalAlpha = 1;
+        ctx.globalAlpha = 1;
     }
 }
