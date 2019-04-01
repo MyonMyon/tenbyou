@@ -241,6 +241,14 @@ const FONT = {
         strokeWidth: 0.75,
         strokeColor: "#630"
     },
+    tagline: {
+        font: "Courier New",
+        size: 12,
+        weight: "Bold",
+        color: "#ff0",
+        strokeWidth: 1,
+        strokeColor: "#000"
+    },
     menu: {
         font: "Accuratist",
         size: 12,

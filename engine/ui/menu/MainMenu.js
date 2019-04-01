@@ -86,6 +86,20 @@ class MainMenu extends Menu {
             this.vp.drawText(FRANCHISE_TITLE, MENU_X * this.vp.zoom, MENU_TITLE_Y * this.vp.zoom);
         }
 
+        let tagline = GameEvent.getCurrentProp("tagline");
+        if (tagline) {
+            ctx.save();
+            ctx.translate(WIDTH * this.vp.zoom * 0.55, HEIGHT * this.vp.zoom * 0.4);
+            ctx.rotate(-0.3);
+            let z = 1 + Math.sin(Date.now() / 200) * 0.2;
+            ctx.scale(z, z);
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            this.vp.setFont(FONT.tagline);
+            this.vp.drawText(tagline, 0, 0);
+            ctx.restore();
+        }
+
         this.vp.setFont(FONT.info, { minor: true });
         this.vp.drawText(
             [this.vp.version, "/", RELEASE_DATE, "/", this.vp.fps.toFixed(2), "FPS"].join(" "),
