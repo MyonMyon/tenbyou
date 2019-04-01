@@ -8,7 +8,7 @@ const EVENT = {
     "aprilFools": {
         "condition": {
             "month": 4,
-            "day": 1,
+            "day": 1
         },
         "soundPack": "event/a1/"
     }
@@ -20,6 +20,6 @@ var EVENT_RES = {
         zoom: 0.25
     },
     "aprilFools": {
-        file: "event/a1menu.png",
+        file: "event/a1menu.png"
     }
 };
