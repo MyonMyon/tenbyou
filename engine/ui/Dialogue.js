@@ -24,9 +24,9 @@ class Dialogue {
         }
         let lIndex = 0;
         let rIndex = 0;
-        for (let state of this.charStates) {
-            let l = state.position === "left";
-            state.posIndex = l ? lIndex++ : rIndex++;
+        for (let i in this.charStates) {
+            let l = this.charStates[i].position === "left";
+            this.charStates[i].posIndex = l ? lIndex++ : rIndex++;
         }
         this.updateCharStates();
         this.time = 0;
@@ -75,7 +75,8 @@ class Dialogue {
         let vp = this.world.vp;
 
         for (let a = 0; a <= 1; a++) {
-            for (let state of this.charStates) {
+            for (let i in this.charStates) {
+                let state = this.charStates[i];
                 vp.context.save();
                 if (state.active === !!a) {
                     let s = state.sprite;
