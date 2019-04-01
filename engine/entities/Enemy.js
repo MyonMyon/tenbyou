@@ -231,13 +231,14 @@ class Enemy extends Entity {
         let healthOld = this.health;
         this.health -= damage;
 
-        if (this.health < this.initialHealth / 5) {
-            Sound.play(SFX.enemyHitLow);
-        } else {
-            Sound.play(SFX.enemyHit);
-        }
-
         if (this.health > 0) {
+
+            if (this.health < this.initialHealth / 5) {
+                Sound.play(SFX.enemyHitLow);
+            } else {
+                Sound.play(SFX.enemyHit);
+            }
+
             for (let drop of this.drops) {
                 //To do: fix this atrocity
                 if (drop.reqDamage !== 0 && this.attackCurrent === drop.attackID && ((((this.initialHealth - this.health) % drop.reqDamage) < ((this.initialHealth - this.health - damage) % drop.reqDamage) && damage > 0) || damage > drop.reqDamage)) {
