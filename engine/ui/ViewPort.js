@@ -143,6 +143,7 @@ class ViewPort {
     }
 
     initRolls(charName) {
+        this.world.setPause(true, true);
         let t = Date.now();
         this.rolls = [];
         for (let roll of ROLL) {

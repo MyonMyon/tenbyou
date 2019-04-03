@@ -42,8 +42,8 @@ class World {
         this.tick();
     }
 
-    setPause(value) {
-        if (value) {
+    setPause(value, auto) {
+        if (value && !auto) {
             Sound.play(SFX.menuPause);
         }
         this.pause = value;
