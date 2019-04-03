@@ -65,7 +65,8 @@ class SpriteHandler {
         this.animationFrames = [];
         this.animationLength = 0;
 
-        for (let i = 0; i < frames * this.height; i += this.height) {
+        let i;
+        for (i = 0; i < frames * this.height; i += this.height) {
             this.animationFrames.push({
                 x: 0,
                 y: i,
@@ -74,7 +75,7 @@ class SpriteHandler {
             this.animationLength += interval;
         }
         if (frameReverse) {
-            for (let i = i - this.height; i > 0; i -= this.height) {
+            for (i = i - this.height; i > 0; i -= this.height) {
                 this.animationFrames.push({
                     x: 0,
                     y: i,
