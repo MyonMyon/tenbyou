@@ -1,4 +1,3 @@
-
 class Input {
     /**
      * Creates new instance of controls handler.
