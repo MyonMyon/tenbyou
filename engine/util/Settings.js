@@ -8,7 +8,7 @@ class Settings {
             "dev.mode": "false",
             "sound.enabled": "true",
             "sound.volume_sfx": "100",
-            "video.world_sync": "true",
+            "video.world_sync": "false",
             "video.gradients": "null"
         };
         return m[key];
