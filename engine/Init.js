@@ -6,7 +6,8 @@ const REVISION_TOTAL = 726;
 const PRIORITY_CODE = [
     "engine/Ext",
     "game/Values",
-    "engine/ui/ViewPort"
+    "engine/ui/ViewPort",
+    "engine/ResourceManager"
 ];
 
 const ENGINE_CODE = [
@@ -45,41 +46,6 @@ const GAME_CODE = [
     "Menu"
 ];
 
-var CUT_IN = {};
-
-const IMAGE_LOAD = [{
-    object: "SPRITE",
-    itemProp: "file",
-    push: true,
-    checkInside: true
-}, {
-    object: "ROLL",
-    push: true,
-    itemProp: "file"
-}, {
-    object: "STAGE",
-    itemProp: "background"
-}, {
-    object: "SPELL",
-    itemProp: "background"
-}, {
-    object: "CUT_IN",
-    itemProp: "file",
-    push: true,
-    checkInside: true
-}, {
-    object: "EVENT_RES",
-    itemProp: "file",
-    push: true
-}];
-
-const SFX_LOAD = [{
-    object: "SFX",
-    itemProp: "file",
-    push: true,
-    checkInside: true
-}];
-
 function init() {
     try {
         if (!localStorage.getItem("reloaded")) {
@@ -104,15 +70,12 @@ function init() {
     };
     let loadGame = function () {
         getIcon(ICON);
-        loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, loadSprites, true);
+        loadResources(GAME_CODE, "script", "game/", ".js", "game code", vp, loadAssets, true);
     };
-    let loadSprites = function () {
-        getCutIns();
-        loadResources(getFiles(IMAGE_LOAD), "img", SPRITE_FOLDER, "", "sprites", vp, loadSfx);
-    };
-    let loadSfx = function () {
-        loadResources(getFiles(SFX_LOAD), "audio", SFX_FOLDER, "", "SFX", vp, loadEnd);
-    };
+    let loadAssets = function() {
+        vp.res = new ResourceManager(vp);
+        vp.res.onLoad = loadEnd;
+    }
     let loadEnd = function () {
         onLoad();
         vp.onLoad();
@@ -154,8 +117,7 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
         }
         s.src = prefix + (name.file || name) + postfix + "?v=" + ENGINE_VERSION;
 
-        let success = elementTag === "audio" ? "onloadeddata" : "onload";
-        s[success] = function () {
+        s.onload = function () {
             loadedRes++;
             document.getElementsByTagName("title")[0].innerHTML = "Loading " + tag + " " + loadedRes + "/" + totalRes;
             if (loadingTextHandler && !fail) {
@@ -170,11 +132,6 @@ function loadResources(nameArray, elementTag, prefix, postfix, tag, loadingTextH
             }
         };
         s.onerror = function () {
-            if (this.tagName === "AUDIO") {
-                console.warn("Failed loading audio: " + this.src);
-                this.onloadeddata();
-                return;
-            }
             fail = true;
             if (loadingTextHandler) {
                 loadingTextHandler.loadingText = "Resource missing: " + this.src;
@@ -202,29 +159,6 @@ function getIcon() {
     document.head.appendChild(s);
 }
 
-function getCutIns() {
-    CUT_IN = {};
-    for (let stage of STAGE) {
-        for (let event of stage.events) {
-            if (event.boss) {
-                for (let k in event.boss) {
-                    if (k.indexOf("Dialogue") >= 0) {
-                        for (let data of event.boss[k]) {
-                            //deepest loop I ever created...
-                            let s = data.sprite;
-                            if (s && !CUT_IN[s]) {
-                                CUT_IN[s] = {
-                                    file: CUT_IN_FOLDER_NAME + s
-                                };
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 function getFont(data) {
     let obj = {
         "font-family": data.name,
@@ -232,37 +166,6 @@ function getFont(data) {
     };
     let s = document.getElementsByTagName("style")[0];
     s.innerHTML += "\n@font-face " + JSON.stringify(obj).replace(/,/g, ";").replace(/\"/g, "");
-}
-
-/**
- * @param {Array} input Input data array.
- * @returns {Array} Array of image resource files.
- */
-function getFiles(input) {
-    let files = [];
-    for (let data of input) {
-        let o = window[data.object];
-        for (let i in o) {
-            getFile(o[i], data, files);
-            if (data.checkInside) {
-                //and... one level deeper:
-                for (let j in o[i]) {
-                    getFile(o[i][j], data, files);
-                }
-            }
-        }
-    }
-    return files;
-}
-
-function getFile(item, data, array) {
-    if (item[data.itemProp]) {
-        if (data.push) {
-            array.push(item);
-        } else {
-            array.push(item[data.itemProp]);
-        }
-    }
 }
 
 /**
