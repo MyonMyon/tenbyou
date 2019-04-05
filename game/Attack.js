@@ -165,10 +165,10 @@ var SPELL = {
         boss: "lily",
         number: 14,
         names: [
-            "Solar Sign \"卍\"",
-            "Solar Sign \"卍卍\"",
-            "Solar Sign \"卍卍卍\"",
-            "Solar Sign \"卍卍卍卍\""
+            "Solar Sign \"Black Dim.3\"",
+            "Solar Sign \"Black Dim.5\"",
+            "Solar Sign \"Black Dim.7\"",
+            "Solar Sign \"Black Dim.9\""
         ],
         background: {
             file: "bg/spell/gr.jpg",
