@@ -42,10 +42,10 @@ class ResourceManager {
         let self = this;
         let loadSprites = function () {
             self.getCutIns();
-            self.load(self.getFiles(IMAGE_LOAD), "img", SPRITE_FOLDER, "", "sprites", loadSfx);
+            self.load(self.processFiles(IMAGE_LOAD), "img", SPRITE_FOLDER, "", "sprites", loadSfx);
         }
         let loadSfx = function () {
-            self.load(self.getFiles(SFX_LOAD), "audio", SFX_FOLDER, "", "SFX", self.onLoad);
+            self.load(self.processFiles(SFX_LOAD), "audio", SFX_FOLDER, "", "SFX", self.onLoad);
         };
         loadSprites();
     }
@@ -146,16 +146,16 @@ class ResourceManager {
      * @param {Array} input Input data array.
      * @returns {Array} Array of image resource files.
      */
-    getFiles(input) {
+    processFiles(input) {
         let files = [];
         for (let data of input) {
             let o = window[data.object];
             for (let i in o) {
-                this.getFile(o[i], data, files);
+                this.processFile(o[i], data, files);
                 if (data.checkInside) {
                     //and... one level deeper:
                     for (let j in o[i]) {
-                        this.getFile(o[i][j], data, files);
+                        this.processFile(o[i][j], data, files);
                     }
                 }
             }
@@ -163,7 +163,7 @@ class ResourceManager {
         return files;
     }
 
-    getFile(item, data, array) {
+    processFile(item, data, array) {
         if (item[data.itemProp]) {
             if (data.push) {
                 array.push(item);
