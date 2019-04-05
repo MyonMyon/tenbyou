@@ -44,7 +44,7 @@ class World {
 
     setPause(value, auto) {
         if (value && !auto) {
-            Sound.play(SFX.menuPause);
+            this.vp.sound.play(SFX.menuPause);
         }
         this.pause = value;
         this.vp.input.stopAll();

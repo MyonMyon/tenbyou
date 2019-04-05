@@ -190,7 +190,7 @@ class Player extends Entity {
                                 break;
                             }
                         } else if (entity.grazed < entity.damage && !this.isInvulnerable()) {
-                            Sound.play(SFX.playerGraze);
+                            this.world.vp.sound.play(SFX.playerGraze);
                             ++this.graze;
                             let xD = this.x - entity.x;
                             let yD = this.y - entity.y;
@@ -212,7 +212,7 @@ class Player extends Entity {
                             let grazeOld = this.graze;
                             this.graze += entity.grazePS / this.world.ticksPS;
                             if (Math.floor(grazeOld) !== Math.floor(this.graze)) {
-                                Sound.play(SFX.playerGraze);
+                                this.world.vp.sound.play(SFX.playerGraze);
                                 let cwmx = Util.isClockwiseNearest(entity.a0, Util.angleBetweenEntities(entity, this)) ? 1 : -1;
                                 let xD = Math.cos(entity.a0 + Math.PI / 2 * cwmx);
                                 let yD = Math.sin(entity.a0 + Math.PI / 2 * cwmx);
@@ -249,7 +249,7 @@ class Player extends Entity {
             } else {
                 this.sprite.setState("idle");
             }
-            this.sprite.draw(context, ePos.x, ePos.y, this.lifetime, 8 * this.world.vp.zoom);
+            this.sprite.draw(this.world.vp, ePos.x, ePos.y, this.lifetime, 8 * this.world.vp.zoom);
 
             if (this.focused) {
                 context.strokeStyle = HITBOX_STROKE_COLOR;
@@ -267,7 +267,7 @@ class Player extends Entity {
     shoot() {
         if (this.respawnTime === null) {
             if (this.shotCooldown <= 0) {
-                Sound.play(SFX.playerShot);
+                this.world.vp.sound.play(SFX.playerShot);
                 if (!this.shootingPrev) {
                     this.onShootStart();
                 }
@@ -319,7 +319,7 @@ class Player extends Entity {
         if (Math.floor(powerOld) !== Math.floor(this.power)) {
             this.onPowerChange(Math.floor(this.power));
             if (!silent && this.power > powerOld) {
-                Sound.play(SFX.playerPower);
+                this.world.vp.sound.play(SFX.playerPower);
             }
         }
         return true;
@@ -350,7 +350,7 @@ class Player extends Entity {
         let old = this.lives;
         let succ = this.addItems("lives", lives, "lifeParts", parts);
         if (this.lives > old) {
-            Sound.play(SFX.playerExtend);
+            this.world.vp.sound.play(SFX.playerExtend);
             this.world.vp.showMessage(["Extend!"], 2, [FONT.upgrade], "top");
         }
         return succ;
@@ -392,7 +392,7 @@ class Player extends Entity {
 
         new Particle(this.world, this.x, this.y, 1, 12, false, false, "splash");
         this.world.splash(this, 20, 10, 0.5);
-        Sound.play(SFX.playerHit);
+        this.world.vp.sound.play(SFX.playerHit);
     }
 
     isMaxBonus() {

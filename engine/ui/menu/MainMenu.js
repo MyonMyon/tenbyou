@@ -77,7 +77,7 @@ class MainMenu extends Menu {
         let ctx = this.vp.context;
         ctx.globalAlpha = this.getFade();
 
-        let o = SPRITE.menuBackground.object;
+        let o = this.vp.res.getSprite(SPRITE.menuBackground.file);
         ctx.drawImage(o, 0, 0, o.width, o.height, 0, 0, WIDTH * this.vp.zoom, HEIGHT * this.vp.zoom);
 
         super.draw();

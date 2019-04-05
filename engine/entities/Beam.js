@@ -49,20 +49,20 @@ class Beam extends Entity {
 
         if (this.sprite.ref) {
             this.sprite.draw(
-                context, 0, 0,
+                this.world.vp, 0, 0,
                 this.playerSide ? this.world.relTime() : this.lifetime,
                 this.world.vp.zoom * this.width * 2);
 
             context.rotate(Math.PI);
             this.sprite.draw(
-                context, 0, this.world.vp.zoom * -this.length,
+                this.world.vp, 0, this.world.vp.zoom * -this.length,
                 this.playerSide ? this.world.relTime() : this.lifetime,
                 this.world.vp.zoom * this.width * 2);
             context.rotate(-Math.PI);
         }
 
         this.spriteBeam.draw(
-            context,
+            this.world.vp,
             0,
             this.world.vp.zoom * this.width * this.spriteBeam.zoom,
             this.playerSide ? this.world.relTime() : this.lifetime,
@@ -97,7 +97,7 @@ class Beam extends Entity {
         super.step();
 
         if (!this.soundPlayed && !this.playerSide) {
-            Sound.play(SFX.enemyShot);
+            this.world.vp.sound.play(SFX.enemyShot);
             this.soundPlayed = true;
         }
 

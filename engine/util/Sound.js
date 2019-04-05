@@ -1,5 +1,9 @@
 class Sound {
-    static play(data) {
+    constructor(vp) {
+        this.vp = vp;
+    }
+
+    play(data) {
         if (!Settings.get("sound.enabled")) {
             return;
         }
@@ -7,10 +11,11 @@ class Sound {
         if (vol === 0) {
             return;
         }
-        if (!data.noSeek && !data.object.ended) {
-            data.object = new Audio(data.object.src);
+        let object = this.vp.res.getSound(data.file);
+        if (!data.noSeek && object.ended) {
+            object = new Audio(object.src);
         }
-        data.object.volume = vol;
-        data.object.play();
+        object.volume = vol;
+        object.play();
     };
 }

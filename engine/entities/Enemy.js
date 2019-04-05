@@ -36,7 +36,7 @@ class Enemy extends Entity {
         if (this.angle)
             context.rotate(this.angle);
 
-        this.sprite.draw(context, 0, 0, this.lifetime, this.world.vp.zoom * this.width * 2);
+        this.sprite.draw(this.world.vp, 0, 0, this.lifetime, this.world.vp.zoom * this.width * 2);
 
         context.restore();
 
@@ -184,7 +184,7 @@ class Enemy extends Entity {
 
             let attackTimer = Math.ceil(at - rt);
             if (attackTimer < 10 && attackTimer < this.lastAttackTimer) {
-                Sound.play(SFX.timer);
+                this.world.vp.sound.play(SFX.timer);
             }
             this.lastAttackTimer = attackTimer;
 
@@ -209,7 +209,7 @@ class Enemy extends Entity {
             this.onDestroy();
         }
         this.remove(true);
-        Sound.play(SFX.enemyDestroy);
+        this.world.vp.sound.play(SFX.enemyDestroy);
     }
 
     beforeAttack() {
@@ -234,9 +234,9 @@ class Enemy extends Entity {
         if (this.health > 0) {
 
             if (this.health < this.initialHealth / 5) {
-                Sound.play(SFX.enemyHitLow);
+                this.world.vp.sound.play(SFX.enemyHitLow);
             } else {
-                Sound.play(SFX.enemyHit);
+                this.world.vp.sound.play(SFX.enemyHit);
             }
 
             for (let drop of this.drops) {

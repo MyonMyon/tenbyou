@@ -22,7 +22,7 @@ class Bonus extends Entity {
         if (!offScreen && this.y1 < 0 && !BONUS[this.cat].still) {
             context.rotate(this.lifetime * (this.id % 2 ? 10 : -10));
         }
-        this.sprite.draw(context, 0, 0, 0, 6 * this.world.vp.zoom);
+        this.sprite.draw(this.world.vp, 0, 0, 0, 6 * this.world.vp.zoom);
         context.restore();
     }
 
@@ -55,7 +55,7 @@ class Bonus extends Entity {
         }
 
         if (d < this.world.player.gatherWidthFinal) {
-            Sound.play(SFX.itemCollect);
+            this.world.vp.sound.play(SFX.itemCollect);
             this.remove();
             let oldScore = this.world.player.score;
             let oldPower = this.world.player.power;

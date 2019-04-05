@@ -34,7 +34,7 @@ class Projectile extends Entity {
             context.rotate(a - Math.PI / 2 + this.angle + this.a0);
         }
 
-        this.sprite.draw(context, 0, 0, this.playerSide ? this.world.relTime() : this.lifetime, this.world.vp.zoom * this.width * 2);
+        this.sprite.draw(this.world.vp, 0, 0, this.playerSide ? this.world.relTime() : this.lifetime, this.world.vp.zoom * this.width * 2);
 
         context.restore();
 
@@ -56,7 +56,7 @@ class Projectile extends Entity {
         super.step();
 
         if (!this.soundPlayed && !this.playerSide) {
-            Sound.play(SFX.enemyShot);
+            this.world.vp.sound.play(SFX.enemyShot);
             this.soundPlayed = true;
         }
         if (!this.preserve) {

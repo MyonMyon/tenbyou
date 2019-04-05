@@ -15,6 +15,6 @@ class Particle extends Entity {
 
     draw(context) {
         let ePos = this.world.vp.toScreenFX(this.x, this.y);
-        this.sprite.draw(context, ePos.x, ePos.y, this.lifetime, this.world.vp.zoom * this.width);
+        this.sprite.draw(this.world.vp, ePos.x, ePos.y, this.lifetime, this.world.vp.zoom * this.width);
     }
 }

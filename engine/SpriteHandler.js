@@ -20,8 +20,9 @@ class SpriteHandler {
         } else {
             this.ref = sprite;
         }
-        if (sprite.object) {
-            this.object = sprite.object;
+
+        if (sprite.file) {
+            this.file = sprite.file;
         }
         this.zoom = 1 / (sprite.hitbox || 1);
         this.width = sprite.width || 1;
@@ -109,12 +110,12 @@ class SpriteHandler {
         };
     }
 
-    draw(context, x, y, t, z, c = 1) {
+    draw(vp, x, y, t, z, c = 1) {
         let img = this.getFrame(t);
-        if (this.object) {
+        if (this.file) {
             for (let i = 0; i < c; i++) {
                 let part = (i + 1 <= c) ? 1 : (c - Math.floor(c));
-                context.drawImage(this.object,
+                vp.context.drawImage(vp.res.getSprite(this.file),
                     img.x * (this.frameWidth + this.frameMargin),
                     img.y * (this.frameHeight + this.frameMargin),
                     this.width * this.frameWidth,

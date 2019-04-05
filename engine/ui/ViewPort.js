@@ -101,6 +101,7 @@ class ViewPort {
     onLoad() {
         this.loaded = true;
         this.input = new Input(this);
+        this.sound = new Sound(this);
         if (this.splashComplete) {
             this.initMenu();
         }
@@ -109,8 +110,8 @@ class ViewPort {
         let sp = GameEvent.getCurrentProp("soundPack");
         if (sp) {
             for (let i in SFX) {
-                let o = SFX[i].object;
                 let f = SFX[i].file;
+                let o = this.res.getSprite(SFX_FOLDER + f);
                 o.src = SFX_FOLDER + sp + f;
                 o.onloadeddata = function() {
                     //overrides function from Init.js, thus no counting
@@ -147,10 +148,10 @@ class ViewPort {
         let t = Date.now();
         this.rolls = [];
         for (let roll of ROLL) {
-            if (roll.object && (!roll.player || roll.player === charName)) {
+            if (roll.file && (!roll.player || roll.player === charName)) {
                 let tNext = t + (roll.time || ROLL[0].time) * 1000;
                 this.rolls.push({
-                    image: roll.object,
+                    image: this.res.getSprite(roll.file),
                     zoom: roll.zoom || ROLL[0].zoom,
                     startTime: t,
                     endTime: tNext
@@ -328,7 +329,7 @@ class ViewPort {
         let boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
         for (let i = 0; i < max; ++i) {
             this.context.drawImage(
-                SPRITE.gui.object,
+                this.res.getSprite(SPRITE.gui.file),
                 sprite * SPRITE.gui.frameWidth,
                 (i < count ? 0 : (i === count ? 4 - parts : 4)) * SPRITE.gui.frameHeight,
                 SPRITE.gui.frameWidth,
@@ -343,7 +344,7 @@ class ViewPort {
     iconShow(spriteX, spriteY, line, tab) {
         let boundaryRight = this.toScreen(this.world.width / 2, -this.world.height / 2);
         this.context.drawImage(
-            SPRITE.bonus.object,
+            this.res.getSprite(SPRITE.bonus.file),
             spriteX * SPRITE.bonus.frameWidth,
             spriteY * SPRITE.bonus.frameHeight,
             SPRITE.bonus.frameWidth,
@@ -374,7 +375,7 @@ class ViewPort {
         this.context.fillRect(0, 0, x1, yN); //left plank
         this.context.fillRect(x2, 0, xN - x2, yN); //right plank
 
-        let o = SPRITE.uiBackground.object;
+        let o = this.res.getSprite(SPRITE.uiBackground.file);
         this.context.drawImage(o, 0, 0, o.width, y1 / yN * o.height, 0, 0, xN, y1);
         this.context.drawImage(o, 0, y2 / yN * o.height, o.width, y1 / yN * o.height, 0, y2, xN, y1);
         this.context.drawImage(o, 0, 0, x1 / xN * o.width, o.height, 0, 0, x1, yN);
@@ -387,7 +388,7 @@ class ViewPort {
 
         if (this.world.boss) {
             this.context.drawImage(
-                SPRITE.gui.object,
+                this.res.getSprite(SPRITE.gui.file),
                 2 * SPRITE.gui.frameWidth,
                 (Math.floor(this.world.relTime() * 2) % 2) * SPRITE.gui.frameHeight,
                 SPRITE.gui.frameWidth,
@@ -453,27 +454,28 @@ class ViewPort {
         if (stage) {
             let bg = spell ? (this.world.boss.attacks[this.world.boss.attackCurrent].background || SPRITE.spellBackground) : stage.background;
             if (bg) {
-                let t = bg.object.height - (bg.object.width / this.world.width * this.world.height) - Math.floor(this.world.time * bg.speed) % bg.object.height;
+                let bgo = this.res.getSprite(bg.file);
+                let t = bgo.height - (bgo.width / this.world.width * this.world.height) - Math.floor(this.world.time * bg.speed) % bgo.height;
                 let shS = this.world.shake.strength * this.zoom;
                 let shX = this.world.shake.x * this.zoom - shS;
                 let shY = this.world.shake.y * this.zoom - shS;
-                this.context.drawImage(bg.object,
+                this.context.drawImage(bgo,
                     0, Math.max(0, t),
-                    bg.object.width, bg.object.width / this.world.width * this.world.height,
-                    boundaryStart.x + shX, boundaryStart.y - 1 - Math.min(0, t / (bg.object.width / this.world.width) * this.zoom) + shY,
+                    bgo.width, bgo.width / this.world.width * this.world.height,
+                    boundaryStart.x + shX, boundaryStart.y - 1 - Math.min(0, t / (bgo.width / this.world.width) * this.zoom) + shY,
                     this.world.width * this.zoom + shS * 2, this.world.height * this.zoom + shS * 2);
                 if (t < 0) {
-                    this.context.drawImage(bg.object,
-                        0, bg.object.height + t,
-                        bg.object.width, -t,
+                    this.context.drawImage(bgo,
+                        0, bgo.height + t,
+                        bgo.width, -t,
                         boundaryStart.x + shX, boundaryStart.y + shY,
-                        this.world.width * this.zoom + shS * 2, -Math.min(0, t / (bg.object.width / this.world.width) * this.zoom) + shS * 2);
+                        this.world.width * this.zoom + shS * 2, -Math.min(0, t / (bgo.width / this.world.width) * this.zoom) + shS * 2);
                 }
             }
         }
 
         if (spell) {
-            let o = SPRITE.spellStrip.object;
+            let o = this.res.getSprite(SPRITE.spellStrip.file);
             for (let i = 0; i < 2; ++i) {
                 for (let j = 0; j < 2 + (boundaryEnd.x + boundaryStart.x) / (o.width * this.zoom / 4); ++j) {
                     this.context.drawImage(o,
@@ -502,7 +504,7 @@ class ViewPort {
 
             if (this.world.boss.attackCurrent !== null && !this.world.dialogue) {
                 for (let i = 0; i < (this.world.boss.attackGroups.length - this.world.boss.attackGroupCurrent - 1); ++i)
-                    this.context.drawImage(SPRITE.gui.object, 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
+                    this.context.drawImage(this.res.getSprite(SPRITE.gui.file), 0, 0, SPRITE.gui.frameWidth, SPRITE.gui.frameHeight,
                         boundaryStart.x + this.zoom * 2 + (SPRITE.gui.frameWidth - 4) * i * this.zoom / 4,
                         boundaryStart.y + this.zoom * 6,
                         SPRITE.gui.frameWidth * this.zoom / 4,

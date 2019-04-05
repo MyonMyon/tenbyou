@@ -35,8 +35,7 @@ const SFX_LOAD = [{
 
 class ResourceManager {
     constructor(vp) {
-        this.sprite = {};
-        this.sfx = {};
+        this.objects = {};
         this.vp = vp;
 
         let self = this;
@@ -48,6 +47,14 @@ class ResourceManager {
             self.load(self.processFiles(SFX_LOAD), "audio", SFX_FOLDER, "", "SFX", self.onLoad);
         };
         loadSprites();
+    }
+
+    getSprite(path) {
+        return this.objects[SPRITE_FOLDER + path];
+    }
+
+    getSound(path) {
+        return this.objects[SFX_FOLDER + path];
     }
 
     /**
@@ -72,14 +79,11 @@ class ResourceManager {
         mainLoop: for (let name of nameArray) {
             let s = document.createElement(elementTag);
             if (name.file) {
-                for (let name2 in nameArray) {
-                    if (name2.object && name2.file === name.file) {
-                        name.object = name2.object;
-                        loadedRes++; //I know the count is wrong...
-                        continue mainLoop;
-                    }
+                if (this.objects[prefix + name.file + postfix]) {
+                    loadedRes++; //I know the count is wrong...
+                    continue mainLoop;
                 }
-                name.object = s;
+                this.objects[prefix + name.file + postfix] = s;
             }
             s.src = prefix + (name.file || name) + postfix + "?v=" + ENGINE_VERSION;
 

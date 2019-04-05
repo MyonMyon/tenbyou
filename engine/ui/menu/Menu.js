@@ -156,7 +156,7 @@ class Menu {
                     this.currentMenu = m.parent;
                     this.rowOffset = 0;
                     this.currentIndex = m.indexInParent;
-                    Sound.play(SFX.menuOut);
+                    this.vp.sound.play(SFX.menuOut);
                 }
                 break;
             case "nav_enter":
@@ -215,7 +215,7 @@ class Menu {
                 this.rowOffset = this.currentIndex = 0;
             }
             if (manual) {
-                Sound.play(SFX.menuIn);
+                this.vp.sound.play(SFX.menuIn);
             }
         }
         return this;
@@ -256,7 +256,7 @@ class Menu {
         }
         let cap = m.compact ? MENU_CAPACITY_COMPACT : MENU_CAPACITY;
         let l = m.tree.length;
-        Sound.play(this.navSound);
+        this.vp.sound.play(this.navSound);
         if (Math.abs(delta) > 1) {
             let n = this.currentIndex + delta;
             this.rowOffset = Math.max(0, Math.min(this.rowOffset + delta, l - cap));
@@ -297,7 +297,7 @@ class Menu {
                 }
                 Settings.set(menuItem.statePath, menuItem.state);
                 if (menuItem.control === "slider") {
-                    Sound.play(this.navSound);
+                    this.vp.sound.play(this.navSound);
                 }
             }
         }
@@ -327,7 +327,7 @@ class Menu {
         let context = this.vp.context;
 
         if (GameEvent.checkEvent("valentine")) {
-            let obj = EVENT_RES.valentine.object;
+            let obj = this.vp.res.getSprite(EVENT_RES.valentine.file);
             let z = EVENT_RES.valentine.zoom * this.vp.zoom;
             const c = 42;
             for (let i = 0; i < c; i++) {

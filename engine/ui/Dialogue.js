@@ -16,7 +16,7 @@ class Dialogue {
                 this.charStates[char].position = line.position;
             }
             if (line.sprite && !this.charStates[char].sprite) {
-                this.charStates[char].sprite = CUT_IN[line.sprite].object;
+                this.charStates[char].sprite = this.world.vp.res.getSprite(CUT_IN[line.sprite].file);
             }
             if (!line.time) {
                 line.time = line.text.length / this.lettersPS * 1.5;
@@ -35,7 +35,7 @@ class Dialogue {
     tick() {
         this.time += 1 / this.world.ticksPS;
         if (this.time < this.lines[this.index].time) {
-            Sound.play(SFX.dialogueType);
+            this.world.vp.sound.play(SFX.dialogueType);
         }
         if (this.time > this.lines[this.index].time * 4) {
             this.next();
@@ -50,7 +50,7 @@ class Dialogue {
             }
         }
         if (this.lines[this.index].sprite) {
-            this.charStates[this.activeChar].sprite = CUT_IN[this.lines[this.index].sprite].object;
+            this.charStates[this.activeChar].sprite = this.world.vp.res.getSprite(CUT_IN[this.lines[this.index].sprite].file);
         }
     }
 
@@ -62,7 +62,7 @@ class Dialogue {
                 return;
             }
         }
-        Sound.play(SFX.menuIn);
+        this.world.vp.sound.play(SFX.menuIn);
         this.time = 0;
         if (++this.index >= this.lines.length) {
             this.world.dialogue = null;
