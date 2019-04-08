@@ -9,6 +9,8 @@ Object.defineProperty(String.prototype, "toTitleCase", {
         if (this.length === 0) {
             return "";
         }
-        return this[0].toUpperCase() + this.slice(1);
+        return this.replace(/\w\S*/g, function(txt){
+            return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
     }
 });
