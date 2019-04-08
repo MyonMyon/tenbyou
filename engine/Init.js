@@ -4,13 +4,13 @@ const REVISION_INNER = 6;
 const REVISION_TOTAL = 732;
 
 const PRIORITY_CODE = [
-    "engine/Ext",
     "game/Values",
     "engine/ui/ViewPort",
     "engine/ResourceManager"
 ];
 
 const ENGINE_CODE = [
+    "Ext",
     "World",
     "EventChain",
     "SpriteHandler",
