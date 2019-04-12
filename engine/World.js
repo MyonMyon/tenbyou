@@ -163,6 +163,7 @@ class World {
 
     destroy() {
         clearInterval(this.tickerId);
+        this.setPause(true, true);
         this.vp.clearMessages();
         this.vp.world = null;
         this.vp.mainMenu.fadeIn = new Date().getTime();
