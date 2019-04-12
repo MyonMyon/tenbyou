@@ -146,8 +146,8 @@ class Input {
             vp.onResize();
         };
         window.onblur = function() {
-            if (self.world) {
-                self.world.setPause(true);
+            if (vp.world) {
+                vp.world.setPause(true);
             }
         };
     }
