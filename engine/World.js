@@ -43,6 +43,9 @@ class World {
     }
 
     setPause(value, auto) {
+        if (this.pause === value) {
+            return;
+        }
         if (value && !auto) {
             this.vp.sound.play(SFX.menuPause);
         }

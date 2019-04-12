@@ -1,7 +1,7 @@
-const ENGINE_VERSION = "0.5.59";
-const RELEASE_DATE = "2019-04-08";
-const REVISION_INNER = 3;
-const REVISION_TOTAL = 735;
+const ENGINE_VERSION = "0.5.60";
+const RELEASE_DATE = "2019-04-12";
+const REVISION_INNER = 2;
+const REVISION_TOTAL = 737;
 
 const PRIORITY_CODE = [
     "game/Values",
