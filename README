@@ -1,21 +1,27 @@
 ﻿Shmup Engine in Development.
 
-With a test game!
+With a test game (only 1 stage is relatively finished, tbh)!
 
 Controls:
 
-Arrows — move;
+Arrows/Numpad arrows — move;
 Shift — focus;
 Z — shoot;
 X — bomb;
+C — special;
+P — screenshot;
+Tab — performance chart;
+O — performance chart snapshot;
 Esc — pause / unpause.
 
 Dev. controls:
 
-Q — difficulty change;
+Q — slow mode;
 W — bot mode;
 E — next substage;
 R — next stage;
+T — skip time to next event;
+Y — skip time to next boss;
 A — cheat bonus;
-S — skip 100 ticks;
-D — draw enemies' hitboxes.
+D — draw enemies' hitboxes;
+F — god mode.
